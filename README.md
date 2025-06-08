@@ -1,42 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Private Desk
 
-## Getting Started
+## プロジェクト概要
 
-First, initialize the database and run the development server:
+Private Desk は Next.js と SQLite を用いたシンプルなパスワード管理アプリケーションです。ブラウザ上から Web サイトのログイン情報を登録し、一覧表示や編集、パスワードのコピーを行うことができます。
 
-```bash
-npm run ts-node scripts/init-db.ts
-```
+### 主な機能
 
-Then start the development server:
+- サイト名、URL、ログイン ID、パスワード、メールアドレス、メモなどの登録
+- 登録済みデータの一覧表示とパスワードのクリップボードコピー
+- 各エントリの編集・更新
+
+## 前提条件
+
+- Node.js 18 以上
+- npm または同等のパッケージマネージャー
+
+## セットアップ手順
+
+1. 依存関係のインストール
+   ```bash
+   npm install
+   ```
+2. データベースの初期化
+   ```bash
+   npx ts-node scripts/init-db.ts
+   ```
+   上記コマンドにより `data/database.sqlite` が作成されます。
+
+## 開発サーバの起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ブラウザで [http://localhost:3000](http://localhost:3000) にアクセスして動作を確認できます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 本番ビルドと起動
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## 注意点
 
-To learn more about Next.js, take a look at the following resources:
+- パスワードは暗号化されておらず、SQLite データベースに平文で保存されます。実運用する場合はセキュリティ対策を検討してください。
+- データベースファイルはリポジトリ内 `data/` ディレクトリに保存されます。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
