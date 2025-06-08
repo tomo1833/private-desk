@@ -1,0 +1,17 @@
+{
+  "name": "private-desk",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/app",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
+  "postCreateCommand": "npm install",
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}
