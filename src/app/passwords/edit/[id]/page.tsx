@@ -2,17 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-type Password = {
-  id: number;
-  category: string | null;
-  site_name: string;
-  site_url: string;
-  login_id: string | null;
-  password: string;
-  email: string | null;
-  memo: string | null;
-};
+import type { Password } from '@/types/password';
 
 const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
   const router = useRouter();

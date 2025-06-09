@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { runGet, runExecute } from '../../../../lib/db';
-import type { Password } from '../../../../types/password';
+import type { Password } from '@/types/password';
 
 
 // GET: 特定のパスワード情報を取得
