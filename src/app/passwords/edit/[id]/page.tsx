@@ -14,9 +14,9 @@ type Password = {
   memo: string | null;
 };
 
-const UpdatePasswordPage = ({ params }: { params: Promise<{ id: string }> }) => {
+const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
-  const [id, setId] = useState<string | null>(null);
+  const [id] = useState<string>(params.id);
   const [siteName, setSiteName] = useState('');
   const [category, setCategory] = useState('');
   const [siteUrl, setSiteUrl] = useState('');
@@ -29,16 +29,6 @@ const UpdatePasswordPage = ({ params }: { params: Promise<{ id: string }> }) => 
   const [error, setError] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(true);
-
-  // paramsをアンラップしてIDを取得
-  useEffect(() => {
-    const fetchParams = async () => {
-      const resolvedParams = await params;
-      setId(resolvedParams.id);
-    };
-
-    fetchParams();
-  }, [params]);
 
   // IDが取得できたらパスワードデータを取得
   useEffect(() => {
