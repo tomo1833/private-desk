@@ -2,16 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-
-type Password = {
-    id: number;
-    site_name: string;
-    site_url: string;
-    login_id: string | null;
-    password: string;
-    email: string | null;
-    category: string | null;
-};
+import type { Password } from '@/types/password';
 
 type PasswordListProps = {
     passwords: Password[];

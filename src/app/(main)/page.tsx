@@ -3,16 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import PasswordList from '../components/PasswordList';
-
-type Password = {
-  id: number;
-  site_name: string;
-  site_url: string;
-  login_id: string | null;
-  password: string;
-  email: string | null;
-  category: string | null;
-};
+import type { Password } from '@/types/password';
 
 const MainPage = () => {
   const [passwords, setPasswords] = useState<Password[]>([]);

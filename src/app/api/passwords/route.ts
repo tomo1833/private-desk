@@ -1,7 +1,7 @@
 // src/app/api/passwords/route.ts
 import { NextResponse } from 'next/server';
 import { runSelect, runExecute } from '@/lib/db';
-import type { Password } from '../../../types/password';
+import type { Password } from '@/types/password';
 
 export async function GET() {
   try {
