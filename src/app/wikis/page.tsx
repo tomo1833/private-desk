@@ -40,13 +40,14 @@ const WikiListPage = () => {
             >
               {wiki.title}
             </Link>
-            <ReactMarkdown
-              className="prose line-clamp-3 text-sm"
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeHighlight]}
-            >
-              {wiki.content}
-            </ReactMarkdown>
+            <div className="prose line-clamp-3 text-sm">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight]}
+              >
+                {wiki.content}
+              </ReactMarkdown>
+            </div>
           </li>
         ))}
       </ul>
