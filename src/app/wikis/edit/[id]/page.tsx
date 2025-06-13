@@ -3,7 +3,8 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import type { Wiki } from '@/types/wiki';
 
-const WikiEditPage = ({ params }: { params: { id: string } }) => {
+const WikiEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = React.use(params);
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -12,7 +13,7 @@ const WikiEditPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`/api/wiki/${params.id}`);
+        const res = await fetch(`/api/wiki/${id}`);
         if (!res.ok) throw new Error('読み込み失敗');
         const wiki: Wiki = await res.json();
         setTitle(wiki.title);
@@ -22,17 +23,17 @@ const WikiEditPage = ({ params }: { params: { id: string } }) => {
       }
     };
     load();
-  }, [params.id]);
+  }, [id]);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch(`/api/wiki/${params.id}`, {
+    const res = await fetch(`/api/wiki/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, content }),
     });
     if (res.ok) {
-      router.push(`/wikis/${params.id}`);
+      router.push(`/wikis/${id}`);
     } else {
       alert('更新失敗');
     }
@@ -40,7 +41,7 @@ const WikiEditPage = ({ params }: { params: { id: string } }) => {
 
   const handleDelete = async () => {
     if (!confirm('削除しますか？')) return;
-    const res = await fetch(`/api/wiki/${params.id}`, { method: 'DELETE' });
+    const res = await fetch(`/api/wiki/${id}`, { method: 'DELETE' });
     if (res.ok) {
       router.push('/wikis');
     } else {
