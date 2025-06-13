@@ -32,7 +32,7 @@ const WikiDetailPage = ({ params }: { params: { id: string } }) => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">{wiki.title}</h1>
-      <div className="prose whitespace-pre-wrap border p-4 rounded bg-white">
+      <div className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeHighlight]}
