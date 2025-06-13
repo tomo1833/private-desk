@@ -7,7 +7,7 @@ import rehypeHighlight from 'rehype-highlight';
 import type { Wiki } from '@/types/wiki';
 
 const WikiDetailPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+  const { id } = React.use(params);
   const router = useRouter();
   const [wiki, setWiki] = useState<Wiki | null>(null);
   const [error, setError] = useState<string | null>(null);

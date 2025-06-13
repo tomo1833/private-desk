@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import type { Password } from '@/types/password';
 
 const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+  const { id } = React.use(params);
   const router = useRouter();
   const [idState] = useState<string>(id);
   const [siteName, setSiteName] = useState('');
