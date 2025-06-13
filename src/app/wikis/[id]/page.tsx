@@ -32,13 +32,14 @@ const WikiDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">{wiki.title}</h1>
-      <ReactMarkdown
-        className="prose whitespace-pre-wrap border p-4 rounded bg-white"
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
-      >
-        {wiki.content}
-      </ReactMarkdown>
+      <div className="prose whitespace-pre-wrap border p-4 rounded bg-white">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlight]}
+        >
+          {wiki.content}
+        </ReactMarkdown>
+      </div>
       <button
         onClick={() => router.push(`/wikis/edit/${wiki.id}`)}
         className="bg-blue-500 text-white px-4 py-2 rounded"
