@@ -6,7 +6,8 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import type { Wiki } from '@/types/wiki';
 
-const WikiDetailPage = ({ params }: { params: { id: string } }) => {
+const WikiDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = React.use(params);
   const router = useRouter();
   const [wiki, setWiki] = useState<Wiki | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +15,7 @@ const WikiDetailPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`/api/wiki/${params.id}`);
+        const res = await fetch(`/api/wiki/${id}`);
         if (!res.ok) throw new Error('読み込み失敗');
         const data: Wiki = await res.json();
         setWiki(data);
@@ -23,7 +24,7 @@ const WikiDetailPage = ({ params }: { params: { id: string } }) => {
       }
     };
     load();
-  }, [params.id]);
+  }, [id]);
 
   if (error) return <div>読み込みエラー</div>;
   if (!wiki) return <div>読み込み中...</div>;

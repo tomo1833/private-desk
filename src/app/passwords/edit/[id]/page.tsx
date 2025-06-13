@@ -4,9 +4,10 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { Password } from '@/types/password';
 
-const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
+const UpdatePasswordPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = React.use(params);
   const router = useRouter();
-  const [id] = useState<string>(params.id);
+  const [idState] = useState<string>(id);
   const [siteName, setSiteName] = useState('');
   const [category, setCategory] = useState('');
   const [siteUrl, setSiteUrl] = useState('');
@@ -22,14 +23,14 @@ const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
 
   // IDが取得できたらパスワードデータを取得
   useEffect(() => {
-    if (!id) return;
+    if (!idState) return;
 
     const fetchPassword = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/passwords/${id}`);
+        const response = await fetch(`/api/passwords/${idState}`);
         if (!response.ok) throw new Error('Failed to fetch password data');
 
         const data: Password = await response.json();
@@ -54,7 +55,7 @@ const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
     };
 
     fetchPassword();
-  }, [id]);
+  }, [idState]);
 
 
   // 更新処理
@@ -62,7 +63,7 @@ const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
     e.preventDefault();
     setError(null);
     try {
-      const response = await fetch(`/api/passwords/${id}`, {
+      const response = await fetch(`/api/passwords/${idState}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ category, siteName, siteUrl, loginId, pass, email, memo }),
