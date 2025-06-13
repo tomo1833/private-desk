@@ -1,6 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
 import type { Wiki } from '@/types/wiki';
 
 const WikiDetailPage = ({ params }: { params: { id: string } }) => {
@@ -28,8 +31,19 @@ const WikiDetailPage = ({ params }: { params: { id: string } }) => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">{wiki.title}</h1>
-      <p className="whitespace-pre-wrap border p-4 rounded bg-white">{wiki.content}</p>
-      <button onClick={() => router.push(`/wikis/edit/${wiki.id}`)} className="bg-blue-500 text-white px-4 py-2 rounded">編集</button>
+      <ReactMarkdown
+        className="prose whitespace-pre-wrap border p-4 rounded bg-white"
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeHighlight]}
+      >
+        {wiki.content}
+      </ReactMarkdown>
+      <button
+        onClick={() => router.push(`/wikis/edit/${wiki.id}`)}
+        className="bg-blue-500 text-white px-4 py-2 rounded"
+      >
+        編集
+      </button>
     </div>
   );
 };

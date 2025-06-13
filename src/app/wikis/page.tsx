@@ -1,6 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
 import type { Wiki } from '@/types/wiki';
 
 const WikiListPage = () => {
@@ -30,10 +33,20 @@ const WikiListPage = () => {
       <Link href="/wikis/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
       <ul className="space-y-2">
         {wikis.map((wiki) => (
-          <li key={wiki.id} className="border p-4 rounded">
-            <Link href={`/wikis/${wiki.id}`} className="font-semibold hover:underline">
+          <li key={wiki.id} className="border p-4 rounded space-y-2">
+            <Link
+              href={`/wikis/${wiki.id}`}
+              className="font-semibold hover:underline block"
+            >
               {wiki.title}
             </Link>
+            <ReactMarkdown
+              className="prose line-clamp-3 text-sm"
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight]}
+            >
+              {wiki.content}
+            </ReactMarkdown>
           </li>
         ))}
       </ul>
