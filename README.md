@@ -52,3 +52,5 @@ npm start
 
 本プロジェクトは `better-sqlite3` による同期アクセスを採用していますが、非同期ライブラリや ORM への移行を検討する場合は `docs/async-sqlite-migration.md` を参照してください。Prisma や Drizzle ORM といった候補の比較や、移行手順の例をまとめています。
 
+## DATABASEテーブル構成
+
