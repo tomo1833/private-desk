@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import type { Wiki } from '@/types/wiki';
 
-const WikiEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = React.use(params);
+const WikiEditPage = ({ params }: { params: { id: string } }) => {
+  const { id } = params;
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

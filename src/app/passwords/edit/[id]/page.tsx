@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { Password } from '@/types/password';
 
-const UpdatePasswordPage = ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = React.use(params);
+const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
+  const { id } = params;
   const router = useRouter();
   const [idState] = useState<string>(id);
   const [siteName, setSiteName] = useState('');
