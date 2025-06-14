@@ -19,5 +19,11 @@ db.exec(`
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+  CREATE TABLE IF NOT EXISTS diary (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
 `);
-console.log('パスワード管理テーブルとwikiテーブルを作成しました');
+console.log('パスワード管理テーブルとwikiテーブル、diaryテーブルを作成しました');
