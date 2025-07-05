@@ -13,6 +13,7 @@ const NewBlogPage = () => {
     author: '',
     persona: '',
   });
+  const [prompt, setPrompt] = useState('');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -35,10 +36,41 @@ const NewBlogPage = () => {
     }
   };
 
+  const handleGenerate = async () => {
+    const res = await fetch('/api/blog/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const generated = data.response ?? data.content ?? '';
+      setForm({ ...form, content: generated });
+    } else {
+      alert('生成失敗');
+    }
+  };
+
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">ブログ登録</h1>
       <form onSubmit={handleSubmit} className="space-y-2">
+        <div>
+          <label className="block">生成プロンプト</label>
+          <textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            className="w-full border p-2 rounded"
+            rows={4}
+          />
+          <button
+            type="button"
+            onClick={handleGenerate}
+            className="bg-green-500 text-white px-4 py-2 rounded mt-2"
+          >
+            ブログ生成
+          </button>
+        </div>
         <div>
           <label className="block">タイトル</label>
           <input
