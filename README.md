@@ -26,6 +26,8 @@ Private Desk は Next.js と SQLite を用いたシンプルなパスワード�
    npx ts-node scripts/init-db.ts
    ```
    上記コマンドにより `data/database.sqlite` が作成されます。
+3. .env ファイルの作成
+   `.env.example` をコピーして `.env` を作成し、必要に応じて Ollama のホストとポートを設定します。
 
 ## 開発サーバの起動
 
@@ -70,5 +72,15 @@ CREATE TABLE diary (
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
+
+## Ollama 連携
+
+ブログ生成機能ではローカルLLMである [Ollama](https://ollama.ai/) を利用します。
+`.env` に以下の環境変数を設定してホストとポートを指定してください。
+
+```bash
+OLLAMA_HOST=localhost
+OLLAMA_PORT=11434
 ```
 
