@@ -25,5 +25,16 @@ db.exec(`
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+  CREATE TABLE IF NOT EXISTS blog (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    content_markdown TEXT NOT NULL,
+    content_html TEXT NOT NULL,
+    site TEXT NOT NULL,
+    author TEXT NOT NULL,
+    persona TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
 `);
-console.log('パスワード管理テーブルとwikiテーブル、diaryテーブルを作成しました');
+console.log('パスワード管理テーブルとwikiテーブル、diaryテーブル、blogテーブルを作成しました');

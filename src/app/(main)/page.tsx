@@ -5,16 +5,19 @@ import Link from 'next/link';
 import PasswordList from '../components/PasswordList';
 import WikiCards from '../components/WikiCards';
 import DiaryCards from '../components/DiaryCards';
+import BlogCards from '../components/BlogCards';
 import type { Password } from '@/types/password';
 import type { Wiki } from '@/types/wiki';
 import type { Diary } from '@/types/diary';
+import type { Blog } from '@/types/blog';
 
 const MainPage = () => {
   const [passwords, setPasswords] = useState<Password[]>([]);
   const [wikis, setWikis] = useState<Wiki[]>([]);
   const [diaries, setDiaries] = useState<Diary[]>([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState<{ diaries?: string; wikis?: string; passwords?: string }>({});
+  const [errors, setErrors] = useState<{ diaries?: string; wikis?: string; passwords?: string; blogs?: string }>({});
 
   const fetchData = useCallback(async <T,>(
     url: string,
@@ -38,6 +41,7 @@ const MainPage = () => {
         fetchData<Password[]>('/api/passwords', setPasswords, 'passwords'),
         fetchData<Wiki[]>('/api/wiki?limit=3', setWikis, 'wikis'),
         fetchData<Diary[]>('/api/diary?limit=3', setDiaries, 'diaries'),
+        fetchData<Blog[]>('/api/blog?limit=3', setBlogs, 'blogs'),
       ]);
       setLoading(false);
     };
@@ -64,6 +68,12 @@ const MainPage = () => {
             className="bg-purple-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-purple-600 active:scale-95 transition-transform"
           >
             日報登録
+          </Link>
+          <Link
+            href="/blogs/new"
+            className="bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-indigo-600 active:scale-95 transition-transform"
+          >
+            ブログ登録
           </Link>
           <Link
             href="/passwords/new"
@@ -99,6 +109,21 @@ const MainPage = () => {
         )}
         <div className="mt-2">
           <Link href="/diaries" className="text-blue-600 hover:underline">
+            一覧を見る
+          </Link>
+        </div>
+      </section>
+      <section className="my-6">
+        <h2 className="text-xl font-semibold">最新ブログ</h2>
+        {errors.blogs ? (
+          <p className="text-red-500">{errors.blogs}</p>
+        ) : blogs.length > 0 ? (
+          <BlogCards blogs={blogs} />
+        ) : (
+          <p className="text-gray-500">登録されたブログがありません。</p>
+        )}
+        <div className="mt-2">
+          <Link href="/blogs" className="text-blue-600 hover:underline">
             一覧を見る
           </Link>
         </div>
