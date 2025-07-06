@@ -153,6 +153,7 @@ const MainPage = () => {
         </section>
       </div>
     </div>
+    </div>
   );
 };
 
