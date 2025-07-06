@@ -101,6 +101,7 @@ const MainPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 左側：Wiki / 日報 / ブログ */}
         <div className="lg:col-span-2 space-y-6">
+
           <section>
             <h2 className="text-xl font-semibold">最新日報</h2>
             {errors.diaries ? (
@@ -115,6 +116,24 @@ const MainPage = () => {
             )}
             <div className="mt-2">
               <Link href="/diaries" className="text-blue-600 hover:underline">
+                一覧を見る
+              </Link>
+            </div>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold">最新Wiki</h2>
+            {errors.wikis ? (
+              <p className="text-red-500">{errors.wikis}</p>
+            ) : wikis.length > 0 ? (
+              <WikiCards
+                wikis={wikis}
+                onDelete={(id) => setWikis(wikis.filter((w) => w.id !== id))}
+              />
+            ) : (
+              <p className="text-gray-500">登録されたWikiがありません。</p>
+            )}
+            <div className="mt-2">
+              <Link href="/wikis" className="text-blue-600 hover:underline">
                 一覧を見る
               </Link>
             </div>
