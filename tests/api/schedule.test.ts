@@ -1,6 +1,11 @@
 import { GET, POST } from '../../src/app/api/schedule/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
+jest.mock('../../src/lib/google-calendar', () => ({
+  createEvent: jest.fn().mockResolvedValue('mock-id'),
+  listEvents: jest.fn().mockResolvedValue([]),
+}));
+
 function createPostRequest(body: any) {
   return new Request('http://localhost/api/schedule', {
     method: 'POST',

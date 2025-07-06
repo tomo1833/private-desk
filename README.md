@@ -84,3 +84,13 @@ OLLAMA_HOST=localhost
 OLLAMA_PORT=11434
 ```
 
+## Google カレンダー連携
+
+予定表機能では Google カレンダーと同期できます。サービスアカウントを用意し、`.env` に以下の変数を設定してください。
+
+```bash
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your-service-account@project.iam.gserviceaccount.com
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+GOOGLE_CALENDAR_ID=your-calendar-id@group.calendar.google.com
+```
+
