@@ -57,5 +57,13 @@ db.exec(`
     google_event_id TEXT,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+  CREATE TABLE IF NOT EXISTS expenses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    shop TEXT NOT NULL,
+    used_at TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
 `);
-console.log('パスワード管理テーブルとwikiテーブル、diaryテーブル、blogテーブル、authorテーブル、personaテーブル、schedulesテーブルを作成しました');
+console.log('パスワード管理テーブルとwikiテーブル、diaryテーブル、blogテーブル、authorテーブル、personaテーブル、schedulesテーブル、expensesテーブルを作成しました');
