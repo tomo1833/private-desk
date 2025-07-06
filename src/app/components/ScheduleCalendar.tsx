@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import { EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin, { DateClickArg, EventClickArg } from '@fullcalendar/interaction';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import { EventClickArg } from '@fullcalendar/core';
 import { format } from 'date-fns';
-
 interface FormState {
   title: string;
   start: string;
@@ -100,73 +100,73 @@ const ScheduleCalendar = () => {
         <button onClick={handleSync} className="text-sm bg-gray-300 px-2 py-1 rounded">同期</button>
       </div>
       {isOpen && (
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
-        onClick={() => setIsOpen(false)}
-      >
         <div
-          className="bg-white rounded p-4 w-full max-w-md"
-          onClick={(e) => e.stopPropagation()}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+          onClick={() => setIsOpen(false)}
         >
-          <h2 className="text-lg font-bold mb-4">{editId ? '予定編集' : '予定登録'}</h2>
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div>
-              <label className="block text-sm mb-1">タイトル</label>
-              <input
-                type="text"
-                value={form.title}
-                onChange={(e) => setForm({ ...form, title: e.target.value })}
-                required
-                className="w-full border px-2 py-1"
-              />
-            </div>
-            <div>
-              <label className="block text-sm mb-1">開始</label>
-              <input
-                type="datetime-local"
-                value={form.start}
-                onChange={(e) => setForm({ ...form, start: e.target.value })}
-                required
-                className="w-full border px-2 py-1"
-              />
-            </div>
-            <div>
-              <label className="block text-sm mb-1">終了</label>
-              <input
-                type="datetime-local"
-                value={form.end}
-                onChange={(e) => setForm({ ...form, end: e.target.value })}
-                required
-                className="w-full border px-2 py-1"
-              />
-            </div>
-            <div>
-              <label className="block text-sm mb-1">メモ</label>
-              <textarea
-                value={form.memo}
-                onChange={(e) => setForm({ ...form, memo: e.target.value })}
-                className="w-full border px-2 py-1"
-              />
-            </div>
-            <div className="flex justify-end space-x-2 pt-2">
-              <button type="button" onClick={() => setIsOpen(false)} className="px-4 py-2">キャンセル</button>
-              {editId && (
-                <button
-                  type="button"
-                  onClick={handleDelete}
-                  className="bg-red-500 text-white px-4 py-2 rounded"
-                >
-                  削除
-                </button>
-              )}
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">{editId ? '更新' : '登録'}</button>
-            </div>
-          </form>
+          <div
+            className="bg-white rounded p-4 w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-lg font-bold mb-4">{editId ? '予定編集' : '予定登録'}</h2>
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div>
+                <label className="block text-sm mb-1">タイトル</label>
+                <input
+                  type="text"
+                  value={form.title}
+                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  required
+                  className="w-full border px-2 py-1"
+                />
+              </div>
+              <div>
+                <label className="block text-sm mb-1">開始</label>
+                <input
+                  type="datetime-local"
+                  value={form.start}
+                  onChange={(e) => setForm({ ...form, start: e.target.value })}
+                  required
+                  className="w-full border px-2 py-1"
+                />
+              </div>
+              <div>
+                <label className="block text-sm mb-1">終了</label>
+                <input
+                  type="datetime-local"
+                  value={form.end}
+                  onChange={(e) => setForm({ ...form, end: e.target.value })}
+                  required
+                  className="w-full border px-2 py-1"
+                />
+              </div>
+              <div>
+                <label className="block text-sm mb-1">メモ</label>
+                <textarea
+                  value={form.memo}
+                  onChange={(e) => setForm({ ...form, memo: e.target.value })}
+                  className="w-full border px-2 py-1"
+                />
+              </div>
+              <div className="flex justify-end space-x-2 pt-2">
+                <button type="button" onClick={() => setIsOpen(false)} className="px-4 py-2">キャンセル</button>
+                {editId && (
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                  >
+                    削除
+                  </button>
+                )}
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">{editId ? '更新' : '登録'}</button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    )}
-  </div>
-);
+      )}
+    </div>
+  );
 
 };
 
