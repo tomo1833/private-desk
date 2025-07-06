@@ -14,6 +14,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     }
     return NextResponse.json(result);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to fetch expense.' }, { status: 500 });
   }
 }
@@ -32,6 +33,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     );
     return NextResponse.json({ message: 'expense updated successfully.' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to update expense.' }, { status: 500 });
   }
 }
@@ -42,6 +44,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     runExecute('DELETE FROM expenses WHERE id = ?', [Number(id)]);
     return NextResponse.json({ message: 'expense deleted successfully.' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to delete expense.' }, { status: 500 });
   }
 }

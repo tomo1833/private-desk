@@ -7,6 +7,7 @@ export async function GET() {
     const personas = runSelect<Persona>('SELECT * FROM persona ORDER BY id DESC');
     return NextResponse.json(personas);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'DB取得失敗' }, { status: 500 });
   }
 }
@@ -21,6 +22,7 @@ export async function POST(req: Request) {
     runExecute('INSERT INTO persona (name, description) VALUES (?, ?)', [name, description ?? null]);
     return NextResponse.json({ message: '登録成功' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: '登録失敗' }, { status: 500 });
   }
 }
