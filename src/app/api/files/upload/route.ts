@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+// Node 18 and later expose a File implementation via the `buffer` module.
+// Explicitly importing it ensures compatibility when the global `File`
+// class is not automatically available (e.g. on older Node versions).
+import { File } from 'buffer';
 
 const docsRoot = path.join(process.cwd(), 'public', 'docs');
 
