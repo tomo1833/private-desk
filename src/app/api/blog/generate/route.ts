@@ -11,12 +11,13 @@ export async function POST(req: Request) {
     const res = await fetch(`http://${host}:${port}/api/generate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt }),
+      body: JSON.stringify({ model: 'Gemma3:12b',  prompt, stream: false }),
     });
     if (!res.ok) {
       return NextResponse.json({ error: 'LLM request failed' }, { status: 500 });
     }
     const data = await res.json();
+    console.log('✅ Ollamaからの応答:', data); 
     return NextResponse.json(data);
   } catch (err) {
     return NextResponse.json({ error: 'LLM fetch error' }, { status: 500 });
