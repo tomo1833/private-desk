@@ -11,6 +11,7 @@ import type { Password } from '@/types/password';
 import type { Wiki } from '@/types/wiki';
 import type { Diary } from '@/types/diary';
 import type { Blog } from '@/types/blog';
+import type { Expense } from '@/types/expense';
 
 const MainPage = () => {
   const [passwords, setPasswords] = useState<Password[]>([]);
@@ -18,6 +19,8 @@ const MainPage = () => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [monthTotal, setMonthTotal] = useState(0);
+  const [todayTotal, setTodayTotal] = useState(0);
   const [errors, setErrors] = useState<{
     diaries?: string;
     wikis?: string;
@@ -48,6 +51,17 @@ const MainPage = () => {
         fetchData<Diary[]>('/api/diary?limit=2', setDiaries, 'diaries'),
         fetchData<Blog[]>('/api/blog?limit=2', setBlogs, 'blogs'),
       ]);
+      const now = new Date();
+      const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      const res = await fetch(`/api/expense?month=${month}`);
+      if (res.ok) {
+        const data: Expense[] = await res.json();
+        const mTotal = data.reduce((sum, e) => sum + e.amount, 0);
+        const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+        const tTotal = data.filter(e => e.used_at === todayStr).reduce((s, e) => s + e.amount, 0);
+        setMonthTotal(mTotal);
+        setTodayTotal(tTotal);
+      }
       setLoading(false);
     };
     loadData();
@@ -59,6 +73,10 @@ const MainPage = () => {
 
   return (
     <div className="space-y-4">
+      <div className="bg-yellow-100 p-4 rounded">
+        <p>本日の支出: ¥{todayTotal}</p>
+        <p>今月の支出: ¥{monthTotal}</p>
+      </div>
       <div className="flex justify-end space-x-2">
         <Link href="/wikis/new" className="bg-blue-500 text-white px-3 py-2 rounded">
           Wiki登録
@@ -74,6 +92,9 @@ const MainPage = () => {
         </Link>
         <Link href="/files" className="bg-gray-500 text-white px-3 py-2 rounded">
           ファイル管理
+        </Link>
+        <Link href="/expenses" className="bg-yellow-500 text-white px-3 py-2 rounded">
+          家計簿
         </Link>
       </div>
 
