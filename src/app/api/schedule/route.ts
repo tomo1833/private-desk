@@ -24,9 +24,9 @@ export async function POST(req: Request) {
       'INSERT INTO schedules (title, start, end, memo) VALUES (?, ?, ?, ?)'
     );
     const info = stmt.run(title, start, end, memo);
-    let googleId: string | undefined;
+    let googleId: string | null = null;
     try {
-      googleId = await createEvent({ title, start, end, description: memo });
+      googleId = (await createEvent({ title, start, end, description: memo })) ?? null;
       db.prepare('UPDATE schedules SET google_event_id = ? WHERE id = ?').run(
         googleId,
         info.lastInsertRowid
