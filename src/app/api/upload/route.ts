@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { File } from 'buffer';
 
 export async function POST(request: Request) {
   const formData = await request.formData();
