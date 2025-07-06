@@ -1,6 +1,7 @@
 import './globals.css';
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import ThemeToggle from './components/ThemeToggle';
 
 const RootLayout = ({
@@ -27,7 +28,7 @@ const RootLayout = ({
                 className="px-2 py-1 text-black outline-none"
               />
               <button type="submit" className="px-2">
-                <img src="/search.svg" alt="検索" className="w-5 h-5" />
+                <Image src="/search.svg" alt="検索" width={20} height={20} />
               </button>
             </form>
             <ThemeToggle />

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Blog } from '@/types/blog';
 
 const BlogListPage = () => {
@@ -34,7 +35,13 @@ const BlogListPage = () => {
             <Link href={`/blogs/${blog.id}`} className="font-semibold hover:underline block">
               {blog.title}
             </Link>
-            <img src={blog.eyecatch} alt="eyecatch" className="w-full h-48 object-cover" />
+            <Image
+              src={blog.eyecatch}
+              alt="eyecatch"
+              width={600}
+              height={192}
+              className="w-full h-48 object-cover"
+            />
             <p className="text-sm line-clamp-3 whitespace-pre-wrap">{blog.content}</p>
           </li>
         ))}

@@ -1,10 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
+import Image from 'next/image';
 import type { Blog } from '@/types/blog';
 
-const BlogDetailPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const BlogDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [blog, setBlog] = useState<Blog | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +30,13 @@ const BlogDetailPage = ({ params }: { params: { id: string } }) => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">{blog.title}</h1>
-      <img src={blog.eyecatch} alt="eyecatch" className="w-full h-48 object-cover" />
+      <Image
+        src={blog.eyecatch}
+        alt="eyecatch"
+        width={600}
+        height={192}
+        className="w-full h-48 object-cover"
+      />
       <p className="text-sm text-blue-600 underline">{blog.permalink}</p>
       <div className="whitespace-pre-wrap border p-4 rounded bg-white">
         {blog.content}
