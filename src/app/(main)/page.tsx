@@ -58,8 +58,24 @@ const MainPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* 左側：Wiki / 日報 / ブログ */}
+    <div className="space-y-4">
+      <div className="space-x-2">
+        <Link href="/wikis/new" className="bg-blue-500 text-white px-3 py-1 rounded">
+          Wiki登録
+        </Link>
+        <Link href="/diaries/new" className="bg-purple-500 text-white px-3 py-1 rounded">
+          日報登録
+        </Link>
+        <Link href="/blogs/new" className="bg-indigo-500 text-white px-3 py-1 rounded">
+          ブログ登録
+        </Link>
+        <Link href="/passwords/new" className="bg-green-500 text-white px-3 py-1 rounded">
+          パスワード登録
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 左側：Wiki / 日報 / ブログ */}
       <div className="lg:col-span-2 space-y-6">
         <section>
           <h2 className="text-xl font-semibold">最新Wiki</h2>
