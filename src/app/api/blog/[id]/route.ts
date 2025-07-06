@@ -35,3 +35,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     return NextResponse.json({ error: 'Failed to update blog entry.' }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  try {
+    runExecute('DELETE FROM blog WHERE id = ?', [Number(id)]);
+    return NextResponse.json({ message: 'blog entry deleted successfully.' });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to delete blog entry.' }, { status: 500 });
+  }
+}

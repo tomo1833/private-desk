@@ -65,7 +65,10 @@ const MainPage = () => {
           {errors.wikis ? (
             <p className="text-red-500">{errors.wikis}</p>
           ) : wikis.length > 0 ? (
-            <WikiCards wikis={wikis} />
+            <WikiCards
+              wikis={wikis}
+              onDelete={(id) => setWikis(wikis.filter((w) => w.id !== id))}
+            />
           ) : (
             <p className="text-gray-500">登録されたWikiがありません。</p>
           )}
@@ -80,7 +83,10 @@ const MainPage = () => {
           {errors.diaries ? (
             <p className="text-red-500">{errors.diaries}</p>
           ) : diaries.length > 0 ? (
-            <DiaryCards diaries={diaries} />
+            <DiaryCards
+              diaries={diaries}
+              onDelete={(id) => setDiaries(diaries.filter((d) => d.id !== id))}
+            />
           ) : (
             <p className="text-gray-500">登録された日報がありません。</p>
           )}
@@ -95,7 +101,10 @@ const MainPage = () => {
           {errors.blogs ? (
             <p className="text-red-500">{errors.blogs}</p>
           ) : blogs.length > 0 ? (
-            <BlogCards blogs={blogs} />
+            <BlogCards
+              blogs={blogs}
+              onDelete={(id) => setBlogs(blogs.filter((b) => b.id !== id))}
+            />
           ) : (
             <p className="text-gray-500">登録されたブログがありません。</p>
           )}
