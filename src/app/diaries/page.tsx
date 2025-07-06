@@ -30,8 +30,12 @@ const DiaryListPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">日報一覧</h1>
-      <Link href="/diaries/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
-      <ul className="space-y-2">
+      <div className="flex justify-end my-4">
+        <Link href="/diaries/new" className="bg-blue-500 text-white px-4 py-2 rounded">
+          新規作成
+        </Link>
+      </div>
+      <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {diaries.map((diary) => (
           <li key={diary.id} className="border p-4 rounded space-y-2">
             <Link href={`/diaries/${diary.id}`} className="font-semibold hover:underline block">

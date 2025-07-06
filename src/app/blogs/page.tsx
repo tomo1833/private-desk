@@ -28,8 +28,14 @@ const BlogListPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">ブログ一覧</h1>
-      <Link href="/blogs/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
-      <ul className="space-y-2">
+      <div className="flex flex-wrap justify-end gap-2 my-4">
+        <Link href="/blogs/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
+        <Link href="/authors/new" className="bg-green-500 text-white px-4 py-2 rounded">著者登録</Link>
+        <Link href="/authors" className="bg-green-500 text-white px-4 py-2 rounded">著者一覧</Link>
+        <Link href="/personas/new" className="bg-purple-500 text-white px-4 py-2 rounded">ペルソナ登録</Link>
+        <Link href="/personas" className="bg-purple-500 text-white px-4 py-2 rounded">ペルソナ一覧</Link>
+      </div>
+      <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {blogs.map((blog) => (
           <li key={blog.id} className="border p-4 rounded space-y-2">
             <Link href={`/blogs/${blog.id}`} className="font-semibold hover:underline block">
