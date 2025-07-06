@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { runSelect, runExecute } from '@/lib/db';
+import db, { runSelect, runExecute } from '@/lib/db';
+import { createEvent } from '@/lib/google-calendar';
 import type { Schedule } from '@/types/schedule';
 
 export async function GET() {
@@ -18,10 +19,20 @@ export async function POST(req: Request) {
     if (!title || !start || !end) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
-    runExecute(
-      'INSERT INTO schedules (title, start, end, memo) VALUES (?, ?, ?, ?)',
-      [title, start, end, memo]
+    const stmt = db.prepare(
+      'INSERT INTO schedules (title, start, end, memo) VALUES (?, ?, ?, ?)'
     );
+    const info = stmt.run(title, start, end, memo);
+    let googleId: string | undefined;
+    try {
+      googleId = await createEvent({ title, start, end, description: memo });
+      db.prepare('UPDATE schedules SET google_event_id = ? WHERE id = ?').run(
+        googleId,
+        info.lastInsertRowid
+      );
+    } catch (err) {
+      console.error('Google Calendar sync failed:', err);
+    }
     return NextResponse.json({ message: '登録成功' });
   } catch (error) {
     return NextResponse.json({ error: '登録失敗' }, { status: 500 });

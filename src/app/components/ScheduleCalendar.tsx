@@ -52,16 +52,24 @@ const ScheduleCalendar = () => {
     fetchEvents();
   };
 
-return (
-  <div className="w-full">
-    <FullCalendar
-      plugins={[dayGridPlugin, interactionPlugin]}
-      initialView="dayGridMonth"
-      events={events}
-      dateClick={handleDateClick}
-      height="auto"
-    />
-    {isOpen && (
+  const handleSync = async () => {
+    await fetch('/api/schedule/sync', { method: 'POST' });
+    fetchEvents();
+  };
+
+  return (
+    <div className="w-full">
+      <FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        events={events}
+        dateClick={handleDateClick}
+        height="auto"
+      />
+      <div className="flex justify-end py-2">
+        <button onClick={handleSync} className="text-sm bg-gray-300 px-2 py-1 rounded">同期</button>
+      </div>
+      {isOpen && (
       <div
         className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
         onClick={() => setIsOpen(false)}
