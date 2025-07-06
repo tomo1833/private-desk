@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { Password } from '@/types/password';
 
-const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const UpdatePasswordPage = () => {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [idState] = useState<string>(id);
   const [siteName, setSiteName] = useState('');

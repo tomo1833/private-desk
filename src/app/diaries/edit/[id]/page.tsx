@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import type { Diary } from '@/types/diary';
 
-const DiaryEditPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const DiaryEditPage = () => {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
