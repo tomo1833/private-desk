@@ -72,6 +72,9 @@ const MainPage = () => {
         <Link href="/passwords/new" className="bg-green-500 text-white px-3 py-2 rounded">
           パスワード登録
         </Link>
+        <Link href="/files" className="bg-gray-500 text-white px-3 py-2 rounded">
+          ファイル管理
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
