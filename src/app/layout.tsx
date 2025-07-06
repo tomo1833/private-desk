@@ -1,5 +1,5 @@
 import './globals.css';
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ThemeToggle from './components/ThemeToggle';
@@ -36,7 +36,9 @@ const RootLayout = ({
         </header>
 
         <main className="flex-grow p-6 overflow-auto mt-16 mb-16">
-          {children}
+          <Suspense fallback={<div>Loading...</div>}>
+            {children}
+          </Suspense>
         </main>
 
         <footer className="bg-gray-700 text-white py-4 px-6 fixed bottom-0 w-full z-10">
