@@ -13,8 +13,7 @@ export async function POST(request: Request) {
   const buffer = Buffer.from(bytes);
   const uploadDir = path.join(process.cwd(), 'public', 'uploads');
   await fs.mkdir(uploadDir, { recursive: true });
-  const ext = path.extname(file.name);
-  const filename = `${crypto.randomUUID()}${ext}`;
+  const filename = path.basename(file.name);
   await fs.writeFile(path.join(uploadDir, filename), buffer);
   const url = `/uploads/${filename}`;
   return NextResponse.json({ url });

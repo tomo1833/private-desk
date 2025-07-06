@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
-import crypto from 'crypto';
 // Node 18 and later expose a File implementation via the `buffer` module.
 // Explicitly importing it ensures compatibility when the global `File`
 // class is not automatically available (e.g. on older Node versions).
@@ -19,8 +18,7 @@ export async function POST(request: Request) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
   await fs.mkdir(path.join(docsRoot, relPath), { recursive: true });
-  const ext = path.extname(file.name);
-  const filename = `${crypto.randomUUID()}${ext}`;
+  const filename = path.basename(file.name);
   await fs.writeFile(path.join(docsRoot, relPath, filename), buffer);
   const url = `/docs/${relPath ? relPath + '/' : ''}${filename}`;
   return NextResponse.json({ url });
