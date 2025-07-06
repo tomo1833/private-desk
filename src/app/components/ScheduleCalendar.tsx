@@ -111,8 +111,8 @@ return (
               />
             </div>
             <div className="flex justify-end space-x-2 pt-2">
-              <button type="button" onClick={() => setIsOpen(false)} className="px-4 py-1">キャンセル</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">登録</button>
+              <button type="button" onClick={() => setIsOpen(false)} className="px-4 py-2">キャンセル</button>
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">登録</button>
             </div>
           </form>
         </div>

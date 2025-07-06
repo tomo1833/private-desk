@@ -169,12 +169,14 @@ const UpdatePasswordPage = ({ params }: { params: { id: string } }) => {
             rows={6}
           />
         </div>
-        <button
-          type="submit"
-          className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-        >
-          更新
-        </button>
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+          >
+            更新
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -40,12 +40,14 @@ const WikiDetailPage = ({ params }: { params: { id: string } }) => {
           {wiki.content}
         </ReactMarkdown>
       </div>
-      <button
-        onClick={() => router.push(`/wikis/edit/${wiki.id}`)}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        編集
-      </button>
+      <div className="flex justify-end">
+        <button
+          onClick={() => router.push(`/wikis/edit/${wiki.id}`)}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          編集
+        </button>
+      </div>
     </div>
   );
 };

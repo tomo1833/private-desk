@@ -32,12 +32,14 @@ const BlogDetailPage = ({ params }: { params: { id: string } }) => {
       <div className="whitespace-pre-wrap border p-4 rounded bg-white">
         {blog.content}
       </div>
-      <button
-        onClick={() => router.push(`/blogs/edit/${blog.id}`)}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        編集
-      </button>
+      <div className="flex justify-end">
+        <button
+          onClick={() => router.push(`/blogs/edit/${blog.id}`)}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          編集
+        </button>
+      </div>
     </div>
   );
 };

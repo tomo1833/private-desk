@@ -64,7 +64,7 @@ const WikiEditPage = ({ params }: { params: { id: string } }) => {
           <label className="block">内容</label>
           <textarea value={content} onChange={e => setContent(e.target.value)} className="w-full border p-2 rounded" rows={6} required />
         </div>
-        <div className="space-x-2">
+        <div className="flex justify-end space-x-2">
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">更新</button>
           <button type="button" onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded">削除</button>
         </div>

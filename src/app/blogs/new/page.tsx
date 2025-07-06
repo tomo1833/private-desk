@@ -63,13 +63,15 @@ const NewBlogPage = () => {
             className="w-full border p-2 rounded"
             rows={4}
           />
-          <button
-            type="button"
-            onClick={handleGenerate}
-            className="bg-green-500 text-white px-4 py-2 rounded mt-2"
-          >
-            ブログ生成
-          </button>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={handleGenerate}
+              className="bg-green-500 text-white px-4 py-2 rounded mt-2"
+            >
+              ブログ生成
+            </button>
+          </div>
         </div>
         <div>
           <label className="block">タイトル</label>
@@ -144,9 +146,11 @@ const NewBlogPage = () => {
             required
           />
         </div>
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-          登録
-        </button>
+        <div className="flex justify-end">
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+            登録
+          </button>
+        </div>
       </form>
     </div>
   );

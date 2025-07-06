@@ -59,17 +59,17 @@ const MainPage = () => {
 
   return (
     <div className="space-y-4">
-      <div className="space-x-2">
-        <Link href="/wikis/new" className="bg-blue-500 text-white px-3 py-1 rounded">
+      <div className="flex justify-end space-x-2">
+        <Link href="/wikis/new" className="bg-blue-500 text-white px-3 py-2 rounded">
           Wiki登録
         </Link>
-        <Link href="/diaries/new" className="bg-purple-500 text-white px-3 py-1 rounded">
+        <Link href="/diaries/new" className="bg-purple-500 text-white px-3 py-2 rounded">
           日報登録
         </Link>
-        <Link href="/blogs/new" className="bg-indigo-500 text-white px-3 py-1 rounded">
+        <Link href="/blogs/new" className="bg-indigo-500 text-white px-3 py-2 rounded">
           ブログ登録
         </Link>
-        <Link href="/passwords/new" className="bg-green-500 text-white px-3 py-1 rounded">
+        <Link href="/passwords/new" className="bg-green-500 text-white px-3 py-2 rounded">
           パスワード登録
         </Link>
       </div>

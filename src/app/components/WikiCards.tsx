@@ -23,22 +23,22 @@ const WikiCards: React.FC<Props> = ({ wikis, onDelete }) => {
         <div key={wiki.id} className="border rounded p-4 bg-white shadow space-y-2">
           <h3 className="font-bold mb-2 truncate">{wiki.title}</h3>
           <p className="line-clamp-3 text-sm whitespace-pre-wrap">{wiki.content}</p>
-          <div className="space-x-2">
+          <div className="flex justify-end space-x-2">
             <button
               onClick={() => router.push(`/wikis/${wiki.id}`)}
-              className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+              className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600"
             >
               詳細
             </button>
             <button
               onClick={() => router.push(`/wikis/edit/${wiki.id}`)}
-              className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+              className="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600"
             >
               編集
             </button>
             <button
               onClick={() => handleDelete(wiki.id)}
-              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
             >
               削除
             </button>

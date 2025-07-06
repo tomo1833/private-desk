@@ -150,7 +150,7 @@ const BlogEditPage = ({ params }: { params: { id: string } }) => {
             required
           />
         </div>
-        <div className="space-x-2">
+        <div className="flex justify-end space-x-2">
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">更新</button>
           <button type="button" onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded">削除</button>
         </div>
