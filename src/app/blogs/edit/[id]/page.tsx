@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import type { Blog } from '@/types/blog';
 
-const BlogEditPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const BlogEditPage = () => {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [form, setForm] = useState({
     title: '',
