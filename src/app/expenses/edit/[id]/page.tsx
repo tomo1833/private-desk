@@ -1,10 +1,10 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import type { Expense } from '@/types/expense';
 
-const ExpenseEditPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const ExpenseEditPage = () => {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [form, setForm] = useState<{
     category: string;

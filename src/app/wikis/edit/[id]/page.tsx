@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import type { Wiki } from '@/types/wiki';
 
-const WikiEditPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const WikiEditPage = () => {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

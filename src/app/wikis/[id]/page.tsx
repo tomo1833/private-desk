@@ -1,13 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import type { Wiki } from '@/types/wiki';
 
-const WikiDetailPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const WikiDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [wiki, setWiki] = useState<Wiki | null>(null);
   const [error, setError] = useState<string | null>(null);
