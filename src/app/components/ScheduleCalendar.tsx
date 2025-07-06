@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import FullCalendar, { EventInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import interactionPlugin, { DateClickArg, EventClickArg } from '@fullcalendar/interaction';
 import { format } from 'date-fns';
 
 interface FormState {
@@ -16,6 +16,7 @@ interface FormState {
 const ScheduleCalendar = () => {
   const [events, setEvents] = useState<EventInput[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
   const [form, setForm] = useState<FormState>({
     title: '',
     start: '',
@@ -38,17 +39,42 @@ const ScheduleCalendar = () => {
   const handleDateClick = (arg: DateClickArg) => {
     const dateStr = format(arg.date, "yyyy-MM-dd'T'HH:mm");
     setForm({ title: '', start: dateStr, end: dateStr, memo: '' });
+    setEditId(null);
+    setIsOpen(true);
+  };
+
+  const handleEventClick = (arg: EventClickArg) => {
+    const e = arg.event;
+    setForm({
+      title: e.title,
+      start: format(e.start!, "yyyy-MM-dd'T'HH:mm"),
+      end: format(e.end!, "yyyy-MM-dd'T'HH:mm"),
+      memo: (e.extendedProps.memo as string) || '',
+    });
+    setEditId(Number(e.id));
     setIsOpen(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch('/api/schedule', {
-      method: 'POST',
+    const url = editId ? `/api/schedule/${editId}` : '/api/schedule';
+    const method = editId ? 'PUT' : 'POST';
+    await fetch(url, {
+      method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     });
     setIsOpen(false);
+    setEditId(null);
+    fetchEvents();
+  };
+
+  const handleDelete = async () => {
+    if (editId === null) return;
+    if (!confirm('削除しますか？')) return;
+    await fetch(`/api/schedule/${editId}`, { method: 'DELETE' });
+    setIsOpen(false);
+    setEditId(null);
     fetchEvents();
   };
 
@@ -64,6 +90,7 @@ const ScheduleCalendar = () => {
         initialView="dayGridMonth"
         events={events}
         dateClick={handleDateClick}
+        eventClick={handleEventClick}
         height="auto"
       />
       <div className="flex justify-end py-2">
@@ -78,7 +105,7 @@ const ScheduleCalendar = () => {
           className="bg-white rounded p-4 w-full max-w-md"
           onClick={(e) => e.stopPropagation()}
         >
-          <h2 className="text-lg font-bold mb-4">予定登録</h2>
+          <h2 className="text-lg font-bold mb-4">{editId ? '予定編集' : '予定登録'}</h2>
           <form onSubmit={handleSubmit} className="space-y-3">
             <div>
               <label className="block text-sm mb-1">タイトル</label>
@@ -120,7 +147,16 @@ const ScheduleCalendar = () => {
             </div>
             <div className="flex justify-end space-x-2 pt-2">
               <button type="button" onClick={() => setIsOpen(false)} className="px-4 py-2">キャンセル</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">登録</button>
+              {editId && (
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                >
+                  削除
+                </button>
+              )}
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">{editId ? '更新' : '登録'}</button>
             </div>
           </form>
         </div>
