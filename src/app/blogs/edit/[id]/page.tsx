@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import type { Blog } from '@/types/blog';
 
 const BlogEditPage = ({ params }: { params: { id: string } }) => {
-  const { id } = React.use(params);
+  const { id } = params;
   const router = useRouter();
   const [form, setForm] = useState({
     title: '',

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import type { Blog } from '@/types/blog';
 
 const BlogDetailPage = ({ params }: { params: { id: string } }) => {
-  const { id } = React.use(params);
+  const { id } = params;
   const router = useRouter();
   const [blog, setBlog] = useState<Blog | null>(null);
   const [error, setError] = useState<string | null>(null);
