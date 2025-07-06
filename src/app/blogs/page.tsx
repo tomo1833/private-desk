@@ -31,12 +31,10 @@ const BlogListPage = () => {
       <ul className="space-y-2">
         {blogs.map((blog) => (
           <li key={blog.id} className="border p-4 rounded space-y-2">
-            <Link
-              href={`/blogs/${blog.id}`}
-              className="font-semibold hover:underline block"
-            >
+            <Link href={`/blogs/${blog.id}`} className="font-semibold hover:underline block">
               {blog.title}
             </Link>
+            <img src={blog.eyecatch} alt="eyecatch" className="w-full h-48 object-cover" />
             <p className="text-sm line-clamp-3 whitespace-pre-wrap">{blog.content}</p>
           </li>
         ))}

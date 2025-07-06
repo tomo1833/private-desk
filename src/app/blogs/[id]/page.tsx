@@ -29,6 +29,8 @@ const BlogDetailPage = ({ params }: { params: { id: string } }) => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">{blog.title}</h1>
+      <img src={blog.eyecatch} alt="eyecatch" className="w-full h-48 object-cover" />
+      <p className="text-sm text-blue-600 underline">{blog.permalink}</p>
       <div className="whitespace-pre-wrap border p-4 rounded bg-white">
         {blog.content}
       </div>

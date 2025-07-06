@@ -12,6 +12,8 @@ const BlogEditPage = ({ params }: { params: { id: string } }) => {
     content: '',
     content_markdown: '',
     content_html: '',
+    eyecatch: '',
+    permalink: '',
     site: '',
     author: '',
     persona: '',
@@ -29,6 +31,8 @@ const BlogEditPage = ({ params }: { params: { id: string } }) => {
           content: blog.content,
           content_markdown: blog.content_markdown,
           content_html: blog.content_html,
+          eyecatch: blog.eyecatch,
+          permalink: blog.permalink,
           site: blog.site,
           author: blog.author,
           persona: blog.persona,
@@ -117,6 +121,26 @@ const BlogEditPage = ({ params }: { params: { id: string } }) => {
             onChange={handleChange}
             className="w-full border p-2 rounded"
             rows={4}
+            required
+          />
+        </div>
+        <div>
+          <label className="block">アイキャッチ画像URL</label>
+          <input
+            name="eyecatch"
+            value={form.eyecatch}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label className="block">パーマリンク</label>
+          <input
+            name="permalink"
+            value={form.permalink}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
             required
           />
         </div>
