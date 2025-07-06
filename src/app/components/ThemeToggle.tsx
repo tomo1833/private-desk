@@ -20,7 +20,7 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggle} className="ml-2 px-2 py-1 border rounded">
+    <button onClick={toggle} className="ml-2 px-2 py-2 border rounded">
       {isDark ? 'ライト' : 'ダーク'}
     </button>
   );

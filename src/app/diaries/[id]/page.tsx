@@ -37,9 +37,11 @@ const DiaryDetailPage = ({ params }: { params: { id: string } }) => {
           {diary.content}
         </ReactMarkdown>
       </div>
-      <button onClick={() => router.push(`/diaries/edit/${diary.id}`)} className="bg-blue-500 text-white px-4 py-2 rounded">
-        編集
-      </button>
+      <div className="flex justify-end">
+        <button onClick={() => router.push(`/diaries/edit/${diary.id}`)} className="bg-blue-500 text-white px-4 py-2 rounded">
+          編集
+        </button>
+      </div>
     </div>
   );
 };

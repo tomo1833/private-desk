@@ -116,7 +116,9 @@ const AddPassword: React.FC = () => {
                         onChange={handleChange}
                     ></textarea>
                 </div>
-                <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">登録</button>
+                <div className="flex justify-end">
+                    <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">登録</button>
+                </div>
             </form>
         </div>
     );
