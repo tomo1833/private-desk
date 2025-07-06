@@ -52,26 +52,26 @@ const ScheduleCalendar = () => {
     fetchEvents();
   };
 
-  return (
-    <div style={{ transform: 'scale(0.33)', transformOrigin: 'top left' }}>
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={events}
-        dateClick={handleDateClick}
-        height="auto"
-      />
-      {isOpen && (
+return (
+  <div className="w-full">
+    <FullCalendar
+      plugins={[dayGridPlugin, interactionPlugin]}
+      initialView="dayGridMonth"
+      events={events}
+      dateClick={handleDateClick}
+      height="auto"
+    />
+    {isOpen && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+        onClick={() => setIsOpen(false)}
+      >
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
-          onClick={() => setIsOpen(false)}
+          className="bg-white rounded p-4 w-full max-w-md"
+          onClick={(e) => e.stopPropagation()}
         >
-          <div
-            className="bg-white rounded p-4 w-full max-w-md"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-lg font-bold mb-4">予定登録</h2>
-            <form onSubmit={handleSubmit} className="space-y-3">
+          <h2 className="text-lg font-bold mb-4">予定登録</h2>
+          <form onSubmit={handleSubmit} className="space-y-3">
             <div>
               <label className="block text-sm mb-1">タイトル</label>
               <input
@@ -117,9 +117,10 @@ const ScheduleCalendar = () => {
           </form>
         </div>
       </div>
-      )}
-    </div>
-  );
+    )}
+  </div>
+);
+
 };
 
 export default ScheduleCalendar;

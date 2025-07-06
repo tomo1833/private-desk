@@ -58,8 +58,9 @@ const MainPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div className="space-y-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* 左側：Wiki / 日報 / ブログ */}
+      <div className="lg:col-span-2 space-y-6">
         <section>
           <h2 className="text-xl font-semibold">最新Wiki</h2>
           {errors.wikis ? (
@@ -114,6 +115,16 @@ const MainPage = () => {
             </Link>
           </div>
         </section>
+      </div>
+
+      {/* 右側：カレンダー */}
+      <div>
+        <h2 className="text-xl font-semibold mb-2">予定カレンダー</h2>
+        <ScheduleCalendar />
+      </div>
+
+      {/* 下段：全幅パスワード一覧 */}
+      <div className="lg:col-span-3">
         <section>
           <h2 className="text-xl font-semibold">パスワード一覧</h2>
           {errors.passwords ? (
@@ -124,10 +135,6 @@ const MainPage = () => {
             <p className="text-gray-500">登録されたパスワードがありません。</p>
           )}
         </section>
-      </div>
-      <div>
-        <h2 className="text-xl font-semibold mb-2">予定カレンダー</h2>
-        <ScheduleCalendar />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const WikiCards: React.FC<Props> = ({ wikis, onDelete }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {wikis.map((wiki) => (
         <div key={wiki.id} className="border rounded p-4 bg-white shadow space-y-2">
           <h3 className="font-bold mb-2 truncate">{wiki.title}</h3>
