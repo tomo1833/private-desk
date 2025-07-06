@@ -20,6 +20,7 @@ export async function POST() {
     }
     return NextResponse.json({ inserted });
   } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: 'sync failed' }, { status: 500 });
   }
 }

@@ -13,6 +13,7 @@ export async function GET(request: Request) {
     const entries = items.map((d) => ({ name: d.name, isDirectory: d.isDirectory() }));
     return NextResponse.json(entries);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to list files' }, { status: 500 });
   }
 }
@@ -28,6 +29,7 @@ export async function POST(request: Request) {
     await fs.mkdir(path.join(docsRoot, relPath, name), { recursive: true });
     return NextResponse.json({ message: 'folder created' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to create folder' }, { status: 500 });
   }
 }

@@ -17,9 +17,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'LLM request failed' }, { status: 500 });
     }
     const data = await res.json();
-    console.log('✅ Ollamaからの応答:', data); 
+    console.log('✅ Ollamaからの応答:', data);
     return NextResponse.json(data);
   } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: 'LLM fetch error' }, { status: 500 });
   }
 }

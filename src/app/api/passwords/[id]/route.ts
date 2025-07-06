@@ -66,13 +66,10 @@ export async function PUT(
       );
     }
 
-    const result = runExecute(
+    runExecute(
       'UPDATE password_manager SET category = ?, site_name = ?, site_url = ?, login_id = ?, password = ?, email = ?, memo = ? WHERE id = ?',
       [category, siteName, siteUrl, loginId, pass, email, memo, Number(id)]
     );
-
-
-
     return NextResponse.json({
       message: 'password_manager entry updated successfully.',
     });

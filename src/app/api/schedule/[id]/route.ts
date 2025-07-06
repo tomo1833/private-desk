@@ -14,6 +14,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     }
     return NextResponse.json(row);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to fetch schedule.' }, { status: 500 });
   }
 }
@@ -29,6 +30,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     runExecute('UPDATE schedules SET title = ?, start = ?, end = ?, memo = ? WHERE id = ?', [title, start, end, memo ?? null, Number(id)]);
     return NextResponse.json({ message: 'schedule updated successfully.' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to update schedule.' }, { status: 500 });
   }
 }
@@ -39,6 +41,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     runExecute('DELETE FROM schedules WHERE id = ?', [Number(id)]);
     return NextResponse.json({ message: 'schedule deleted successfully.' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to delete schedule.' }, { status: 500 });
   }
 }

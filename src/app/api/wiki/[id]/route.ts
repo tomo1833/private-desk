@@ -14,6 +14,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     }
     return NextResponse.json(result);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to fetch wiki entry.' }, { status: 500 });
   }
 }
@@ -29,6 +30,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     runExecute('UPDATE wiki SET title = ?, content = ? WHERE id = ?', [title, content, Number(id)]);
     return NextResponse.json({ message: 'wiki entry updated successfully.' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to update wiki entry.' }, { status: 500 });
   }
 }
@@ -39,6 +41,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     runExecute('DELETE FROM wiki WHERE id = ?', [Number(id)]);
     return NextResponse.json({ message: 'wiki entry deleted successfully.' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to delete wiki entry.' }, { status: 500 });
   }
 }

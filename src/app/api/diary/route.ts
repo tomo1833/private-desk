@@ -14,6 +14,7 @@ export async function GET(request: Request) {
       : runSelect<Diary>(sql);
     return NextResponse.json(results);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'DB取得失敗' }, { status: 500 });
   }
 }
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
     runExecute('INSERT INTO diary (title, content) VALUES (?, ?)', [title, content]);
     return NextResponse.json({ message: '登録成功' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: '登録失敗' }, { status: 500 });
   }
 }

@@ -14,6 +14,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     }
     return NextResponse.json(result);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to fetch blog entry.' }, { status: 500 });
   }
 }
@@ -63,6 +64,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     );
     return NextResponse.json({ message: 'blog entry updated successfully.' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to update blog entry.' }, { status: 500 });
   }
 }
@@ -73,6 +75,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     runExecute('DELETE FROM blog WHERE id = ?', [Number(id)]);
     return NextResponse.json({ message: 'blog entry deleted successfully.' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to delete blog entry.' }, { status: 500 });
   }
 }

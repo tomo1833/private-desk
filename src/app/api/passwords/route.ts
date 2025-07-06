@@ -8,6 +8,7 @@ export async function GET() {
     const results = runSelect<Password>('SELECT * FROM password_manager ORDER BY category, site_name');
     return NextResponse.json(results);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'DB取得失敗' }, { status: 500 });
   }
 }
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: '登録成功' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: '登録失敗' }, { status: 500 });
   }
 }

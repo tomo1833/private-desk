@@ -31,6 +31,7 @@ export async function GET(req: Request) {
     );
     return NextResponse.json({ passwords, diaries, wikis, blogs });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: '検索失敗' }, { status: 500 });
   }
 }
