@@ -100,83 +100,65 @@ const MainPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 左側：Wiki / 日報 / ブログ */}
-      <div className="lg:col-span-2 space-y-6">
-        <section>
-          <h2 className="text-xl font-semibold">最新Wiki</h2>
-          {errors.wikis ? (
-            <p className="text-red-500">{errors.wikis}</p>
-          ) : wikis.length > 0 ? (
-            <WikiCards
-              wikis={wikis}
-              onDelete={(id) => setWikis(wikis.filter((w) => w.id !== id))}
-            />
-          ) : (
-            <p className="text-gray-500">登録されたWikiがありません。</p>
-          )}
-          <div className="mt-2">
-            <Link href="/wikis" className="text-blue-600 hover:underline">
-              一覧を見る
-            </Link>
-          </div>
-        </section>
-        <section>
-          <h2 className="text-xl font-semibold">最新日報</h2>
-          {errors.diaries ? (
-            <p className="text-red-500">{errors.diaries}</p>
-          ) : diaries.length > 0 ? (
-            <DiaryCards
-              diaries={diaries}
-              onDelete={(id) => setDiaries(diaries.filter((d) => d.id !== id))}
-            />
-          ) : (
-            <p className="text-gray-500">登録された日報がありません。</p>
-          )}
-          <div className="mt-2">
-            <Link href="/diaries" className="text-blue-600 hover:underline">
-              一覧を見る
-            </Link>
-          </div>
-        </section>
-        <section>
-          <h2 className="text-xl font-semibold">最新ブログ</h2>
-          {errors.blogs ? (
-            <p className="text-red-500">{errors.blogs}</p>
-          ) : blogs.length > 0 ? (
-            <BlogCards
-              blogs={blogs}
-              onDelete={(id) => setBlogs(blogs.filter((b) => b.id !== id))}
-            />
-          ) : (
-            <p className="text-gray-500">登録されたブログがありません。</p>
-          )}
-          <div className="mt-2">
-            <Link href="/blogs" className="text-blue-600 hover:underline">
-              一覧を見る
-            </Link>
-          </div>
-        </section>
-      </div>
+        <div className="lg:col-span-2 space-y-6">
+          <section>
+            <h2 className="text-xl font-semibold">最新日報</h2>
+            {errors.diaries ? (
+              <p className="text-red-500">{errors.diaries}</p>
+            ) : diaries.length > 0 ? (
+              <DiaryCards
+                diaries={diaries}
+                onDelete={(id) => setDiaries(diaries.filter((d) => d.id !== id))}
+              />
+            ) : (
+              <p className="text-gray-500">登録された日報がありません。</p>
+            )}
+            <div className="mt-2">
+              <Link href="/diaries" className="text-blue-600 hover:underline">
+                一覧を見る
+              </Link>
+            </div>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold">最新ブログ</h2>
+            {errors.blogs ? (
+              <p className="text-red-500">{errors.blogs}</p>
+            ) : blogs.length > 0 ? (
+              <BlogCards
+                blogs={blogs}
+                onDelete={(id) => setBlogs(blogs.filter((b) => b.id !== id))}
+              />
+            ) : (
+              <p className="text-gray-500">登録されたブログがありません。</p>
+            )}
+            <div className="mt-2">
+              <Link href="/blogs" className="text-blue-600 hover:underline">
+                一覧を見る
+              </Link>
+            </div>
+          </section>
+        </div>
 
-      {/* 右側：カレンダー */}
-      <div>
-        <h2 className="text-xl font-semibold mb-2">予定カレンダー</h2>
-        <ScheduleCalendar />
-      </div>
+        {/* 右側：カレンダー */}
+        <div>
+          <h2 className="text-xl font-semibold mb-2">予定カレンダー</h2>
+          <ScheduleCalendar />
+        </div>
 
-      {/* 下段：全幅パスワード一覧 */}
-      <div className="lg:col-span-3">
-        <section>
-          <h2 className="text-xl font-semibold">パスワード一覧</h2>
-          {errors.passwords ? (
-            <p className="text-red-500">{errors.passwords}</p>
-          ) : passwords.length > 0 ? (
-            <PasswordList passwords={passwords.slice(0, 2)} />
-          ) : (
-            <p className="text-gray-500">登録されたパスワードがありません。</p>
-          )}
-        </section>
+        {/* 下段：全幅パスワード一覧 */}
+        <div className="lg:col-span-3">
+          <section>
+            <h2 className="text-xl font-semibold">パスワード一覧</h2>
+            {errors.passwords ? (
+              <p className="text-red-500">{errors.passwords}</p>
+            ) : passwords.length > 0 ? (
+              <PasswordList passwords={passwords} />
+            ) : (
+              <p className="text-gray-500">登録されたパスワードがありません。</p>
+            )}
+          </section>
+        </div>
       </div>
-    </div>
     </div>
   );
 };
