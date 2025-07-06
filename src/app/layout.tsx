@@ -13,7 +13,7 @@ const RootLayout = ({
       <body className="font-sans flex flex-col min-h-screen">
         <header className="bg-blue-500 text-white py-4 px-6 fixed top-0 w-full z-10 flex justify-between items-center">
           <h1 className="text-lg font-bold">
-            <Link href="/" className="block focus:outline-none focus:ring">
+            <Link href="/" className="block">
               プライベートデスク
               <span className="sr-only"> - このアプリの共通レイアウト</span>
             </Link>
