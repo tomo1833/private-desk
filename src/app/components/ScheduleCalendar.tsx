@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import FullCalendar, { EventInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
-import { Dialog } from '@headlessui/react';
 import { format } from 'date-fns';
 
 interface FormState {
@@ -62,10 +61,17 @@ const ScheduleCalendar = () => {
         dateClick={handleDateClick}
         height="auto"
       />
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-        <Dialog.Panel className="bg-white rounded p-4 w-full max-w-md">
-          <Dialog.Title className="text-lg font-bold mb-4">予定登録</Dialog.Title>
-          <form onSubmit={handleSubmit} className="space-y-3">
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            className="bg-white rounded p-4 w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-lg font-bold mb-4">予定登録</h2>
+            <form onSubmit={handleSubmit} className="space-y-3">
             <div>
               <label className="block text-sm mb-1">タイトル</label>
               <input
@@ -109,8 +115,9 @@ const ScheduleCalendar = () => {
               <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">登録</button>
             </div>
           </form>
-        </Dialog.Panel>
-      </Dialog>
+        </div>
+      </div>
+      )}
     </div>
   );
 };
