@@ -36,5 +36,14 @@ db.exec(`
     persona TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+  CREATE TABLE IF NOT EXISTS schedules (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    start TEXT NOT NULL,
+    end TEXT NOT NULL,
+    memo TEXT,
+    google_event_id TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
 `);
-console.log('パスワード管理テーブルとwikiテーブル、diaryテーブル、blogテーブルを作成しました');
+console.log('パスワード管理テーブルとwikiテーブル、diaryテーブル、blogテーブル、schedulesテーブルを作成しました');
