@@ -53,7 +53,7 @@ const ScheduleCalendar = () => {
   };
 
   return (
-    <div>
+    <div style={{ transform: 'scale(0.33)', transformOrigin: 'top left' }}>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
