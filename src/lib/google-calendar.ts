@@ -13,14 +13,21 @@ function getAuth() {
 export async function createEvent({ title, start, end, description }: { title: string; start: string; end: string; description?: string; }) {
   const auth = getAuth();
   const calendarId = process.env.GOOGLE_CALENDAR_ID as string;
+
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    throw new Error('Invalid start or end date');
+  }
+
   const res = await calendar.events.insert({
     auth,
     calendarId,
     requestBody: {
       summary: title,
       description,
-      start: { dateTime: start },
-      end: { dateTime: end },
+      start: { dateTime: startDate.toISOString() },
+      end: { dateTime: endDate.toISOString() },
     },
   });
   return res.data.id;
