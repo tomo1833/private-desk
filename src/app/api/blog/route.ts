@@ -21,13 +21,43 @@ export async function GET(request: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { title, content, content_markdown, content_html, site, author, persona } = body;
-    if (!title || !content || !content_markdown || !content_html || !site || !author || !persona) {
+    const {
+      title,
+      content,
+      content_markdown,
+      content_html,
+      eyecatch,
+      permalink,
+      site,
+      author,
+      persona,
+    } = body;
+    if (
+      !title ||
+      !content ||
+      !content_markdown ||
+      !content_html ||
+      !eyecatch ||
+      !permalink ||
+      !site ||
+      !author ||
+      !persona
+    ) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
     runExecute(
-      'INSERT INTO blog (title, content, content_markdown, content_html, site, author, persona) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [title, content, content_markdown, content_html, site, author, persona]
+      'INSERT INTO blog (title, content, content_markdown, content_html, eyecatch, permalink, site, author, persona) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [
+        title,
+        content,
+        content_markdown,
+        content_html,
+        eyecatch,
+        permalink,
+        site,
+        author,
+        persona,
+      ]
     );
     return NextResponse.json({ message: '登録成功' });
   } catch (error) {

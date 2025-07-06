@@ -9,6 +9,8 @@ const NewBlogPage = () => {
     content: '',
     content_markdown: '',
     content_html: '',
+    eyecatch: '',
+    permalink: '',
     site: '',
     author: '',
     persona: '',
@@ -113,6 +115,26 @@ const NewBlogPage = () => {
             onChange={handleChange}
             className="w-full border p-2 rounded"
             rows={4}
+            required
+          />
+        </div>
+        <div>
+          <label className="block">アイキャッチ画像URL</label>
+          <input
+            name="eyecatch"
+            value={form.eyecatch}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label className="block">パーマリンク</label>
+          <input
+            name="permalink"
+            value={form.permalink}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
             required
           />
         </div>

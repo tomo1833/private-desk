@@ -22,13 +22,44 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const { id } = await params;
   try {
     const body = await request.json();
-    const { title, content, content_markdown, content_html, site, author, persona } = body;
-    if (!title || !content || !content_markdown || !content_html || !site || !author || !persona) {
+    const {
+      title,
+      content,
+      content_markdown,
+      content_html,
+      eyecatch,
+      permalink,
+      site,
+      author,
+      persona,
+    } = body;
+    if (
+      !title ||
+      !content ||
+      !content_markdown ||
+      !content_html ||
+      !eyecatch ||
+      !permalink ||
+      !site ||
+      !author ||
+      !persona
+    ) {
       return NextResponse.json({ error: 'required fields missing.' }, { status: 400 });
     }
     runExecute(
-      'UPDATE blog SET title = ?, content = ?, content_markdown = ?, content_html = ?, site = ?, author = ?, persona = ? WHERE id = ?',
-      [title, content, content_markdown, content_html, site, author, persona, Number(id)]
+      'UPDATE blog SET title = ?, content = ?, content_markdown = ?, content_html = ?, eyecatch = ?, permalink = ?, site = ?, author = ?, persona = ? WHERE id = ?',
+      [
+        title,
+        content,
+        content_markdown,
+        content_html,
+        eyecatch,
+        permalink,
+        site,
+        author,
+        persona,
+        Number(id),
+      ]
     );
     return NextResponse.json({ message: 'blog entry updated successfully.' });
   } catch (error) {

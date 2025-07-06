@@ -31,10 +31,22 @@ db.exec(`
     content TEXT NOT NULL,
     content_markdown TEXT NOT NULL,
     content_html TEXT NOT NULL,
+    eyecatch TEXT NOT NULL,
+    permalink TEXT NOT NULL,
     site TEXT NOT NULL,
     author TEXT NOT NULL,
     persona TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+  CREATE TABLE IF NOT EXISTS author (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    bio TEXT
+  );
+  CREATE TABLE IF NOT EXISTS persona (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT
   );
   CREATE TABLE IF NOT EXISTS schedules (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,4 +58,4 @@ db.exec(`
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 `);
-console.log('パスワード管理テーブルとwikiテーブル、diaryテーブル、blogテーブル、schedulesテーブルを作成しました');
+console.log('パスワード管理テーブルとwikiテーブル、diaryテーブル、blogテーブル、authorテーブル、personaテーブル、schedulesテーブルを作成しました');
