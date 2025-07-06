@@ -30,8 +30,12 @@ const WikiListPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Wiki一覧</h1>
-      <Link href="/wikis/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
-      <ul className="space-y-2">
+      <div className="flex justify-end my-4">
+        <Link href="/wikis/new" className="bg-blue-500 text-white px-4 py-2 rounded">
+          新規作成
+        </Link>
+      </div>
+      <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {wikis.map((wiki) => (
           <li key={wiki.id} className="border p-4 rounded space-y-2">
             <Link
