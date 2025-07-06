@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import FullCalendar, { EventInput } from '@fullcalendar/react';
+import FullCalendar from '@fullcalendar/react';
+import { EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg, EventClickArg } from '@fullcalendar/interaction';
 import { format } from 'date-fns';
