@@ -24,6 +24,20 @@ const NewBlogPage = () => {
     setForm({ ...form, [name]: value });
   };
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await fetch('/api/upload', { method: 'POST', body: formData });
+    if (res.ok) {
+      const data = await res.json();
+      setForm({ ...form, eyecatch: data.url });
+    } else {
+      alert('画像アップロード失敗');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const res = await fetch('/api/blog', {
@@ -119,14 +133,16 @@ const NewBlogPage = () => {
           />
         </div>
         <div>
-          <label className="block">アイキャッチ画像URL</label>
+          <label className="block">アイキャッチ画像</label>
           <input
-            name="eyecatch"
-            value={form.eyecatch}
-            onChange={handleChange}
+            type="file"
+            onChange={handleFileChange}
             className="w-full border p-2 rounded"
-            required
+            required={!form.eyecatch}
           />
+          {form.eyecatch && (
+            <p className="text-sm mt-1 text-gray-700">{form.eyecatch}</p>
+          )}
         </div>
         <div>
           <label className="block">パーマリンク</label>
