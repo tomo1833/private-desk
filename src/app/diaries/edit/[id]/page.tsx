@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import type { Diary } from '@/types/diary';
 
 const DiaryEditPage = ({ params }: { params: { id: string } }) => {
-  const { id } = React.use(params);
+  const { id } = params;
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

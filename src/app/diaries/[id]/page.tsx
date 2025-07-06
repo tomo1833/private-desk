@@ -7,7 +7,7 @@ import rehypeHighlight from 'rehype-highlight';
 import type { Diary } from '@/types/diary';
 
 const DiaryDetailPage = ({ params }: { params: { id: string } }) => {
-  const { id } = React.use(params);
+  const { id } = params;
   const router = useRouter();
   const [diary, setDiary] = useState<Diary | null>(null);
   const [error, setError] = useState<string | null>(null);
