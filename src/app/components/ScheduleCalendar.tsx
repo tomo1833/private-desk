@@ -45,10 +45,12 @@ const ScheduleCalendar = () => {
 
   const handleEventClick = (arg: EventClickArg) => {
     const e = arg.event;
+    const startDate = e.start instanceof Date && !isNaN(e.start.getTime()) ? e.start : undefined;
+    const endDate = e.end instanceof Date && !isNaN(e.end.getTime()) ? e.end : undefined;
     setForm({
       title: e.title,
-      start: format(e.start!, "yyyy-MM-dd'T'HH:mm"),
-      end: format(e.end!, "yyyy-MM-dd'T'HH:mm"),
+      start: startDate ? format(startDate, "yyyy-MM-dd'T'HH:mm") : '',
+      end: endDate ? format(endDate, "yyyy-MM-dd'T'HH:mm") : '',
       memo: (e.extendedProps.memo as string) || '',
     });
     setEditId(Number(e.id));
