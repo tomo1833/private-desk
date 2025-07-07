@@ -1,8 +1,12 @@
 import Database from 'better-sqlite3';
+import fs from 'fs';
 import path from 'path';
 
 // データベースファイルのパスを解決
 const dbPath = path.resolve(process.cwd(), 'data/database.sqlite');
+
+// ディレクトリがなければ作成
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
 // データベース接続（同期的）
 const db = new Database(dbPath);

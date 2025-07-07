@@ -5,7 +5,7 @@
   },
   "workspaceFolder": "/app",
   "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
-  "postCreateCommand": "npm install",
+  "postCreateCommand": "npm install && npx tsx scripts/init-db.ts",
   "customizations": {
     "vscode": {
       "settings": {},
