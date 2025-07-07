@@ -10,8 +10,10 @@ const ExpenseEditPage = () => {
     category: string;
     amount: string;
     shop: string;
+    product_name: string | null;
+    remark: string | null;
     used_at: string;
-  }>({ category: '', amount: '', shop: '', used_at: '' });
+  }>({ category: '', amount: '', shop: '', product_name: '', remark: '', used_at: '' });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,6 +25,8 @@ const ExpenseEditPage = () => {
           category: data.category,
           amount: String(data.amount),
           shop: data.shop,
+          product_name: data.product_name ?? '',
+          remark: data.remark ?? '',
           used_at: data.used_at,
         });
       }
@@ -40,6 +44,8 @@ const ExpenseEditPage = () => {
         category: form.category,
         amount: Number(form.amount),
         shop: form.shop,
+        product_name: form.product_name,
+        remark: form.remark,
         used_at: form.used_at,
       }),
     });
@@ -77,6 +83,23 @@ const ExpenseEditPage = () => {
         <div>
           <label className="block">お店</label>
           <input value={form.shop} onChange={(e) => setForm({ ...form, shop: e.target.value })} className="w-full border p-2 rounded" required />
+        </div>
+        <div>
+          <label className="block">商品名</label>
+          <input
+            value={form.product_name ?? ''}
+            onChange={(e) => setForm({ ...form, product_name: e.target.value })}
+            className="w-full border p-2 rounded"
+          />
+        </div>
+        <div>
+          <label className="block">備考</label>
+          <textarea
+            value={form.remark ?? ''}
+            onChange={(e) => setForm({ ...form, remark: e.target.value })}
+            className="w-full border p-2 rounded"
+            rows={3}
+          />
         </div>
         <div>
           <label className="block">使った日</label>

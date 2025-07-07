@@ -62,6 +62,8 @@ db.exec(`
     category TEXT NOT NULL,
     amount INTEGER NOT NULL,
     shop TEXT NOT NULL,
+    product_name TEXT,
+    remark TEXT,
     used_at TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );

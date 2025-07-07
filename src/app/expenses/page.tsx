@@ -46,6 +46,8 @@ const ExpenseListPage = () => {
             <th className="px-2 py-1 border">勘定科目</th>
             <th className="px-2 py-1 border">金額</th>
             <th className="px-2 py-1 border">お店</th>
+            <th className="px-2 py-1 border">商品名</th>
+            <th className="px-2 py-1 border">備考</th>
             <th className="px-2 py-1 border">操作</th>
           </tr>
         </thead>
@@ -56,6 +58,8 @@ const ExpenseListPage = () => {
               <td className="px-2 py-1 border">{e.category}</td>
               <td className="px-2 py-1 border text-right">¥{e.amount}</td>
               <td className="px-2 py-1 border">{e.shop}</td>
+              <td className="px-2 py-1 border">{e.product_name}</td>
+              <td className="px-2 py-1 border whitespace-pre-wrap">{e.remark}</td>
               <td className="px-2 py-1 border text-center space-x-2">
                 <button onClick={() => location.href=`/expenses/edit/${e.id}`} className="bg-green-500 text-white px-2 py-1 rounded">編集</button>
                 <button onClick={() => handleDelete(e.id)} className="bg-red-500 text-white px-2 py-1 rounded">削除</button>

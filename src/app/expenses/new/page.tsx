@@ -7,6 +7,8 @@ const NewExpensePage = () => {
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
   const [shop, setShop] = useState('');
+  const [productName, setProductName] = useState('');
+  const [remark, setRemark] = useState('');
   const [usedAt, setUsedAt] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -14,7 +16,14 @@ const NewExpensePage = () => {
     const res = await fetch('/api/expense', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ category, amount: Number(amount), shop, used_at: usedAt }),
+      body: JSON.stringify({
+        category,
+        amount: Number(amount),
+        shop,
+        used_at: usedAt,
+        product_name: productName || null,
+        remark: remark || null,
+      }),
     });
     if (res.ok) {
       router.push('/expenses');
@@ -38,6 +47,23 @@ const NewExpensePage = () => {
         <div>
           <label className="block">お店</label>
           <input value={shop} onChange={(e) => setShop(e.target.value)} className="w-full border p-2 rounded" required />
+        </div>
+        <div>
+          <label className="block">商品名</label>
+          <input
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
+            className="w-full border p-2 rounded"
+          />
+        </div>
+        <div>
+          <label className="block">備考</label>
+          <textarea
+            value={remark}
+            onChange={(e) => setRemark(e.target.value)}
+            className="w-full border p-2 rounded"
+            rows={3}
+          />
         </div>
         <div>
           <label className="block">使った日</label>
