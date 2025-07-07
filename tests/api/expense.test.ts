@@ -31,7 +31,7 @@ describe('GET /api/expense', () => {
 });
 
 describe('POST /api/expense', () => {
-  const entry = { category: 'jest', amount: 123, shop: 'store', used_at: '2099-01-01' };
+  const entry = { category: 'jest', amount: 123, shop: 'store', used_at: '2099-01-01', product_name: 'item', remark: 'memo' };
   afterAll(() => {
     runExecute('DELETE FROM expenses WHERE category = ?', [entry.category]);
   });
@@ -55,7 +55,7 @@ describe('POST /api/expense', () => {
 });
 
 describe('Expense update and delete', () => {
-  const entry = { category: 'jest2', amount: 100, shop: 'shop', used_at: '2099-01-02' };
+  const entry = { category: 'jest2', amount: 100, shop: 'shop', used_at: '2099-01-02', product_name: 'item2', remark: 'memo2' };
   let id: number;
   afterAll(() => {
     runExecute('DELETE FROM expenses WHERE id = ?', [id]);
@@ -68,9 +68,14 @@ describe('Expense update and delete', () => {
     const row = runSelect('SELECT * FROM expenses WHERE category = ?', [entry.category])[0];
     id = row.id;
 
-    const updateReq = createPutRequest(id, { ...entry, category: 'up' });
+    const updateReq = createPutRequest(id, { ...entry, category: 'up', product_name: 'updated', remark: 'updated memo' });
     const updateRes = await PUT(updateReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(updateRes.status).toBe(200);
+
+    const updatedRow = runSelect('SELECT * FROM expenses WHERE id = ?', [id])[0];
+    expect(updatedRow.category).toBe('up');
+    expect(updatedRow.product_name).toBe('updated');
+    expect(updatedRow.remark).toBe('updated memo');
 
     const deleteReq = new Request(`http://localhost/api/expense/${id}`, { method: 'DELETE' });
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);

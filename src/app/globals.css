@@ -49,9 +49,11 @@ body {
   background: #fff9c4;
   border: 1px solid #fce089;
   border-radius: 4px;
-  padding: 0.5rem;
+  padding: 0.25rem;
   position: relative;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 0.875rem;
+  width: 100%;
 }
 
 .sticky-note::before {

@@ -8,7 +8,7 @@ const WikiCards: React.FC<Props> = ({ wikis }) => {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+    <div className="grid grid-cols-5 gap-2">
       {wikis.map((wiki) => (
         <div
           key={wiki.id}
