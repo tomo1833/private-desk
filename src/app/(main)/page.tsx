@@ -125,10 +125,7 @@ const MainPage = () => {
             {errors.wikis ? (
               <p className="text-red-500">{errors.wikis}</p>
             ) : wikis.length > 0 ? (
-              <WikiCards
-                wikis={wikis}
-                onDelete={(id) => setWikis(wikis.filter((w) => w.id !== id))}
-              />
+              <WikiCards wikis={wikis} />
             ) : (
               <p className="text-gray-500">登録されたWikiがありません。</p>
             )}

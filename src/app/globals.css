@@ -43,3 +43,37 @@ body {
 .markdown-body pre {
   @apply bg-gray-800 text-white p-4 rounded-md overflow-x-auto;
 }
+
+/* Sticky note style for wiki cards */
+.sticky-note {
+  background: #fff9c4;
+  border: 1px solid #fce089;
+  border-radius: 4px;
+  padding: 1rem;
+  position: relative;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sticky-note::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: #f87171;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sticky-note-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.sticky-note-date {
+  font-size: 0.875rem;
+  color: #555555;
+}
