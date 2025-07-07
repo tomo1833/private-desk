@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
 import type { Blog } from '@/types/blog';
 
 const BlogDetailPage = () => {
@@ -38,9 +41,16 @@ const BlogDetailPage = () => {
         className="w-full h-48 object-cover"
       />
       <p className="text-sm text-blue-600 underline">{blog.permalink}</p>
-      <div className="whitespace-pre-wrap border p-4 rounded bg-white">
-        {blog.content}
+
+      <div className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlight]}
+        >
+          {blog.content_markdown}
+        </ReactMarkdown>
       </div>
+
       <div className="flex justify-end">
         <button
           onClick={() => router.push(`/blogs/edit/${blog.id}`)}
