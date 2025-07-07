@@ -1,9 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
 import type { Wiki } from '@/types/wiki';
 
 const WikiListPage = () => {
@@ -37,21 +34,13 @@ const WikiListPage = () => {
       </div>
       <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {wikis.map((wiki) => (
-          <li key={wiki.id} className="border p-4 rounded space-y-2">
-            <Link
-              href={`/wikis/${wiki.id}`}
-              className="font-semibold hover:underline block"
-            >
+          <li key={wiki.id} className="sticky-note">
+            <Link href={`/wikis/${wiki.id}`} className="sticky-note-title block">
               {wiki.title}
             </Link>
-            <div className="markdown-body line-clamp-3 text-sm">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight]}
-              >
-                {wiki.content}
-              </ReactMarkdown>
-            </div>
+            <span className="sticky-note-date">
+              {new Date(wiki.created_at).toLocaleDateString('ja-JP')}
+            </span>
           </li>
         ))}
       </ul>
