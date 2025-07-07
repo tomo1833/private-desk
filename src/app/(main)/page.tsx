@@ -47,7 +47,7 @@ const MainPage = () => {
     const loadData = async () => {
       await Promise.all([
         fetchData<Password[]>('/api/passwords', setPasswords, 'passwords'),
-        fetchData<Wiki[]>('/api/wiki?limit=2', setWikis, 'wikis'),
+        fetchData<Wiki[]>('/api/wiki?limit=5', setWikis, 'wikis'),
         fetchData<Diary[]>('/api/diary?limit=2', setDiaries, 'diaries'),
         fetchData<Blog[]>('/api/blog?limit=2', setBlogs, 'blogs'),
       ]);
