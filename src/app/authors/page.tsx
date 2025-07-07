@@ -37,17 +37,19 @@ const AuthorListPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">著者一覧</h1>
-      <Link href="/authors/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
+      <div className="flex justify-end my-4">
+        <Link href="/authors/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
+      </div>
       <ul className="space-y-2">
         {authors.map((a) => (
           <li key={a.id} className="border p-2 rounded space-y-1">
             <p className="font-semibold">{a.name}</p>
             {a.bio && <p className="text-sm">{a.bio}</p>}
-            <div className="space-x-2">
-              <Link href={`/authors/edit/${a.id}`} className="bg-green-500 text-white px-2 py-1 rounded">
+            <div className="flex justify-end space-x-2">
+              <Link href={`/authors/edit/${a.id}`} className="bg-green-500 text-white px-4 py-2 rounded">
                 編集
               </Link>
-              <button onClick={() => handleDelete(a.id)} className="bg-red-500 text-white px-2 py-1 rounded">
+              <button onClick={() => handleDelete(a.id)} className="bg-red-500 text-white px-4 py-2 rounded">
                 削除
               </button>
             </div>
