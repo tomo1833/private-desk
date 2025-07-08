@@ -51,7 +51,7 @@ body {
 }
 
 .markdown-body h4 {
-  @apply text-xg font-semibold mt-4 mb-2 pl-3 border-l-4 border-blue-300;
+  @apply text-lg font-semibold mt-4 mb-2 pl-3 border-l-4 border-blue-300;
   font-family: serif;
 }
 
