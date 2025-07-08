@@ -9,27 +9,6 @@ export interface MarkdownRendererProps
   className?: string;
 }
 
-const allowedElements = [
-  'p',
-  'strong',
-  'em',
-  'blockquote',
-  'code',
-  'pre',
-  'a',
-  'ul',
-  'ol',
-  'li',
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'hr',
-  'br',
-];
-
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   children,
   className
@@ -38,12 +17,10 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeHighlight]}
-      allowedElements={allowedElements}
     >
       {children}
     </ReactMarkdown>
   </div>
 );
-
 
 export default MarkdownRenderer;
