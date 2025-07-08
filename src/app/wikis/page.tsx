@@ -32,7 +32,7 @@ const WikiListPage = () => {
           新規作成
         </Link>
       </div>
-      <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <ul className="wiki-grid">
         {wikis.map((wiki) => (
           <li key={wiki.id} className="sticky-note">
             <Link href={`/wikis/${wiki.id}`} className="sticky-note-title block">
