@@ -35,15 +35,16 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   className,
   ...props
 }) => (
-  <ReactMarkdown
-    className={className}
-    remarkPlugins={[remarkGfm]}
-    rehypePlugins={[rehypeHighlight]}
-    allowedElements={allowedElements}
-    {...props}
-  >
-    {children}
-  </ReactMarkdown>
+  <div className={className}>
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeHighlight]}
+      allowedElements={allowedElements}
+    >
+      {children}
+    </ReactMarkdown>
+  </div>
 );
+
 
 export default MarkdownRenderer;
