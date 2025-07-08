@@ -1,9 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
+import MarkdownRenderer from '@/app/components/MarkdownRenderer';
 import type { Diary } from '@/types/diary';
 
 const DiaryListPage = () => {
@@ -41,11 +39,9 @@ const DiaryListPage = () => {
             <Link href={`/diaries/${diary.id}`} className="font-semibold hover:underline block">
               {diary.title}
             </Link>
-            <div className="markdown-body line-clamp-3 text-sm">
-              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
-                {diary.content}
-              </ReactMarkdown>
-            </div>
+            <MarkdownRenderer className="markdown-body line-clamp-3 text-sm">
+              {diary.content}
+            </MarkdownRenderer>
           </li>
         ))}
       </ul>

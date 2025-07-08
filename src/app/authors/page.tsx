@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { Author } from '@/types/author';
+import MarkdownRenderer from '@/app/components/MarkdownRenderer';
 
 const AuthorListPage = () => {
   const [authors, setAuthors] = useState<Author[] | null>(null);
@@ -44,7 +45,9 @@ const AuthorListPage = () => {
         {authors.map((a) => (
           <li key={a.id} className="border p-2 rounded space-y-1">
             <p className="font-semibold">{a.name}</p>
-            {a.bio && <p className="text-sm">{a.bio}</p>}
+            {a.bio && (
+              <MarkdownRenderer className="text-sm">{a.bio}</MarkdownRenderer>
+            )}
             <div className="flex justify-end space-x-2">
               <Link href={`/authors/edit/${a.id}`} className="bg-green-500 text-white px-4 py-2 rounded">
                 編集

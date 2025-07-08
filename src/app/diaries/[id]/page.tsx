@@ -1,9 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
+import MarkdownRenderer from '@/app/components/MarkdownRenderer';
 import type { Diary } from '@/types/diary';
 
 const DiaryDetailPage = () => {
@@ -32,11 +30,9 @@ const DiaryDetailPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">{diary.title}</h1>
-      <div className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
-        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
-          {diary.content}
-        </ReactMarkdown>
-      </div>
+      <MarkdownRenderer className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
+        {diary.content}
+      </MarkdownRenderer>
       <div className="flex justify-end">
         <button onClick={() => router.push(`/diaries/edit/${diary.id}`)} className="bg-blue-500 text-white px-4 py-2 rounded">
           編集
