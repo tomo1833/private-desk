@@ -14,7 +14,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   children,
   className
 }) => (
-  <div className={`prose max-w-none ${className}`}>
+  <div className={`markdown-body max-w-none ${className || ''}`.trim()}>
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeHighlight, rehypeRaw]}

@@ -39,7 +39,7 @@ const DiaryListPage = () => {
             <Link href={`/diaries/${diary.id}`} className="font-semibold hover:underline block">
               {diary.title}
             </Link>
-            <MarkdownRenderer className="markdown-body line-clamp-3 text-sm">
+            <MarkdownRenderer className="line-clamp-3 text-sm">
               {diary.content}
             </MarkdownRenderer>
           </li>
