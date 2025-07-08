@@ -1,12 +1,13 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown, { type Options } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 
-export type MarkdownRendererProps = {
+export interface MarkdownRendererProps
+  extends Omit<Options, 'children'> {
   children: string;
   className?: string;
-};
+}
 
 const allowedElements = [
   'p',
@@ -29,12 +30,17 @@ const allowedElements = [
   'br',
 ];
 
-const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ children, className }) => (
+const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
+  children,
+  className,
+  ...props
+}) => (
   <ReactMarkdown
     className={className}
     remarkPlugins={[remarkGfm]}
     rehypePlugins={[rehypeHighlight]}
     allowedElements={allowedElements}
+    {...props}
   >
     {children}
   </ReactMarkdown>
