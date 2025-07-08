@@ -27,7 +27,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "BIZ UDGothic", "メイリオ", "Helvetica", "Arial", sans-serif;
 }
 
 /* Styling for rendered Markdown */
@@ -42,23 +42,19 @@ body {
 
 .markdown-body h2 {
   @apply text-2xl font-semibold mt-6 mb-3 pl-3 border-l-4 border-blue-600 bg-blue-50;
-  font-family: serif;
 }
 
 .markdown-body h3 {
   @apply text-xl font-semibold mt-5 mb-2 pl-3 border-l-4 border-blue-400;
-  font-family: serif;
 }
 
 .markdown-body h4 {
   @apply text-lg font-semibold mt-4 mb-2 pl-3 border-l-4 border-blue-300;
-  font-family: serif;
 }
 
 .markdown-body h5,
 .markdown-body h6 {
   @apply text-base font-semibold mt-4 mb-2 pl-3 border-l-4 border-blue-200;
-  font-family: serif;
 }
 
 .markdown-body blockquote {
