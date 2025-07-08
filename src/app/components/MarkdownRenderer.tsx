@@ -2,6 +2,7 @@ import React from 'react';
 import ReactMarkdown, { type Options } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw';
 
 export interface MarkdownRendererProps
   extends Omit<Options, 'children'> {
@@ -16,7 +17,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   <div className={`prose max-w-none ${className}`}>
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeHighlight]}
+      rehypePlugins={[rehypeHighlight, rehypeRaw]}
     >
       {children}
     </ReactMarkdown>
