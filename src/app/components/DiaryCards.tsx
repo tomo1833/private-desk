@@ -18,11 +18,11 @@ const DiaryCards: React.FC<Props> = ({ diaries, onDelete }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {diaries.map((diary) => (
         <div
           key={diary.id}
-          className="border rounded p-4 bg-white dark:bg-gray-800 shadow space-y-2"
+          className="border border-gray-200 rounded p-4 bg-blue-50 dark:bg-gray-800 shadow-lg space-y-2"
         >
           <h3 className="font-bold mb-2 truncate">{diary.title}</h3>
           <p className="line-clamp-3 text-sm whitespace-pre-wrap">{diary.content}</p>

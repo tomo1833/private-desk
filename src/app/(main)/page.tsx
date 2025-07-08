@@ -48,7 +48,7 @@ const MainPage = () => {
       await Promise.all([
         fetchData<Password[]>('/api/passwords', setPasswords, 'passwords'),
         fetchData<Wiki[]>('/api/wiki?limit=5', setWikis, 'wikis'),
-        fetchData<Diary[]>('/api/diary?limit=2', setDiaries, 'diaries'),
+        fetchData<Diary[]>('/api/diary?limit=3', setDiaries, 'diaries'),
         fetchData<Blog[]>('/api/blog?limit=2', setBlogs, 'blogs'),
       ]);
       const now = new Date();
