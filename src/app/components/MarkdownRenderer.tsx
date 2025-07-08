@@ -32,8 +32,7 @@ const allowedElements = [
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   children,
-  className,
-  ...props
+  className
 }) => (
   <div className={className}>
     <ReactMarkdown
