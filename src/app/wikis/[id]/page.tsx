@@ -30,7 +30,7 @@ const WikiDetailPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">{wiki.title}</h1>
-      <MarkdownRenderer className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
+      <MarkdownRenderer className="whitespace-pre-wrap border p-4 rounded bg-white">
         {wiki.content}
       </MarkdownRenderer>
       <div className="flex justify-end">

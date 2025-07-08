@@ -30,7 +30,7 @@ const DiaryDetailPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">{diary.title}</h1>
-      <MarkdownRenderer className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
+      <MarkdownRenderer className="whitespace-pre-wrap border p-4 rounded bg-white">
         {diary.content}
       </MarkdownRenderer>
       <div className="flex justify-end">

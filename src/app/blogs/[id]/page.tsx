@@ -40,7 +40,7 @@ const BlogDetailPage = () => {
       />
       <p className="text-sm text-blue-600 underline">{blog.permalink}</p>
 
-      <MarkdownRenderer className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
+      <MarkdownRenderer className="whitespace-pre-wrap border p-4 rounded bg-white">
         {blog.content_markdown}
       </MarkdownRenderer>
 
