@@ -2,9 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
+import MarkdownRenderer from '@/app/components/MarkdownRenderer';
 import type { Blog } from '@/types/blog';
 
 const BlogDetailPage = () => {
@@ -42,14 +40,9 @@ const BlogDetailPage = () => {
       />
       <p className="text-sm text-blue-600 underline">{blog.permalink}</p>
 
-      <div className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeHighlight]}
-        >
-          {blog.content_markdown}
-        </ReactMarkdown>
-      </div>
+      <MarkdownRenderer className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
+        {blog.content_markdown}
+      </MarkdownRenderer>
 
       <div className="flex justify-end">
         <button

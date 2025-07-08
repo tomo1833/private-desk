@@ -1,9 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
+import MarkdownRenderer from '@/app/components/MarkdownRenderer';
 import type { Wiki } from '@/types/wiki';
 
 const WikiDetailPage = () => {
@@ -32,14 +30,9 @@ const WikiDetailPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">{wiki.title}</h1>
-      <div className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeHighlight]}
-        >
-          {wiki.content}
-        </ReactMarkdown>
-      </div>
+      <MarkdownRenderer className="markdown-body whitespace-pre-wrap border p-4 rounded bg-white">
+        {wiki.content}
+      </MarkdownRenderer>
       <div className="flex justify-end">
         <button
           onClick={() => router.push(`/wikis/edit/${wiki.id}`)}
