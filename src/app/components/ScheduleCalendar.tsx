@@ -97,7 +97,12 @@ const ScheduleCalendar = () => {
         height="auto"
       />
       <div className="flex justify-end py-2">
-        <button onClick={handleSync} className="text-sm bg-gray-300 px-2 py-1 rounded">同期</button>
+        <button
+          onClick={handleSync}
+          className="text-sm bg-gray-300 dark:bg-gray-600 dark:text-white px-2 py-1 rounded"
+        >
+          同期
+        </button>
       </div>
       {isOpen && (
         <div
@@ -105,7 +110,7 @@ const ScheduleCalendar = () => {
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="bg-white rounded p-4 w-full max-w-md"
+            className="bg-white dark:bg-gray-800 rounded p-4 w-full max-w-md"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-lg font-bold mb-4">{editId ? '予定編集' : '予定登録'}</h2>
