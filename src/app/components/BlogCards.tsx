@@ -21,7 +21,7 @@ const BlogCards: React.FC<Props> = ({ blogs, onDelete }) => {
       {blogs.map((blog) => (
         <div
           key={blog.id}
-          className="border rounded p-4 bg-white dark:bg-gray-800 shadow space-y-2"
+          className="border rounded p-4 bg-white dark:bg-gray-800 shadow space-y-2 text-black"
         >
           <h3 className="font-bold mb-2 truncate">{blog.title}</h3>
           <p className="line-clamp-3 text-sm whitespace-pre-wrap">{blog.content}</p>

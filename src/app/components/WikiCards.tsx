@@ -12,7 +12,7 @@ const WikiCards: React.FC<Props> = ({ wikis }) => {
       {wikis.map((wiki) => (
         <div
           key={wiki.id}
-          className="sticky-note cursor-pointer"
+          className="sticky-note cursor-pointer text-black"
           onClick={() => router.push(`/wikis/${wiki.id}`)}
         >
           <span className="sticky-note-title truncate">{wiki.title}</span>

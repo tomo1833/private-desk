@@ -47,7 +47,7 @@ const PasswordList: React.FC<PasswordListProps> = ({ passwords }) => {
     );
 
     const TableRow: React.FC<{ password: Password }> = ({ password }) => (
-        <tr key={password.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+        <tr key={password.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 text-black">
             <td className="py-4 px-2 border-b border-gray-300 dark:border-gray-600">{password.site_name}</td>
             <td className="py-4 px-2 border-b border-gray-300 dark:border-gray-600">{renderLink(password.site_url)}</td>
             <td className="py-4 px-2 border-b border-gray-300 dark:border-gray-600">{password.login_id ?? "N/A"}</td>
