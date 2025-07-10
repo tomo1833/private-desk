@@ -73,9 +73,9 @@ const MainPage = () => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-yellow-100 p-4 rounded">
-        <p>本日の支出: ¥{todayTotal}</p>
-        <p>今月の支出: ¥{monthTotal}</p>
+      <div className="bg-yellow-100 p-4 rounded text-black">
+        <p>本日の支出: ¥{todayTotal.toLocaleString()}</p>
+        <p>今月の支出: ¥{monthTotal.toLocaleString()}</p>
       </div>
       <div className="flex justify-end space-x-2">
         <Link href="/wikis/new" className="bg-blue-500 text-white px-3 py-2 rounded">
