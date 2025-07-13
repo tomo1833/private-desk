@@ -114,9 +114,9 @@ const MainPage = () => {
             ) : (
               <p className="text-gray-500">登録された日報がありません。</p>
             )}
-            <div className="mt-2">
-              <Link href="/diaries" className="text-blue-600 hover:underline">
-                一覧を見る
+            <div className="flex justify-end mt-2">
+              <Link href="/diaries" className="text-sm text-blue-600 hover:underlinee">
+                → 一覧を見る
               </Link>
             </div>
           </section>
@@ -129,12 +129,13 @@ const MainPage = () => {
             ) : (
               <p className="text-gray-500">登録されたWikiがありません。</p>
             )}
-            <div className="mt-2">
-              <Link href="/wikis" className="text-blue-600 hover:underline">
-                一覧を見る
+            <div className="flex justify-end mt-2">
+              <Link href="/wikis" className="text-sm text-blue-600 hover:underlinee">
+                → 一覧を見る
               </Link>
             </div>
           </section>
+          
           <section>
             <h2 className="text-xl font-semibold">最新ブログ</h2>
             {errors.blogs ? (
@@ -147,9 +148,9 @@ const MainPage = () => {
             ) : (
               <p className="text-gray-500">登録されたブログがありません。</p>
             )}
-            <div className="mt-2">
-              <Link href="/blogs" className="text-blue-600 hover:underline">
-                一覧を見る
+            <div className="flex justify-end mt-2">
+              <Link href="/blogs" className="text-sm text-blue-600 hover:underlinee">
+                → 一覧を見る
               </Link>
             </div>
           </section>

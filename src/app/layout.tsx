@@ -11,7 +11,7 @@ const RootLayout = ({
 }) => {
   return (
     <html lang="ja">
-      <body className="font-sans flex flex-col min-h-screen">
+      <body className="font-sans flex flex-col min-h-screen bg-gray-50">
         <header className="bg-blue-500 text-white py-4 px-6 fixed top-0 w-full z-10 flex justify-between items-center">
           <h1 className="text-lg font-bold">
             <Link href="/" className="block">
