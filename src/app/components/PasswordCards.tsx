@@ -11,7 +11,7 @@ const PasswordCards: React.FC<Props> = ({ passwords }) => {
       {passwords.map((p) => (
         <div
           key={p.id}
-          className="border rounded p-4 bg-white dark:bg-gray-800 shadow space-y-2"
+          className="border rounded p-4 bg-blue-50 dark:bg-gray-800 shadow space-y-2"
         >
           <h3 className="font-bold mb-2 truncate">{p.site_name}</h3>
           <p className="text-sm break-all mb-1">{p.site_url}</p>
