@@ -5,12 +5,19 @@ import ReactDOM from 'react-dom';
 import 'react-quill/dist/quill.snow.css';
 
 // Polyfill for ReactDOM.findDOMNode which was removed in React 19
-if (typeof window !== 'undefined' && !ReactDOM.findDOMNode) {
-  (ReactDOM as any).findDOMNode = (node: any) => {
-    if (node && node.nodeType === Node.ELEMENT_NODE) {
-      return node;
+type NodeLike = Element | { current?: Element | null } | null;
+
+if (typeof window !== 'undefined' && !('findDOMNode' in ReactDOM)) {
+  (ReactDOM as unknown as { findDOMNode(node: NodeLike): Element | null }).findDOMNode = (
+    node: NodeLike,
+  ): Element | null => {
+    if (node && 'nodeType' in node && (node as Node).nodeType === Node.ELEMENT_NODE) {
+      return node as Element;
     }
-    return node?.current || node;
+    if (node && 'current' in node) {
+      return node.current ?? null;
+    }
+    return node as Element | null;
   };
 }
 
