@@ -35,7 +35,7 @@ const DiaryListPage = () => {
       </div>
       <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {diaries.map((diary) => (
-          <li key={diary.id} className="border p-4 rounded space-y-2">
+          <li key={diary.id} className="border p-4 rounded space-y-2 bg-blue-50 dark:bg-gray-800 text-black">
             <Link href={`/diaries/${diary.id}`} className="font-semibold hover:underline block">
               {diary.title}
             </Link>

@@ -161,8 +161,8 @@ body {
 
 /* Sticky note style for wiki cards */
 .sticky-note {
-  background: #fef3c7;
-  border: 1px solid #fefce8;
+  background: #dbeafe;
+  border: 1px solid #bfdbfe;
   border-radius: 4px;
   padding: 1rem;
   position: relative;
@@ -180,7 +180,7 @@ body {
   transform: translateX(-50%);
   width: 16px;
   height: 16px;
-  background: #f87171;
+  background: #3b82f6;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
