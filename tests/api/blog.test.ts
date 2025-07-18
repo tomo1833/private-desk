@@ -32,7 +32,7 @@ describe('POST /api/blog', () => {
   const entry = {
     title: 'jest blog',
     content: 'c',
-    content_markdown: 'md',
+    content_markdown: '<p>c</p>',
     content_html: '<p>c</p>',
     eyecatch: 'img.png',
     permalink: 'jest-blog',
@@ -67,7 +67,7 @@ describe('Blog update and delete', () => {
   const entry = {
     title: 'jest blog2',
     content: 'c',
-    content_markdown: 'md',
+    content_markdown: '<p>c</p>',
     content_html: '<p>c</p>',
     eyecatch: 'img.png',
     permalink: 'jest-blog2',
