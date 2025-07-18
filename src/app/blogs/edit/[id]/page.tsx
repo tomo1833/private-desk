@@ -117,23 +117,25 @@ const BlogEditPage = () => {
             required
           />
         </div>
-        <div className="md:flex md:space-x-4">
-          <div className="md:w-1/2">
-            <label className="block">コンテンツ(Markdown)</label>
-            <BlogEditor
-              value={form.content_markdown}
-              onChange={(value) =>
-                setForm({ ...form, content_markdown: value })
-              }
-              className="bg-white"
-            />
-          </div>
-          <div className="md:w-1/2 mt-4 md:mt-0">
-            <label className="block">コンテンツ(HTML)</label>
+        <div>
+          <label className="block">コンテンツ(Markdown)</label>
+          <BlogEditor
+            value={form.content_markdown}
+            onChange={(value) => setForm({ ...form, content_markdown: value })}
+            className="bg-white"
+          />
+        </div>
+        <div>
+          <label className="block mb-2">コンテンツ(HTML)</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <BlogEditor
               value={form.content_html}
               onChange={(value) => setForm({ ...form, content_html: value })}
               className="bg-white"
+            />
+            <div
+              className="border p-2 rounded bg-white min-h-[300px]"
+              dangerouslySetInnerHTML={{ __html: form.content_html }}
             />
           </div>
         </div>
