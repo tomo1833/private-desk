@@ -112,28 +112,30 @@ const BlogEditPage = () => {
             name="content"
             value={form.content}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded font-mono whitespace-pre"
             rows={4}
             required
           />
         </div>
-        <div>
-          <label className="block">コンテンツ(Markdown)</label>
-          <BlogEditor
-            value={form.content_markdown}
-            onChange={(value) =>
-              setForm({ ...form, content_markdown: value })
-            }
-            className="bg-white"
-          />
-        </div>
-        <div>
-          <label className="block">コンテンツ(HTML)</label>
-          <BlogEditor
-            value={form.content_html}
-            onChange={(value) => setForm({ ...form, content_html: value })}
-            className="bg-white"
-          />
+        <div className="md:flex md:space-x-4">
+          <div className="md:w-1/2">
+            <label className="block">コンテンツ(Markdown)</label>
+            <BlogEditor
+              value={form.content_markdown}
+              onChange={(value) =>
+                setForm({ ...form, content_markdown: value })
+              }
+              className="bg-white"
+            />
+          </div>
+          <div className="md:w-1/2 mt-4 md:mt-0">
+            <label className="block">コンテンツ(HTML)</label>
+            <BlogEditor
+              value={form.content_html}
+              onChange={(value) => setForm({ ...form, content_html: value })}
+              className="bg-white"
+            />
+          </div>
         </div>
         <div>
           <label className="block">アイキャッチ画像</label>
