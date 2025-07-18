@@ -1,6 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
+import type { BuiltInParserName } from 'prettier';
 import ReactDOM from 'react-dom';
 import 'react-quill/dist/quill.snow.css';
 
@@ -32,12 +33,29 @@ type Props = {
 const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
   const [htmlMode, setHtmlMode] = useState(false);
 
+  const toggleMode = async () => {
+    if (!htmlMode) {
+      try {
+        const prettier = (await import('prettier/standalone')).default;
+        const parserHtml = (await import('prettier/plugins/html')).default;
+        const formatted = prettier.format(value, {
+          parser: 'html' as BuiltInParserName,
+          plugins: [parserHtml]
+        });
+        onChange(formatted);
+      } catch (err) {
+        console.error('format error', err);
+      }
+    }
+    setHtmlMode(!htmlMode);
+  };
+
   return (
     <div className={className}>
       <div className="flex justify-end mb-2">
         <button
           type="button"
-          onClick={() => setHtmlMode(!htmlMode)}
+          onClick={toggleMode}
           className="text-sm bg-gray-200 px-2 py-1 rounded"
         >
           {htmlMode ? 'リッチテキスト' : 'HTML'}モード
