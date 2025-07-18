@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import BlogEditor from '@/app/components/BlogEditor';
 
 const NewBlogPage = () => {
   const router = useRouter();
@@ -112,24 +113,20 @@ const NewBlogPage = () => {
         </div>
         <div>
           <label className="block">コンテンツ(Markdown)</label>
-          <textarea
-            name="content_markdown"
+          <BlogEditor
             value={form.content_markdown}
-            onChange={handleChange}
-            className="w-full border p-2 rounded"
-            rows={4}
-            required
+            onChange={(value) =>
+              setForm({ ...form, content_markdown: value })
+            }
+            className="bg-white"
           />
         </div>
         <div>
           <label className="block">コンテンツ(HTML)</label>
-          <textarea
-            name="content_html"
+          <BlogEditor
             value={form.content_html}
-            onChange={handleChange}
-            className="w-full border p-2 rounded"
-            rows={4}
-            required
+            onChange={(value) => setForm({ ...form, content_html: value })}
+            className="bg-white"
           />
         </div>
         <div>
