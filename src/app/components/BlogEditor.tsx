@@ -1,6 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'react-quill/dist/quill.snow.css';
 
@@ -30,7 +30,30 @@ type Props = {
 };
 
 const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
-  return <ReactQuill theme="snow" value={value} onChange={onChange} className={className} />;
+  const [htmlMode, setHtmlMode] = useState(false);
+
+  return (
+    <div className={className}>
+      <div className="flex justify-end mb-2">
+        <button
+          type="button"
+          onClick={() => setHtmlMode(!htmlMode)}
+          className="text-sm bg-gray-200 px-2 py-1 rounded"
+        >
+          {htmlMode ? 'リッチテキスト' : 'HTML'}モード
+        </button>
+      </div>
+      {htmlMode ? (
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full border p-2 rounded h-48"
+        />
+      ) : (
+        <ReactQuill theme="snow" value={value} onChange={onChange} />
+      )}
+    </div>
+  );
 };
 
 export default BlogEditor;
