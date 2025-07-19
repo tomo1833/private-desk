@@ -53,10 +53,10 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
       try {
         const prettier = (await import('prettier/standalone')).default;
         const parserHtml = (await import('prettier/plugins/html')).default;
-        const formatted = await prettier.format(value, {
+        const formatted = (await prettier.format(value, {
           parser: 'html' as BuiltInParserName,
-          plugins: [parserHtml]
-        });
+          plugins: [parserHtml],
+        })) as string;
         onChange(formatted);
       } catch (err) {
         console.error('format error', err);
