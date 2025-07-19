@@ -29,7 +29,12 @@ if (typeof window !== "undefined" && !("findDOMNode" in ReactDOM)) {
 const ReactQuill = dynamic(
   async () => {
     const mod = await import("react-quill");
-    const Quill = (mod as any).Quill ?? (mod.default as any).Quill;
+    type QuillType = typeof import("quill")["default"];
+    const typedMod = mod as unknown as {
+      default: { Quill: QuillType };
+      Quill: QuillType;
+    };
+    const Quill = typedMod.Quill ?? typedMod.default.Quill;
     if (!Quill) {
       throw new Error("Quill not found in react-quill module");
     }
