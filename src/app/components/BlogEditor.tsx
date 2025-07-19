@@ -25,7 +25,7 @@ if (typeof window !== 'undefined' && !('findDOMNode' in ReactDOM)) {
 const ReactQuill = dynamic(
   () =>
     import('react-quill').then((mod) => {
-      const Quill = (mod as any).default?.Quill ?? (mod as any).Quill;
+      const Quill = mod.Quill;
       if (!Quill) {
         throw new Error('Quill not found in react-quill module');
       }
@@ -34,7 +34,7 @@ const ReactQuill = dynamic(
       DivBlock.blotName = 'div';
       DivBlock.tagName = 'div';
       Quill.register(DivBlock, true);
-      return mod.default;
+      return mod.default ?? mod;
     }),
   { ssr: false }
 );
@@ -56,8 +56,9 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
         const formatted = (await prettier.format(value, {
           parser: 'html' as BuiltInParserName,
           plugins: [parserHtml],
-        })) as string;
-        onChange(formatted);
+        });
+        onChange(String(formatted));
+
       } catch (err) {
         console.error('format error', err);
       }
