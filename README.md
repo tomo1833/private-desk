@@ -176,3 +176,18 @@ GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END P
 GOOGLE_CALENDAR_ID=your-calendar-id@group.calendar.google.com
 ```
 
+
+## ブログエディタのHTMLモード例
+
+`BlogEditor` では右上のボタンでリッチテキストとHTMLを切り替えられます。HTMLモードにした状態で、以下のように`<ol>`を`<div>`で包んだHTMLを直接入力すると、そのまま`content_html`に保存されます。
+
+```html
+<div class="table-of-contents">
+  <ol>
+    <li>項目1</li>
+    <li>項目2</li>
+  </ol>
+</div>
+```
+
+リッチテキストモードへ戻すとQuillが`<div>`を削除してしまうため、このようなネスト構造を保持したい場合はHTMLモードで編集したまま保存してください。
