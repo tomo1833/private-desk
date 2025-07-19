@@ -22,15 +22,18 @@ if (typeof window !== 'undefined' && !('findDOMNode' in ReactDOM)) {
   };
 }
 
-const ReactQuill = dynamic(async () => {
-  const { default: RQ, Quill } = await import('react-quill');
-  const Block = Quill.import('blots/block');
-  class DivBlock extends Block {}
-  DivBlock.blotName = 'div';
-  DivBlock.tagName = 'div';
-  Quill.register(DivBlock, true);
-  return { default: RQ };
-}, { ssr: false });
+const ReactQuill = dynamic(
+  () =>
+    import('react-quill').then((mod) => {
+      const Block = mod.Quill.import('blots/block');
+      class DivBlock extends Block {}
+      DivBlock.blotName = 'div';
+      DivBlock.tagName = 'div';
+      mod.Quill.register(DivBlock, true);
+      return mod.default;
+    }),
+  { ssr: false }
+);
 
 type Props = {
   value: string;
