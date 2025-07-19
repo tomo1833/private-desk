@@ -2,51 +2,12 @@
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import type { BuiltInParserName } from "prettier";
-import ReactDOM from "react-dom";
-import "react-quill/dist/quill.snow.css";
 
-// Polyfill for ReactDOM.findDOMNode which was removed in React 19
-type NodeLike = Element | { current?: Element | null } | null;
-
-if (typeof window !== "undefined" && !("findDOMNode" in ReactDOM)) {
-  (
-    ReactDOM as unknown as { findDOMNode(node: NodeLike): Element | null }
-  ).findDOMNode = (node: NodeLike): Element | null => {
-    if (
-      node &&
-      "nodeType" in node &&
-      (node as Node).nodeType === Node.ELEMENT_NODE
-    ) {
-      return node as Element;
-    }
-    if (node && "current" in node) {
-      return node.current ?? null;
-    }
-    return node as Element | null;
-  };
-}
-
-const ReactQuill = dynamic(
-  async () => {
-    const mod = await import("react-quill");
-    type QuillType = typeof import("quill")["default"];
-    const typedMod = mod as unknown as {
-      default: { Quill: QuillType };
-      Quill: QuillType;
-    };
-    const Quill = typedMod.Quill ?? typedMod.default.Quill;
-    if (!Quill) {
-      throw new Error("Quill not found in react-quill module");
-    }
-    const Block = Quill.import("blots/block");
-    class DivBlock extends Block {}
-    DivBlock.blotName = "div";
-    DivBlock.tagName = "div";
-    Quill.register(DivBlock, true);
-    return mod.default;
-  },
-  { ssr: false },
-) as typeof import("react-quill");
+// TinyMCE React component is dynamically imported to avoid SSR issues
+const TinyMCEEditor = dynamic(
+  () => import("@tinymce/tinymce-react").then((m) => m.Editor),
+  { ssr: false }
+) as unknown as typeof import("@tinymce/tinymce-react").Editor;
 
 type Props = {
   value: string;
@@ -92,7 +53,11 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
           className="w-full border p-2 rounded h-48 font-mono whitespace-pre"
         />
       ) : (
-        <ReactQuill theme="snow" value={value} onChange={onChange} />
+        <TinyMCEEditor
+          value={value}
+          onEditorChange={(content) => onChange(content)}
+          init={{ menubar: false }}
+        />
       )}
     </div>
   );
