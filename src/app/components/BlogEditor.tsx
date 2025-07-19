@@ -22,7 +22,15 @@ if (typeof window !== 'undefined' && !('findDOMNode' in ReactDOM)) {
   };
 }
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const ReactQuill = dynamic(async () => {
+  const { default: RQ, Quill } = await import('react-quill');
+  const Block = Quill.import('blots/block');
+  class DivBlock extends Block {}
+  DivBlock.blotName = 'div';
+  DivBlock.tagName = 'div';
+  Quill.register(DivBlock, true);
+  return { default: RQ };
+}, { ssr: false });
 
 type Props = {
   value: string;
