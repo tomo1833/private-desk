@@ -27,7 +27,7 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
 
   useEffect(() => {
     if (editor && !htmlMode && editor.getHTML() !== value) {
-      editor.commands.setContent(value, false);
+      editor.commands.setContent(value, { emitUpdate: false });
     }
   }, [value, htmlMode, editor]);
 
