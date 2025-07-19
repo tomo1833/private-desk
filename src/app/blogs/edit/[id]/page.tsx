@@ -134,6 +134,7 @@ const BlogEditPage = () => {
               className="bg-white"
             />
             <div
+              id="blogger-preview"
               className="border p-2 rounded bg-white min-h-[300px]"
               dangerouslySetInnerHTML={{ __html: form.content_html }}
             />

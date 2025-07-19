@@ -1,4 +1,4 @@
-import db from '../src/lib/db';
+const db = require('../src/lib/db').default;
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS password_manager (
