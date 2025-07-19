@@ -374,3 +374,27 @@ body {
   margin-top: 10px;
   margin-bottom: 30px;
 }
+
+#blogger-preview .table-of-contents {
+  margin: 2em 1em 16px;
+  position: relative;
+  padding: 0.5em 1.5em;
+  border-top: solid 2px black;
+  border-bottom: solid 2px black;
+}
+
+#blogger-preview .table-of-contents ol {
+    display: block;
+    list-style-type: decimal;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+
+#blogger-preview .table-of-contents li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    line-height: 1.8em;
+    padding: 5px;
+}
