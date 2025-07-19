@@ -22,22 +22,19 @@ if (typeof window !== 'undefined' && !('findDOMNode' in ReactDOM)) {
   };
 }
 
-const ReactQuill = dynamic(
-  () =>
-    import('react-quill').then((mod) => {
-      const Quill = mod.Quill;
-      if (!Quill) {
-        throw new Error('Quill not found in react-quill module');
-      }
-      const Block = Quill.import('blots/block');
-      class DivBlock extends Block {}
-      DivBlock.blotName = 'div';
-      DivBlock.tagName = 'div';
-      Quill.register(DivBlock, true);
-      return mod.default ?? mod;
-    }),
-  { ssr: false }
-);
+const ReactQuill = dynamic(async () => {
+  const { default: QuillComponent, Quill } = await import('react-quill');
+  if (!Quill) {
+    throw new Error('Quill not found in react-quill module');
+  }
+  const Block = Quill.import('blots/block');
+  class DivBlock extends Block {}
+  DivBlock.blotName = 'div';
+  DivBlock.tagName = 'div';
+  Quill.register(DivBlock, true);
+  return QuillComponent;
+}, { ssr: false }) as typeof import('react-quill');
+
 
 type Props = {
   value: string;
@@ -58,7 +55,6 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
           plugins: [parserHtml],
         });
         onChange(String(formatted));
-
       } catch (err) {
         console.error('format error', err);
       }
