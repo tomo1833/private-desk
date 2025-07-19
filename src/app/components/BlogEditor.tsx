@@ -1,13 +1,9 @@
 "use client";
-import dynamic from "next/dynamic";
-import React, { useState } from "react";
-import type { BuiltInParserName } from "prettier";
 
-// TinyMCE React component is dynamically imported to avoid SSR issues
-const TinyMCEEditor = dynamic(
-  () => import("@tinymce/tinymce-react").then((m) => m.Editor),
-  { ssr: false }
-) as unknown as typeof import("@tinymce/tinymce-react").Editor;
+import React, { useEffect, useState } from "react";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import type { BuiltInParserName } from "prettier";
 
 type Props = {
   value: string;
@@ -17,6 +13,23 @@ type Props = {
 
 const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
   const [htmlMode, setHtmlMode] = useState(false);
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: value,
+    onUpdate({ editor }) {
+      if (!htmlMode) {
+        onChange(editor.getHTML());
+      }
+    },
+    editable: !htmlMode,
+  });
+
+  useEffect(() => {
+    if (editor && !htmlMode && editor.getHTML() !== value) {
+      editor.commands.setContent(value, false);
+    }
+  }, [value, htmlMode, editor]);
 
   const toggleMode = async () => {
     if (!htmlMode) {
@@ -53,11 +66,7 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
           className="w-full border p-2 rounded h-48 font-mono whitespace-pre"
         />
       ) : (
-        <TinyMCEEditor
-          value={value}
-          onEditorChange={(content) => onChange(content)}
-          init={{ menubar: false }}
-        />
+        <EditorContent editor={editor} className="border p-2 rounded min-h-[3rem]" />
       )}
     </div>
   );
