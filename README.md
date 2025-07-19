@@ -190,4 +190,4 @@ GOOGLE_CALENDAR_ID=your-calendar-id@group.calendar.google.com
 </div>
 ```
 
-リッチテキストモードへ戻すとTinyMCEが`<div>`を削除してしまうため、このようなネスト構造を保持したい場合はHTMLモードで編集したまま保存してください。
+リッチテキストモードへ戻すとTipTapが`<div>`を削除してしまうため、このようなネスト構造を保持したい場合はHTMLモードで編集したまま保存してください。
