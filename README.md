@@ -176,6 +176,23 @@ GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END P
 GOOGLE_CALENDAR_ID=your-calendar-id@group.calendar.google.com
 ```
 
+## Blogger 取り込み
+
+Google Blogger API を利用して既存の `blog` テーブルへ記事を取り込むには、
+画面の「Blogger同期」ボタンまたは `scripts/import-blogger.ts` スクリプトを使用します。
+`.env` に以下の変数を設定した後、ページ上のボタンを押すか、次のコマンドを実行してください。
+
+```bash
+npx ts-node scripts/import-blogger.ts
+```
+
+```
+BLOGGER_API_KEY=your-google-api-key
+BLOGGER_BLOG_ID=1234567890123456789
+```
+
+アイキャッチ画像にはダミー URL を使用し、著者とペルソナは固定文字列で登録されます。
+
 
 ## ブログエディタのHTMLモード例
 
