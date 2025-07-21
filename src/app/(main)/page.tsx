@@ -73,28 +73,36 @@ const MainPage = () => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-yellow-100 p-4 rounded text-black">
-        <p>本日の支出: ¥{todayTotal.toLocaleString()}</p>
-        <p>今月の支出: ¥{monthTotal.toLocaleString()}</p>
+      <div className="card float p-6 mb-6">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <p className="text-lg font-semibold text-gray-700">本日の支出</p>
+            <p className="text-2xl font-bold text-orange-600">¥{todayTotal.toLocaleString()}</p>
+          </div>
+          <div className="space-y-1 text-right">
+            <p className="text-lg font-semibold text-gray-700">今月の支出</p>
+            <p className="text-2xl font-bold text-purple-600">¥{monthTotal.toLocaleString()}</p>
+          </div>
+        </div>
       </div>
-      <div className="flex justify-end space-x-2">
-        <Link href="/wikis/new" className="bg-blue-500 text-white px-3 py-2 rounded">
-          Wiki登録
+      <div className="flex flex-wrap justify-center gap-3 mb-8">
+        <Link href="/wikis/new" className="btn btn-primary pulse-glow">
+          📝 Wiki登録
         </Link>
-        <Link href="/diaries/new" className="bg-purple-500 text-white px-3 py-2 rounded">
-          日報登録
+        <Link href="/diaries/new" className="btn btn-purple">
+          📔 日報登録
         </Link>
-        <Link href="/blogs/new" className="bg-indigo-500 text-white px-3 py-2 rounded">
-          ブログ登録
+        <Link href="/blogs/new" className="btn btn-indigo">
+          ✍️ ブログ登録
         </Link>
-        <Link href="/passwords/new" className="bg-green-500 text-white px-3 py-2 rounded">
-          パスワード登録
+        <Link href="/passwords/new" className="btn btn-success">
+          🔐 パスワード登録
         </Link>
-        <Link href="/files" className="bg-gray-500 text-white px-3 py-2 rounded">
-          ファイル管理
+        <Link href="/files" className="btn btn-secondary">
+          📁 ファイル管理
         </Link>
-        <Link href="/expenses" className="bg-yellow-500 text-white px-3 py-2 rounded">
-          家計簿
+        <Link href="/expenses" className="btn btn-warning">
+          💰 家計簿
         </Link>
       </div>
 
@@ -102,8 +110,10 @@ const MainPage = () => {
         {/* 左側：Wiki / 日報 / ブログ */}
         <div className="lg:col-span-2 space-y-6">
 
-          <section>
-            <h2 className="text-xl font-semibold">最新日報</h2>
+          <section className="card p-6">
+            <h2 className="heading-2 mb-4 flex items-center">
+              📔 最新日報
+            </h2>
             {errors.diaries ? (
               <p className="text-red-500">{errors.diaries}</p>
             ) : diaries.length > 0 ? (
@@ -114,14 +124,16 @@ const MainPage = () => {
             ) : (
               <p className="text-gray-500">登録された日報がありません。</p>
             )}
-            <div className="flex justify-end mt-2">
-              <Link href="/diaries" className="text-sm text-blue-600 hover:underlinee">
+            <div className="flex justify-end mt-4">
+              <Link href="/diaries" className="text-sm text-blue-600 hover:underline font-medium transition-colors">
                 → 一覧を見る
               </Link>
             </div>
           </section>
-          <section>
-            <h2 className="text-xl font-semibold">最新Wiki</h2>
+          <section className="card p-6">
+            <h2 className="heading-2 mb-4 flex items-center">
+              📝 最新Wiki
+            </h2>
             {errors.wikis ? (
               <p className="text-red-500">{errors.wikis}</p>
             ) : wikis.length > 0 ? (
@@ -129,15 +141,17 @@ const MainPage = () => {
             ) : (
               <p className="text-gray-500">登録されたWikiがありません。</p>
             )}
-            <div className="flex justify-end mt-2">
-              <Link href="/wikis" className="text-sm text-blue-600 hover:underlinee">
+            <div className="flex justify-end mt-4">
+              <Link href="/wikis" className="text-sm text-blue-600 hover:underline font-medium transition-colors">
                 → 一覧を見る
               </Link>
             </div>
           </section>
           
-          <section>
-            <h2 className="text-xl font-semibold">最新ブログ</h2>
+          <section className="card p-6">
+            <h2 className="heading-2 mb-4 flex items-center">
+              ✍️ 最新ブログ
+            </h2>
             {errors.blogs ? (
               <p className="text-red-500">{errors.blogs}</p>
             ) : blogs.length > 0 ? (
@@ -148,8 +162,8 @@ const MainPage = () => {
             ) : (
               <p className="text-gray-500">登録されたブログがありません。</p>
             )}
-            <div className="flex justify-end mt-2">
-              <Link href="/blogs" className="text-sm text-blue-600 hover:underlinee">
+            <div className="flex justify-end mt-4">
+              <Link href="/blogs" className="text-sm text-blue-600 hover:underline font-medium transition-colors">
                 → 一覧を見る
               </Link>
             </div>
@@ -157,15 +171,19 @@ const MainPage = () => {
         </div>
 
         {/* 右側：カレンダー */}
-        <div>
-          <h2 className="text-xl font-semibold mb-2">予定カレンダー</h2>
+        <div className="card p-6">
+          <h2 className="heading-2 mb-4 flex items-center">
+            📅 予定カレンダー
+          </h2>
           <ScheduleCalendar />
         </div>
 
         {/* 下段：全幅パスワード一覧 */}
         <div className="lg:col-span-3">
-          <section>
-            <h2 className="text-xl font-semibold">パスワード一覧</h2>
+          <section className="card p-6">
+            <h2 className="heading-2 mb-4 flex items-center">
+              🔐 パスワード一覧
+            </h2>
             {errors.passwords ? (
               <p className="text-red-500">{errors.passwords}</p>
             ) : passwords.length > 0 ? (

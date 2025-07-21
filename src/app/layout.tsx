@@ -11,8 +11,8 @@ const RootLayout = ({
 }) => {
   return (
     <html lang="ja">
-      <body className="font-sans flex flex-col min-h-screen bg-gray-50">
-        <header className="bg-blue-500 text-white py-4 px-6 fixed top-0 w-full z-10 flex justify-between items-center">
+      <body className="font-sans flex flex-col min-h-screen gradient-bg">
+        <header className="glass text-white py-4 px-6 fixed top-0 w-full z-10 flex justify-between items-center backdrop-blur-md shadow-lg border-b border-white/10">
           <h1 className="text-lg font-bold">
             <Link href="/" className="block">
               プライベートデスク
@@ -20,14 +20,14 @@ const RootLayout = ({
             </Link>
           </h1>
           <div className="flex items-center space-x-2">
-            <form action="/search" className="flex bg-white rounded overflow-hidden">
+            <form action="/search" className="flex glass rounded-lg overflow-hidden shadow-lg">
               <input
                 type="text"
                 name="q"
                 placeholder="検索"
-                className="px-2 py-1 text-black outline-none"
+                className="px-3 py-2 text-white placeholder-white/70 outline-none bg-transparent"
               />
-              <button type="submit" className="px-2">
+              <button type="submit" className="px-3 hover:bg-white/10 transition-colors">
                 <Image src="/search.svg" alt="検索" width={20} height={20} />
               </button>
             </form>
@@ -41,7 +41,7 @@ const RootLayout = ({
           </Suspense>
         </main>
 
-        <footer className="bg-gray-700 text-white py-4 px-6 fixed bottom-0 w-full z-10">
+        <footer className="glass-dark text-white py-4 px-6 fixed bottom-0 w-full z-10 backdrop-blur-md shadow-lg border-t border-white/10">
           <p className="text-center text-sm">© 2025 Private Desk App</p>
         </footer>
       </body>

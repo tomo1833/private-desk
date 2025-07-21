@@ -106,9 +106,11 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 50%, #1E3A8A 100%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: "BIZ UDGothic", "メイリオ", "Helvetica", "Arial", sans-serif;
+  min-height: 100vh;
 }
 
 /* Styling for rendered Markdown */
@@ -201,7 +203,8 @@ body {
 
 /* Utility classes for design system */
 .btn {
-  @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary {
@@ -242,11 +245,15 @@ body {
 
 /* Card components */
 .card {
-  @apply bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-200;
+  @apply bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 overflow-hidden transition-all duration-300;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .card:hover {
-  @apply shadow-md;
+  @apply shadow-xl transform -translate-y-1;
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .card-header {
@@ -320,7 +327,62 @@ body {
 
 /* Dark mode adjustments */
 .dark .card {
-  @apply bg-gray-800 border-gray-700;
+  @apply border-gray-700;
+  background: rgba(31, 41, 55, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(75, 85, 99, 0.3);
+}
+
+.dark .card:hover {
+  background: rgba(31, 41, 55, 0.95);
+}
+
+/* Glassmorphism utility classes */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Animated gradient backgrounds */
+.gradient-bg {
+  background: linear-gradient(-45deg, #3B82F6, #1E40AF, #2563EB, #1D4ED8);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating animation */
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Pulse effect */
+.pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.3); }
+  100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
 }
 
 .dark .card-header {
