@@ -70,40 +70,40 @@ const ExpenseEditPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">支出編集</h1>
+      <h1 className="text-2xl font-bold text-white">支出編集</h1>
       <form onSubmit={handleUpdate} className="space-y-2">
         <div>
-          <label className="block">勘定科目</label>
-          <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="w-full border p-2 rounded" required />
+          <label className="block text-white">勘定科目</label>
+          <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="w-full border p-2 rounded bg-white" required />
         </div>
         <div>
-          <label className="block">金額</label>
-          <input type="number" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} className="w-full border p-2 rounded" required />
+          <label className="block text-white">金額</label>
+          <input type="number" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} className="w-full border p-2 rounded bg-white" required />
         </div>
         <div>
-          <label className="block">お店</label>
-          <input value={form.shop} onChange={(e) => setForm({ ...form, shop: e.target.value })} className="w-full border p-2 rounded" required />
+          <label className="block text-white">お店</label>
+          <input value={form.shop} onChange={(e) => setForm({ ...form, shop: e.target.value })} className="w-full border p-2 rounded bg-white" required />
         </div>
         <div>
-          <label className="block">商品名</label>
+          <label className="block text-white">商品名</label>
           <input
             value={form.product_name ?? ''}
             onChange={(e) => setForm({ ...form, product_name: e.target.value })}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
           />
         </div>
         <div>
-          <label className="block">備考</label>
+          <label className="block text-white">備考</label>
           <textarea
             value={form.remark ?? ''}
             onChange={(e) => setForm({ ...form, remark: e.target.value })}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
             rows={3}
           />
         </div>
         <div>
-          <label className="block">使った日</label>
-          <input type="date" value={form.used_at} onChange={(e) => setForm({ ...form, used_at: e.target.value })} className="w-full border p-2 rounded" required />
+          <label className="block text-white">使った日</label>
+          <input type="date" value={form.used_at} onChange={(e) => setForm({ ...form, used_at: e.target.value })} className="w-full border p-2 rounded bg-white" required />
         </div>
         <div className="flex justify-end space-x-2">
           <button type="submit" className="btn btn-primary">更新</button>

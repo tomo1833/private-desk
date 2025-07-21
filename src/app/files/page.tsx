@@ -67,7 +67,7 @@ const FileManagerPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">ファイル管理</h1>
+      <h1 className="text-2xl font-bold text-white">ファイル管理</h1>
       {path && (
         <button onClick={goUp} className="text-blue-600 hover:underline">
           上のフォルダへ

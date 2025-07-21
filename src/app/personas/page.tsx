@@ -36,7 +36,7 @@ const PersonaListPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">ペルソナ一覧</h1>
+      <h1 className="text-2xl font-bold text-white">ペルソナ一覧</h1>
       <div className="flex justify-end my-4">
         <Link href="/personas/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
       </div>

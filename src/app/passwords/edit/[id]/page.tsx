@@ -94,10 +94,10 @@ const UpdatePasswordPage = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">パスワード更新</h1>
+      <h1 className="text-xl font-bold mb-4 text-white">パスワード更新</h1>
       <form onSubmit={handleUpdate} className="space-y-4">
         <div>
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="siteName">カテゴリ</label>
+          <label className="block text-gray-700 font-bold mb-2 text-white" htmlFor="siteName">カテゴリ</label>
           <input
             id="category"
             type="text"

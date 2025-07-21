@@ -54,15 +54,15 @@ const WikiEditPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Wiki編集</h1>
+      <h1 className="text-2xl font-bold text-white">Wiki編集</h1>
       <form onSubmit={handleUpdate} className="space-y-2">
         <div>
-          <label className="block">タイトル</label>
-          <input value={title} onChange={e => setTitle(e.target.value)} className="w-full border p-2 rounded" required />
+          <label className="block text-white">タイトル</label>
+          <input value={title} onChange={e => setTitle(e.target.value)} className="w-full border p-2 rounded bg-white" required />
         </div>
         <div>
-          <label className="block">内容</label>
-          <textarea value={content} onChange={e => setContent(e.target.value)} className="w-full border p-2 rounded" rows={6} required />
+          <label className="block text-white">内容</label>
+          <textarea value={content} onChange={e => setContent(e.target.value)} className="w-full border p-2 rounded bg-white" rows={6} required />
         </div>
         <div className="flex justify-end space-x-2">
           <button type="submit" className="btn btn-primary">更新</button>

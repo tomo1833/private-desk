@@ -54,23 +54,23 @@ const PersonaEditPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">ペルソナ編集</h1>
+      <h1 className="text-2xl font-bold text-white">ペルソナ編集</h1>
       <form onSubmit={handleUpdate} className="space-y-2">
         <div>
-          <label className="block">名前</label>
+          <label className="block text-white">名前</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
             required
           />
         </div>
         <div>
-          <label className="block">詳細</label>
+          <label className="block text-white">詳細</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
             rows={4}
           />
         </div>

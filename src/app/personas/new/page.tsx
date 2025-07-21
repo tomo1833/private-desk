@@ -23,15 +23,15 @@ const NewPersonaPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">ペルソナ登録</h1>
+      <h1 className="text-2xl font-bold text-white">ペルソナ登録</h1>
       <form onSubmit={handleSubmit} className="space-y-2">
         <div>
-          <label className="block">名前</label>
-          <input value={name} onChange={(e) => setName(e.target.value)} className="w-full border p-2 rounded" required />
+          <label className="block text-white">名前</label>
+          <input value={name} onChange={(e) => setName(e.target.value)} className="w-full border p-2 rounded bg-white" required />
         </div>
         <div>
-          <label className="block">詳細</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="w-full border p-2 rounded" rows={4} />
+          <label className="block text-white">詳細</label>
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="w-full border p-2 rounded bg-white" rows={4} />
         </div>
         <div className="flex justify-end">
           <button type="submit" className="btn btn-primary">登録</button>
