@@ -34,7 +34,7 @@ const NewDiaryPage = () => {
           <textarea value={content} onChange={(e) => setContent(e.target.value)} className="w-full border p-2 rounded" rows={6} required />
         </div>
         <div className="flex justify-end">
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">登録</button>
+          <button type="submit" className="btn btn-primary">登録</button>
         </div>
       </form>
     </div>

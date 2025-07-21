@@ -61,8 +61,8 @@ const ExpenseListPage = () => {
               <td className="px-2 py-1 border">{e.product_name}</td>
               <td className="px-2 py-1 border whitespace-pre-wrap">{e.remark}</td>
               <td className="px-2 py-1 border text-center space-x-2">
-                <button onClick={() => location.href=`/expenses/edit/${e.id}`} className="bg-green-500 text-white px-2 py-1 rounded">編集</button>
-                <button onClick={() => handleDelete(e.id)} className="bg-red-500 text-white px-2 py-1 rounded">削除</button>
+                <button onClick={() => location.href=`/expenses/edit/${e.id}`} className="btn btn-sm btn-success">編集</button>
+                <button onClick={() => handleDelete(e.id)} className="btn btn-sm btn-danger">削除</button>
               </td>
             </tr>
           ))}

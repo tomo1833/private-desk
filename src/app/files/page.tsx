@@ -96,13 +96,13 @@ const FileManagerPage = () => {
           className="border p-1"
           required
         />
-        <button type="submit" className="bg-blue-500 text-white px-2 py-1 rounded">
+        <button type="submit" className="btn btn-sm btn-primary">
           フォルダ作成
         </button>
       </form>
       <form onSubmit={handleUpload} className="space-x-2">
         <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-        <button type="submit" className="bg-blue-500 text-white px-2 py-1 rounded">
+        <button type="submit" className="btn btn-sm btn-primary">
           アップロード
         </button>
       </form>

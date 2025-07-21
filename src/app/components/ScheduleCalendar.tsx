@@ -159,12 +159,12 @@ const ScheduleCalendar = () => {
                   <button
                     type="button"
                     onClick={handleDelete}
-                    className="bg-red-500 text-white px-4 py-2 rounded"
+                    className="btn btn-danger"
                   >
                     削除
                   </button>
                 )}
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">{editId ? '更新' : '登録'}</button>
+                <button type="submit" className="btn btn-primary">{editId ? '更新' : '登録'}</button>
               </div>
             </form>
           </div>

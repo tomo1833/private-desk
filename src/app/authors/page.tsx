@@ -52,7 +52,7 @@ const AuthorListPage = () => {
               <Link href={`/authors/edit/${a.id}`} className="bg-green-500 text-white px-4 py-2 rounded">
                 編集
               </Link>
-              <button onClick={() => handleDelete(a.id)} className="bg-red-500 text-white px-4 py-2 rounded">
+              <button onClick={() => handleDelete(a.id)} className="btn btn-danger">
                 削除
               </button>
             </div>

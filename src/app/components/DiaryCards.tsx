@@ -27,13 +27,13 @@ const DiaryCards: React.FC<Props> = ({ diaries, onDelete }) => {
           <h3 className="font-bold mb-2 truncate">{diary.title}</h3>
           <p className="line-clamp-3 text-sm whitespace-pre-wrap">{diary.content}</p>
           <div className="flex justify-end space-x-2">
-            <button onClick={() => router.push(`/diaries/${diary.id}`)} className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">
+            <button onClick={() => router.push(`/diaries/${diary.id}`)} className="btn btn-primary">
               詳細
             </button>
-            <button onClick={() => router.push(`/diaries/edit/${diary.id}`)} className="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600">
+            <button onClick={() => router.push(`/diaries/edit/${diary.id}`)} className="btn btn-success">
               編集
             </button>
-            <button onClick={() => handleDelete(diary.id)} className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600">
+            <button onClick={() => handleDelete(diary.id)} className="btn btn-danger">
               削除
             </button>
           </div>

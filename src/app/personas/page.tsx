@@ -49,7 +49,7 @@ const PersonaListPage = () => {
               <Link href={`/personas/edit/${p.id}`} className="bg-green-500 text-white px-4 py-2 rounded">
                 編集
               </Link>
-              <button onClick={() => handleDelete(p.id)} className="bg-red-500 text-white px-4 py-2 rounded">
+              <button onClick={() => handleDelete(p.id)} className="btn btn-danger">
                 削除
               </button>
             </div>

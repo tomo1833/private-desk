@@ -28,19 +28,19 @@ const BlogCards: React.FC<Props> = ({ blogs, onDelete }) => {
           <div className="flex justify-end space-x-2">
             <button
               onClick={() => router.push(`/blogs/${blog.id}`)}
-              className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600"
+              className="btn btn-primary"
             >
               詳細
             </button>
             <button
               onClick={() => router.push(`/blogs/edit/${blog.id}`)}
-              className="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600"
+              className="btn btn-success"
             >
               編集
             </button>
             <button
               onClick={() => handleDelete(blog.id)}
-              className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
+              className="btn btn-danger"
             >
               削除
             </button>

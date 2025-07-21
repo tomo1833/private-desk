@@ -84,7 +84,7 @@ const NewBlogPage = () => {
             <button
               type="button"
               onClick={handleGenerate}
-              className="bg-green-500 text-white px-4 py-2 rounded mt-2"
+              className="btn btn-success mt-2"
             >
               ブログ生成
             </button>
@@ -187,7 +187,7 @@ const NewBlogPage = () => {
           />
         </div>
         <div className="flex justify-end">
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+          <button type="submit" className="btn btn-primary">
             登録
           </button>
         </div>

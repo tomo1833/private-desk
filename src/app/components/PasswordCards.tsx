@@ -19,7 +19,7 @@ const PasswordCards: React.FC<Props> = ({ passwords }) => {
           <div className="flex justify-end">
             <button
               onClick={() => router.push(`/passwords/edit/${p.id}`)}
-              className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600"
+              className="btn btn-primary"
             >
               詳細
             </button>

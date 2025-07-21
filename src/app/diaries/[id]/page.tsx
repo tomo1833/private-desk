@@ -34,7 +34,7 @@ const DiaryDetailPage = () => {
         {diary.content}
       </MarkdownRenderer>
       <div className="flex justify-end">
-        <button onClick={() => router.push(`/diaries/edit/${diary.id}`)} className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button onClick={() => router.push(`/diaries/edit/${diary.id}`)} className="btn btn-primary">
           編集
         </button>
       </div>

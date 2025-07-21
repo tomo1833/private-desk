@@ -47,7 +47,7 @@ const BlogDetailPage = () => {
       <div className="flex justify-end">
         <button
           onClick={() => router.push(`/blogs/edit/${blog.id}`)}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="btn btn-primary"
         >
           編集
         </button>
