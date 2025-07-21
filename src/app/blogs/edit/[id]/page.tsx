@@ -94,31 +94,31 @@ const BlogEditPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">ブログ編集</h1>
+      <h1 className="text-2xl font-bold text-white">ブログ編集</h1>
       <form onSubmit={handleUpdate} className="space-y-2">
         <div>
-          <label className="block">タイトル</label>
+          <label className="block text-white">タイトル</label>
           <input
             name="title"
             value={form.title}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
             required
           />
         </div>
         <div>
-          <label className="block">コンテンツ</label>
+          <label className="block text-white">コンテンツ</label>
           <textarea
             name="content"
             value={form.content}
             onChange={handleChange}
-            className="w-full border p-2 rounded font-mono whitespace-pre"
+            className="w-full border p-2 rounded font-mono whitespace-pre bg-white"
             rows={4}
             required
           />
         </div>
         <div>
-          <label className="block">コンテンツ(Markdown)</label>
+          <label className="block text-white">コンテンツ(Markdown)</label>
           <BlogEditor
             value={form.content_markdown}
             onChange={(value) => setForm({ ...form, content_markdown: value })}
@@ -126,7 +126,7 @@ const BlogEditPage = () => {
           />
         </div>
         <div>
-          <label className="block mb-2">コンテンツ(HTML)</label>
+          <label className="block mb-2 text-white">コンテンツ(HTML)</label>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <BlogEditor
               value={form.content_html}
@@ -141,11 +141,11 @@ const BlogEditPage = () => {
           </div>
         </div>
         <div>
-          <label className="block">アイキャッチ画像</label>
+          <label className="block text-white">アイキャッチ画像</label>
           <input
             type="file"
             onChange={handleFileChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
             required={!form.eyecatch}
           />
           {form.eyecatch && (
@@ -153,42 +153,42 @@ const BlogEditPage = () => {
           )}
         </div>
         <div>
-          <label className="block">パーマリンク</label>
+          <label className="block text-white">パーマリンク</label>
           <input
             name="permalink"
             value={form.permalink}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
             required
           />
         </div>
         <div>
-          <label className="block">ブログサイト</label>
+          <label className="block text-white">ブログサイト</label>
           <input
             name="site"
             value={form.site}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
             required
           />
         </div>
         <div>
-          <label className="block">著者情報</label>
+          <label className="block text-white">著者情報</label>
           <input
             name="author"
             value={form.author}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
             required
           />
         </div>
         <div>
-          <label className="block">ペルソナ情報</label>
+          <label className="block text-white">ペルソナ情報</label>
           <input
             name="persona"
             value={form.persona}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded bg-white"
             required
           />
         </div>
