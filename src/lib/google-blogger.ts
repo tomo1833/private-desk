@@ -1,9 +1,12 @@
-import { google } from 'googleapis';
+import { google, blogger_v3 } from 'googleapis';
 
 const blogger = google.blogger('v3');
 
-export async function fetchAllPosts(blogId: string, apiKey: string) {
-  const posts: any[] = [];
+export async function fetchAllPosts(
+  blogId: string,
+  apiKey: string,
+): Promise<blogger_v3.Schema$Post[]> {
+  const posts: blogger_v3.Schema$Post[] = [];
   let pageToken: string | undefined;
   do {
     const res = await blogger.posts.list({
