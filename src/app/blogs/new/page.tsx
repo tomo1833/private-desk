@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import BlogEditor from '@/app/components/BlogEditor';
+import { marked } from 'marked';
+import TurndownService from 'turndown';
 
 const NewBlogPage = () => {
   const router = useRouter();
@@ -68,6 +70,18 @@ const NewBlogPage = () => {
     }
   };
 
+  const markdownToHtml = () => {
+    setForm({ ...form, content_html: marked(form.content_markdown) });
+  };
+
+  const htmlToMarkdown = () => {
+    const turndownService = new TurndownService();
+    setForm({
+      ...form,
+      content_markdown: turndownService.turndown(form.content_html),
+    });
+  };
+
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-white">ブログ登録</h1>
@@ -118,6 +132,22 @@ const NewBlogPage = () => {
             onChange={(value) => setForm({ ...form, content_markdown: value })}
             className="bg-white"
           />
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              type="button"
+              onClick={markdownToHtml}
+              className="btn btn-secondary btn-sm"
+            >
+              Markdown→HTML
+            </button>
+            <button
+              type="button"
+              onClick={htmlToMarkdown}
+              className="btn btn-secondary btn-sm"
+            >
+              HTML→Markdown
+            </button>
+          </div>
         </div>
         <div>
           <label className="block mb-2 text-white">コンテンツ(HTML)</label>
