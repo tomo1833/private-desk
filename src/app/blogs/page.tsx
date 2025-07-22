@@ -55,6 +55,7 @@ const BlogListPage = () => {
         >
           {importing ? '同期中...' : 'Blogger同期'}
         </button>
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           href="/api/blog/export-blogger"
           className="bg-yellow-500 text-white px-4 py-2 rounded"
