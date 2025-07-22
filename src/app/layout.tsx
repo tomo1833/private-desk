@@ -15,7 +15,7 @@ const RootLayout = ({
         <header className="bg-white/10 backdrop-blur-md text-gray-900 dark:text-white py-4 px-6 fixed top-0 w-full z-10 flex justify-between items-center shadow-lg border-b border-gray-200/20">
           <h1 className="text-lg font-bold">
             <Link href="/" className="block">
-              プライベートデスク
+              Private Desk
               <span className="sr-only"> - このアプリの共通レイアウト</span>
             </Link>
           </h1>

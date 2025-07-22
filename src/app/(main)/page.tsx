@@ -86,11 +86,11 @@ const MainPage = () => {
         </div>
       </div>
       <div className="flex flex-wrap justify-center gap-3 mb-8">
-        <Link href="/wikis/new" className="btn btn-primary btn-lg pulse-glow">
-          📝 Wiki登録
-        </Link>
         <Link href="/diaries/new" className="btn btn-gradient btn-lg">
           📔 日報登録
+        </Link>
+        <Link href="/wikis/new" className="btn btn-primary btn-lg pulse-glow">
+          📝 Wiki登録
         </Link>
         <Link href="/blogs/new" className="btn btn-gradient btn-lg">
           ✍️ ブログ登録
@@ -98,11 +98,11 @@ const MainPage = () => {
         <Link href="/passwords/new" className="btn btn-gradient-gold btn-lg">
           🔐 パスワード登録
         </Link>
-        <Link href="/files" className="btn btn-secondary">
-          📁 ファイル管理
-        </Link>
         <Link href="/expenses" className="btn btn-gold">
           💰 家計簿
+        </Link>
+        <Link href="/files" className="btn btn-secondary">
+          📁 ファイル管理
         </Link>
         <Link href="/sql" className="btn btn-outline">
           🛢 SQLコンソール
