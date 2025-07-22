@@ -38,7 +38,7 @@ const BlogDetailPage = () => {
         height={192}
         className="w-full h-48 object-cover"
       />
-      <p className="text-sm text-blue-600 underline">{blog.permalink}</p>
+      <p className="text-sm text-blue-600 dark:text-blue-400 underline">{blog.permalink}</p>
 
       <MarkdownRenderer className="whitespace-pre-wrap border p-4 rounded bg-white">
         {blog.content_markdown}

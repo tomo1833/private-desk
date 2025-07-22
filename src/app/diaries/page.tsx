@@ -29,17 +29,17 @@ const DiaryListPage = () => {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">日報一覧</h1>
       <div className="flex justify-end my-4">
-        <Link href="/diaries/new" className="bg-blue-500 text-white px-4 py-2 rounded">
+        <Link href="/diaries/new" className="btn btn-primary">
           新規作成
         </Link>
       </div>
       <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {diaries.map((diary) => (
-          <li key={diary.id} className="border p-4 rounded space-y-2 bg-blue-50 dark:bg-gray-800 text-black">
-            <Link href={`/diaries/${diary.id}`} className="font-semibold hover:underline block">
+          <li key={diary.id} className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6 space-y-3">
+            <Link href={`/diaries/${diary.id}`} className="font-semibold hover:underline block text-gray-900 dark:text-white">
               {diary.title}
             </Link>
-            <MarkdownRenderer className="line-clamp-3 text-sm">
+            <MarkdownRenderer className="line-clamp-3 text-sm text-gray-700 dark:text-gray-300">
               {diary.content}
             </MarkdownRenderer>
           </li>

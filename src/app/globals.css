@@ -1,16 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f5f5;
+  --background: #ffffff;
   --foreground: #171717;
   
-  /* Primary Colors - シックな色調に調整 */
-  --primary-blue: #1e3a8a;
-  --primary-blue-light: #3b82f6;
-  --primary-blue-dark: #1e40af;
-  --primary-blue-50: #f0f7ff;
-  --primary-blue-100: #e0edff;
-  --primary-blue-200: #c7ddff;
+  /* New Balanced Color Scheme - 実用＋気運アップ */
+  --primary-navy: #3a5ba0;
+  --primary-navy-light: #4d6bb3;
+  --primary-navy-dark: #2a4a8d;
+  --accent-gold: #f6c85f;
+  --accent-gold-light: #f8d47a;
+  --accent-gold-dark: #e6b54c;
+  
+  /* Color variations for different uses */
+  --primary-navy-50: #f1f4fb;
+  --primary-navy-100: #e3eaf6;
+  --primary-navy-200: #c7d5ed;
+  --accent-gold-50: #fefbf5;
+  --accent-gold-100: #fef7eb;
+  --accent-gold-200: #fdefd6;
   
   /* Secondary Colors - 落ち着いたトーンに調整 */
   --secondary-purple: #6b46c1;
@@ -77,12 +85,22 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Custom utility classes that don't conflict with Tailwind v4 */
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #1a202c;
     --foreground: #ededed;
     
-    /* Dark mode color adjustments */
+    /* Dark mode navy/gold theme adjustments */
+    --primary-navy: #4d6bb3;
+    --primary-navy-light: #6b8dd6;
+    --primary-navy-dark: #3a5ba0;
+    --accent-gold: #f6c85f;
+    --accent-gold-light: #f8d47a;
+    --accent-gold-dark: #e6b54c;
+    
+    /* Dark mode neutral adjustments */
     --gray-50: #1F2937;
     --gray-100: #374151;
     --gray-200: #4B5563;
@@ -93,10 +111,18 @@
 }
 
 .dark {
-  --background: #0a0a0a;
+  --background: #1a202c;
   --foreground: #ededed;
   
-  /* Dark mode color adjustments */
+  /* Dark mode navy/gold theme adjustments */
+  --primary-navy: #4d6bb3;
+  --primary-navy-light: #6b8dd6;
+  --primary-navy-dark: #3a5ba0;
+  --accent-gold: #f6c85f;
+  --accent-gold-light: #f8d47a;
+  --accent-gold-dark: #e6b54c;
+  
+  /* Dark mode neutral adjustments */
   --gray-50: #1F2937;
   --gray-100: #374151;
   --gray-200: #4B5563;
@@ -106,7 +132,7 @@
 }
 
 body {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #f1f4fb 50%, #e3eaf6 100%);
   background-attachment: fixed;
   color: var(--foreground);
   font-family: "BIZ UDGothic", "メイリオ", "Helvetica", "Arial", sans-serif;
@@ -124,20 +150,25 @@ body {
 }
 
 .markdown-body h2 {
-  @apply text-2xl font-semibold mt-6 mb-3 pl-3 border-l-4 border-blue-600 bg-blue-50;
+  @apply text-2xl font-semibold mt-6 mb-3 pl-3;
+  border-left: 4px solid var(--primary-navy);
+  background-color: var(--primary-navy-50);
 }
 
 .markdown-body h3 {
-  @apply text-xl font-semibold mt-5 mb-2 pl-3 border-l-4 border-blue-400;
+  @apply text-xl font-semibold mt-5 mb-2 pl-3;
+  border-left: 4px solid var(--primary-navy-light);
 }
 
 .markdown-body h4 {
-  @apply text-lg font-semibold mt-4 mb-2 pl-3 border-l-4 border-blue-300;
+  @apply text-lg font-semibold mt-4 mb-2 pl-3;
+  border-left: 4px solid var(--primary-navy-light);
 }
 
 .markdown-body h5,
 .markdown-body h6 {
-  @apply text-base font-semibold mt-4 mb-2 pl-3 border-l-4 border-blue-200;
+  @apply text-base font-semibold mt-4 mb-2 pl-3;
+  border-left: 4px solid var(--primary-navy-200);
 }
 
 .markdown-body blockquote {
@@ -189,9 +220,9 @@ body {
   transform: translateX(-50%);
   width: 18px;
   height: 18px;
-  background: #1e40af;
+  background: var(--accent-gold);
   border-radius: 50%;
-  box-shadow: 0 3px 8px rgba(30, 64, 175, 0.3);
+  box-shadow: 0 3px 8px rgba(246, 200, 95, 0.4);
 }
 
 .sticky-note-title {
@@ -206,6 +237,27 @@ body {
   position: absolute;
   bottom: 8px;
   right: 8px;
+}
+
+/* Dark mode form adjustments */
+.dark .form-input {
+  @apply bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400;
+}
+
+.dark .form-input:hover {
+  @apply border-gray-500;
+}
+
+.dark .form-label {
+  @apply text-gray-200;
+}
+
+.dark .form-help {
+  @apply text-gray-400;
+}
+
+.dark .form-title {
+  @apply text-gray-100;
 }
 
 /* Utility classes for design system */
@@ -225,7 +277,12 @@ body {
 }
 
 .btn-primary {
-  @apply bg-blue-800 text-white hover:bg-blue-900 focus:ring-blue-600 transition-all duration-200 ease-in-out;
+  background-color: var(--primary-navy);
+  @apply text-white focus:ring-blue-600 transition-all duration-200 ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-navy-dark);
 }
 
 .btn-secondary {
@@ -237,7 +294,21 @@ body {
 }
 
 .btn-warning {
-  @apply bg-amber-700 text-white hover:bg-amber-800 focus:ring-amber-600 transition-all duration-200 ease-in-out;
+  background-color: var(--accent-gold);
+  @apply text-gray-900 focus:ring-yellow-500 transition-all duration-200 ease-in-out;
+}
+
+.btn-warning:hover {
+  background-color: var(--accent-gold-dark);
+}
+
+.btn-gold {
+  background-color: var(--accent-gold);
+  @apply text-gray-900 focus:ring-yellow-500 transition-all duration-200 ease-in-out;
+}
+
+.btn-gold:hover {
+  background-color: var(--accent-gold-dark);
 }
 
 .btn-danger {
@@ -253,13 +324,18 @@ body {
 }
 
 .btn-sm {
-  @apply px-4 py-2 text-sm font-medium;
-  min-height: 36px;
+  @apply px-5 py-3 text-sm font-medium;
+  min-height: 40px;
+}
+
+.btn {
+  @apply px-6 py-3 text-base font-medium;
+  min-height: 44px;
 }
 
 .btn-lg {
-  @apply px-8 py-4 text-base font-semibold;
-  min-height: 48px;
+  @apply px-8 py-4 text-lg font-semibold;
+  min-height: 52px;
 }
 
 /* スペシャルボタンスタイル */
@@ -275,21 +351,7 @@ body {
   @apply bg-transparent hover:bg-gray-100 text-gray-700 border-0 shadow-none transition-all duration-200;
 }
 
-/* Card components */
-.card {
-  @apply bg-white/90 backdrop-blur-sm rounded-xl overflow-hidden transition-all duration-300 ease-out;
-  background: rgba(255, 255, 255, 0.90);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.card:hover {
-  transform: translateY(-6px) scale(1.02);
-  background: rgba(255, 255, 255, 0.98);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 6px 20px rgba(0, 0, 0, 0.08);
-}
+/* Legacy card styles - moved to components layer */
 
 .card-header {
   @apply px-8 py-5 border-b border-gray-200 bg-gray-50;
@@ -366,16 +428,89 @@ body {
   }
 }
 
+/* Button group utilities for consistent form layouts */
+.btn-group {
+  @apply flex items-center gap-3 justify-end;
+}
+
+.btn-group-left {
+  @apply flex items-center gap-3 justify-start;
+}
+
+.btn-group-center {
+  @apply flex items-center gap-3 justify-center;
+}
+
+.btn-group-between {
+  @apply flex items-center justify-between;
+}
+
+/* Form header styling for consistent page titles */
+.form-header {
+  @apply mb-8;
+}
+
+.form-title {
+  @apply text-3xl font-bold mb-2;
+  color: var(--primary-navy);
+  text-shadow: 0 2px 4px rgba(58, 91, 160, 0.1);
+  border-bottom: 3px solid var(--accent-gold);
+  padding-bottom: 8px;
+  display: inline-block;
+}
+
+.form-subtitle {
+  @apply text-lg text-gray-600 mt-2;
+  font-weight: 500;
+}
+
+/* Dark mode form header */
+.dark .form-title {
+  @apply text-gray-100;
+}
+
+.dark .form-subtitle {
+  @apply text-gray-300;
+}
+
+/* Special action button styling improvements */
+.btn-generate {
+  background: linear-gradient(135deg, var(--secondary-green) 0%, var(--secondary-green-light) 100%);
+  @apply text-white border-0 shadow-md transition-all duration-300 ease-out;
+}
+
+.btn-generate:hover {
+  background: linear-gradient(135deg, var(--secondary-green-dark) 0%, var(--secondary-green) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(5, 150, 105, 0.25);
+}
+
+.btn-convert {
+  background: linear-gradient(135deg, var(--secondary-purple) 0%, var(--secondary-purple-light) 100%);
+  @apply text-white border-0 shadow-md transition-all duration-300 ease-out;
+}
+
+.btn-convert:hover {
+  background: linear-gradient(135deg, var(--secondary-purple-dark) 0%, var(--secondary-purple) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(107, 70, 193, 0.25);
+}
+
 /* Dark mode adjustments */
+.dark body {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+}
+
 .dark .card {
   @apply border-gray-700;
-  background: rgba(31, 41, 55, 0.8);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(75, 85, 99, 0.3);
+  background: rgba(45, 55, 72, 0.8);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(77, 107, 179, 0.3);
 }
 
 .dark .card:hover {
-  background: rgba(31, 41, 55, 0.95);
+  background: rgba(45, 55, 72, 0.95);
+  border: 1px solid rgba(77, 107, 179, 0.5);
 }
 
 /* Glassmorphism utility classes */
@@ -400,25 +535,40 @@ body {
 
 /* ボタンの特殊エフェクト */
 .btn-gradient {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
   @apply text-white border-0 shadow-md transition-all duration-300 ease-out;
 }
 
 .btn-gradient:hover {
-  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+  background: linear-gradient(135deg, var(--primary-navy-dark) 0%, var(--primary-navy) 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(30, 58, 138, 0.25);
+  box-shadow: 0 8px 25px rgba(58, 91, 160, 0.25);
+}
+
+.btn-gradient-gold {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-light) 100%);
+  @apply text-gray-900 border-0 shadow-md transition-all duration-300 ease-out;
+}
+
+.btn-gradient-gold:hover {
+  background: linear-gradient(135deg, var(--accent-gold-dark) 0%, var(--accent-gold) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(246, 200, 95, 0.3);
 }
 
 /* アクティブ状態とフォーカス状態の強調 */
 .active-tab {
-  @apply bg-white border-b-2 border-blue-600 text-blue-700 font-semibold;
+  @apply bg-white font-semibold;
+  border-bottom: 2px solid var(--primary-navy);
+  color: var(--primary-navy);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .active-section {
-  @apply border-l-4 border-blue-600 bg-blue-50/50 pl-4;
-  background: linear-gradient(90deg, rgba(239, 246, 255, 0.5) 0%, transparent 100%);
+  @apply pl-4;
+  border-left: 4px solid var(--primary-navy);
+  background-color: var(--primary-navy-50);
+  background: linear-gradient(90deg, rgba(241, 244, 251, 0.8) 0%, transparent 100%);
 }
 
 .nav-item {
@@ -426,7 +576,10 @@ body {
 }
 
 .nav-item.active {
-  @apply text-blue-700 bg-blue-50 font-semibold border-l-4 border-blue-600 pl-3;
+  @apply font-semibold pl-3;
+  color: var(--primary-navy);
+  background-color: var(--primary-navy-50);
+  border-left: 4px solid var(--primary-navy);
 }
 
 .nav-item:hover:not(.active) {
@@ -451,7 +604,7 @@ body {
   content: '';
   width: 4px;
   height: 20px;
-  background: linear-gradient(180deg, #1e40af 0%, #3b82f6 100%);
+  background: linear-gradient(180deg, var(--primary-navy) 0%, var(--primary-navy-light) 100%);
   border-radius: 2px;
 }
 
@@ -537,25 +690,36 @@ body {
 }
 
 .fc .fc-daygrid-day.fc-day-today {
-  background-color: #eff6ff !important;
+  background-color: var(--primary-navy-50) !important;
 }
 
 .fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
-  color: #1e40af !important;
+  color: var(--primary-navy) !important;
   font-weight: 700 !important;
 }
 
 .fc .fc-event {
-  background-color: #1e40af !important;
-  border-color: #1e40af !important;
+  background-color: var(--primary-navy) !important;
+  border-color: var(--primary-navy) !important;
   color: white !important;
   font-size: 0.75rem !important;
   font-weight: 500 !important;
 }
 
 .fc .fc-event:hover {
-  background-color: #1e3a8a !important;
-  border-color: #1e3a8a !important;
+  background-color: var(--primary-navy-dark) !important;
+  border-color: var(--primary-navy-dark) !important;
+}
+
+.fc .fc-event.fc-event-gold {
+  background-color: var(--accent-gold) !important;
+  border-color: var(--accent-gold) !important;
+  color: #1f2937 !important;
+}
+
+.fc .fc-event.fc-event-gold:hover {
+  background-color: var(--accent-gold-dark) !important;
+  border-color: var(--accent-gold-dark) !important;
 }
 
 .fc .fc-daygrid-day {
@@ -571,7 +735,7 @@ body {
 }
 
 #blogger-preview h2 {
-  background-color: #414FA3;
+  background-color: var(--primary-navy);
   color: #ffffff;
   display: flex;
   font-size: 24px;

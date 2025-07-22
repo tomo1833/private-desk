@@ -47,23 +47,23 @@ const PasswordList: React.FC<PasswordListProps> = ({ passwords }) => {
     );
 
     const TableRow: React.FC<{ password: Password }> = ({ password }) => (
-        <tr key={password.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 text-black">
-            <td className="py-4 px-2 border-b border-gray-300 dark:border-gray-600">{password.site_name}</td>
-            <td className="py-4 px-2 border-b border-gray-300 dark:border-gray-600">{renderLink(password.site_url)}</td>
-            <td className="py-4 px-2 border-b border-gray-300 dark:border-gray-600">{password.login_id ?? "N/A"}</td>
+        <tr key={password.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100">
+            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100">{password.site_name}</td>
+            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">{renderLink(password.site_url)}</td>
+            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100">{password.login_id ?? "N/A"}</td>
             <td
-                className="py-4 px-2 border-b border-gray-300 dark:border-gray-600 cursor-pointer text-center"
+                className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 cursor-pointer text-center text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400"
                 onClick={() => handlePasswordClick(password.password, password.id)}
                 aria-label={`Click to copy password for ${password.site_name}`}
                 title="クリックでコピー"
             >
                 **********
             </td>
-            <td className="py-4 px-2 border-b border-gray-300 dark:border-gray-600">{password.email ?? "N/A"}</td>
-            <td className="py-4 px-2 border-b border-gray-300 dark:border-gray-600 text-center">
+            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100">{password.email ?? "N/A"}</td>
+            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-center">
                 <button
                     onClick={() => handleUpdate(password.id)}
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none"
+                    className="btn btn-primary btn-sm"
                     aria-label={`Update details for ${password.site_name}`}
                 >
                     更新
@@ -73,23 +73,25 @@ const PasswordList: React.FC<PasswordListProps> = ({ passwords }) => {
     );
 
     return (
-        <table className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700">
-            <thead>
-                <tr className="bg-gray-100 dark:bg-gray-700">
-                    <th className="py-4 px-2 border-b border-gray-300 dark:border-gray-600 w-1/6 text-left">サイト名</th>
-                    <th className="py-4 px-2 border-b border-gray-300 dark:border-gray-600 w-1/6 text-left">サイトURL</th>
-                    <th className="py-4 px-2 border-b border-gray-300 dark:border-gray-600 w-1/6 text-left">ログインID</th>
-                    <th className="py-4 px-2 border-b border-gray-300 dark:border-gray-600 w-1/6 text-left">パスワード</th>
-                    <th className="py-4 px-2 border-b border-gray-300 dark:border-gray-600 w-1/6 text-left">メールアドレス</th>
-                    <th className="py-4 px-2 border-b border-gray-300 dark:border-gray-600 w-1/6">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                {passwords.map((password) => (
-                    <TableRow key={password.id} password={password} />
-                ))}
-            </tbody>
-        </table>
+        <div className="overflow-x-auto">
+            <table className="w-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg overflow-hidden shadow-sm">
+                <thead>
+                    <tr className="bg-gray-50 dark:bg-gray-700">
+                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">サイト名</th>
+                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">サイトURL</th>
+                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">ログインID</th>
+                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">パスワード</th>
+                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">メールアドレス</th>
+                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-gray-900 dark:text-gray-100 font-semibold">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {passwords.map((password) => (
+                        <TableRow key={password.id} password={password} />
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 };
 

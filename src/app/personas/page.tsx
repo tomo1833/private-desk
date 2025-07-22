@@ -36,9 +36,9 @@ const PersonaListPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-white">ペルソナ一覧</h1>
+      <h1 className="form-title">ペルソナ一覧</h1>
       <div className="flex justify-end my-4">
-        <Link href="/personas/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
+        <Link href="/personas/new" className="btn btn-primary">新規作成</Link>
       </div>
       <ul className="space-y-2">
         {personas.map((p) => (
@@ -46,7 +46,7 @@ const PersonaListPage = () => {
             <p className="font-semibold">{p.name}</p>
             {p.description && <p className="text-sm">{p.description}</p>}
             <div className="flex justify-end space-x-2">
-              <Link href={`/personas/edit/${p.id}`} className="bg-green-500 text-white px-4 py-2 rounded">
+              <Link href={`/personas/edit/${p.id}`} className="btn btn-success">
                 編集
               </Link>
               <button onClick={() => handleDelete(p.id)} className="btn btn-danger">

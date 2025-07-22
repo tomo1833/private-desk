@@ -53,30 +53,44 @@ const AuthorEditPage = () => {
   if (loading) return <div>読み込み中...</div>;
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">著者編集</h1>
-      <form onSubmit={handleUpdate} className="space-y-2">
-        <div>
-          <label className="block">名前</label>
+    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
+      <div className="form-header">
+        <h1 className="text-3xl font-bold mb-2 text-blue-800">著者編集</h1>
+        <p className="form-subtitle">著者情報の編集・更新を行います</p>
+      </div>
+      <form onSubmit={handleUpdate} className="space-y-6">
+        <div className="space-y-4 mb-6">
+          <label className="block text-gray-800 font-semibold mb-2">名前</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border p-2 rounded"
+            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
             required
           />
         </div>
-        <div>
-          <label className="block">Bio</label>
+        <div className="space-y-4 mb-6">
+          <label className="block text-gray-800 font-semibold mb-2">Bio</label>
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            className="w-full border p-2 rounded"
+            className="form-textarea"
             rows={4}
           />
         </div>
-        <div className="flex justify-end space-x-2">
-          <button type="submit" className="btn btn-primary">更新</button>
-          <button type="button" onClick={handleDelete} className="btn btn-danger">削除</button>
+        <div className="flex justify-between gap-3 pt-6 border-t border-gray-200">
+          <div className="btn-group-left">
+            <button
+              type="button"
+              onClick={() => router.push('/authors')}
+              className="btn btn-secondary"
+            >
+              キャンセル
+            </button>
+          </div>
+          <div className="btn-group">
+            <button type="submit" className="btn btn-primary">更新</button>
+            <button type="button" onClick={handleDelete} className="btn btn-danger">削除</button>
+          </div>
         </div>
       </form>
     </div>

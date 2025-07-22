@@ -73,7 +73,7 @@ const MainPage = () => {
 
   return (
     <div className="space-y-4">
-      <div className="card float p-6 mb-6">
+      <div className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 float p-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <p className="text-lg font-semibold text-gray-700">本日の支出</p>
@@ -86,22 +86,22 @@ const MainPage = () => {
         </div>
       </div>
       <div className="flex flex-wrap justify-center gap-3 mb-8">
-        <Link href="/wikis/new" className="btn btn-primary pulse-glow">
+        <Link href="/wikis/new" className="btn btn-primary btn-lg pulse-glow">
           📝 Wiki登録
         </Link>
-        <Link href="/diaries/new" className="btn btn-purple">
+        <Link href="/diaries/new" className="btn btn-gradient btn-lg">
           📔 日報登録
         </Link>
-        <Link href="/blogs/new" className="btn btn-indigo">
+        <Link href="/blogs/new" className="btn btn-gradient btn-lg">
           ✍️ ブログ登録
         </Link>
-        <Link href="/passwords/new" className="btn btn-success">
+        <Link href="/passwords/new" className="btn btn-gradient-gold btn-lg">
           🔐 パスワード登録
         </Link>
         <Link href="/files" className="btn btn-secondary">
           📁 ファイル管理
         </Link>
-        <Link href="/expenses" className="btn btn-warning">
+        <Link href="/expenses" className="btn btn-gold">
           💰 家計簿
         </Link>
         <Link href="/sql" className="btn btn-outline">
@@ -113,7 +113,7 @@ const MainPage = () => {
         {/* 左側：Wiki / 日報 / ブログ */}
         <div className="lg:col-span-2 space-y-6">
 
-          <section className="card p-6">
+          <section className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
             <h2 className="heading-2 mb-4 flex items-center">
               📔 最新日報
             </h2>
@@ -128,12 +128,12 @@ const MainPage = () => {
               <p className="text-gray-500">登録された日報がありません。</p>
             )}
             <div className="flex justify-end mt-4">
-              <Link href="/diaries" className="text-sm text-blue-600 hover:underline font-medium transition-colors">
+              <Link href="/diaries" className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium transition-colors">
                 → 一覧を見る
               </Link>
             </div>
           </section>
-          <section className="card p-6">
+          <section className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
             <h2 className="heading-2 mb-4 flex items-center">
               📝 最新Wiki
             </h2>
@@ -145,13 +145,13 @@ const MainPage = () => {
               <p className="text-gray-500">登録されたWikiがありません。</p>
             )}
             <div className="flex justify-end mt-4">
-              <Link href="/wikis" className="text-sm text-blue-600 hover:underline font-medium transition-colors">
+              <Link href="/wikis" className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium transition-colors">
                 → 一覧を見る
               </Link>
             </div>
           </section>
           
-          <section className="card p-6">
+          <section className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
             <h2 className="heading-2 mb-4 flex items-center">
               ✍️ 最新ブログ
             </h2>
@@ -166,7 +166,7 @@ const MainPage = () => {
               <p className="text-gray-500">登録されたブログがありません。</p>
             )}
             <div className="flex justify-end mt-4">
-              <Link href="/blogs" className="text-sm text-blue-600 hover:underline font-medium transition-colors">
+              <Link href="/blogs" className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium transition-colors">
                 → 一覧を見る
               </Link>
             </div>
@@ -174,7 +174,7 @@ const MainPage = () => {
         </div>
 
         {/* 右側：カレンダー */}
-        <div className="card p-6">
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
           <h2 className="heading-2 mb-4 flex items-center">
             📅 予定カレンダー
           </h2>
@@ -183,7 +183,7 @@ const MainPage = () => {
 
         {/* 下段：全幅パスワード一覧 */}
         <div className="lg:col-span-3">
-          <section className="card p-6">
+          <section className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
             <h2 className="heading-2 mb-4 flex items-center">
               🔐 パスワード一覧
             </h2>

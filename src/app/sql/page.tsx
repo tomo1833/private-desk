@@ -45,16 +45,22 @@ const SqlConsolePage = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">SQLコンソール</h1>
-      <textarea
-        value={sql}
-        onChange={(e) => setSql(e.target.value)}
-        rows={6}
-        className="w-full p-2 border rounded"
-        placeholder="SQLを入力"
-      />
-      <div className="flex gap-2">
+    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
+      <div className="form-header">
+        <h1 className="text-3xl font-bold mb-2 text-blue-800">SQLコンソール</h1>
+        <p className="form-subtitle">データベースに対してSQLクエリを実行します</p>
+      </div>
+      <div className="space-y-4 mb-6">
+        <label className="block text-gray-800 font-semibold mb-2">SQLクエリ</label>
+        <textarea
+          value={sql}
+          onChange={(e) => setSql(e.target.value)}
+          rows={6}
+          className="form-textarea font-mono"
+          placeholder="SQLを入力"
+        />
+      </div>
+      <div className="btn-group mt-2">
         <button onClick={execute} className="btn btn-primary">
           実行
         </button>
@@ -62,7 +68,7 @@ const SqlConsolePage = () => {
           テーブル一覧
         </button>
       </div>
-      {message && <p>{message}</p>}
+      {message && <p className="form-help text-green-600">{message}</p>}
       {tables && (
         <div>
           <h2 className="font-semibold mt-4">テーブル</h2>

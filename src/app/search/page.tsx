@@ -38,43 +38,43 @@ const SearchPage = () => {
     load();
   }, [q]);
 
-  if (!q) return <div className="p-4">検索ワードを入力してください。</div>;
-  if (error) return <div className="p-4 text-red-500">{error}</div>;
-  if (!results) return <div className="p-4">検索中...</div>;
+  if (!q) return <div className="p-4 text-gray-700 dark:text-gray-300">検索ワードを入力してください。</div>;
+  if (error) return <div className="p-4 text-red-600 dark:text-red-400">{error}</div>;
+  if (!results) return <div className="p-4 text-gray-700 dark:text-gray-300">検索中...</div>;
 
   return (
     <div className="space-y-6 p-4">
-      <h1 className="text-2xl font-bold">検索結果: {q}</h1>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">検索結果: {q}</h1>
       <section>
-        <h2 className="font-semibold mb-2">パスワード</h2>
+        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">パスワード</h2>
         {results.passwords.length > 0 ? (
           <PasswordCards passwords={results.passwords} />
         ) : (
-          <p>該当なし</p>
+          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
         )}
       </section>
       <section>
-        <h2 className="font-semibold mb-2">Wiki</h2>
+        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">Wiki</h2>
         {results.wikis.length > 0 ? (
           <WikiCards wikis={results.wikis} />
         ) : (
-          <p>該当なし</p>
+          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
         )}
       </section>
       <section>
-        <h2 className="font-semibold mb-2">日報</h2>
+        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">日報</h2>
         {results.diaries.length > 0 ? (
           <DiaryCards diaries={results.diaries} />
         ) : (
-          <p>該当なし</p>
+          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
         )}
       </section>
       <section>
-        <h2 className="font-semibold mb-2">ブログ</h2>
+        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">ブログ</h2>
         {results.blogs.length > 0 ? (
           <BlogCards blogs={results.blogs} />
         ) : (
-          <p>該当なし</p>
+          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
         )}
       </section>
     </div>

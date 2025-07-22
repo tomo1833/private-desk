@@ -39,7 +39,7 @@ const AuthorListPage = () => {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">著者一覧</h1>
       <div className="flex justify-end my-4">
-        <Link href="/authors/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規作成</Link>
+        <Link href="/authors/new" className="btn btn-primary">新規作成</Link>
       </div>
       <ul className="space-y-2">
         {authors.map((a) => (
@@ -49,7 +49,7 @@ const AuthorListPage = () => {
               <MarkdownRenderer className="text-sm">{a.bio}</MarkdownRenderer>
             )}
             <div className="flex justify-end space-x-2">
-              <Link href={`/authors/edit/${a.id}`} className="bg-green-500 text-white px-4 py-2 rounded">
+              <Link href={`/authors/edit/${a.id}`} className="btn btn-success">
                 編集
               </Link>
               <button onClick={() => handleDelete(a.id)} className="btn btn-danger">

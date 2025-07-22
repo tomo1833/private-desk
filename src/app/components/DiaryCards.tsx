@@ -22,10 +22,10 @@ const DiaryCards: React.FC<Props> = ({ diaries, onDelete }) => {
       {diaries.map((diary) => (
         <div
           key={diary.id}
-          className="border border-gray-200 rounded p-4 bg-blue-100 dark:bg-gray-800 shadow-lg space-y-2 text-black"
+          className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6 space-y-3"
         >
-          <h3 className="font-bold mb-2 truncate">{diary.title}</h3>
-          <p className="line-clamp-3 text-sm whitespace-pre-wrap">{diary.content}</p>
+          <h3 className="font-bold mb-2 truncate text-gray-900 dark:text-white">{diary.title}</h3>
+          <p className="line-clamp-3 text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">{diary.content}</p>
           <div className="flex justify-end space-x-2">
             <button onClick={() => router.push(`/diaries/${diary.id}`)} className="btn btn-primary">
               詳細

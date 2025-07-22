@@ -93,87 +93,94 @@ const UpdatePasswordPage = () => {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4 text-white">パスワード更新</h1>
-      <form onSubmit={handleUpdate} className="space-y-4">
-        <div>
-          <label className="block text-gray-700 font-bold mb-2 text-white" htmlFor="siteName">カテゴリ</label>
+    <div className="form-container">
+      <div className="form-header">
+        <h1 className="form-title">パスワード編集</h1>
+        <p className="form-subtitle">パスワード情報の編集・更新を行います</p>
+      </div>
+      <form onSubmit={handleUpdate} className="space-y-6">
+        <div className="form-section">
+          <label className="form-label" htmlFor="category">カテゴリ</label>
           <input
             id="category"
             type="text"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="form-input"
             required
           />
         </div>
-        <div>
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="siteName">サイト名</label>
+        <div className="form-section">
+          <label className="form-label" htmlFor="siteName">サイト名</label>
           <input
             id="siteName"
             type="text"
             value={siteName}
             onChange={(e) => setSiteName(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="form-input"
             required
           />
         </div>
-        <div>
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="siteUrl">サイトURL</label>
+        <div className="form-section">
+          <label className="form-label" htmlFor="siteUrl">サイトURL</label>
           <input
             id="siteUrl"
             type="text"
             value={siteUrl}
             onChange={(e) => setSiteUrl(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="form-input"
             required
           />
         </div>
-        <div>
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="loginId">ログインID</label>
+        <div className="form-section">
+          <label className="form-label" htmlFor="loginId">ログインID</label>
           <input
             id="loginId"
             type="text"
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="form-input"
           />
         </div>
-        <div>
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="password">パスワード</label>
+        <div className="form-section">
+          <label className="form-label" htmlFor="password">パスワード</label>
           <input
             id="password"
             type="text"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="form-input"
           />
         </div>
-        <div>
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="email">メールアドレス</label>
+        <div className="form-section">
+          <label className="form-label" htmlFor="email">メールアドレス</label>
           <input
             id="email"
-            type="text"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="form-input"
           />
         </div>
-        <div>
-          <label className="block text-gray-700 font-bold mb-2" htmlFor="memo">メモ</label>
+        <div className="form-section">
+          <label className="form-label" htmlFor="memo">メモ</label>
           <textarea
-            id="content"
+            id="memo"
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="form-textarea"
             rows={6}
           />
         </div>
-        <div className="flex justify-end">
+        <div className="btn-group-between pt-4 mt-6 border-t border-gray-200">
           <button
-            type="submit"
-            className="btn btn-primary"
+            type="button"
+            onClick={() => router.push('/')}
+            className="btn btn-secondary"
           >
+            キャンセル
+          </button>
+          <button type="submit" className="btn btn-primary">
             更新
           </button>
         </div>

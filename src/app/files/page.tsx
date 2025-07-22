@@ -66,10 +66,13 @@ const FileManagerPage = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-white">ファイル管理</h1>
+    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
+      <div className="form-header">
+        <h1 className="text-3xl font-bold mb-2 text-blue-800">ファイル管理</h1>
+        <p className="form-subtitle">ファイルのアップロードやフォルダ作成を行います</p>
+      </div>
       {path && (
-        <button onClick={goUp} className="text-blue-600 hover:underline">
+        <button onClick={goUp} className="text-blue-600 dark:text-blue-400 hover:underline">
           上のフォルダへ
         </button>
       )}
@@ -77,35 +80,41 @@ const FileManagerPage = () => {
         {entries.map((e) => (
           <li key={e.name}>
             {e.isDirectory ? (
-              <button onClick={() => openDir(e.name)} className="text-blue-600 hover:underline">
+              <button onClick={() => openDir(e.name)} className="text-blue-600 dark:text-blue-400 hover:underline">
                 {e.name}/
               </button>
             ) : (
-              <a href={`/docs/${path ? path + '/' : ''}${e.name}`} download className="text-blue-600 hover:underline">
+              <a href={`/docs/${path ? path + '/' : ''}${e.name}`} download className="text-blue-600 dark:text-blue-400 hover:underline">
                 {e.name}
               </a>
             )}
           </li>
         ))}
       </ul>
-      <form onSubmit={handleCreate} className="space-x-2">
-        <input
-          value={folderName}
-          onChange={(e) => setFolderName(e.target.value)}
-          placeholder="フォルダ名"
-          className="border p-1"
-          required
-        />
-        <button type="submit" className="btn btn-sm btn-primary">
-          フォルダ作成
-        </button>
-      </form>
-      <form onSubmit={handleUpload} className="space-x-2">
-        <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-        <button type="submit" className="btn btn-sm btn-primary">
-          アップロード
-        </button>
-      </form>
+      <div className="space-y-4 mb-6">
+        <label className="block text-gray-800 font-semibold mb-2">フォルダ作成</label>
+        <form onSubmit={handleCreate} className="flex gap-2">
+          <input
+            value={folderName}
+            onChange={(e) => setFolderName(e.target.value)}
+            placeholder="フォルダ名"
+            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 flex-1"
+            required
+          />
+          <button type="submit" className="btn btn-sm btn-primary">
+            作成
+          </button>
+        </form>
+      </div>
+      <div className="space-y-4 mb-6">
+        <label className="block text-gray-800 font-semibold mb-2">ファイルアップロード</label>
+        <form onSubmit={handleUpload} className="flex gap-2">
+          <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} className="form-file flex-1" />
+          <button type="submit" className="btn btn-sm btn-primary">
+            アップロード
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

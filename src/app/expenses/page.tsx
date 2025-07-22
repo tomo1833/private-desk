@@ -38,7 +38,7 @@ const ExpenseListPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">今月の支出</h1>
-      <Link href="/expenses/new" className="bg-blue-500 text-white px-4 py-2 rounded">新規追加</Link>
+      <Link href="/expenses/new" className="btn btn-primary">新規追加</Link>
       <table className="w-full text-sm mt-2 border">
         <thead>
           <tr className="bg-gray-100">
