@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const trimmed = sql.trim();
     const firstWord = trimmed.split(/\s+/)[0].toUpperCase();
     if (['SELECT', 'PRAGMA', 'WITH'].includes(firstWord)) {
-      const rows = runSelect<any>(sql);
+      const rows = runSelect<Record<string, unknown>>(sql);
       return NextResponse.json({ rows });
     }
     runExecute(sql);

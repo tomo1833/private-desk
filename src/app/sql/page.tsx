@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const SqlConsolePage = () => {
   const [sql, setSql] = useState('');
-  const [rows, setRows] = useState<any[] | null>(null);
+  const [rows, setRows] = useState<Record<string, unknown>[] | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [tables, setTables] = useState<string[] | null>(null);
 
@@ -26,7 +26,8 @@ const SqlConsolePage = () => {
       } else {
         setMessage(data.message || 'ok');
       }
-    } catch (err) {
+  } catch (err) {
+      console.error(err);
       setMessage('execution failed');
     }
   };

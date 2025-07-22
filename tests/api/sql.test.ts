@@ -11,7 +11,7 @@ describe('SQL API', () => {
 
   it('should list tables', async () => {
     const req = new Request('http://localhost/api/sql/tables');
-    const res = await GET_TABLES(req as any);
+    const res = await GET_TABLES(req as unknown as Request);
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
@@ -25,7 +25,7 @@ describe('SQL API', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sql: `INSERT INTO author (name, bio) VALUES ('${testName}', 'bio')` }),
     });
-    let res = await POST(req as any);
+    let res = await POST(req as unknown as Request);
     expect(res.status).toBe(200);
     const inserted = runSelect('SELECT * FROM author WHERE name = ?', [testName]);
     expect(inserted.length).toBe(1);
@@ -36,7 +36,7 @@ describe('SQL API', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sql: `SELECT name FROM author WHERE name = '${testName}'` }),
     });
-    res = await POST(req as any);
+    res = await POST(req as unknown as Request);
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.rows[0].name).toBe(testName);
