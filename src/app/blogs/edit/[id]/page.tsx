@@ -4,6 +4,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import type { Blog } from '@/types/blog';
 import BlogEditor from '@/app/components/BlogEditor';
+import { marked } from 'marked';
+import TurndownService from 'turndown';
 
 const BlogEditPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -90,6 +92,18 @@ const BlogEditPage = () => {
     }
   };
 
+  const markdownToHtml = () => {
+    setForm({ ...form, content_html: marked(form.content_markdown) });
+  };
+
+  const htmlToMarkdown = () => {
+    const turndownService = new TurndownService();
+    setForm({
+      ...form,
+      content_markdown: turndownService.turndown(form.content_html),
+    });
+  };
+
   if (loading) return <div>読み込み中...</div>;
 
   return (
@@ -124,6 +138,22 @@ const BlogEditPage = () => {
             onChange={(value) => setForm({ ...form, content_markdown: value })}
             className="bg-white"
           />
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              type="button"
+              onClick={markdownToHtml}
+              className="btn btn-secondary btn-sm"
+            >
+              Markdown→HTML
+            </button>
+            <button
+              type="button"
+              onClick={htmlToMarkdown}
+              className="btn btn-secondary btn-sm"
+            >
+              HTML→Markdown
+            </button>
+          </div>
         </div>
         <div>
           <label className="block mb-2 text-white">コンテンツ(HTML)</label>
