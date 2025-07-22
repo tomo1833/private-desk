@@ -40,8 +40,10 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
           parser: "html" as BuiltInParserName,
           plugins: [parserHtml],
         });
-        const cleaned = String(formatted)
-          .replace(/<p>\s*\n\s*(.*?)\s*\n\s*<\/p>/gs, (_, p) => `<p>${p.trim()}</p>`);
+        const cleaned = String(formatted).replace(
+          /<p>\s*([\s\S]*?)\s*<\/p>/g,
+          (_, p) => `<p>${p.trim()}</p>`,
+        );
         onChange(cleaned);
       } catch (err) {
         console.error("format error", err);
@@ -68,7 +70,10 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
           className="w-full border p-2 rounded h-48 font-mono whitespace-pre"
         />
       ) : (
-        <EditorContent editor={editor} className="border p-2 rounded min-h-[3rem]" />
+        <EditorContent
+          editor={editor}
+          className="border p-2 rounded min-h-[3rem]"
+        />
       )}
     </div>
   );
