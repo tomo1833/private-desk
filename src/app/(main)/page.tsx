@@ -104,6 +104,9 @@ const MainPage = () => {
         <Link href="/expenses" className="btn btn-warning">
           💰 家計簿
         </Link>
+        <Link href="/sql" className="btn btn-outline">
+          🛢 SQLコンソール
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
