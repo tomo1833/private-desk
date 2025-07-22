@@ -34,7 +34,8 @@ const NewPersonaPage = () => {
         </div>
         <div className="space-y-4 mb-6">
           <label className="block text-gray-800 font-semibold mb-2">詳細</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical" rows={4} />
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} 
+          className="form-textarea w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical" rows={4} />
         </div>
         <div className="btn-group-between pt-4 mt-6 border-t border-gray-200">
           <button

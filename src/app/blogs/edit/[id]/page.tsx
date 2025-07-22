@@ -132,7 +132,7 @@ const BlogEditPage = () => {
             name="content"
             value={form.content}
             onChange={handleChange}
-            className="form-textarea font-mono whitespace-pre"
+            className="form-textarea font-mono whitespace-pre w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical"
             rows={4}
             required
           />

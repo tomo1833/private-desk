@@ -65,7 +65,7 @@ const DiaryEditPage = () => {
         </div>
         <div className="space-y-4 mb-6">
           <label className="block text-gray-800 font-semibold mb-2">内容</label>
-          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="form-textarea" rows={6} required />
+          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical" rows={6} required />
         </div>
         <div className="flex justify-between gap-3 pt-6 border-t border-gray-200">
           <div className="btn-group-left">
