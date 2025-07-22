@@ -40,7 +40,9 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
           parser: "html" as BuiltInParserName,
           plugins: [parserHtml],
         });
-        onChange(String(formatted));
+        const cleaned = String(formatted)
+          .replace(/<p>\s*\n\s*(.*?)\s*\n\s*<\/p>/gs, (_, p) => `<p>${p.trim()}</p>`);
+        onChange(cleaned);
       } catch (err) {
         console.error("format error", err);
       }
