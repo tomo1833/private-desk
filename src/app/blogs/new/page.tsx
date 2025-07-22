@@ -71,7 +71,10 @@ const NewBlogPage = () => {
   };
 
   const markdownToHtml = () => {
-    setForm({ ...form, content_html: marked(form.content_markdown) });
+    setForm({
+      ...form,
+      content_html: marked(form.content_markdown, { async: false }),
+    });
   };
 
   const htmlToMarkdown = () => {
