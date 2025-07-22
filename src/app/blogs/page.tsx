@@ -65,7 +65,7 @@ const BlogListPage = () => {
       </div>
       <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {blogs.map((blog) => (
-          <li key={blog.id} className="border p-4 rounded space-y-2">
+          <li key={blog.id} className="bg-white/90 border p-4 rounded space-y-2">
             <Link href={`/blogs/${blog.id}`} className="font-semibold hover:underline block">
               {blog.title}
             </Link>
