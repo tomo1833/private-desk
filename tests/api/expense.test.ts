@@ -31,7 +31,7 @@ describe('GET /api/expense', () => {
 });
 
 describe('POST /api/expense', () => {
-  const entry = { category: 'jest', amount: 123, shop: 'store', used_at: '2099-01-01', product_name: 'item', remark: 'memo' };
+  const entry = { category: 'jest', amount: 123, shop: 'store', used_at: '2099-01-01', used_by: '共有', product_name: 'item', remark: 'memo' };
   afterAll(() => {
     runExecute('DELETE FROM expenses WHERE category = ?', [entry.category]);
   });
@@ -45,6 +45,7 @@ describe('POST /api/expense', () => {
 
     const rows = runSelect('SELECT * FROM expenses WHERE category = ?', [entry.category]);
     expect(rows.length).toBe(1);
+    expect(rows[0].used_by).toBe('共有');
   });
 
   it('should return 400 when required fields missing', async () => {
@@ -55,7 +56,7 @@ describe('POST /api/expense', () => {
 });
 
 describe('Expense update and delete', () => {
-  const entry = { category: 'jest2', amount: 100, shop: 'shop', used_at: '2099-01-02', product_name: 'item2', remark: 'memo2' };
+  const entry = { category: 'jest2', amount: 100, shop: 'shop', used_at: '2099-01-02', used_by: '夫', product_name: 'item2', remark: 'memo2' };
   let id: number;
   afterAll(() => {
     runExecute('DELETE FROM expenses WHERE id = ?', [id]);
@@ -68,7 +69,7 @@ describe('Expense update and delete', () => {
     const row = runSelect('SELECT * FROM expenses WHERE category = ?', [entry.category])[0];
     id = row.id;
 
-    const updateReq = createPutRequest(id, { ...entry, category: 'up', product_name: 'updated', remark: 'updated memo' });
+    const updateReq = createPutRequest(id, { ...entry, category: 'up', used_by: '妻', product_name: 'updated', remark: 'updated memo' });
     const updateRes = await PUT(updateReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(updateRes.status).toBe(200);
 
@@ -76,6 +77,7 @@ describe('Expense update and delete', () => {
     expect(updatedRow.category).toBe('up');
     expect(updatedRow.product_name).toBe('updated');
     expect(updatedRow.remark).toBe('updated memo');
+    expect(updatedRow.used_by).toBe('妻');
 
     const deleteReq = new Request(`http://localhost/api/expense/${id}`, { method: 'DELETE' });
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);

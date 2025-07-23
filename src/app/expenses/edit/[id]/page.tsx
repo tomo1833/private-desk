@@ -10,10 +10,11 @@ const ExpenseEditPage = () => {
     category: string;
     amount: string;
     shop: string;
+    used_by: string | null;
     product_name: string | null;
     remark: string | null;
     used_at: string;
-  }>({ category: '', amount: '', shop: '', product_name: '', remark: '', used_at: '' });
+  }>({ category: '', amount: '', shop: '', used_by: '', product_name: '', remark: '', used_at: '' });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const ExpenseEditPage = () => {
           category: data.category,
           amount: String(data.amount),
           shop: data.shop,
+          used_by: data.used_by ?? '',
           product_name: data.product_name ?? '',
           remark: data.remark ?? '',
           used_at: data.used_at,
@@ -44,6 +46,7 @@ const ExpenseEditPage = () => {
         category: form.category,
         amount: Number(form.amount),
         shop: form.shop,
+        used_by: form.used_by,
         product_name: form.product_name,
         remark: form.remark,
         used_at: form.used_at,
@@ -86,6 +89,14 @@ const ExpenseEditPage = () => {
         <div className="space-y-4 mb-6">
           <label className="block text-gray-800 font-semibold mb-2">お店</label>
           <input value={form.shop} onChange={(e) => setForm({ ...form, shop: e.target.value })} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400" required />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="block text-gray-800 font-semibold mb-2">利用者</label>
+          <input
+            value={form.used_by ?? ''}
+            onChange={(e) => setForm({ ...form, used_by: e.target.value })}
+            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+          />
         </div>
         <div className="space-y-4 mb-6">
           <label className="block text-gray-800 font-semibold mb-2">商品名</label>

@@ -26,13 +26,13 @@ export async function GET(request: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { category, amount, shop, used_at, product_name, remark } = body;
+    const { category, amount, shop, used_at, used_by, product_name, remark } = body;
     if (!category || !amount || !shop || !used_at) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
     runExecute(
-      'INSERT INTO expenses (category, amount, shop, used_at, product_name, remark) VALUES (?, ?, ?, ?, ?, ?)',
-      [category, Number(amount), shop, used_at, product_name ?? null, remark ?? null]
+      'INSERT INTO expenses (category, amount, shop, used_at, used_by, product_name, remark) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [category, Number(amount), shop, used_at, used_by ?? null, product_name ?? null, remark ?? null]
     );
     return NextResponse.json({ message: '登録成功' });
   } catch (error) {

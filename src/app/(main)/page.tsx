@@ -56,9 +56,9 @@ const MainPage = () => {
       const res = await fetch(`/api/expense?month=${month}`);
       if (res.ok) {
         const data: Expense[] = await res.json();
-        const mTotal = data.reduce((sum, e) => sum + e.amount, 0);
+        const mTotal = data.filter(e => e.used_by === '共有').reduce((sum, e) => sum + e.amount, 0);
         const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-        const tTotal = data.filter(e => e.used_at === todayStr).reduce((s, e) => s + e.amount, 0);
+        const tTotal = data.filter(e => e.used_at === todayStr && e.used_by === '共有').reduce((s, e) => s + e.amount, 0);
         setMonthTotal(mTotal);
         setTodayTotal(tTotal);
       }
@@ -73,7 +73,7 @@ const MainPage = () => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 float p-6 mb-6">
+      <div className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 float p-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <p className="text-lg font-semibold text-gray-700">本日の支出</p>
@@ -113,7 +113,7 @@ const MainPage = () => {
         {/* 左側：Wiki / 日報 / ブログ */}
         <div className="lg:col-span-2 space-y-6">
 
-          <section className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
+          <section className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
             <h2 className="heading-2 mb-4 flex items-center">
               📔 最新日報
             </h2>
@@ -133,7 +133,7 @@ const MainPage = () => {
               </Link>
             </div>
           </section>
-          <section className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
+          <section className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
             <h2 className="heading-2 mb-4 flex items-center">
               📝 最新Wiki
             </h2>
@@ -151,7 +151,7 @@ const MainPage = () => {
             </div>
           </section>
           
-          <section className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
+          <section className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
             <h2 className="heading-2 mb-4 flex items-center">
               ✍️ 最新ブログ
             </h2>
@@ -174,7 +174,7 @@ const MainPage = () => {
         </div>
 
         {/* 右側：カレンダー */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
+        <div className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
           <h2 className="heading-2 mb-4 flex items-center">
             📅 予定カレンダー
           </h2>
@@ -183,7 +183,7 @@ const MainPage = () => {
 
         {/* 下段：全幅パスワード一覧 */}
         <div className="lg:col-span-3">
-          <section className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
+          <section className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
             <h2 className="heading-2 mb-4 flex items-center">
               🔐 パスワード一覧
             </h2>
