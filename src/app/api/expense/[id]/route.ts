@@ -23,13 +23,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const { id } = await params;
   try {
     const body = await request.json();
-    const { category, amount, shop, used_at, product_name, remark } = body;
+    const { category, amount, shop, used_at, used_by, product_name, remark } = body;
     if (!category || !amount || !shop || !used_at) {
       return NextResponse.json({ error: 'required fields missing' }, { status: 400 });
     }
     runExecute(
-      'UPDATE expenses SET category = ?, amount = ?, shop = ?, used_at = ?, product_name = ?, remark = ? WHERE id = ?',
-      [category, Number(amount), shop, used_at, product_name ?? null, remark ?? null, Number(id)]
+      'UPDATE expenses SET category = ?, amount = ?, shop = ?, used_at = ?, used_by = ?, product_name = ?, remark = ? WHERE id = ?',
+      [category, Number(amount), shop, used_at, used_by ?? null, product_name ?? null, remark ?? null, Number(id)]
     );
     return NextResponse.json({ message: 'expense updated successfully.' });
   } catch (error) {

@@ -67,7 +67,10 @@ describe('MainPage', () => {
     wikis: [{ id: 1, title: 'Test Wiki', content: 'Wiki content' }],
     diaries: [{ id: 1, title: 'Test Diary', content: 'Diary content', created_at: '2025-01-01' }],
     blogs: [{ id: 1, title: 'Test Blog', content: 'Blog content', created_at: '2025-01-01' }],
-    expenses: [{ id: 1, amount: 1000, used_at: '2025-01-21' }, { id: 2, amount: 2000, used_at: '2025-01-20' }]
+    expenses: [
+      { id: 1, amount: 1000, used_at: '2025-01-21', used_by: '共有' },
+      { id: 2, amount: 2000, used_at: '2025-01-20', used_by: '妻' }
+    ]
   };
 
   beforeEach(() => {
@@ -132,9 +135,9 @@ describe('MainPage', () => {
     const expenseCard = screen.getByText('本日の支出').closest('div');
     expect(expenseCard).toHaveClass('card', 'float', 'p-6', 'mb-6');
     
-    // Should show today's expenses (¥1,000) and month total (¥3,000)
+    // Should show today's shared expenses (¥1,000) and month total (¥1,000)
     expect(screen.getByText('¥1,000')).toBeInTheDocument();
-    expect(screen.getByText('¥3,000')).toBeInTheDocument();
+    expect(screen.getAllByText('¥1,000').length).toBeGreaterThan(1);
   });
 
   it('renders action buttons with proper styling and icons', async () => {

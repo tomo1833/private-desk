@@ -7,6 +7,7 @@ const NewExpensePage = () => {
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
   const [shop, setShop] = useState('');
+  const [usedBy, setUsedBy] = useState('');
   const [productName, setProductName] = useState('');
   const [remark, setRemark] = useState('');
   const [usedAt, setUsedAt] = useState('');
@@ -21,6 +22,7 @@ const NewExpensePage = () => {
         amount: Number(amount),
         shop,
         used_at: usedAt,
+        used_by: usedBy || null,
         product_name: productName || null,
         remark: remark || null,
       }),
@@ -50,6 +52,10 @@ const NewExpensePage = () => {
         <div className="space-y-4 mb-6">
           <label className="block text-gray-800 font-semibold mb-2">お店</label>
           <input value={shop} onChange={(e) => setShop(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400" required />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="block text-gray-800 font-semibold mb-2">利用者</label>
+          <input value={usedBy} onChange={(e) => setUsedBy(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400" />
         </div>
         <div className="space-y-4 mb-6">
           <label className="block text-gray-800 font-semibold mb-2">商品名</label>

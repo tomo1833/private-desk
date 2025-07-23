@@ -62,6 +62,7 @@ db.exec(`
     category TEXT NOT NULL,
     amount INTEGER NOT NULL,
     shop TEXT NOT NULL,
+    used_by TEXT,
     product_name TEXT,
     remark TEXT,
     used_at TEXT NOT NULL,
