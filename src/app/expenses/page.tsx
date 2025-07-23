@@ -38,7 +38,10 @@ const ExpenseListPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">今月の支出</h1>
-      <Link href="/expenses/new" className="btn btn-primary">新規追加</Link>
+      <div className="flex gap-2">
+        <Link href="/expenses/new" className="btn btn-primary">新規追加</Link>
+        <Link href="/expenses/stats" className="btn btn-secondary">月次集計</Link>
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm mt-2 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg overflow-hidden shadow-sm">
           <thead>
