@@ -27,7 +27,7 @@ const DiaryListPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">日報一覧</h1>
+      <h1 className="text-2xl font-bold text-white">日報一覧</h1>
       <div className="flex justify-end my-4">
         <Link href="/diaries/new" className="btn btn-primary">
           新規作成

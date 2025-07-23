@@ -44,7 +44,7 @@ const SearchPage = () => {
 
   return (
     <div className="space-y-6 p-4">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">検索結果: {q}</h1>
+      <h1 className="text-2xl font-bold text-white">検索結果: {q}</h1>
       <section>
         <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">パスワード</h2>
         {results.passwords.length > 0 ? (

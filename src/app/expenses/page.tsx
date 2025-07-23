@@ -37,7 +37,7 @@ const ExpenseListPage = () => {
   if (error) return <div>読み込みエラー</div>;
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">今月の支出</h1>
+      <h1 className="text-2xl font-bold text-white">今月の支出</h1>
       <div className="flex gap-2">
         <Link href="/expenses/new" className="btn btn-primary">新規追加</Link>
         <Link href="/expenses/stats" className="btn btn-secondary">月次集計</Link>
