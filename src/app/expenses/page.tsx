@@ -39,37 +39,39 @@ const ExpenseListPage = () => {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">今月の支出</h1>
       <Link href="/expenses/new" className="btn btn-primary">新規追加</Link>
-      <table className="w-full text-sm mt-2 border">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="px-2 py-1 border">日付</th>
-            <th className="px-2 py-1 border">勘定科目</th>
-            <th className="px-2 py-1 border">金額</th>
-            <th className="px-2 py-1 border">お店</th>
-            <th className="px-2 py-1 border">利用者</th>
-            <th className="px-2 py-1 border">商品名</th>
-            <th className="px-2 py-1 border">備考</th>
-            <th className="px-2 py-1 border">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenses.map((e) => (
-            <tr key={e.id} className="border-b">
-              <td className="px-2 py-1 border">{e.used_at}</td>
-              <td className="px-2 py-1 border">{e.category}</td>
-              <td className="px-2 py-1 border text-right">¥{e.amount}</td>
-              <td className="px-2 py-1 border">{e.shop}</td>
-              <td className="px-2 py-1 border">{e.used_by}</td>
-              <td className="px-2 py-1 border">{e.product_name}</td>
-              <td className="px-2 py-1 border whitespace-pre-wrap">{e.remark}</td>
-              <td className="px-2 py-1 border text-center space-x-2">
-                <button onClick={() => location.href=`/expenses/edit/${e.id}`} className="btn btn-sm btn-success">編集</button>
-                <button onClick={() => handleDelete(e.id)} className="btn btn-sm btn-danger">削除</button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm mt-2 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg overflow-hidden shadow-sm">
+          <thead>
+            <tr className="bg-gray-50 dark:bg-gray-700">
+              <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">日付</th>
+              <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">勘定科目</th>
+              <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">金額</th>
+              <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">お店</th>
+              <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">利用者</th>
+              <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">商品名</th>
+              <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">備考</th>
+              <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">操作</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {expenses.map((e) => (
+              <tr key={e.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-600">
+                <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">{e.used_at}</td>
+                <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">{e.category}</td>
+                <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-right">¥{e.amount}</td>
+                <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">{e.shop}</td>
+                <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">{e.used_by}</td>
+                <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">{e.product_name}</td>
+                <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 whitespace-pre-wrap">{e.remark}</td>
+                <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-center space-x-2">
+                  <button onClick={() => location.href=`/expenses/edit/${e.id}`} className="btn btn-sm btn-success">編集</button>
+                  <button onClick={() => handleDelete(e.id)} className="btn btn-sm btn-danger">削除</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
