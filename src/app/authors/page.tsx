@@ -41,7 +41,7 @@ const AuthorListPage = () => {
       <div className="flex justify-end my-4">
         <Link href="/authors/new" className="btn btn-primary">新規作成</Link>
       </div>
-      <ul className="space-y-2">
+      <ul className="space-y-2 bg-white">
         {authors.map((a) => (
           <li key={a.id} className="border p-2 rounded space-y-1">
             <p className="font-semibold">{a.name}</p>
