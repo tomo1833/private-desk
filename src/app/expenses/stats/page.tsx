@@ -62,15 +62,15 @@ const ExpenseStatsPage = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">月別勘定科目集計</h1>
+      <h1 className="text-2xl font-bold text-white">月別勘定科目集計</h1>
       <div className="space-x-4">
         <input
           type="month"
           value={month}
           onChange={e => setMonth(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded bg-white"
         />
-        <select value={user} onChange={e => setUser(e.target.value)} className="border p-2 rounded">
+        <select value={user} onChange={e => setUser(e.target.value)} className="border p-2 rounded bg-white">
           <option value="共有">共有</option>
           <option value="all">全員</option>
           {users.map(u => (
@@ -80,7 +80,7 @@ const ExpenseStatsPage = () => {
           ))}
         </select>
       </div>
-      <Bar data={chartData} />
+      <Bar className="bg-white" data={chartData} />
       <table className="w-full mt-4 bg-white">
         <thead>
           <tr>

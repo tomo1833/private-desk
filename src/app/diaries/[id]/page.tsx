@@ -29,7 +29,7 @@ const DiaryDetailPage = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">{diary.title}</h1>
+      <h1 className="text-2xl font-bold text-white">{diary.title}</h1>
       <MarkdownRenderer className="whitespace-pre-wrap border p-4 rounded bg-white">
         {diary.content}
       </MarkdownRenderer>
