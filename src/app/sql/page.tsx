@@ -56,7 +56,7 @@ const SqlConsolePage = () => {
           value={sql}
           onChange={(e) => setSql(e.target.value)}
           rows={6}
-          className="form-textarea font-mono"
+          className="form-textarea font-mono w-full bg-white"
           placeholder="SQLを入力"
         />
       </div>
