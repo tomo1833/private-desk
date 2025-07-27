@@ -73,7 +73,7 @@ const AuthorEditPage = () => {
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            className="form-textarea"
+            className="form-textarea  bg-white w-full"
             rows={4}
           />
         </div>
