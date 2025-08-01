@@ -7,11 +7,13 @@ const ExpenseListPage = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [categoryFilter, setCategoryFilter] = useState('');
+  const [month, setMonth] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  });
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    const now = new Date();
-    const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
     const params = new URLSearchParams({ month });
     if (categoryFilter) params.append('category', categoryFilter);
     try {
@@ -25,7 +27,7 @@ const ExpenseListPage = () => {
     } catch (err) {
       setError((err as Error).message);
     }
-  }, [categoryFilter]);
+  }, [categoryFilter, month]);
 
   useEffect(() => {
     load();
@@ -41,13 +43,27 @@ const ExpenseListPage = () => {
     }
   };
 
+  const formatMonth = (m: string) => {
+    const [y, mm] = m.split('-');
+    return `${y}年${mm}月`;
+  };
+
   if (error) return <div>読み込みエラー</div>;
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-white">今月の支出</h1>
+      <h1 className="text-2xl font-bold text-white">{formatMonth(month)}の支出</h1>
       <div className="flex gap-2 items-center flex-wrap">
         <Link href="/expenses/new" className="btn btn-primary">新規追加</Link>
         <Link href="/expenses/stats" className="btn btn-secondary">月次集計</Link>
+        <input
+          type="month"
+          value={month}
+          onChange={(e) => {
+            setMonth(e.target.value);
+            setCategoryFilter('');
+          }}
+          className="border border-gray-300 p-2 rounded-lg bg-white text-gray-900"
+        />
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
