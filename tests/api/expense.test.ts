@@ -30,6 +30,27 @@ describe('GET /api/expense', () => {
   });
 });
 
+describe('GET /api/expense with category filter', () => {
+  const catA = 'jest-catA';
+  const catB = 'jest-catB';
+  beforeAll(() => {
+    runExecute('INSERT INTO expenses (category, amount, shop, used_at) VALUES (?, ?, ?, ?)', [catA, 1, 's', '2099-02-01']);
+    runExecute('INSERT INTO expenses (category, amount, shop, used_at) VALUES (?, ?, ?, ?)', [catB, 2, 's', '2099-02-02']);
+  });
+  afterAll(() => {
+    runExecute('DELETE FROM expenses WHERE category IN (?, ?)', [catA, catB]);
+  });
+
+  it('should return only specified category', async () => {
+    const req = new Request(`http://localhost/api/expense?month=2099-02&category=${catA}`);
+    const res = await GET(req as any);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(Array.isArray(data)).toBe(true);
+    expect(data.every((d: any) => d.category === catA)).toBe(true);
+  });
+});
+
 describe('POST /api/expense', () => {
   const entry = { category: 'jest', amount: 123, shop: 'store', used_at: '2099-01-01', used_by: '共有', product_name: 'item', remark: 'memo' };
   afterAll(() => {
