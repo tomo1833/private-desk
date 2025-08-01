@@ -5,17 +5,26 @@ import type { Expense } from '@/types/expense';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const month = searchParams.get('month');
+  const category = searchParams.get('category');
   try {
+    let query = 'SELECT * FROM expenses';
+    const params: (string | number | null)[] = [];
+    const conditions: string[] = [];
     if (month) {
       const start = `${month}-01`;
       const end = `${month}-31`;
-      const results = runSelect<Expense>(
-        'SELECT * FROM expenses WHERE used_at BETWEEN ? AND ? ORDER BY used_at DESC',
-        [start, end]
-      );
-      return NextResponse.json(results);
+      conditions.push('used_at BETWEEN ? AND ?');
+      params.push(start, end);
     }
-    const results = runSelect<Expense>('SELECT * FROM expenses ORDER BY used_at DESC');
+    if (category) {
+      conditions.push('category = ?');
+      params.push(category);
+    }
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+    query += ' ORDER BY used_at DESC';
+    const results = runSelect<Expense>(query, params);
     return NextResponse.json(results);
   } catch (error) {
     console.error(error);

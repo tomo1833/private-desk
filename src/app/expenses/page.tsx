@@ -1,28 +1,35 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import type { Expense } from '@/types/expense';
 
 const ExpenseListPage = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     const now = new Date();
     const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const params = new URLSearchParams({ month });
+    if (categoryFilter) params.append('category', categoryFilter);
     try {
-      const res = await fetch(`/api/expense?month=${month}`);
+      const res = await fetch(`/api/expense?${params.toString()}`);
       if (!res.ok) throw new Error('読み込み失敗');
       const data: Expense[] = await res.json();
       setExpenses(data);
+      if (!categoryFilter) {
+        setCategories([...new Set(data.map((d) => d.category))]);
+      }
     } catch (err) {
       setError((err as Error).message);
     }
-  };
+  }, [categoryFilter]);
 
   useEffect(() => {
     load();
-  }, []);
+  }, [load]);
 
   const handleDelete = async (id: number) => {
     if (!confirm('削除しますか？')) return;
@@ -38,9 +45,21 @@ const ExpenseListPage = () => {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-white">今月の支出</h1>
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center flex-wrap">
         <Link href="/expenses/new" className="btn btn-primary">新規追加</Link>
         <Link href="/expenses/stats" className="btn btn-secondary">月次集計</Link>
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className="border border-gray-300 p-2 rounded-lg bg-white text-gray-900"
+        >
+          <option value="">すべてのカテゴリ</option>
+          {categories.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm mt-2 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg overflow-hidden shadow-sm">
