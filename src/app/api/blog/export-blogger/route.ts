@@ -20,8 +20,9 @@ export async function GET() {
   const worksheet = XLSX.utils.json_to_sheet(data);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, 'Blogger');
-  const buffer: Buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
-  return new NextResponse(buffer, {
+  const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' }) as Buffer;
+  const bytes = new Uint8Array(buffer);
+  return new NextResponse(bytes, {
     headers: {
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'Content-Disposition': 'attachment; filename="blogger_list.xlsx"',
