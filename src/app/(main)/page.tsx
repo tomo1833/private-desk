@@ -1,201 +1,208 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import PasswordList from '../components/PasswordList';
-import WikiCards from '../components/WikiCards';
-import DiaryCards from '../components/DiaryCards';
-import BlogCards from '../components/BlogCards';
-import ScheduleCalendar from '../components/ScheduleCalendar';
-import type { Password } from '@/types/password';
-import type { Wiki } from '@/types/wiki';
+import { useRouter } from 'next/navigation';
 import type { Diary } from '@/types/diary';
-import type { Blog } from '@/types/blog';
-import type { Expense } from '@/types/expense';
 
 const MainPage = () => {
-  const [passwords, setPasswords] = useState<Password[]>([]);
-  const [wikis, setWikis] = useState<Wiki[]>([]);
   const [diaries, setDiaries] = useState<Diary[]>([]);
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [monthTotal, setMonthTotal] = useState(0);
-  const [todayTotal, setTodayTotal] = useState(0);
-  const [errors, setErrors] = useState<{
-    diaries?: string;
-    wikis?: string;
-    passwords?: string;
-    blogs?: string;
-  }>({});
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  const fetchData = useCallback(
-    async <T,>(url: string, setter: (data: T) => void, key: keyof typeof errors) => {
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`${key}の取得に失敗しました。`);
-        const data: T = await response.json();
-        setter(data);
-      } catch (err) {
-        console.error(`Error fetching ${key}:`, err);
-        setErrors((prev) => ({ ...prev, [key]: (err as Error).message }));
-      }
-    },
-    [],
-  );
+  // スワイプ処理用のref
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
 
   useEffect(() => {
-    const loadData = async () => {
-      await Promise.all([
-        fetchData<Password[]>('/api/passwords', setPasswords, 'passwords'),
-        fetchData<Wiki[]>('/api/wiki?limit=5', setWikis, 'wikis'),
-        fetchData<Diary[]>('/api/diary?limit=3', setDiaries, 'diaries'),
-        fetchData<Blog[]>('/api/blog?limit=2', setBlogs, 'blogs'),
-      ]);
-      const now = new Date();
-      const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-      const res = await fetch(`/api/expense?month=${month}`);
-      if (res.ok) {
-        const data: Expense[] = await res.json();
-        const mTotal = data.filter(e => e.used_by === '共有').reduce((sum, e) => sum + e.amount, 0);
-        const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-        const tTotal = data.filter(e => e.used_at === todayStr && e.used_by === '共有').reduce((s, e) => s + e.amount, 0);
-        setMonthTotal(mTotal);
-        setTodayTotal(tTotal);
+    const loadDiaries = async () => {
+      try {
+        const response = await fetch('/api/diary');
+        if (!response.ok) throw new Error('日記の取得に失敗しました。');
+        const data: Diary[] = await response.json();
+        setDiaries(data);
+      } catch (err) {
+        console.error('Error fetching diaries:', err);
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
-    loadData();
-  }, [fetchData]);
+    loadDiaries();
+  }, []);
+
+  // スワイプ処理
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current - touchEndX.current > 50) {
+      // 左スワイプ：次の日記へ
+      handleNext();
+    }
+    if (touchStartX.current - touchEndX.current < -50) {
+      // 右スワイプ：前の日記へ
+      handlePrevious();
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < diaries.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
 
   if (loading) {
-    return <div>読み込み中...</div>;
+    return <div className="text-center p-4">読み込み中...</div>;
   }
 
+  const currentDiary = diaries[currentIndex];
+
   return (
-    <div className="space-y-4">
-      <div className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 float p-6 mb-6">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <p className="text-lg font-semibold text-gray-700">本日の支出</p>
-            <p className="text-2xl font-bold text-orange-600">¥{todayTotal.toLocaleString()}</p>
-          </div>
-          <div className="space-y-1 text-right">
-            <p className="text-lg font-semibold text-gray-700">今月の支出</p>
-            <p className="text-2xl font-bold text-purple-600">¥{monthTotal.toLocaleString()}</p>
-          </div>
+    <div className="space-y-6 max-w-7xl mx-auto px-2 sm:px-4">
+      {/* デスクトップ用：その他の機能（上部） */}
+      <div className="hidden sm:block">
+        <h2 className="text-xl sm:text-2xl font-semibold text-white mb-4">
+          その他の機能
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          <Link href="/wikis" className="btn btn-secondary text-sm sm:text-base">
+            📝 Wiki
+          </Link>
+          <Link href="/blogs" className="btn btn-secondary text-sm sm:text-base">
+            ✍️ ブログ
+          </Link>
+          <Link href="/passwords" className="btn btn-secondary text-sm sm:text-base">
+            🔐 パスワード
+          </Link>
+          <Link href="/expenses" className="btn btn-secondary text-sm sm:text-base">
+            💰 家計簿
+          </Link>
+          <Link href="/files" className="btn btn-secondary text-sm sm:text-base">
+            📁 ファイル
+          </Link>
+          <Link href="/sql" className="btn btn-secondary text-sm sm:text-base">
+            🛢 SQL
+          </Link>
+          <Link href="/authors" className="btn btn-secondary text-sm sm:text-base">
+            👤 著者
+          </Link>
+          <Link href="/personas" className="btn btn-secondary text-sm sm:text-base">
+            🎭 ペルソナ
+          </Link>
         </div>
       </div>
-      <div className="flex flex-wrap justify-center gap-3 mb-8">
-        <Link href="/diaries/new" className="btn btn-gradient btn-lg">
-          📔 日報登録
-        </Link>
-        <Link href="/wikis/new" className="btn btn-primary btn-lg pulse-glow">
-          📝 Wiki登録
-        </Link>
-        <Link href="/blogs/new" className="btn btn-gradient btn-lg">
-          ✍️ ブログ登録
-        </Link>
-        <Link href="/passwords/new" className="btn btn-gradient-gold btn-lg">
-          🔐 パスワード登録
-        </Link>
-        <Link href="/expenses" className="btn btn-gold">
-          💰 家計簿
-        </Link>
-        <Link href="/files" className="btn btn-secondary">
-          📁 ファイル管理
-        </Link>
-        <Link href="/sql" className="btn btn-outline">
-          🛢 SQLコンソール
-        </Link>
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* 左側：Wiki / 日報 / ブログ */}
-        <div className="lg:col-span-2 space-y-6">
-
-          <section className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
-            <h2 className="heading-2 mb-4 flex items-center">
-              📔 最新日報
-            </h2>
-            {errors.diaries ? (
-              <p className="text-red-500">{errors.diaries}</p>
-            ) : diaries.length > 0 ? (
-              <DiaryCards
-                diaries={diaries}
-                onDelete={(id) => setDiaries(diaries.filter((d) => d.id !== id))}
-              />
-            ) : (
-              <p className="text-gray-500">登録された日報がありません。</p>
-            )}
-            <div className="flex justify-end mt-4">
-              <Link href="/diaries" className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium transition-colors">
-                → 一覧を見る
-              </Link>
-            </div>
-          </section>
-          <section className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
-            <h2 className="heading-2 mb-4 flex items-center">
-              📝 最新Wiki
-            </h2>
-            {errors.wikis ? (
-              <p className="text-red-500">{errors.wikis}</p>
-            ) : wikis.length > 0 ? (
-              <WikiCards wikis={wikis} />
-            ) : (
-              <p className="text-gray-500">登録されたWikiがありません。</p>
-            )}
-            <div className="flex justify-end mt-4">
-              <Link href="/wikis" className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium transition-colors">
-                → 一覧を見る
-              </Link>
-            </div>
-          </section>
-          
-          <section className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
-            <h2 className="heading-2 mb-4 flex items-center">
-              ✍️ 最新ブログ
-            </h2>
-            {errors.blogs ? (
-              <p className="text-red-500">{errors.blogs}</p>
-            ) : blogs.length > 0 ? (
-              <BlogCards
-                blogs={blogs}
-                onDelete={(id) => setBlogs(blogs.filter((b) => b.id !== id))}
-              />
-            ) : (
-              <p className="text-gray-500">登録されたブログがありません。</p>
-            )}
-            <div className="flex justify-end mt-4">
-              <Link href="/blogs" className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium transition-colors">
-                → 一覧を見る
-              </Link>
-            </div>
-          </section>
+      {/* 日記セクション（下部） */}
+      <div className="pt-6 border-t border-gray-300/30">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white">最新の日記</h1>
+          <div className="flex gap-2">
+            <Link href="/diaries" className="btn btn-secondary text-sm sm:text-base">
+              📋 一覧
+            </Link>
+            <Link href="/diaries/new" className="btn btn-primary text-sm sm:text-base">
+              📔 新規作成
+            </Link>
+          </div>
         </div>
 
-        {/* 右側：カレンダー */}
-        <div className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
-          <h2 className="heading-2 mb-4 flex items-center">
-            📅 予定カレンダー
-          </h2>
-          <ScheduleCalendar />
-        </div>
+        {error ? (
+          <div className="text-center text-red-500 bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+            {error}
+          </div>
+        ) : diaries.length > 0 && currentDiary ? (
+          <div
+            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl border border-white/40 dark:border-gray-700/40 shadow-lg p-4 sm:p-6 space-y-4 relative"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* ナビゲーションボタン */}
+            <div className="flex justify-between items-center mb-4">
+              <button
+                onClick={handlePrevious}
+                disabled={currentIndex === 0}
+                className="px-3 py-2 bg-blue-500 text-white rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors text-sm sm:text-base"
+              >
+                ← 前へ
+              </button>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                {currentIndex + 1} / {diaries.length}
+              </span>
+              <button
+                onClick={handleNext}
+                disabled={currentIndex === diaries.length - 1}
+                className="px-3 py-2 bg-blue-500 text-white rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors text-sm sm:text-base"
+              >
+                次へ →
+              </button>
+            </div>
 
-        {/* 下段：全幅パスワード一覧 */}
-        <div className="lg:col-span-3">
-          <section className="card bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6">
-            <h2 className="heading-2 mb-4 flex items-center">
-              🔐 パスワード一覧
-            </h2>
-            {errors.passwords ? (
-              <p className="text-red-500">{errors.passwords}</p>
-            ) : passwords.length > 0 ? (
-              <PasswordList passwords={passwords} />
-            ) : (
-              <p className="text-gray-500">登録されたパスワードがありません。</p>
-            )}
-          </section>
-        </div>
+            {/* 日記詳細 */}
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                {currentDiary.title}
+              </h2>
+              <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                {currentDiary.created_at
+                  ? new Date(currentDiary.created_at).toLocaleDateString('ja-JP', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      weekday: 'short',
+                    })
+                  : ''}
+              </div>
+              <div className="prose dark:prose-invert max-w-none">
+                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
+                  {currentDiary.content}
+                </p>
+              </div>
+            </div>
+
+            {/* 編集リンク */}
+            <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <Link
+                href={`/diaries/${currentDiary.id}`}
+                className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                詳細を見る
+              </Link>
+              <Link
+                href={`/diaries/edit/${currentDiary.id}`}
+                className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                編集
+              </Link>
+            </div>
+
+            {/* スワイプヒント（モバイルのみ） */}
+            <div className="sm:hidden text-center text-xs text-gray-400 pt-2">
+              ← スワイプで前後の日記を表示 →
+            </div>
+          </div>
+        ) : (
+          <div className="text-center text-gray-500 dark:text-gray-400 py-12">
+            <p className="text-lg mb-4">まだ日記がありません</p>
+            <Link href="/diaries/new" className="btn btn-primary inline-block">
+              最初の日記を作成
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

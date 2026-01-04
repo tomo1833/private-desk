@@ -18,22 +18,31 @@ const DiaryCards: React.FC<Props> = ({ diaries, onDelete }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {diaries.map((diary) => (
         <div
           key={diary.id}
-          className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6 space-y-3"
+          className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl border border-white/40 dark:border-gray-700/40 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] p-4 sm:p-6 space-y-3"
         >
-          <h3 className="font-bold mb-2 truncate text-gray-900 dark:text-white">{diary.title}</h3>
+          <h3 className="font-bold mb-2 text-base sm:text-lg truncate text-gray-900 dark:text-white">{diary.title}</h3>
           <p className="line-clamp-3 text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">{diary.content}</p>
-          <div className="flex justify-end space-x-2">
-            <button onClick={() => router.push(`/diaries/${diary.id}`)} className="btn btn-primary">
+          <div className="flex flex-col sm:flex-row justify-end gap-2">
+            <button 
+              onClick={() => router.push(`/diaries/${diary.id}`)} 
+              className="btn btn-primary w-full sm:w-auto text-sm sm:text-base"
+            >
               詳細
             </button>
-            <button onClick={() => router.push(`/diaries/edit/${diary.id}`)} className="btn btn-success">
+            <button 
+              onClick={() => router.push(`/diaries/edit/${diary.id}`)} 
+              className="btn btn-success w-full sm:w-auto text-sm sm:text-base"
+            >
               編集
             </button>
-            <button onClick={() => handleDelete(diary.id)} className="btn btn-danger">
+            <button 
+              onClick={() => handleDelete(diary.id)} 
+              className="btn btn-danger w-full sm:w-auto text-sm sm:text-base"
+            >
               削除
             </button>
           </div>

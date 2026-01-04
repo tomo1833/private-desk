@@ -22,29 +22,53 @@ const DiaryListPage = () => {
     load();
   }, []);
 
-  if (error) return <div>読み込みエラー</div>;
-  if (!diaries) return <div>読み込み中...</div>;
+  if (error) return <div className="text-red-500 text-center p-4">読み込みエラー</div>;
+  if (!diaries) return <div className="text-center p-4">読み込み中...</div>;
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-white">日報一覧</h1>
-      <div className="flex justify-end my-4">
-        <Link href="/diaries/new" className="btn btn-primary">
+    <div className="space-y-4 max-w-7xl mx-auto px-2 sm:px-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">日報一覧</h1>
+        <Link href="/diaries/new" className="btn btn-primary text-center">
           新規作成
         </Link>
       </div>
-      <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {diaries.map((diary) => (
-          <li key={diary.id} className="bg-white/90 backdrop-blur-sm rounded-xl border border-white/40 shadow-lg transition-all duration-300 p-6 space-y-3">
-            <Link href={`/diaries/${diary.id}`} className="font-semibold hover:underline block text-gray-900 dark:text-white">
+          <li 
+            key={diary.id} 
+            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl border border-white/40 dark:border-gray-700/40 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] p-4 sm:p-6 space-y-3"
+          >
+            <Link 
+              href={`/diaries/${diary.id}`} 
+              className="font-semibold text-lg hover:underline block text-gray-900 dark:text-white line-clamp-2"
+            >
               {diary.title}
             </Link>
             <MarkdownRenderer className="line-clamp-3 text-sm text-gray-700 dark:text-gray-300">
               {diary.content}
             </MarkdownRenderer>
+            <div className="flex justify-end pt-2">
+              <Link 
+                href={`/diaries/${diary.id}`}
+                className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                続きを読む →
+              </Link>
+            </div>
           </li>
         ))}
       </ul>
+
+      {diaries.length === 0 && (
+        <div className="text-center text-gray-500 dark:text-gray-400 py-12">
+          <p className="text-lg mb-4">まだ日記がありません</p>
+          <Link href="/diaries/new" className="btn btn-primary inline-block">
+            最初の日記を作成
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

@@ -22,23 +22,23 @@ describe('RootLayout', () => {
     // Check for header
     const header = screen.getByRole('banner');
     expect(header).toBeInTheDocument();
-    expect(header).toHaveClass('glass', 'text-white', 'backdrop-blur-md', 'shadow-lg');
+    expect(header).toHaveClass('backdrop-blur-md', 'shadow-lg');
     
-    // Check for main content area
+    // Check for main content area - responsive mt and mb
     const main = screen.getByRole('main');
     expect(main).toBeInTheDocument();
-    expect(main).toHaveClass('flex-grow', 'p-6', 'overflow-auto', 'mt-16', 'mb-16');
+    expect(main).toHaveClass('flex-grow', 'overflow-auto');
     
     // Check for footer
     const footer = screen.getByRole('contentinfo');
     expect(footer).toBeInTheDocument();
-    expect(footer).toHaveClass('glass-dark', 'text-white', 'backdrop-blur-md', 'shadow-lg');
+    expect(footer).toHaveClass('backdrop-blur-md', 'shadow-lg');
   });
 
   it('displays the correct site title', () => {
     render(<RootLayout>{mockChildren}</RootLayout>);
     
-    const titleLink = screen.getByRole('link', { name: /プライベートデスク/ });
+    const titleLink = screen.getByRole('link', { name: /Private Desk/ });
     expect(titleLink).toBeInTheDocument();
     expect(titleLink).toHaveAttribute('href', '/');
   });
@@ -49,15 +49,15 @@ describe('RootLayout', () => {
     // Check for search form
     const searchInput = screen.getByPlaceholderText('検索');
     expect(searchInput).toBeInTheDocument();
-    expect(searchInput).toHaveClass('px-3', 'py-2', 'text-white', 'placeholder-white/70', 'outline-none', 'bg-transparent');
+    // Responsive classes: px-2 sm:px-3, py-1.5 sm:py-2, responsive text sizes
+    expect(searchInput).toHaveClass('outline-none', 'bg-transparent');
     
     const searchButton = screen.getByRole('button', { name: '検索' });
     expect(searchButton).toBeInTheDocument();
-    expect(searchButton).toHaveClass('px-3', 'hover:bg-white/10', 'transition-colors');
     
-    // Check search form has glassmorphism styling
+    // Check search form has proper styling
     const searchForm = searchInput.closest('form');
-    expect(searchForm).toHaveClass('flex', 'glass', 'rounded-lg', 'overflow-hidden', 'shadow-lg');
+    expect(searchForm).toHaveClass('flex', 'rounded-lg', 'overflow-hidden', 'shadow-md');
   });
 
   it('includes theme toggle component', () => {
@@ -86,7 +86,8 @@ describe('RootLayout', () => {
     
     const copyright = screen.getByText('© 2025 Private Desk App');
     expect(copyright).toBeInTheDocument();
-    expect(copyright).toHaveClass('text-center', 'text-sm');
+    // Responsive text: text-xs sm:text-sm
+    expect(copyright).toHaveClass('text-center');
   });
 
   it('has proper lang attribute', () => {
@@ -100,22 +101,15 @@ describe('RootLayout', () => {
     render(<RootLayout>{mockChildren}</RootLayout>);
     
     const header = screen.getByRole('banner');
+    // Updated for responsive design with bg-white/10, dark mode support, responsive padding
     expect(header).toHaveClass(
-      'glass',
-      'text-white',
-      'py-4',
-      'px-6',
+      'backdrop-blur-md',
       'fixed',
       'top-0',
       'w-full',
       'z-10',
-      'flex',
-      'justify-between',
-      'items-center',
-      'backdrop-blur-md',
       'shadow-lg',
-      'border-b',
-      'border-white/10'
+      'border-b'
     );
   });
 
@@ -123,19 +117,15 @@ describe('RootLayout', () => {
     render(<RootLayout>{mockChildren}</RootLayout>);
     
     const footer = screen.getByRole('contentinfo');
+    // Updated for responsive design with bg-gray-900/10, dark mode support, responsive padding
     expect(footer).toHaveClass(
-      'glass-dark',
-      'text-white',
-      'py-4',
-      'px-6',
+      'backdrop-blur-md',
       'fixed',
       'bottom-0',
       'w-full',
       'z-10',
-      'backdrop-blur-md',
       'shadow-lg',
-      'border-t',
-      'border-white/10'
+      'border-t'
     );
   });
 

@@ -1305,3 +1305,325 @@ body {
   text-align: left;
   font-size: 0.85em;
 }
+
+/* =====================================================
+   スマホ対応のレスポンシブデザイン
+   ===================================================== */
+
+/* モバイルファースト：基本スタイル */
+@media (max-width: 640px) {
+  /* ベーススタイル調整 */
+  body {
+    font-size: 14px;
+  }
+
+  /* ヘッダー */
+  header {
+    padding: 12px 16px !important;
+    flex-wrap: wrap;
+  }
+
+  header h1 {
+    font-size: 16px !important;
+  }
+
+  header .flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+  }
+
+  header form {
+    width: 100%;
+  }
+
+  header input[type="text"] {
+    width: 100%;
+    padding: 8px 12px !important;
+    font-size: 14px;
+  }
+
+  /* メインコンテンツ */
+  main {
+    padding: 12px 16px !important;
+    margin-top: 100px !important;
+    margin-bottom: 60px !important;
+  }
+
+  /* フッター */
+  footer {
+    padding: 12px 16px !important;
+  }
+
+  footer p {
+    font-size: 12px !important;
+  }
+
+  /* 見出し調整 */
+  h1, .heading-1 {
+    font-size: 24px !important;
+    margin-bottom: 16px !important;
+  }
+
+  h2, .heading-2 {
+    font-size: 20px !important;
+    margin-bottom: 12px !important;
+  }
+
+  h3, .heading-3 {
+    font-size: 18px !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* ボタン調整 */
+  .btn {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    min-height: 40px !important;
+  }
+
+  .btn-sm {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    min-height: 36px !important;
+  }
+
+  .btn-lg {
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+    min-height: 44px !important;
+  }
+
+  /* ボタングループ */
+  .btn-group {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .btn-group > * {
+    flex: 1 1 100%;
+  }
+
+  /* グリッド調整 */
+  .grid-responsive,
+  .grid-responsive-sm,
+  .grid-responsive-lg {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .wiki-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* カード調整 */
+  .card {
+    padding: 16px !important;
+  }
+
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: 12px 16px !important;
+  }
+
+  /* 付箋スタイル調整 */
+  .sticky-note {
+    height: auto !important;
+    min-height: 120px;
+    padding: 16px !important;
+  }
+
+  /* Markdown表示 */
+  .markdown-body {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .markdown-body h1 {
+    font-size: 22px !important;
+  }
+
+  .markdown-body h2 {
+    font-size: 20px !important;
+    padding-left: 12px !important;
+  }
+
+  .markdown-body h3 {
+    font-size: 18px !important;
+    padding-left: 12px !important;
+  }
+
+  .markdown-body pre {
+    padding: 12px !important;
+    font-size: 12px !important;
+    overflow-x: auto;
+  }
+
+  .markdown-body code {
+    font-size: 12px !important;
+  }
+
+  /* フォーム要素 */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  textarea,
+  select {
+    font-size: 16px !important; /* iOSのズームを防ぐ */
+    padding: 10px 12px !important;
+  }
+
+  textarea {
+    min-height: 120px !important;
+  }
+
+  /* テーブル */
+  table {
+    font-size: 12px !important;
+    overflow-x: auto;
+    display: block;
+  }
+
+  table th,
+  table td {
+    padding: 8px !important;
+    min-width: 80px;
+  }
+
+  /* Blogger preview調整 */
+  #blogger-preview h2 {
+    font-size: 18px !important;
+    padding: 8px 16px !important;
+    margin: 40px 0 16px 0 !important;
+  }
+
+  #blogger-preview h3 {
+    font-size: 16px !important;
+    margin: 30px 8px 16px 8px !important;
+    padding: 12px 0 12px 16px !important;
+  }
+
+  #blogger-preview h4 {
+    font-size: 15px !important;
+    margin: 24px 8px 16px 8px !important;
+    padding: 8px 0 8px 16px !important;
+  }
+
+  #blogger-preview p {
+    padding: 0 16px !important;
+    font-size: 14px !important;
+    margin-bottom: 20px !important;
+  }
+
+  #blogger-preview pre.prettyprint {
+    margin: 16px 8px !important;
+    padding: 12px !important;
+    font-size: 11px !important;
+  }
+
+  #blogger-preview .frame-simple {
+    margin: 16px 16px !important;
+    padding: 12px !important;
+  }
+
+  #blogger-preview blockquote {
+    margin: 20px 16px !important;
+    padding: 8px 10px !important;
+    border-left-width: 30px !important;
+  }
+
+  #blogger-preview blockquote:before {
+    left: -26px !important;
+    font-size: 30px !important;
+  }
+
+  #blogger-preview .blog-card {
+    flex-direction: column;
+    margin: 16px auto !important;
+  }
+
+  #blogger-preview .blog-card a {
+    flex-direction: column;
+  }
+
+  #blogger-preview .blog-card .blog-card-img img {
+    width: 100% !important;
+    margin: 8px !important;
+  }
+
+  #blogger-preview .blog-card .blog-card-title {
+    padding: 8px 12px !important;
+    font-size: 0.9em !important;
+  }
+
+  #blogger-preview table {
+    width: 100% !important;
+    font-size: 11px !important;
+    margin: 20px auto !important;
+  }
+
+  #blogger-preview table th,
+  #blogger-preview table td {
+    padding: 8px 6px !important;
+  }
+
+  #blogger-preview .talking {
+    padding: 12px 16px !important;
+  }
+
+  #blogger-preview .talking figure {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  #blogger-preview .talking-left_icon {
+    margin-right: 10px !important;
+  }
+
+  #blogger-preview .talking-right_icon {
+    margin-left: 10px !important;
+  }
+
+  .blog-post-thumbnail-img {
+    width: 100% !important;
+    height: auto;
+  }
+
+  .recommended-box {
+    margin: 20px 16px !important;
+    padding: 12px !important;
+    font-size: 13px !important;
+  }
+
+  /* タッチ操作の改善 */
+  a, button, input, select, textarea {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* スクロール調整 */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* タブレット向け調整 */
+@media (min-width: 641px) and (max-width: 1024px) {
+  main {
+    padding: 16px 24px !important;
+  }
+
+  .grid-responsive,
+  .grid-responsive-sm,
+  .grid-responsive-lg {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .wiki-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
