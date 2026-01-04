@@ -20,7 +20,11 @@ const MainPage = () => {
         const response = await fetch('/api/diary');
         if (!response.ok) throw new Error('日記の取得に失敗しました。');
         const data: Diary[] = await response.json();
-        setDiaries(data);
+        // 新しい順にソート（最新が最初に来るように）
+        const sortedData = data.sort((a, b) => {
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        });
+        setDiaries(sortedData);
       } catch (err) {
         console.error('Error fetching diaries:', err);
         setError((err as Error).message);
