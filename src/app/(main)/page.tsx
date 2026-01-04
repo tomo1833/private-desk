@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import type { Diary } from '@/types/diary';
 
 const MainPage = () => {
@@ -10,7 +9,6 @@ const MainPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
   // スワイプ処理用のref
   const touchStartX = useRef<number>(0);
