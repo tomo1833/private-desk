@@ -84,7 +84,7 @@ describe('RootLayout', () => {
   it('displays copyright information', () => {
     render(<RootLayout>{mockChildren}</RootLayout>);
     
-    const copyright = screen.getByText('© 2025 Private Desk App');
+    const copyright = screen.getByText('© 2025 ～ 2026 Private Desk App');
     expect(copyright).toBeInTheDocument();
     // Responsive text: text-xs sm:text-sm
     expect(copyright).toHaveClass('text-center');

@@ -74,7 +74,7 @@ const MainPage = () => {
   const currentDiary = diaries[currentIndex];
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto px-2 sm:px-4">
+    <div className="space-y-6 w-full px-2 sm:px-6 lg:px-8">
       {/* デスクトップ用：その他の機能（上部） */}
       <div className="hidden sm:block">
         <h2 className="text-xl sm:text-2xl font-semibold text-white mb-4">
