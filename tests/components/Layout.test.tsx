@@ -1,13 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import RootLayout from '@/app/layout';
 
-// Mock the ThemeToggle component
-jest.mock('@/app/components/ThemeToggle', () => {
-  return function MockThemeToggle() {
-    return <button data-testid="theme-toggle">Toggle Theme</button>;
-  };
-});
-
 describe('RootLayout', () => {
   const mockChildren = <div data-testid="children">Test Content</div>;
 
@@ -58,13 +51,6 @@ describe('RootLayout', () => {
     // Check search form has proper styling
     const searchForm = searchInput.closest('form');
     expect(searchForm).toHaveClass('flex', 'rounded-lg', 'overflow-hidden', 'shadow-md');
-  });
-
-  it('includes theme toggle component', () => {
-    render(<RootLayout>{mockChildren}</RootLayout>);
-    
-    const themeToggle = screen.getByTestId('theme-toggle');
-    expect(themeToggle).toBeInTheDocument();
   });
 
   it('renders children content', () => {

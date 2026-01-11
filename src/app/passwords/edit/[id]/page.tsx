@@ -81,110 +81,136 @@ const UpdatePasswordPage = () => {
   };
 
   if (loading) {
-    return <div>読み込み中...</div>;
+    return <div className="text-center p-8 text-white text-lg">読み込み中...</div>;
   }
 
   if (error) {
-    return <p className="text-red-500">{error}</p>;
+    return <p className="text-red-400 text-center p-8 text-lg">{error}</p>;
   }
 
   if (!password) {
-    return <div>データが見つかりません</div>;
+    return <div className="text-center p-8 text-white text-lg">データが見つかりません</div>;
   }
 
   return (
-    <div className="form-container">
-      <div className="form-header">
-        <h1 className="form-title">パスワード編集</h1>
-        <p className="form-subtitle">パスワード情報の編集・更新を行います</p>
-      </div>
-      <form onSubmit={handleUpdate} className="space-y-6">
-        <div className="form-section">
-          <label className="form-label" htmlFor="category">カテゴリ</label>
+    <div className="w-full px-2 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-6 sm:p-8">
+        <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">🔐 パスワード編集</h1>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">パスワード情報の編集・更新を行います</p>
+        </div>
+      <form onSubmit={handleUpdate} className="space-y-5">
+        <div>
+          <label className="block text-white font-semibold mb-2 text-sm" htmlFor="category">
+            カテゴリ
+          </label>
           <input
             id="category"
             type="text"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="form-input"
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            placeholder="例: SNS, 銀行, ショッピング"
             required
           />
         </div>
-        <div className="form-section">
-          <label className="form-label" htmlFor="siteName">サイト名</label>
+        <div>
+          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="siteName">
+            サイト名
+          </label>
           <input
             id="siteName"
             type="text"
             value={siteName}
             onChange={(e) => setSiteName(e.target.value)}
-            className="form-input"
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            placeholder="例: Twitter, Amazon"
             required
           />
         </div>
-        <div className="form-section">
-          <label className="form-label" htmlFor="siteUrl">サイトURL</label>
+        <div>
+          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="siteUrl">
+            サイトURL
+          </label>
           <input
             id="siteUrl"
             type="text"
             value={siteUrl}
             onChange={(e) => setSiteUrl(e.target.value)}
-            className="form-input"
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            placeholder="https://example.com"
             required
           />
         </div>
-        <div className="form-section">
-          <label className="form-label" htmlFor="loginId">ログインID</label>
+        <div>
+          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="loginId">
+            ログインID
+          </label>
           <input
             id="loginId"
             type="text"
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
-            className="form-input"
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            placeholder="ユーザー名またはID"
           />
         </div>
-        <div className="form-section">
-          <label className="form-label" htmlFor="password">パスワード</label>
+        <div>
+          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="password">
+            パスワード
+          </label>
           <input
             id="password"
             type="text"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
-            className="form-input"
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all font-mono"
+            placeholder="パスワードを入力"
           />
         </div>
-        <div className="form-section">
-          <label className="form-label" htmlFor="email">メールアドレス</label>
+        <div>
+          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="email">
+            メールアドレス
+          </label>
           <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="form-input"
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            placeholder="email@example.com"
           />
         </div>
-        <div className="form-section">
-          <label className="form-label" htmlFor="memo">メモ</label>
+        <div>
+          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="memo">
+            メモ
+          </label>
           <textarea
             id="memo"
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
-            className="form-textarea"
+            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
             rows={6}
+            placeholder="追加情報や注意事項など"
           />
         </div>
-        <div className="btn-group-between pt-4 mt-6 border-t border-gray-200">
+        <div className="flex flex-col sm:flex-row gap-3 pt-6 mt-6 border-t border-gray-200 dark:border-gray-700">
           <button
             type="button"
-            onClick={() => router.push('/')}
-            className="btn btn-secondary"
+            onClick={() => router.push('/passwords')}
+            className="flex-1 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors duration-200"
           >
             キャンセル
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button 
+            type="submit" 
+            className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
+          >
             更新
           </button>
         </div>
       </form>
+      </div>
     </div>
   );
 };

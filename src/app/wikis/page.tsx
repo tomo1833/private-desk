@@ -25,7 +25,7 @@ const WikiListPage = () => {
   if (!wikis) return <div>読み込み中...</div>;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full px-2 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold text-white">Wiki一覧</h1>
       <div className="flex justify-end my-4">
         <Link href="/wikis/new" className="btn btn-primary">

@@ -40,7 +40,7 @@ const BlogListPage = () => {
   if (!blogs) return <div>読み込み中...</div>;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full px-2 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold text-white">ブログ一覧</h1>
       <div className="flex flex-wrap justify-end gap-2 my-4">
         <Link href="/blogs/new" className="btn btn-primary">新規作成</Link>

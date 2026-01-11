@@ -25,7 +25,7 @@ const PasswordListPage = () => {
   if (!passwords) return <div className="text-center p-4">読み込み中...</div>;
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto px-2 sm:px-4">
+    <div className="space-y-4 w-full px-2 sm:px-6 lg:px-8">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <h1 className="text-2xl sm:text-3xl font-bold text-white">🔐 パスワード一覧</h1>
         <Link href="/passwords/new" className="btn btn-primary text-center">
@@ -38,7 +38,7 @@ const PasswordListPage = () => {
           {passwords.map((password) => (
             <div 
               key={password.id} 
-              className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl border border-white/40 dark:border-gray-700/40 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] p-4 sm:p-6 space-y-3"
+              className="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] p-4 sm:p-6 space-y-3"
             >
               <h2 className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-1">
                 {password.site_name}

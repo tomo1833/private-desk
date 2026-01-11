@@ -3,14 +3,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
-      <header className="bg-white/10 backdrop-blur-md text-gray-900 dark:text-white py-3 sm:py-4 px-4 sm:px-6 fixed top-0 w-full z-50 shadow-lg border-b border-gray-200/20">
+      <header className="bg-white/10 backdrop-blur-md text-white py-3 sm:py-4 px-4 sm:px-6 fixed top-0 w-full z-50 shadow-lg border-b border-gray-200/20">
         <div className="flex items-center justify-between gap-2">
           <h1 className="text-base sm:text-lg font-bold">
             <Link href="/" className="block">
@@ -55,15 +54,12 @@ const Header = () => {
                 type="text"
                 name="q"
                 placeholder="検索"
-                className="px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-300 outline-none bg-transparent w-full"
+                className="px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base text-white placeholder-gray-300 outline-none bg-transparent w-full"
               />
-              <button type="submit" className="px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-gray-700/30 transition-colors">
+              <button type="submit" className="px-2 sm:px-3 hover:bg-white/20 transition-colors">
                 <Image src="/search.svg" alt="検索" width={18} height={18} className="sm:w-5 sm:h-5" />
               </button>
             </form>
-            <div className="hidden sm:block">
-              <ThemeToggle />
-            </div>
           </div>
         </div>
       </header>

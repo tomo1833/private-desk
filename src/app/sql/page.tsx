@@ -45,13 +45,13 @@ const SqlConsolePage = () => {
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
+    <div className="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-gray-200 dark:border-gray-700 shadow-lg">
       <div className="form-header">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">SQLコンソール</h1>
-        <p className="form-subtitle">データベースに対してSQLクエリを実行します</p>
+        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">SQLコンソール</h1>
+        <p className="form-subtitle text-gray-600 dark:text-gray-400">データベースに対してSQLクエリを実行します</p>
       </div>
       <div className="space-y-4 mb-6">
-        <label className="block text-gray-800 font-semibold mb-2">SQLクエリ</label>
+        <label className="block text-gray-900 dark:text-white font-semibold mb-2">SQLクエリ</label>
         <textarea
           value={sql}
           onChange={(e) => setSql(e.target.value)}

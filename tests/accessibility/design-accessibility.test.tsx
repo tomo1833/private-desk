@@ -7,19 +7,6 @@ import MainPage from '@/app/(main)/page';
 expect.extend(toHaveNoViolations);
 
 // Mock components for accessibility testing
-jest.mock('@/app/components/ThemeToggle', () => {
-  return function MockThemeToggle() {
-    return (
-      <button 
-        aria-label="テーマを切り替える"
-        data-testid="theme-toggle"
-      >
-        🌓
-      </button>
-    );
-  };
-});
-
 jest.mock('@/app/components/PasswordList', () => {
   return function MockPasswordList({ passwords }: { passwords: any[] }) {
     return (

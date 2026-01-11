@@ -66,11 +66,12 @@ const FileManagerPage = () => {
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
-      <div className="form-header">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">ファイル管理</h1>
-        <p className="form-subtitle">ファイルのアップロードやフォルダ作成を行います</p>
-      </div>
+    <div className="w-full px-2 sm:px-6 lg:px-8">
+      <div className="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-gray-200 dark:border-gray-700 shadow-lg">
+        <div className="form-header">
+          <h1 className="text-3xl font-bold mb-2 text-blue-800">ファイル管理</h1>
+          <p className="form-subtitle">ファイルのアップロードやフォルダ作成を行います</p>
+        </div>
       {path && (
         <button onClick={goUp} className="text-blue-600 dark:text-blue-400 hover:underline">
           上のフォルダへ
@@ -114,6 +115,7 @@ const FileManagerPage = () => {
             アップロード
           </button>
         </form>
+      </div>
       </div>
     </div>
   );

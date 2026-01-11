@@ -22,7 +22,7 @@ const DiaryCards: React.FC<Props> = ({ diaries, onDelete }) => {
       {diaries.map((diary) => (
         <div
           key={diary.id}
-          className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl border border-white/40 dark:border-gray-700/40 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] p-4 sm:p-6 space-y-3"
+          className="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] p-4 sm:p-6 space-y-3"
         >
           <h3 className="font-bold mb-2 text-base sm:text-lg truncate text-gray-900 dark:text-white">{diary.title}</h3>
           <p className="line-clamp-3 text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">{diary.content}</p>
