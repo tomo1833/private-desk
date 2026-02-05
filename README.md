@@ -71,6 +71,59 @@ npm test
 - パスワードは暗号化されておらず、SQLite データベースに平文で保存されます。実運用する場合はセキュリティ対策を検討してください。
 - データベースファイルはリポジトリ内 `data/` ディレクトリに保存されます。
 
+## MCP: 統合検索・要約エージェントの使い方
+
+### 1) 事前準備
+
+- `npx ts-node scripts/init-db.ts` を実行してSQLiteのテーブルを作成してください。
+- Ollama を起動し、`.env` にホストとポートを設定します。
+
+```
+OLLAMA_HOST=localhost
+OLLAMA_PORT=11434
+```
+
+### 2) 画面から使う
+
+1. `/search?q=任意の検索語` にアクセスします。
+2. 「MCP 要約」パネルの「要約生成」ボタンを押すと、検索結果の要約が表示されます。
+
+### 3) API から使う
+
+- エンドポイント: `GET /api/mcp/search-summary`
+- クエリ:
+  - `q` (必須): 検索語
+  - `limit` (任意): 各テーブルから取得する件数。未指定時は 5。
+  - `model` (任意): Ollama のモデル名。未指定時は `Gemma3:12b`。
+  - `llm` (任意): `0` を指定すると LLM を使わずにローカル要約を返します。
+
+例:
+
+```bash
+curl "http://localhost:3000/api/mcp/search-summary?q=日報&limit=3"
+```
+
+LLM を使わない例:
+
+```bash
+curl "http://localhost:3000/api/mcp/search-summary?q=日報&limit=3&llm=0"
+```
+
+レスポンス例:
+
+```json
+{
+  "summary": "- ...",
+  "context": "...",
+  "sources": {
+    "passwords": [],
+    "diaries": [],
+    "wikis": [],
+    "blogs": []
+  }
+}
+```
+
 
 ## 非同期SQLiteへの移行
 

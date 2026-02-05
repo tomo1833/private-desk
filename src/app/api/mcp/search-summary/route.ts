@@ -18,11 +18,24 @@ const formatList = (label: string, items: string[]) => {
   return `${label}:\n${items.map((item) => `- ${item}`).join('\n')}`;
 };
 
+const buildLocalSummary = (
+  label: string,
+  items: string[],
+  emptyMessage: string
+) => {
+  if (items.length === 0) return `- ${label}: ${emptyMessage}`;
+  const names = items.slice(0, 3).join(', ');
+  const suffix = items.length > 3 ? ` ほか${items.length - 3}件` : '';
+  return `- ${label}: ${items.length}件 (${names}${suffix})`;
+};
+
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q');
   const limit = Number(searchParams.get('limit') ?? DEFAULT_LIMIT);
   const model = searchParams.get('model') ?? 'Gemma3:12b';
+  const useLLM = searchParams.get('llm') !== '0';
 
   if (!q) {
     return NextResponse.json({ error: 'query required' }, { status: 400 });
@@ -69,7 +82,27 @@ export async function GET(req: Request) {
       formatList('ブログ', blogLines),
     ].join('\n\n');
 
-    const prompt = `あなたはPrivate Deskの統合検索アシスタントです。
+    if (!useLLM) {
+      const summary = [
+        buildLocalSummary('パスワード', passwords.map((item) => item.site_name), '該当なし'),
+        buildLocalSummary('日報', diaries.map((item) => item.title), '該当なし'),
+        buildLocalSummary('Wiki', wikis.map((item) => item.title), '該当なし'),
+        buildLocalSummary('ブログ', blogs.map((item) => item.title), '該当なし'),
+      ].join('\n');
+
+      return NextResponse.json({
+        summary,
+        context,
+        sources: {
+          passwords,
+          diaries,
+          wikis,
+          blogs,
+        },
+      });
+    }
+
+
 ユーザーの検索クエリに対して、以下のデータを参照しながら要約を作成してください。
 要約は日本語で、3〜6行程度で重要ポイントを箇条書きにしてください。
 該当情報が少ない場合は「該当なし」と明記してください。
@@ -95,6 +128,8 @@ ${context}
     const data = await res.json();
     return NextResponse.json({
       summary: data.response ?? data.output ?? '',
+      context,
+
       sources: {
         passwords,
         diaries,

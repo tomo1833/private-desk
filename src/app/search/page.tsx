@@ -25,6 +25,7 @@ const SearchPage = () => {
   const [summary, setSummary] = useState<string | null>(null);
   const [summaryError, setSummaryError] = useState<string | null>(null);
   const [isSummarizing, setIsSummarizing] = useState(false);
+  const [useLLM, setUseLLM] = useState(true);
 
   useEffect(() => {
     if (!q) return;
@@ -47,7 +48,10 @@ const SearchPage = () => {
     setSummary(null);
     setSummaryError(null);
     try {
-      const res = await fetch(`/api/mcp/search-summary?q=${encodeURIComponent(q)}`);
+      const res = await fetch(
+        `/api/mcp/search-summary?q=${encodeURIComponent(q)}&llm=${useLLM ? '1' : '0'}`
+      );
+
       if (!res.ok) {
         throw new Error('要約生成に失敗しました');
       }
@@ -70,14 +74,26 @@ const SearchPage = () => {
       <section className="rounded-lg border border-slate-700 bg-slate-900/50 p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-lg font-semibold text-white">MCP 要約</h2>
-          <button
-            type="button"
-            onClick={handleSummarize}
-            className="rounded bg-indigo-600 px-3 py-1 text-sm font-semibold text-white hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-600"
-            disabled={isSummarizing}
-          >
-            {isSummarizing ? '要約中...' : '要約生成'}
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="flex items-center gap-2 text-sm text-slate-200">
+              <input
+                type="checkbox"
+                className="h-4 w-4 accent-indigo-500"
+                checked={!useLLM}
+                onChange={(event) => setUseLLM(!event.target.checked)}
+              />
+              LLMを使わない
+            </label>
+            <button
+              type="button"
+              onClick={handleSummarize}
+              className="rounded bg-indigo-600 px-3 py-1 text-sm font-semibold text-white hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-600"
+              disabled={isSummarizing}
+            >
+              {isSummarizing ? '要約中...' : '要約生成'}
+            </button>
+          </div>
+
         </div>
         {summaryError ? (
           <p className="mt-3 text-sm text-red-400">{summaryError}</p>
