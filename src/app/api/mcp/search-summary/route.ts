@@ -29,6 +29,7 @@ const buildLocalSummary = (
   return `- ${label}: ${items.length}件 (${names}${suffix})`;
 };
 
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q');
@@ -101,7 +102,7 @@ export async function GET(req: Request) {
       });
     }
 
-    const prompt = `あなたはPrivate Deskの統合検索アシスタントです。
+
 ユーザーの検索クエリに対して、以下のデータを参照しながら要約を作成してください。
 要約は日本語で、3〜6行程度で重要ポイントを箇条書きにしてください。
 該当情報が少ない場合は「該当なし」と明記してください。
@@ -128,6 +129,7 @@ ${context}
     return NextResponse.json({
       summary: data.response ?? data.output ?? '',
       context,
+
       sources: {
         passwords,
         diaries,

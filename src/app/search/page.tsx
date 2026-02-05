@@ -51,6 +51,7 @@ const SearchPage = () => {
       const res = await fetch(
         `/api/mcp/search-summary?q=${encodeURIComponent(q)}&llm=${useLLM ? '1' : '0'}`
       );
+
       if (!res.ok) {
         throw new Error('要約生成に失敗しました');
       }
@@ -92,6 +93,7 @@ const SearchPage = () => {
               {isSummarizing ? '要約中...' : '要約生成'}
             </button>
           </div>
+
         </div>
         {summaryError ? (
           <p className="mt-3 text-sm text-red-400">{summaryError}</p>
