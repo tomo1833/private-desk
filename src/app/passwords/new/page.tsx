@@ -41,81 +41,81 @@ const AddPassword: React.FC = () => {
     };
 
     return (
-        <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
+        <div className="card-form">
             <div className="form-header">
                 <h1 className="text-3xl font-bold mb-2 text-blue-800">パスワード登録</h1>
                 <p className="form-subtitle">新しいサイトのパスワード情報を登録します</p>
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4 mb-6">
-                    <label className="block text-gray-800 font-semibold mb-2">カテゴリ</label>
+                    <label className="form-label">カテゴリ</label>
                     <input
                         type="text"
                         name="category"
                         value={formData.category}
-                        className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+                        className="form-input"
                         onChange={handleChange}
                     />
                 </div>
                 <div className="space-y-4 mb-6">
-                    <label className="block text-gray-800 font-semibold mb-2">サイト名</label>
+                    <label className="form-label">サイト名</label>
                     <input
                         type="text"
                         name="site_name"
                         value={formData.site_name}
-                        className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+                        className="form-input"
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="space-y-4 mb-6">
-                    <label className="block text-gray-800 font-semibold mb-2">サイトURL</label>
+                    <label className="form-label">サイトURL</label>
                     <input
                         type="text"
                         name="site_url"
                         value={formData.site_url}
-                        className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+                        className="form-input"
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="space-y-4 mb-6">
-                    <label className="block text-gray-800 font-semibold mb-2">ログインID</label>
+                    <label className="form-label">ログインID</label>
                     <input
                         type="text"
                         name="login_id"
                         value={formData.login_id}
-                        className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+                        className="form-input"
                         onChange={handleChange}
                     />
                 </div>
                 <div className="space-y-4 mb-6">
-                    <label className="block text-gray-800 font-semibold mb-2">パスワード</label>
+                    <label className="form-label">パスワード</label>
                     <input
                         type="text"
                         name="password"
                         value={formData.password}
-                        className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+                        className="form-input"
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="space-y-4 mb-6">
-                    <label className="block text-gray-800 font-semibold mb-2">メールアドレス</label>
+                    <label className="form-label">メールアドレス</label>
                     <input
                         type="email"
                         name="email"
                         value={formData.email}
-                        className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+                        className="form-input"
                         onChange={handleChange}
                     />
                 </div>
                 <div className="space-y-4 mb-6">
-                    <label className="block text-gray-800 font-semibold mb-2">メモ</label>
+                    <label className="form-label">メモ</label>
                     <textarea
                         name="memo"
                         value={formData.memo}
-                        className="form-textarea"
+                        className="form-textarea min-h-24"
                         onChange={handleChange}
                     ></textarea>
                 </div>

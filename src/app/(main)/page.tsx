@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import type { Diary } from '@/types/diary';
+import MarkdownRenderer from '@/app/components/MarkdownRenderer';
 
 const MainPage = () => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -74,7 +75,7 @@ const MainPage = () => {
   const currentDiary = diaries[currentIndex];
 
   return (
-    <div className="space-y-6 w-full px-2 sm:px-6 lg:px-8">
+    <div className="space-y-6 page-wrap">
       {/* デスクトップ用：その他の機能（上部） */}
       <div className="hidden sm:block">
         <h2 className="text-xl sm:text-2xl font-semibold text-white mb-4">
@@ -169,11 +170,9 @@ const MainPage = () => {
                     })
                   : ''}
               </div>
-              <div className="prose dark:prose-invert max-w-none">
-                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
-                  {currentDiary.content}
-                </p>
-              </div>
+              <MarkdownRenderer className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-200">
+                {currentDiary.content}
+              </MarkdownRenderer>
             </div>
 
             {/* 編集リンク */}

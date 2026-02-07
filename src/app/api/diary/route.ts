@@ -10,8 +10,8 @@ export async function GET(request: Request) {
       ? 'SELECT * FROM diary ORDER BY id DESC LIMIT ?'
       : 'SELECT * FROM diary ORDER BY id DESC';
     const results = limit
-      ? runSelect<Diary>(sql, [Number(limit)])
-      : runSelect<Diary>(sql);
+      ? await runSelect<Diary>(sql, [Number(limit)])
+      : await runSelect<Diary>(sql);
     return NextResponse.json(results);
   } catch (error) {
     console.error(error);
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     if (!title || !content) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
-    runExecute('INSERT INTO diary (title, content) VALUES (?, ?)', [title, content]);
+    await runExecute('INSERT INTO diary (title, content) VALUES (?, ?)', [title, content]);
     return NextResponse.json({ message: '登録成功' });
   } catch (error) {
     console.error(error);

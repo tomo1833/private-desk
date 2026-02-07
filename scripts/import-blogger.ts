@@ -17,7 +17,7 @@ async function main() {
     const contentHtml = post.content ?? '';
     const content = contentHtml.replace(/<[^>]+>/g, '');
     const permalink = post.url ?? '';
-    runExecute(
+    await runExecute(
       'INSERT INTO blog (title, content, content_markdown, content_html, eyecatch, permalink, site, author, persona) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         title,

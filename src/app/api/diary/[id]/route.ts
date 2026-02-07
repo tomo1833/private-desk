@@ -8,7 +8,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return NextResponse.json({ error: 'Invalid diary ID.' }, { status: 400 });
   }
   try {
-    const result = runGet<Diary>('SELECT * FROM diary WHERE id = ?', [Number(id)]);
+    const result = await runGet<Diary>('SELECT * FROM diary WHERE id = ?', [Number(id)]);
     if (!result) {
       return NextResponse.json({ error: 'diary entry not found.' }, { status: 404 });
     }
@@ -27,7 +27,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     if (!title || !content) {
       return NextResponse.json({ error: 'title and content are required.' }, { status: 400 });
     }
-    runExecute('UPDATE diary SET title = ?, content = ? WHERE id = ?', [title, content, Number(id)]);
+    await runExecute('UPDATE diary SET title = ?, content = ? WHERE id = ?', [title, content, Number(id)]);
     return NextResponse.json({ message: 'diary entry updated successfully.' });
   } catch (error) {
     console.error(error);
@@ -38,7 +38,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
-    runExecute('DELETE FROM diary WHERE id = ?', [Number(id)]);
+    await runExecute('DELETE FROM diary WHERE id = ?', [Number(id)]);
     return NextResponse.json({ message: 'diary entry deleted successfully.' });
   } catch (error) {
     console.error(error);

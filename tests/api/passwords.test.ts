@@ -30,8 +30,8 @@ describe('POST /api/passwords', () => {
     memo: 'jest memo',
   };
 
-  afterAll(() => {
-    runExecute('DELETE FROM password_manager WHERE site_name = ?', [
+  afterAll(async () => {
+    await runExecute('DELETE FROM password_manager WHERE site_name = ?', [
       testEntry.site_name,
     ]);
   });
@@ -43,7 +43,7 @@ describe('POST /api/passwords', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = runSelect(
+    const rows = await runSelect(
       'SELECT * FROM password_manager WHERE site_name = ?',
       [testEntry.site_name]
     );

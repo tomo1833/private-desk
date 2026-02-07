@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import { runSelect } from '@/lib/db';
 
 interface BlogRow {
@@ -9,7 +9,7 @@ interface BlogRow {
 }
 
 export async function GET() {
-  const rows = runSelect<BlogRow>(
+  const rows = await runSelect<BlogRow>(
     "SELECT title, content_html, permalink FROM blog WHERE site = 'blogger' ORDER BY id"
   );
   const data = rows.map((row) => ({
@@ -17,11 +17,16 @@ export async function GET() {
     content: row.content_html.replace(/<[^>]+>/g, ''),
     permalink: row.permalink,
   }));
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Blogger');
-  const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' }) as Buffer;
-  const bytes = new Uint8Array(buffer);
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Blogger');
+  worksheet.columns = [
+    { header: 'title', key: 'title' },
+    { header: 'content', key: 'content' },
+    { header: 'permalink', key: 'permalink' },
+  ];
+  worksheet.addRows(data);
+  const buffer = await workbook.xlsx.writeBuffer();
+  const bytes = buffer instanceof Uint8Array ? buffer : new Uint8Array(buffer as ArrayBuffer);
   return new NextResponse(bytes, {
     headers: {
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

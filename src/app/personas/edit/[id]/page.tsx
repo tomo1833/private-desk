@@ -53,27 +53,27 @@ const PersonaEditPage = () => {
   if (loading) return <div>読み込み中...</div>;
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
+    <div className="card-form">
       <div className="form-header">
         <h1 className="text-3xl font-bold mb-2 text-blue-800">ペルソナ編集</h1>
         <p className="form-subtitle">ペルソナ情報の編集・更新を行います</p>
       </div>
       <form onSubmit={handleUpdate} className="space-y-6">
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">名前</label>
+          <label className="form-label">名前</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+            className="form-input"
             required
           />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">詳細</label>
+          <label className="form-label">詳細</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="form-textarea w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical"
+            className="form-textarea min-h-24"
             rows={4}
           />
         </div>

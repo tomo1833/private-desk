@@ -50,7 +50,7 @@ const ExpenseListPage = () => {
 
   if (error) return <div>読み込みエラー</div>;
   return (
-    <div className="space-y-4 w-full px-2 sm:px-6 lg:px-8">
+    <div className="space-y-4 page-wrap">
       <h1 className="text-2xl font-bold text-white">{formatMonth(month)}の支出</h1>
       <div className="flex gap-2 items-center flex-wrap">
         <Link href="/expenses/new" className="btn btn-primary">新規追加</Link>

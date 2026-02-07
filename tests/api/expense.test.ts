@@ -33,12 +33,22 @@ describe('GET /api/expense', () => {
 describe('GET /api/expense with category filter', () => {
   const catA = 'jest-catA';
   const catB = 'jest-catB';
-  beforeAll(() => {
-    runExecute('INSERT INTO expenses (category, amount, shop, used_at) VALUES (?, ?, ?, ?)', [catA, 1, 's', '2099-02-01']);
-    runExecute('INSERT INTO expenses (category, amount, shop, used_at) VALUES (?, ?, ?, ?)', [catB, 2, 's', '2099-02-02']);
+  beforeAll(async () => {
+    await runExecute('INSERT INTO expenses (category, amount, shop, used_at) VALUES (?, ?, ?, ?)', [
+      catA,
+      1,
+      's',
+      '2099-02-01',
+    ]);
+    await runExecute('INSERT INTO expenses (category, amount, shop, used_at) VALUES (?, ?, ?, ?)', [
+      catB,
+      2,
+      's',
+      '2099-02-02',
+    ]);
   });
-  afterAll(() => {
-    runExecute('DELETE FROM expenses WHERE category IN (?, ?)', [catA, catB]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM expenses WHERE category IN (?, ?)', [catA, catB]);
   });
 
   it('should return only specified category', async () => {
@@ -53,8 +63,8 @@ describe('GET /api/expense with category filter', () => {
 
 describe('POST /api/expense', () => {
   const entry = { category: 'jest', amount: 123, shop: 'store', used_at: '2099-01-01', used_by: '共有', product_name: 'item', remark: 'memo' };
-  afterAll(() => {
-    runExecute('DELETE FROM expenses WHERE category = ?', [entry.category]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM expenses WHERE category = ?', [entry.category]);
   });
 
   it('should create an expense entry', async () => {
@@ -64,7 +74,7 @@ describe('POST /api/expense', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = runSelect('SELECT * FROM expenses WHERE category = ?', [entry.category]);
+    const rows = await runSelect('SELECT * FROM expenses WHERE category = ?', [entry.category]);
     expect(rows.length).toBe(1);
     expect(rows[0].used_by).toBe('共有');
   });
@@ -79,22 +89,22 @@ describe('POST /api/expense', () => {
 describe('Expense update and delete', () => {
   const entry = { category: 'jest2', amount: 100, shop: 'shop', used_at: '2099-01-02', used_by: '夫', product_name: 'item2', remark: 'memo2' };
   let id: number;
-  afterAll(() => {
-    runExecute('DELETE FROM expenses WHERE id = ?', [id]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM expenses WHERE id = ?', [id]);
   });
 
   it('should create entry then update and delete', async () => {
     const createReq = createPostRequest(entry);
     const createRes = await POST(createReq as any);
     expect(createRes.status).toBe(200);
-    const row = runSelect('SELECT * FROM expenses WHERE category = ?', [entry.category])[0];
+    const row = (await runSelect('SELECT * FROM expenses WHERE category = ?', [entry.category]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { ...entry, category: 'up', used_by: '妻', product_name: 'updated', remark: 'updated memo' });
     const updateRes = await PUT(updateReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(updateRes.status).toBe(200);
 
-    const updatedRow = runSelect('SELECT * FROM expenses WHERE id = ?', [id])[0];
+    const updatedRow = (await runSelect('SELECT * FROM expenses WHERE id = ?', [id]))[0];
     expect(updatedRow.category).toBe('up');
     expect(updatedRow.product_name).toBe('updated');
     expect(updatedRow.remark).toBe('updated memo');
@@ -104,7 +114,7 @@ describe('Expense update and delete', () => {
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(deleteRes.status).toBe(200);
 
-    const rows = runSelect('SELECT * FROM expenses WHERE id = ?', [id]);
+    const rows = await runSelect('SELECT * FROM expenses WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 });

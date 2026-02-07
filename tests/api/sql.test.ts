@@ -5,8 +5,8 @@ import { runSelect, runExecute } from '../../src/lib/db';
 describe('SQL API', () => {
   const testName = 'jest-sql';
 
-  afterAll(() => {
-    runExecute('DELETE FROM author WHERE name = ?', [testName]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM author WHERE name = ?', [testName]);
   });
 
   it('should list tables', async () => {
@@ -27,7 +27,7 @@ describe('SQL API', () => {
     });
     let res = await POST(req as unknown as Request);
     expect(res.status).toBe(200);
-    const inserted = runSelect('SELECT * FROM author WHERE name = ?', [testName]);
+    const inserted = await runSelect('SELECT * FROM author WHERE name = ?', [testName]);
     expect(inserted.length).toBe(1);
 
     // select

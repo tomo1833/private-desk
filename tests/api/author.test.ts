@@ -31,8 +31,8 @@ describe('GET /api/author', () => {
 describe('POST /api/author', () => {
   const entry = { name: 'jest author', bio: 'bio' };
 
-  afterAll(() => {
-    runExecute('DELETE FROM author WHERE name = ?', [entry.name]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM author WHERE name = ?', [entry.name]);
   });
 
   it('should create an author', async () => {
@@ -42,7 +42,7 @@ describe('POST /api/author', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = runSelect('SELECT * FROM author WHERE name = ?', [entry.name]);
+    const rows = await runSelect('SELECT * FROM author WHERE name = ?', [entry.name]);
     expect(rows.length).toBe(1);
   });
 
@@ -57,15 +57,15 @@ describe('Author update and delete', () => {
   const entry = { name: 'jest2', bio: 'bio' };
   let id: number;
 
-  afterAll(() => {
-    if (id) runExecute('DELETE FROM author WHERE id = ?', [id]);
+  afterAll(async () => {
+    if (id) await runExecute('DELETE FROM author WHERE id = ?', [id]);
   });
 
   it('should create entry then update and delete', async () => {
     const createReq = createPostRequest(entry);
     const createRes = await POST(createReq as any);
     expect(createRes.status).toBe(200);
-    const row = runSelect('SELECT * FROM author WHERE name = ?', [entry.name])[0];
+    const row = (await runSelect('SELECT * FROM author WHERE name = ?', [entry.name]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { name: 'updated', bio: 'b' });
@@ -76,7 +76,7 @@ describe('Author update and delete', () => {
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(deleteRes.status).toBe(200);
 
-    const rows = runSelect('SELECT * FROM author WHERE id = ?', [id]);
+    const rows = await runSelect('SELECT * FROM author WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 });

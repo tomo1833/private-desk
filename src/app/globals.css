@@ -304,6 +304,31 @@ body > * {
   @apply text-gray-200;
 }
 
+/* Base form styles */
+.form-input {
+  @apply w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all;
+}
+
+.form-textarea {
+  @apply w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-y;
+}
+
+.form-label {
+  @apply block text-gray-900 dark:text-white font-semibold mb-2;
+}
+
+.page-wrap {
+  @apply w-full px-2 sm:px-6 lg:px-8;
+}
+
+.card-basic {
+  @apply bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-4 sm:p-6;
+}
+
+.card-form {
+  @apply bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-gray-200 dark:border-gray-700 shadow-lg;
+}
+
 .dark .form-help {
   @apply text-gray-400;
 }

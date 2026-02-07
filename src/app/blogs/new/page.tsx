@@ -86,18 +86,18 @@ const NewBlogPage = () => {
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
+    <div className="card-form">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2 text-blue-800">ブログ登録</h1>
         <p className="form-subtitle">新しいブログ記事を作成・投稿します</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">生成プロンプト</label>
+          <label className="form-label">生成プロンプト</label>
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical font-mono whitespace-pre"
+            className="form-textarea font-mono whitespace-pre"
             rows={4}
           />
           <div className="flex justify-end gap-3 pt-6 border-t border-gray-200 mt-2">
@@ -111,28 +111,28 @@ const NewBlogPage = () => {
           </div>
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">タイトル</label>
+          <label className="form-label">タイトル</label>
           <input
             name="title"
             value={form.title}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+            className="form-input"
             required
           />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">コンテンツ</label>
+          <label className="form-label">コンテンツ</label>
           <textarea
             name="content"
             value={form.content}
             onChange={handleChange}
-            className="form-textarea font-mono whitespace-pre w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical"
+            className="form-textarea font-mono whitespace-pre"
             rows={4}
             required
           />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">コンテンツ(Markdown)</label>
+          <label className="form-label">コンテンツ(Markdown)</label>
           <BlogEditor
             value={form.content_markdown}
             onChange={(value) => setForm({ ...form, content_markdown: value })}
@@ -171,7 +171,7 @@ const NewBlogPage = () => {
           </div>
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">アイキャッチ画像</label>
+          <label className="form-label">アイキャッチ画像</label>
           <input
             type="file"
             onChange={handleFileChange}
@@ -183,42 +183,42 @@ const NewBlogPage = () => {
           )}
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">パーマリンク</label>
+          <label className="form-label">パーマリンク</label>
           <input
             name="permalink"
             value={form.permalink}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+            className="form-input"
             required
           />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">ブログサイト</label>
+          <label className="form-label">ブログサイト</label>
           <input
             name="site"
             value={form.site}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+            className="form-input"
             required
           />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">著者情報</label>
+          <label className="form-label">著者情報</label>
           <input
             name="author"
             value={form.author}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+            className="form-input"
             required
           />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">ペルソナ情報</label>
+          <label className="form-label">ペルソナ情報</label>
           <input
             name="persona"
             value={form.persona}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+            className="form-input"
             required
           />
         </div>

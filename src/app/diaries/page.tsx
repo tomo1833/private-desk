@@ -26,7 +26,7 @@ const DiaryListPage = () => {
   if (!diaries) return <div className="text-center p-4">読み込み中...</div>;
 
   return (
-    <div className="space-y-4 w-full px-2 sm:px-6 lg:px-8">
+    <div className="space-y-4 page-wrap">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <h1 className="text-2xl sm:text-3xl font-bold text-white">日報一覧</h1>
         <Link href="/diaries/new" className="btn btn-primary text-center">

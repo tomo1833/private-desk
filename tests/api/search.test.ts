@@ -4,12 +4,12 @@ import { runExecute } from '../../src/lib/db';
 describe('GET /api/search', () => {
   const title = 'jest-search-diary';
 
-  beforeAll(() => {
-    runExecute('INSERT INTO diary (title, content) VALUES (?, ?)', [title, 'c']);
+  beforeAll(async () => {
+    await runExecute('INSERT INTO diary (title, content) VALUES (?, ?)', [title, 'c']);
   });
 
-  afterAll(() => {
-    runExecute('DELETE FROM diary WHERE title = ?', [title]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM diary WHERE title = ?', [title]);
   });
 
   it('should return matching diary', async () => {

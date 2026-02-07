@@ -21,7 +21,7 @@ Private Desk は Next.js と SQLite を用いた個人向けデスクトップ�
 - **ファイル管理** – `public/docs` 以下のファイル/フォルダをブラウザからアップロード・作成
 - **予定表** – FullCalendar を利用したスケジュール管理。Google カレンダーとの同期にも対応
 - **家計簿** – 月別・日別の支出を簡易的に記録
-- **検索** – 上記のパスワード、Wiki、日報、ブログをまとめて全文検索
+- **検索** – 上記のパスワード、Wiki、日報、ブログをまとめて部分一致検索
 
 ## 前提条件
 
@@ -59,11 +59,17 @@ npm start
 
 ## テストの実行
 
-プロジェクトには Jest を利用した簡単な API テストが含まれています。以下のコマンド
-でテストを実行できます。
+プロジェクトには Jest を利用した簡単なテストが含まれています。以下のコマンド
+でテストを実行できます（`npm test` はコンポーネント/スタイル/アクセシビリティ向け）。
 
 ```bash
 npm test
+```
+
+API テストのみ実行する場合:
+
+```bash
+npm run test:api
 ```
 
 ## 注意点
@@ -125,9 +131,9 @@ curl "http://localhost:3000/api/mcp/search-summary?q=日報&limit=3&llm=0"
 ```
 
 
-## 非同期SQLiteへの移行
+## Prisma/SQLite
 
-本プロジェクトは `better-sqlite3` による同期アクセスを採用していますが、非同期ライブラリや ORM への移行を検討する場合は `docs/async-sqlite-migration.md` を参照してください。Prisma や Drizzle ORM といった候補の比較や、移行手順の例をまとめています。
+本プロジェクトは Prisma を利用して SQLite にアクセスします。接続先は `.env` の `DATABASE_URL` で設定します。将来的に別 ORM への移行を検討する場合は `docs/async-sqlite-migration.md` を参照してください。
 
 ## DATABASE テーブル構成
 
@@ -202,6 +208,7 @@ CREATE TABLE expenses (
   category TEXT NOT NULL,
   amount INTEGER NOT NULL,
   shop TEXT NOT NULL,
+  used_by TEXT,
   product_name TEXT,
   remark TEXT,
   used_at TEXT NOT NULL,

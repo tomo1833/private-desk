@@ -93,7 +93,7 @@ const UpdatePasswordPage = () => {
   }
 
   return (
-    <div className="w-full px-2 sm:px-6 lg:px-8 py-6">
+    <div className="page-wrap py-6">
       <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-6 sm:p-8">
         <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">🔐 パスワード編集</h1>
@@ -101,7 +101,7 @@ const UpdatePasswordPage = () => {
         </div>
       <form onSubmit={handleUpdate} className="space-y-5">
         <div>
-          <label className="block text-white font-semibold mb-2 text-sm" htmlFor="category">
+          <label className="form-label text-sm" htmlFor="category">
             カテゴリ
           </label>
           <input
@@ -109,13 +109,13 @@ const UpdatePasswordPage = () => {
             type="text"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="form-input"
             placeholder="例: SNS, 銀行, ショッピング"
             required
           />
         </div>
         <div>
-          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="siteName">
+          <label className="form-label text-sm" htmlFor="siteName">
             サイト名
           </label>
           <input
@@ -123,13 +123,13 @@ const UpdatePasswordPage = () => {
             type="text"
             value={siteName}
             onChange={(e) => setSiteName(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="form-input"
             placeholder="例: Twitter, Amazon"
             required
           />
         </div>
         <div>
-          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="siteUrl">
+          <label className="form-label text-sm" htmlFor="siteUrl">
             サイトURL
           </label>
           <input
@@ -137,13 +137,13 @@ const UpdatePasswordPage = () => {
             type="text"
             value={siteUrl}
             onChange={(e) => setSiteUrl(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="form-input"
             placeholder="https://example.com"
             required
           />
         </div>
         <div>
-          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="loginId">
+          <label className="form-label text-sm" htmlFor="loginId">
             ログインID
           </label>
           <input
@@ -151,12 +151,12 @@ const UpdatePasswordPage = () => {
             type="text"
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="form-input"
             placeholder="ユーザー名またはID"
           />
         </div>
         <div>
-          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="password">
+          <label className="form-label text-sm" htmlFor="password">
             パスワード
           </label>
           <input
@@ -164,12 +164,12 @@ const UpdatePasswordPage = () => {
             type="text"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all font-mono"
+            className="form-input font-mono"
             placeholder="パスワードを入力"
           />
         </div>
         <div>
-          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="email">
+          <label className="form-label text-sm" htmlFor="email">
             メールアドレス
           </label>
           <input
@@ -177,19 +177,19 @@ const UpdatePasswordPage = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="form-input"
             placeholder="email@example.com"
           />
         </div>
         <div>
-          <label className="block text-gray-900 dark:text-white font-semibold mb-2 text-sm" htmlFor="memo">
+          <label className="form-label text-sm" htmlFor="memo">
             メモ
           </label>
           <textarea
             id="memo"
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
+            className="form-textarea min-h-24"
             rows={6}
             placeholder="追加情報や注意事項など"
           />

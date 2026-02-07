@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import db, { runSelect } from '@/lib/db';
+import { runGet, runExecute, runSelect } from '@/lib/db';
 import { createEvent } from '@/lib/google-calendar';
 import type { Schedule } from '@/types/schedule';
 
 export async function GET() {
   try {
-    const results = runSelect<Schedule>('SELECT * FROM schedules ORDER BY start');
+    const results = await runSelect<Schedule>('SELECT * FROM schedules ORDER BY start');
     return NextResponse.json(results);
   } catch (error) {
     console.error(error);
@@ -20,17 +20,22 @@ export async function POST(req: Request) {
     if (!title || !start || !end) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
-    const stmt = db.prepare(
-      'INSERT INTO schedules (title, start, end, memo) VALUES (?, ?, ?, ?)'
-    );
-    const info = stmt.run(title, start, end, memo);
+    await runExecute('INSERT INTO schedules (title, start, end, memo) VALUES (?, ?, ?, ?)', [
+      title,
+      start,
+      end,
+      memo ?? null,
+    ]);
+    const inserted = await runGet<{ id: number }>('SELECT last_insert_rowid() as id');
     let googleId: string | null = null;
     try {
       googleId = (await createEvent({ title, start, end, description: memo })) ?? null;
-      db.prepare('UPDATE schedules SET google_event_id = ? WHERE id = ?').run(
-        googleId,
-        info.lastInsertRowid
-      );
+      if (googleId && inserted?.id) {
+        await runExecute('UPDATE schedules SET google_event_id = ? WHERE id = ?', [
+          googleId,
+          inserted.id,
+        ]);
+      }
     } catch (err) {
       console.error('Google Calendar sync failed:', err);
     }

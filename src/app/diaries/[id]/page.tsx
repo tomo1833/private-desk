@@ -90,7 +90,7 @@ const DiaryDetailPage = () => {
   return (
     <div 
       ref={containerRef}
-      className="space-y-4 w-full px-2 sm:px-6 lg:px-8"
+      className="space-y-4 page-wrap"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

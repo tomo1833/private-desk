@@ -23,15 +23,15 @@ describe('POST /api/blog with custom HTML', () => {
     persona: 'tester',
   };
 
-  afterAll(() => {
-    runExecute('DELETE FROM blog WHERE title = ?', [entry.title]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM blog WHERE title = ?', [entry.title]);
   });
 
   it('should store HTML as provided', async () => {
     const req = createPostRequest(entry);
     const res = await POST(req as any);
     expect(res.status).toBe(200);
-    const row = runSelect('SELECT content_html FROM blog WHERE title = ?', [entry.title])[0];
+    const row = (await runSelect('SELECT content_html FROM blog WHERE title = ?', [entry.title]))[0];
     expect(row.content_html).toBe(html);
   });
 });

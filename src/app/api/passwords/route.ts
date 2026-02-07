@@ -5,7 +5,9 @@ import type { Password } from '@/types/password';
 
 export async function GET() {
   try {
-    const results = runSelect<Password>('SELECT * FROM password_manager ORDER BY category, site_name');
+    const results = await runSelect<Password>(
+      'SELECT * FROM password_manager ORDER BY category, site_name'
+    );
     return NextResponse.json(results);
   } catch (error) {
     console.error(error);
@@ -22,7 +24,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
 
-    runExecute(
+    await runExecute(
       'INSERT INTO password_manager (category, site_name, site_url, login_id, password, email, memo) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [category, site_name, site_url, login_id, password, email, memo]
     );

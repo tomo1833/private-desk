@@ -35,7 +35,7 @@ const PersonaListPage = () => {
   if (!personas) return <div>読み込み中...</div>;
 
   return (
-    <div className="space-y-4 w-full px-2 sm:px-6 lg:px-8">
+    <div className="space-y-4 page-wrap">
       <h1 className="form-title  text-white">ペルソナ一覧</h1>
       <div className="flex justify-end my-4">
         <Link href="/personas/new" className="btn btn-primary">新規作成</Link>

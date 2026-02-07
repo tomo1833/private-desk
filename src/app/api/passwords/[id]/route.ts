@@ -18,7 +18,7 @@ export async function GET(
   }
 
   try {
-    const result = runGet<Password>(
+    const result = await runGet<Password>(
       'SELECT * FROM password_manager WHERE id = ?',
       [Number(id)]
     );
@@ -66,7 +66,7 @@ export async function PUT(
       );
     }
 
-    runExecute(
+    await runExecute(
       'UPDATE password_manager SET category = ?, site_name = ?, site_url = ?, login_id = ?, password = ?, email = ?, memo = ? WHERE id = ?',
       [category, siteName, siteUrl, loginId, pass, email, memo, Number(id)]
     );

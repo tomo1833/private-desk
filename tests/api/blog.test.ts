@@ -41,8 +41,8 @@ describe('POST /api/blog', () => {
     persona: 'tester',
   };
 
-  afterAll(() => {
-    runExecute('DELETE FROM blog WHERE title = ?', [entry.title]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM blog WHERE title = ?', [entry.title]);
   });
 
   it('should create a blog entry', async () => {
@@ -52,7 +52,7 @@ describe('POST /api/blog', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = runSelect('SELECT * FROM blog WHERE title = ?', [entry.title]);
+    const rows = await runSelect('SELECT * FROM blog WHERE title = ?', [entry.title]);
     expect(rows.length).toBe(1);
   });
 
@@ -77,15 +77,15 @@ describe('Blog update and delete', () => {
   };
   let id: number;
 
-  afterAll(() => {
-    runExecute('DELETE FROM blog WHERE id = ?', [id]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM blog WHERE id = ?', [id]);
   });
 
   it('should create entry then update and delete', async () => {
     const createReq = createPostRequest(entry);
     const createRes = await POST(createReq as any);
     expect(createRes.status).toBe(200);
-    const row = runSelect('SELECT * FROM blog WHERE title = ?', [entry.title])[0];
+    const row = (await runSelect('SELECT * FROM blog WHERE title = ?', [entry.title]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { ...entry, title: 'updated' });
@@ -96,7 +96,7 @@ describe('Blog update and delete', () => {
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(deleteRes.status).toBe(200);
 
-    const rows = runSelect('SELECT * FROM blog WHERE id = ?', [id]);
+    const rows = await runSelect('SELECT * FROM blog WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 });

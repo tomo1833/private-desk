@@ -41,7 +41,7 @@ background: linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a202c 100%);
 
 ## ヘッダー・フッター
 
-- 背景: `bg-white/10 backdrop-blur-md`
+- 背景: `bg-white/10 backdrop-blur-md`（ヘッダー）、`bg-gray-900/10 backdrop-blur-md`（フッター）
 - テキスト: `text-white`
 - ボーダー: `border-gray-200/20`
 

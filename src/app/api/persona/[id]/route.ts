@@ -8,7 +8,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return NextResponse.json({ error: 'Invalid persona ID.' }, { status: 400 });
   }
   try {
-    const result = runGet<Persona>('SELECT * FROM persona WHERE id = ?', [Number(id)]);
+    const result = await runGet<Persona>('SELECT * FROM persona WHERE id = ?', [Number(id)]);
     if (!result) {
       return NextResponse.json({ error: 'persona not found.' }, { status: 404 });
     }
@@ -27,7 +27,11 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     if (!name) {
       return NextResponse.json({ error: 'name is required.' }, { status: 400 });
     }
-    runExecute('UPDATE persona SET name = ?, description = ? WHERE id = ?', [name, description ?? null, Number(id)]);
+    await runExecute('UPDATE persona SET name = ?, description = ? WHERE id = ?', [
+      name,
+      description ?? null,
+      Number(id),
+    ]);
     return NextResponse.json({ message: 'persona updated successfully.' });
   } catch (error) {
     console.error(error);
@@ -38,7 +42,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
-    runExecute('DELETE FROM persona WHERE id = ?', [Number(id)]);
+    await runExecute('DELETE FROM persona WHERE id = ?', [Number(id)]);
     return NextResponse.json({ message: 'persona deleted successfully.' });
   } catch (error) {
     console.error(error);

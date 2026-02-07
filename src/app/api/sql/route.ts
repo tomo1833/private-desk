@@ -11,10 +11,10 @@ export async function POST(req: Request) {
     const trimmed = sql.trim();
     const firstWord = trimmed.split(/\s+/)[0].toUpperCase();
     if (['SELECT', 'PRAGMA', 'WITH'].includes(firstWord)) {
-      const rows = runSelect<Record<string, unknown>>(sql);
+      const rows = await runSelect<Record<string, unknown>>(sql);
       return NextResponse.json({ rows });
     }
-    runExecute(sql);
+    await runExecute(sql);
     return NextResponse.json({ message: 'ok' });
   } catch (error) {
     console.error('SQL execution error:', error);

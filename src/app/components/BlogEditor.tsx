@@ -67,7 +67,7 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
         <textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="form-textarea font-mono whitespace-pre w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical"
+          className="form-textarea font-mono whitespace-pre min-h-24"
         />
       ) : (
         <EditorContent

@@ -8,7 +8,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return NextResponse.json({ error: 'Invalid blog ID.' }, { status: 400 });
   }
   try {
-    const result = runGet<Blog>('SELECT * FROM blog WHERE id = ?', [Number(id)]);
+    const result = await runGet<Blog>('SELECT * FROM blog WHERE id = ?', [Number(id)]);
     if (!result) {
       return NextResponse.json({ error: 'blog entry not found.' }, { status: 404 });
     }
@@ -47,7 +47,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     ) {
       return NextResponse.json({ error: 'required fields missing.' }, { status: 400 });
     }
-    runExecute(
+    await runExecute(
       'UPDATE blog SET title = ?, content = ?, content_markdown = ?, content_html = ?, eyecatch = ?, permalink = ?, site = ?, author = ?, persona = ? WHERE id = ?',
       [
         title,
@@ -72,7 +72,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
-    runExecute('DELETE FROM blog WHERE id = ?', [Number(id)]);
+    await runExecute('DELETE FROM blog WHERE id = ?', [Number(id)]);
     return NextResponse.json({ message: 'blog entry deleted successfully.' });
   } catch (error) {
     console.error(error);

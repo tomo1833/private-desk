@@ -8,7 +8,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return NextResponse.json({ error: 'Invalid author ID.' }, { status: 400 });
   }
   try {
-    const result = runGet<Author>('SELECT * FROM author WHERE id = ?', [Number(id)]);
+    const result = await runGet<Author>('SELECT * FROM author WHERE id = ?', [Number(id)]);
     if (!result) {
       return NextResponse.json({ error: 'author not found.' }, { status: 404 });
     }
@@ -27,7 +27,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     if (!name) {
       return NextResponse.json({ error: 'name is required.' }, { status: 400 });
     }
-    runExecute('UPDATE author SET name = ?, bio = ? WHERE id = ?', [name, bio ?? null, Number(id)]);
+    await runExecute('UPDATE author SET name = ?, bio = ? WHERE id = ?', [name, bio ?? null, Number(id)]);
     return NextResponse.json({ message: 'author updated successfully.' });
   } catch (error) {
     console.error(error);
@@ -38,7 +38,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
-    runExecute('DELETE FROM author WHERE id = ?', [Number(id)]);
+    await runExecute('DELETE FROM author WHERE id = ?', [Number(id)]);
     return NextResponse.json({ message: 'author deleted successfully.' });
   } catch (error) {
     console.error(error);

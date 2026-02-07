@@ -40,7 +40,7 @@ const BlogListPage = () => {
   if (!blogs) return <div>読み込み中...</div>;
 
   return (
-    <div className="space-y-4 w-full px-2 sm:px-6 lg:px-8">
+    <div className="space-y-4 page-wrap">
       <h1 className="text-2xl font-bold text-white">ブログ一覧</h1>
       <div className="flex flex-wrap justify-end gap-2 my-4">
         <Link href="/blogs/new" className="btn btn-primary">新規作成</Link>
@@ -65,7 +65,7 @@ const BlogListPage = () => {
       </div>
       <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {blogs.map((blog) => (
-          <li key={blog.id} className="bg-white/90 border p-4 rounded space-y-2">
+          <li key={blog.id} className="card-basic space-y-2">
             <Link href={`/blogs/${blog.id}`} className="font-semibold hover:underline block">
               {blog.title}
             </Link>
@@ -76,7 +76,7 @@ const BlogListPage = () => {
               height={192}
               className="w-full h-48 object-cover"
             />
-            <p className="text-sm line-clamp-3 whitespace-pre-wrap">{blog.content}</p>
+            <p className="text-sm line-clamp-2 whitespace-pre-wrap text-gray-700 dark:text-gray-200">{blog.content}</p>
           </li>
         ))}
       </ul>

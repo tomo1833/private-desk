@@ -35,48 +35,48 @@ const NewExpensePage = () => {
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
+    <div className="card-form">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2 text-blue-800">支出登録</h1>
         <p className="form-subtitle">新しい支出情報を登録します</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">勘定科目</label>
-          <input value={category} onChange={(e) => setCategory(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400" required />
+          <label className="form-label">勘定科目</label>
+          <input value={category} onChange={(e) => setCategory(e.target.value)} className="form-input" required />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">金額</label>
-          <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400" required />
+          <label className="form-label">金額</label>
+          <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} className="form-input" required />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">お店</label>
-          <input value={shop} onChange={(e) => setShop(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400" required />
+          <label className="form-label">お店</label>
+          <input value={shop} onChange={(e) => setShop(e.target.value)} className="form-input" required />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">利用者</label>
-          <input value={usedBy} onChange={(e) => setUsedBy(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400" />
+          <label className="form-label">利用者</label>
+          <input value={usedBy} onChange={(e) => setUsedBy(e.target.value)} className="form-input" />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">商品名</label>
+          <label className="form-label">商品名</label>
           <input
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
-            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+            className="form-input"
           />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">備考</label>
+          <label className="form-label">備考</label>
           <textarea
             value={remark}
             onChange={(e) => setRemark(e.target.value)}
-            className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical"
+            className="form-textarea min-h-24"
             rows={3}
           />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">使った日</label>
-          <input type="date" value={usedAt} onChange={(e) => setUsedAt(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400" required />
+          <label className="form-label">使った日</label>
+          <input type="date" value={usedAt} onChange={(e) => setUsedAt(e.target.value)} className="form-input" required />
         </div>
         <div className="btn-group-between pt-4 mt-6 border-t border-gray-200">
           <button

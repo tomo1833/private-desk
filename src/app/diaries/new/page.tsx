@@ -22,19 +22,19 @@ const NewDiaryPage = () => {
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-white/40 shadow-lg">
+    <div className="card-form">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2 text-blue-800">日報作成</h1>
         <p className="form-subtitle">新しい日報を作成します</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">タイトル</label>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400" required />
+          <label className="form-label">タイトル</label>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input" required />
         </div>
         <div className="space-y-4 mb-6">
-          <label className="block text-gray-800 font-semibold mb-2">内容</label>
-          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="w-full border border-gray-300 p-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 min-h-24 resize-vertical" rows={6} required />
+          <label className="form-label">内容</label>
+          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="form-textarea min-h-24" rows={6} required />
         </div>
         <div className="btn-group-between pt-4 mt-6 border-t border-gray-200">
           <button

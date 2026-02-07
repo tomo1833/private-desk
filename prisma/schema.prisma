@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model PasswordManager {
+  id        Int      @id @default(autoincrement())
+  siteName  String   @map("site_name")
+  siteUrl   String   @map("site_url")
+  loginId   String?  @map("login_id")
+  password  String
+  email     String?
+  memo      String?
+  category  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("password_manager")
+}
+
+model Wiki {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("wiki")
+}
+
+model Diary {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("diary")
+}
+
+model Blog {
+  id              Int      @id @default(autoincrement())
+  title           String
+  content         String
+  contentMarkdown String   @map("content_markdown")
+  contentHtml     String   @map("content_html")
+  eyecatch        String
+  permalink       String
+  site            String
+  author          String
+  persona         String
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@map("blog")
+}
+
+model Author {
+  id   Int    @id @default(autoincrement())
+  name String
+  bio  String?
+
+  @@map("author")
+}
+
+model Persona {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String?
+
+  @@map("persona")
+}
+
+model Schedule {
+  id            Int      @id @default(autoincrement())
+  title         String
+  start         String
+  end           String
+  memo          String?
+  googleEventId String?  @map("google_event_id")
+  createdAt     DateTime @default(now()) @map("createdAt")
+
+  @@map("schedules")
+}
+
+model Expense {
+  id          Int      @id @default(autoincrement())
+  category    String
+  amount      Int
+  shop        String
+  usedBy      String?  @map("used_by")
+  productName String?  @map("product_name")
+  remark      String?
+  usedAt      String   @map("used_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("expenses")
+}

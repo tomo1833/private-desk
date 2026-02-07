@@ -40,8 +40,8 @@ describe('POST /api/schedule', () => {
     memo: 'memo',
   };
 
-  afterAll(() => {
-    runExecute('DELETE FROM schedules WHERE title = ?', [entry.title]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM schedules WHERE title = ?', [entry.title]);
   });
 
   it('should create a schedule', async () => {
@@ -51,7 +51,7 @@ describe('POST /api/schedule', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = runSelect('SELECT * FROM schedules WHERE title = ?', [entry.title]);
+    const rows = await runSelect('SELECT * FROM schedules WHERE title = ?', [entry.title]);
     expect(rows.length).toBe(1);
   });
 
@@ -65,15 +65,15 @@ describe('POST /api/schedule', () => {
 describe('Schedule update and delete', () => {
   const entry = { title: 'jest schedule2', start: '2099-01-01', end: '2099-01-02', memo: 'm' };
   let id: number;
-  afterAll(() => {
-    if (id) runExecute('DELETE FROM schedules WHERE id = ?', [id]);
+  afterAll(async () => {
+    if (id) await runExecute('DELETE FROM schedules WHERE id = ?', [id]);
   });
 
   it('should create then update and delete schedule', async () => {
     const createReq = createPostRequest(entry);
     const createRes = await POST(createReq as any);
     expect(createRes.status).toBe(200);
-    const row = runSelect('SELECT * FROM schedules WHERE title = ?', [entry.title])[0];
+    const row = (await runSelect('SELECT * FROM schedules WHERE title = ?', [entry.title]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { ...entry, title: 'up' });
@@ -84,7 +84,7 @@ describe('Schedule update and delete', () => {
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(deleteRes.status).toBe(200);
 
-    const rows = runSelect('SELECT * FROM schedules WHERE id = ?', [id]);
+    const rows = await runSelect('SELECT * FROM schedules WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 });

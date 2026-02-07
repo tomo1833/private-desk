@@ -25,8 +25,8 @@ describe('POST /api/diary', () => {
     content: 'content',
   };
 
-  afterAll(() => {
-    runExecute('DELETE FROM diary WHERE title = ?', [entry.title]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM diary WHERE title = ?', [entry.title]);
   });
 
   it('should create a diary entry', async () => {
@@ -36,7 +36,7 @@ describe('POST /api/diary', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = runSelect('SELECT * FROM diary WHERE title = ?', [entry.title]);
+    const rows = await runSelect('SELECT * FROM diary WHERE title = ?', [entry.title]);
     expect(rows.length).toBe(1);
   });
 

@@ -8,7 +8,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return NextResponse.json({ error: 'Invalid schedule ID.' }, { status: 400 });
   }
   try {
-    const row = runGet<Schedule>('SELECT * FROM schedules WHERE id = ?', [Number(id)]);
+    const row = await runGet<Schedule>('SELECT * FROM schedules WHERE id = ?', [Number(id)]);
     if (!row) {
       return NextResponse.json({ error: 'schedule not found.' }, { status: 404 });
     }
@@ -27,7 +27,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     if (!title || !start || !end) {
       return NextResponse.json({ error: 'required fields missing' }, { status: 400 });
     }
-    runExecute('UPDATE schedules SET title = ?, start = ?, end = ?, memo = ? WHERE id = ?', [title, start, end, memo ?? null, Number(id)]);
+    await runExecute(
+      'UPDATE schedules SET title = ?, start = ?, end = ?, memo = ? WHERE id = ?',
+      [title, start, end, memo ?? null, Number(id)]
+    );
     return NextResponse.json({ message: 'schedule updated successfully.' });
   } catch (error) {
     console.error(error);
@@ -38,7 +41,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
-    runExecute('DELETE FROM schedules WHERE id = ?', [Number(id)]);
+    await runExecute('DELETE FROM schedules WHERE id = ?', [Number(id)]);
     return NextResponse.json({ message: 'schedule deleted successfully.' });
   } catch (error) {
     console.error(error);

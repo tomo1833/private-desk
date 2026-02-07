@@ -32,8 +32,8 @@ describe('Wiki CRUD', () => {
   const entry = { title: 'jest wiki', content: 'content' };
   let id: number;
 
-  afterAll(() => {
-    runExecute('DELETE FROM wiki WHERE title LIKE ?', [`${entry.title}%`]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM wiki WHERE title LIKE ?', [`${entry.title}%`]);
   });
 
   it('should create a wiki entry', async () => {
@@ -43,7 +43,7 @@ describe('Wiki CRUD', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = runSelect('SELECT * FROM wiki WHERE title = ?', [entry.title]);
+    const rows = await runSelect('SELECT * FROM wiki WHERE title = ?', [entry.title]);
     expect(rows.length).toBe(1);
     id = rows[0].id;
   });
@@ -63,7 +63,7 @@ describe('Wiki CRUD', () => {
     const json = await res.json();
     expect(json).toEqual({ message: 'wiki entry updated successfully.' });
 
-    const row = runSelect('SELECT * FROM wiki WHERE id = ?', [id])[0];
+    const row = (await runSelect('SELECT * FROM wiki WHERE id = ?', [id]))[0];
     expect(row.title).toBe(`${entry.title}2`);
   });
 
@@ -74,7 +74,7 @@ describe('Wiki CRUD', () => {
     const json = await res.json();
     expect(json).toEqual({ message: 'wiki entry deleted successfully.' });
 
-    const rows = runSelect('SELECT * FROM wiki WHERE id = ?', [id]);
+    const rows = await runSelect('SELECT * FROM wiki WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 

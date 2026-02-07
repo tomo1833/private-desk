@@ -36,7 +36,7 @@ const AuthorListPage = () => {
   if (!authors) return <div>読み込み中...</div>;
 
   return (
-    <div className="space-y-4 w-full px-2 sm:px-6 lg:px-8">
+    <div className="space-y-4 page-wrap">
       <h1 className="text-2xl font-bold text-white">著者一覧</h1>
       <div className="flex justify-end my-4">
         <Link href="/authors/new" className="btn btn-primary">新規作成</Link>

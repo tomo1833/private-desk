@@ -31,8 +31,8 @@ describe('GET /api/persona', () => {
 describe('POST /api/persona', () => {
   const entry = { name: 'jest persona', description: 'desc' };
 
-  afterAll(() => {
-    runExecute('DELETE FROM persona WHERE name = ?', [entry.name]);
+  afterAll(async () => {
+    await runExecute('DELETE FROM persona WHERE name = ?', [entry.name]);
   });
 
   it('should create a persona', async () => {
@@ -42,7 +42,7 @@ describe('POST /api/persona', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = runSelect('SELECT * FROM persona WHERE name = ?', [entry.name]);
+    const rows = await runSelect('SELECT * FROM persona WHERE name = ?', [entry.name]);
     expect(rows.length).toBe(1);
   });
 
@@ -57,15 +57,15 @@ describe('Persona update and delete', () => {
   const entry = { name: 'jest2', description: 'd' };
   let id: number;
 
-  afterAll(() => {
-    if (id) runExecute('DELETE FROM persona WHERE id = ?', [id]);
+  afterAll(async () => {
+    if (id) await runExecute('DELETE FROM persona WHERE id = ?', [id]);
   });
 
   it('should create entry then update and delete', async () => {
     const createReq = createPostRequest(entry);
     const createRes = await POST(createReq as any);
     expect(createRes.status).toBe(200);
-    const row = runSelect('SELECT * FROM persona WHERE name = ?', [entry.name])[0];
+    const row = (await runSelect('SELECT * FROM persona WHERE name = ?', [entry.name]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { name: 'up', description: 'd2' });
@@ -76,7 +76,7 @@ describe('Persona update and delete', () => {
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(deleteRes.status).toBe(200);
 
-    const rows = runSelect('SELECT * FROM persona WHERE id = ?', [id]);
+    const rows = await runSelect('SELECT * FROM persona WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 });

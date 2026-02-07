@@ -13,12 +13,14 @@ export async function POST() {
     let inserted = 0;
     for (const post of posts) {
       const permalink = post.url ?? '';
-      const existing = runGet<{ id: number }>('SELECT id FROM blog WHERE permalink = ?', [permalink]);
+      const existing = await runGet<{ id: number }>('SELECT id FROM blog WHERE permalink = ?', [
+        permalink,
+      ]);
       if (existing) continue;
       const title = post.title ?? '';
       const contentHtml = post.content ?? '';
       const content = contentHtml.replace(/<[^>]+>/g, '');
-      runExecute(
+      await runExecute(
         'INSERT INTO blog (title, content, content_markdown, content_html, eyecatch, permalink, site, author, persona) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
           title,

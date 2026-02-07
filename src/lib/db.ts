@@ -1,32 +1,50 @@
-import Database from 'better-sqlite3';
+import { PrismaClient } from '@prisma/client';
 import fs from 'fs';
 import path from 'path';
 
-// データベースファイルのパスを解決
 const dbPath = path.resolve(process.cwd(), 'data/database.sqlite');
-
-// ディレクトリがなければ作成
 fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
-// データベース接続（同期的）
-const db = new Database(dbPath);
+const url = process.env.DATABASE_URL ?? `file:${dbPath}`;
+
+const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
+
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    datasources: {
+      db: { url },
+    },
+  });
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma;
+}
 
 // 複数レコードを取得
-export function runSelect<T>(sql: string, params: (string | number | null)[] = []): T[] {
-  const stmt = db.prepare(sql);
-  return stmt.all(...params) as T[];
+export async function runSelect<T>(
+  sql: string,
+  params: (string | number | null)[] = []
+): Promise<T[]> {
+  const rows = await prisma.$queryRawUnsafe<T[]>(sql, ...params);
+  return rows ?? [];
 }
 
 // 単一レコードを取得
-export function runGet<T>(sql: string, params: (string | number | null)[] = []): T | undefined {
-  const stmt = db.prepare(sql);
-  return stmt.get(...params) as T | undefined;
+export async function runGet<T>(
+  sql: string,
+  params: (string | number | null)[] = []
+): Promise<T | undefined> {
+  const rows = await runSelect<T>(sql, params);
+  return rows[0];
 }
 
 // 更新・挿入・削除（戻り値なし）
-export function runExecute(sql: string, params: (string | number | null)[] = []): void {
-  const stmt = db.prepare(sql);
-  stmt.run(...params);
+export async function runExecute(
+  sql: string,
+  params: (string | number | null)[] = []
+): Promise<void> {
+  await prisma.$executeRawUnsafe(sql, ...params);
 }
 
-export default db;
+export default prisma;

@@ -10,8 +10,8 @@ export async function GET(request: Request) {
       ? 'SELECT * FROM blog ORDER BY id DESC LIMIT ?'
       : 'SELECT * FROM blog ORDER BY id DESC';
     const results = limit
-      ? runSelect<Blog>(sql, [Number(limit)])
-      : runSelect<Blog>(sql);
+      ? await runSelect<Blog>(sql, [Number(limit)])
+      : await runSelect<Blog>(sql);
     return NextResponse.json(results);
   } catch (error) {
     console.error(error);
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     ) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
-    runExecute(
+    await runExecute(
       'INSERT INTO blog (title, content, content_markdown, content_html, eyecatch, permalink, site, author, persona) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         title,

@@ -18,7 +18,7 @@ export async function GET(request: Request) {
   }
   sql += ' GROUP BY category ORDER BY category';
   try {
-    const rows = runSelect<{ category: string; total: number }>(sql, params);
+    const rows = await runSelect<{ category: string; total: number }>(sql, params);
     return NextResponse.json(rows);
   } catch (error) {
     console.error(error);

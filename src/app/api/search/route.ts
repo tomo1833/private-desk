@@ -13,22 +13,15 @@ export async function GET(req: Request) {
   }
   const like = `%${q}%`;
   try {
-    const passwords = runSelect<Password>(
-      'SELECT * FROM password_manager WHERE site_name LIKE ? OR site_url LIKE ? OR login_id LIKE ? OR email LIKE ? OR memo LIKE ?',
-      [like, like, like, like, like]
-    );
-    const diaries = runSelect<Diary>(
-      'SELECT * FROM diary WHERE title LIKE ? OR content LIKE ?',
-      [like, like]
-    );
-    const wikis = runSelect<Wiki>(
-      'SELECT * FROM wiki WHERE title LIKE ? OR content LIKE ?',
-      [like, like]
-    );
-    const blogs = runSelect<Blog>(
-      'SELECT * FROM blog WHERE title LIKE ? OR content LIKE ?',
-      [like, like]
-    );
+    const [passwords, diaries, wikis, blogs] = await Promise.all([
+      runSelect<Password>(
+        'SELECT * FROM password_manager WHERE site_name LIKE ? OR site_url LIKE ? OR login_id LIKE ? OR email LIKE ? OR memo LIKE ?',
+        [like, like, like, like, like]
+      ),
+      runSelect<Diary>('SELECT * FROM diary WHERE title LIKE ? OR content LIKE ?', [like, like]),
+      runSelect<Wiki>('SELECT * FROM wiki WHERE title LIKE ? OR content LIKE ?', [like, like]),
+      runSelect<Blog>('SELECT * FROM blog WHERE title LIKE ? OR content LIKE ?', [like, like]),
+    ]);
     return NextResponse.json({ passwords, diaries, wikis, blogs });
   } catch (error) {
     console.error(error);

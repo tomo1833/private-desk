@@ -24,7 +24,7 @@ export async function GET(request: Request) {
       query += ' WHERE ' + conditions.join(' AND ');
     }
     query += ' ORDER BY used_at DESC';
-    const results = runSelect<Expense>(query, params);
+    const results = await runSelect<Expense>(query, params);
     return NextResponse.json(results);
   } catch (error) {
     console.error(error);
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     if (!category || !amount || !shop || !used_at) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
-    runExecute(
+    await runExecute(
       'INSERT INTO expenses (category, amount, shop, used_at, used_by, product_name, remark) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [category, Number(amount), shop, used_at, used_by ?? null, product_name ?? null, remark ?? null]
     );
