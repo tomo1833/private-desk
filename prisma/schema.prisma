@@ -40,6 +40,51 @@ model Diary {
   @@map("diary")
 }
 
+model Anime {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("anime")
+}
+
+model Book {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("book")
+}
+
+model Movie {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("movie")
+}
+
+model Narou {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("narou")
+}
+
+model Udemy {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("udemy")
+}
+
 model Blog {
   id              Int      @id @default(autoincrement())
   title           String

@@ -71,7 +71,7 @@ const Header = () => {
           bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg
           shadow-2xl border-b border-gray-200/50 dark:border-gray-700/50
           transition-all duration-300 ease-in-out z-40
-          ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}
+          ${menuOpen ? 'max-h-[40rem] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}
         `}
       >
         <div className="p-4 grid grid-cols-2 gap-3">
@@ -88,6 +88,41 @@ const Header = () => {
             onClick={() => setMenuOpen(false)}
           >
             ✍️ ブログ
+          </Link>
+          <Link
+            href="/animes"
+            className="btn btn-secondary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            🎬 アニメ記録
+          </Link>
+          <Link
+            href="/books"
+            className="btn btn-secondary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            📚 本
+          </Link>
+          <Link
+            href="/movies"
+            className="btn btn-secondary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            🎞 映画
+          </Link>
+          <Link
+            href="/narous"
+            className="btn btn-secondary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            📖 なろう小説
+          </Link>
+          <Link
+            href="/udemys"
+            className="btn btn-secondary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            🎓 Udemy
           </Link>
           <Link
             href="/passwords"

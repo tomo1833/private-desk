@@ -88,6 +88,21 @@ const MainPage = () => {
           <Link href="/blogs" className="btn btn-secondary text-sm sm:text-base">
             ✍️ ブログ
           </Link>
+          <Link href="/animes" className="btn btn-secondary text-sm sm:text-base">
+            🎬 アニメ記録
+          </Link>
+          <Link href="/books" className="btn btn-secondary text-sm sm:text-base">
+            📚 本
+          </Link>
+          <Link href="/movies" className="btn btn-secondary text-sm sm:text-base">
+            🎞 映画
+          </Link>
+          <Link href="/narous" className="btn btn-secondary text-sm sm:text-base">
+            📖 なろう小説
+          </Link>
+          <Link href="/udemys" className="btn btn-secondary text-sm sm:text-base">
+            🎓 Udemy
+          </Link>
           <Link href="/passwords" className="btn btn-secondary text-sm sm:text-base">
             🔐 パスワード
           </Link>
