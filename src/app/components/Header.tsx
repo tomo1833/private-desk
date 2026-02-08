@@ -146,6 +146,13 @@ const Header = () => {
             📁 ファイル
           </Link>
           <Link
+            href="/schedule"
+            className="btn btn-secondary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            📅 カレンダー
+          </Link>
+          <Link
             href="/sql"
             className="btn btn-secondary text-sm"
             onClick={() => setMenuOpen(false)}

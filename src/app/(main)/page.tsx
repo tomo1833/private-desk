@@ -112,6 +112,9 @@ const MainPage = () => {
           <Link href="/files" className="btn btn-secondary text-sm sm:text-base">
             📁 ファイル
           </Link>
+          <Link href="/schedule" className="btn btn-secondary text-sm sm:text-base">
+            📅 カレンダー
+          </Link>
           <Link href="/sql" className="btn btn-secondary text-sm sm:text-base">
             🛢 SQL
           </Link>
