@@ -7,6 +7,7 @@ export type Password = {
   email: string | null;
   memo: string | null;
   category: string | null;
+  display_order: number;
   created_at: string; // SQLite の DATETIME は string で受け取られる
   updated_at: string;
 };

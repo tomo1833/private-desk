@@ -12,7 +12,7 @@ const HtmlPlaygroundPage = () => {
   return (
     <div className="card-form">
       <div className="form-header">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">HTMLプレイグラウンツ</h1>
+        <h1 className="form-title">HTMLプレイグラウンツ</h1>
         <p className="form-subtitle">HTMLコードを書いてリアルタイムでプレビューします</p>
       </div>
       <MarkdownRenderer>{initialMarkdown}</MarkdownRenderer>

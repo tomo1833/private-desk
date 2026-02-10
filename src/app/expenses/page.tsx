@@ -51,7 +51,7 @@ const ExpenseListPage = () => {
   if (error) return <div>読み込みエラー</div>;
   return (
     <div className="space-y-4 page-wrap">
-      <h1 className="text-2xl font-bold text-white">{formatMonth(month)}の支出</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-white">{formatMonth(month)}の支出</h1>
       <div className="flex gap-2 items-center flex-wrap">
         <Link href="/expenses/new" className="btn btn-primary">新規追加</Link>
         <Link href="/expenses/stats" className="btn btn-secondary">月次集計</Link>

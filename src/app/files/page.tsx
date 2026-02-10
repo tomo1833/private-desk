@@ -69,7 +69,7 @@ const FileManagerPage = () => {
     <div className="page-wrap">
       <div className="card-form">
         <div className="form-header">
-          <h1 className="text-3xl font-bold mb-2 text-blue-800">ファイル管理</h1>
+          <h1 className="form-title">ファイル管理</h1>
           <p className="form-subtitle">ファイルのアップロードやフォルダ作成を行います</p>
         </div>
       {path && (

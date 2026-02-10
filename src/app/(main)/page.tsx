@@ -103,6 +103,9 @@ const MainPage = () => {
           <Link href="/udemys" className="btn btn-secondary text-sm sm:text-base">
             🎓 Udemy
           </Link>
+          <Link href="/musics" className="btn btn-secondary text-sm sm:text-base">
+            🎵 音楽
+          </Link>
           <Link href="/passwords" className="btn btn-secondary text-sm sm:text-base">
             🔐 パスワード
           </Link>
@@ -147,7 +150,7 @@ const MainPage = () => {
           </div>
         ) : diaries.length > 0 && currentDiary ? (
           <div
-            className="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-4 sm:p-6 space-y-4 relative"
+            className="card-basic space-y-4 relative"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}

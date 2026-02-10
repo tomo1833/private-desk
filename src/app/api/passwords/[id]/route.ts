@@ -57,7 +57,11 @@ export async function PUT(
       pass,
       email,
       memo,
+      display_order,
     } = body;
+    const displayOrder = Number.isFinite(Number(display_order))
+      ? Number(display_order)
+      : 0;
 
     if (!siteName || !siteUrl || !pass) {
       return NextResponse.json(
@@ -67,8 +71,8 @@ export async function PUT(
     }
 
     await runExecute(
-      'UPDATE password_manager SET category = ?, site_name = ?, site_url = ?, login_id = ?, password = ?, email = ?, memo = ? WHERE id = ?',
-      [category, siteName, siteUrl, loginId, pass, email, memo, Number(id)]
+      'UPDATE password_manager SET category = ?, site_name = ?, site_url = ?, login_id = ?, password = ?, email = ?, memo = ?, display_order = ? WHERE id = ?',
+      [category, siteName, siteUrl, loginId, pass, email, memo, displayOrder, Number(id)]
     );
     return NextResponse.json({
       message: 'password_manager entry updated successfully.',

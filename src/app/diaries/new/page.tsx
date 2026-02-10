@@ -6,13 +6,14 @@ const NewDiaryPage = () => {
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [displayOrder, setDisplayOrder] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const res = await fetch('/api/diary', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content }),
+      body: JSON.stringify({ title, content, display_order: displayOrder }),
     });
     if (res.ok) {
       router.push('/diaries');
@@ -23,14 +24,25 @@ const NewDiaryPage = () => {
 
   return (
     <div className="card-form">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">日報作成</h1>
+      <div className="form-header">
+        <h1 className="form-title">日報作成</h1>
         <p className="form-subtitle">新しい日報を作成します</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4 mb-6">
           <label className="form-label">タイトル</label>
           <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input" required />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">表示順</label>
+          <input
+            type="number"
+            min={0}
+            step={1}
+            value={displayOrder}
+            onChange={(e) => setDisplayOrder(Number(e.target.value))}
+            className="form-input"
+          />
         </div>
         <div className="space-y-4 mb-6">
           <label className="form-label">内容</label>

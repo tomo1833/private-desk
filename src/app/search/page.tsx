@@ -10,6 +10,7 @@ import BookCards from '../components/BookCards';
 import MovieCards from '../components/MovieCards';
 import NarouCards from '../components/NarouCards';
 import UdemyCards from '../components/UdemyCards';
+import MusicCards from '../components/MusicCards';
 import type { Password } from '@/types/password';
 import type { Diary } from '@/types/diary';
 import type { Wiki } from '@/types/wiki';
@@ -19,6 +20,7 @@ import type { Book } from '@/types/book';
 import type { Movie } from '@/types/movie';
 import type { Narou } from '@/types/narou';
 import type { Udemy } from '@/types/udemy';
+import type { Music } from '@/types/music';
 
 interface Results {
   passwords: Password[];
@@ -30,6 +32,7 @@ interface Results {
   movies: Movie[];
   narous: Narou[];
   udemys: Udemy[];
+  musics: Music[];
 }
 
 const SearchPage = () => {
@@ -58,7 +61,7 @@ const SearchPage = () => {
 
   return (
     <div className="page-wrap space-y-6">
-      <h1 className="text-2xl font-bold text-white">検索結果: {q}</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-white">検索結果: {q}</h1>
       <section>
         <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">パスワード</h2>
         {results.passwords.length > 0 ? (
@@ -127,6 +130,14 @@ const SearchPage = () => {
         <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">Udemy</h2>
         {results.udemys.length > 0 ? (
           <UdemyCards udemys={results.udemys} />
+        ) : (
+          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+        )}
+      </section>
+      <section>
+        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">音楽</h2>
+        {results.musics.length > 0 ? (
+          <MusicCards musics={results.musics} />
         ) : (
           <p className="text-gray-500 dark:text-gray-400">該当なし</p>
         )}

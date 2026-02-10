@@ -15,12 +15,17 @@ const AddPassword: React.FC = () => {
         password: "",
         email: "",
         memo: "",
+        display_order: 0,
     });
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ): void => {
         const { name, value } = e.target;
+        if (name === "display_order") {
+            setFormData({ ...formData, [name]: Number(value) });
+            return;
+        }
         setFormData({ ...formData, [name]: value });
     };
 
@@ -33,7 +38,16 @@ const AddPassword: React.FC = () => {
         });
         if (res.ok) {
             alert("登録成功！");
-            setFormData({ category: "", site_name: "", site_url: "", login_id: "", password: "", email: "", memo: "" });
+            setFormData({
+                category: "",
+                site_name: "",
+                site_url: "",
+                login_id: "",
+                password: "",
+                email: "",
+                memo: "",
+                display_order: 0,
+            });
             router.push('/');
         } else {
             alert("登録失敗");
@@ -43,7 +57,7 @@ const AddPassword: React.FC = () => {
     return (
         <div className="card-form">
             <div className="form-header">
-                <h1 className="text-3xl font-bold mb-2 text-blue-800">パスワード登録</h1>
+                <h1 className="form-title">パスワード登録</h1>
                 <p className="form-subtitle">新しいサイトのパスワード情報を登録します</p>
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -98,6 +112,18 @@ const AddPassword: React.FC = () => {
                         className="form-input"
                         onChange={handleChange}
                         required
+                    />
+                </div>
+                <div className="space-y-4 mb-6">
+                    <label className="form-label">表示順</label>
+                    <input
+                        type="number"
+                        min={0}
+                        step={1}
+                        name="display_order"
+                        value={formData.display_order}
+                        className="form-input"
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="space-y-4 mb-6">

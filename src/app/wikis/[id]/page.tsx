@@ -28,9 +28,9 @@ const WikiDetailPage = () => {
   if (!wiki) return <div>読み込み中...</div>;
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">{wiki.title}</h1>
-      <MarkdownRenderer className="whitespace-pre-wrap border p-4 rounded bg-white">
+    <div className="space-y-4 page-wrap">
+      <h1 className="text-2xl md:text-3xl font-bold text-white">{wiki.title}</h1>
+      <MarkdownRenderer className="card-basic whitespace-pre-wrap">
         {wiki.content}
       </MarkdownRenderer>
       <div className="flex justify-end">

@@ -7,8 +7,8 @@ export async function GET(request: Request) {
   const limit = searchParams.get('limit');
   try {
     const sql = limit
-      ? 'SELECT * FROM blog ORDER BY id DESC LIMIT ?'
-      : 'SELECT * FROM blog ORDER BY id DESC';
+      ? 'SELECT * FROM blog ORDER BY display_order ASC, created_at DESC, id DESC LIMIT ?'
+      : 'SELECT * FROM blog ORDER BY display_order ASC, created_at DESC, id DESC';
     const results = limit
       ? await runSelect<Blog>(sql, [Number(limit)])
       : await runSelect<Blog>(sql);
@@ -33,6 +33,9 @@ export async function POST(req: Request) {
       author,
       persona,
     } = body;
+    const displayOrder = Number.isFinite(Number(body.display_order))
+      ? Number(body.display_order)
+      : 0;
     if (
       !title ||
       !content ||
@@ -47,7 +50,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
     await runExecute(
-      'INSERT INTO blog (title, content, content_markdown, content_html, eyecatch, permalink, site, author, persona) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO blog (title, content, content_markdown, content_html, eyecatch, permalink, site, author, persona, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         title,
         content,
@@ -58,6 +61,7 @@ export async function POST(req: Request) {
         site,
         author,
         persona,
+        displayOrder,
       ]
     );
     return NextResponse.json({ message: '登録成功' });

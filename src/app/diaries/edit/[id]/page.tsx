@@ -9,6 +9,7 @@ const DiaryEditPage = () => {
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [displayOrder, setDisplayOrder] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const DiaryEditPage = () => {
         const diary: Diary = await res.json();
         setTitle(diary.title);
         setContent(diary.content);
+        setDisplayOrder(diary.display_order ?? 0);
       } finally {
         setLoading(false);
       }
@@ -31,7 +33,7 @@ const DiaryEditPage = () => {
     const res = await fetch(`/api/diary/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content }),
+      body: JSON.stringify({ title, content, display_order: displayOrder }),
     });
     if (res.ok) {
       router.push(`/diaries/${id}`);
@@ -55,13 +57,24 @@ const DiaryEditPage = () => {
   return (
     <div className="card-form">
       <div className="form-header">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">日報編集</h1>
+        <h1 className="form-title">日報編集</h1>
         <p className="form-subtitle">日報の編集・更新を行います</p>
       </div>
       <form onSubmit={handleUpdate} className="space-y-6">
         <div className="space-y-4 mb-6">
           <label className="form-label">タイトル</label>
           <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input" required />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">表示順</label>
+          <input
+            type="number"
+            min={0}
+            step={1}
+            value={displayOrder}
+            onChange={(e) => setDisplayOrder(Number(e.target.value))}
+            className="form-input"
+          />
         </div>
         <div className="space-y-4 mb-6">
           <label className="form-label">内容</label>

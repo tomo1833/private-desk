@@ -125,6 +125,13 @@ const Header = () => {
             🎓 Udemy
           </Link>
           <Link
+            href="/musics"
+            className="btn btn-secondary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            🎵 音楽
+          </Link>
+          <Link
             href="/passwords"
             className="btn btn-secondary text-sm"
             onClick={() => setMenuOpen(false)}

@@ -23,7 +23,7 @@ export async function GET(request: Request) {
     if (conditions.length > 0) {
       query += ' WHERE ' + conditions.join(' AND ');
     }
-    query += ' ORDER BY used_at DESC';
+    query += ' ORDER BY display_order ASC, used_at DESC, created_at DESC, id DESC';
     const results = await runSelect<Expense>(query, params);
     return NextResponse.json(results);
   } catch (error) {
@@ -36,12 +36,24 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { category, amount, shop, used_at, used_by, product_name, remark } = body;
+    const displayOrder = Number.isFinite(Number(body.display_order))
+      ? Number(body.display_order)
+      : 0;
     if (!category || !amount || !shop || !used_at) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
     await runExecute(
-      'INSERT INTO expenses (category, amount, shop, used_at, used_by, product_name, remark) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [category, Number(amount), shop, used_at, used_by ?? null, product_name ?? null, remark ?? null]
+      'INSERT INTO expenses (category, amount, shop, used_at, used_by, product_name, remark, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [
+        category,
+        Number(amount),
+        shop,
+        used_at,
+        used_by ?? null,
+        product_name ?? null,
+        remark ?? null,
+        displayOrder,
+      ]
     );
     return NextResponse.json({ message: '登録成功' });
   } catch (error) {

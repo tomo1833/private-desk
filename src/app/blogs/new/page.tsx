@@ -17,6 +17,7 @@ const NewBlogPage = () => {
     site: '',
     author: '',
     persona: '',
+    display_order: 0,
   });
   const [prompt, setPrompt] = useState('');
 
@@ -87,8 +88,8 @@ const NewBlogPage = () => {
 
   return (
     <div className="card-form">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">ブログ登録</h1>
+      <div className="form-header">
+        <h1 className="form-title">ブログ登録</h1>
         <p className="form-subtitle">新しいブログ記事を作成・投稿します</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -118,6 +119,19 @@ const NewBlogPage = () => {
             onChange={handleChange}
             className="form-input"
             required
+          />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">表示順</label>
+          <input
+            type="number"
+            min={0}
+            step={1}
+            value={form.display_order}
+            onChange={(e) =>
+              setForm({ ...form, display_order: Number(e.target.value) })
+            }
+            className="form-input"
           />
         </div>
         <div className="space-y-4 mb-6">

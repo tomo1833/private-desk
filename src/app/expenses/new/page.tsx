@@ -11,6 +11,7 @@ const NewExpensePage = () => {
   const [productName, setProductName] = useState('');
   const [remark, setRemark] = useState('');
   const [usedAt, setUsedAt] = useState('');
+  const [displayOrder, setDisplayOrder] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +26,7 @@ const NewExpensePage = () => {
         used_by: usedBy || null,
         product_name: productName || null,
         remark: remark || null,
+        display_order: displayOrder,
       }),
     });
     if (res.ok) {
@@ -36,8 +38,8 @@ const NewExpensePage = () => {
 
   return (
     <div className="card-form">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">支出登録</h1>
+      <div className="form-header">
+        <h1 className="form-title">支出登録</h1>
         <p className="form-subtitle">新しい支出情報を登録します</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -48,6 +50,17 @@ const NewExpensePage = () => {
         <div className="space-y-4 mb-6">
           <label className="form-label">金額</label>
           <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} className="form-input" required />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">表示順</label>
+          <input
+            type="number"
+            min={0}
+            step={1}
+            value={displayOrder}
+            onChange={(e) => setDisplayOrder(Number(e.target.value))}
+            className="form-input"
+          />
         </div>
         <div className="space-y-4 mb-6">
           <label className="form-label">お店</label>

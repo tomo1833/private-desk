@@ -9,5 +9,6 @@ export type Blog = {
   site: string;
   author: string;
   persona: string;
+  display_order: number;
   created_at: string;
 };

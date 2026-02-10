@@ -62,7 +62,7 @@ const ExpenseStatsPage = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">月別勘定科目集計</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-white">月別勘定科目集計</h1>
       <div className="space-x-4">
         <input
           type="month"

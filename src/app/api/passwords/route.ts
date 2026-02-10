@@ -6,7 +6,7 @@ import type { Password } from '@/types/password';
 export async function GET() {
   try {
     const results = await runSelect<Password>(
-      'SELECT * FROM password_manager ORDER BY category, site_name'
+      'SELECT * FROM password_manager ORDER BY display_order ASC, created_at DESC, id DESC'
     );
     return NextResponse.json(results);
   } catch (error) {
@@ -19,14 +19,17 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { category, site_name, site_url, login_id, password, email, memo } = body;
+    const displayOrder = Number.isFinite(Number(body.display_order))
+      ? Number(body.display_order)
+      : 0;
 
     if (!site_name || !site_url || !password) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
 
     await runExecute(
-      'INSERT INTO password_manager (category, site_name, site_url, login_id, password, email, memo) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [category, site_name, site_url, login_id, password, email, memo]
+      'INSERT INTO password_manager (category, site_name, site_url, login_id, password, email, memo, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [category, site_name, site_url, login_id, password, email, memo, displayOrder]
     );
 
     return NextResponse.json({ message: '登録成功' });

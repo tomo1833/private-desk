@@ -20,6 +20,7 @@ const BlogEditPage = () => {
     site: '',
     author: '',
     persona: '',
+    display_order: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -39,6 +40,7 @@ const BlogEditPage = () => {
           site: blog.site,
           author: blog.author,
           persona: blog.persona,
+          display_order: blog.display_order ?? 0,
         });
       } finally {
         setLoading(false);
@@ -112,7 +114,7 @@ const BlogEditPage = () => {
   return (
     <div className="card-form">
       <div className="form-header">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">ブログ編集</h1>
+        <h1 className="form-title">ブログ編集</h1>
         <p className="form-subtitle">ブログ記事の編集・更新を行います</p>
       </div>
       <form onSubmit={handleUpdate} className="space-y-6">
@@ -124,6 +126,19 @@ const BlogEditPage = () => {
             onChange={handleChange}
             className="form-input"
             required
+          />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">表示順</label>
+          <input
+            type="number"
+            min={0}
+            step={1}
+            value={form.display_order}
+            onChange={(e) =>
+              setForm({ ...form, display_order: Number(e.target.value) })
+            }
+            className="form-input"
           />
         </div>
         <div className="space-y-4 mb-6">

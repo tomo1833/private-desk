@@ -8,6 +8,7 @@ const AuthorEditPage = () => {
   const router = useRouter();
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
+  const [displayOrder, setDisplayOrder] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const AuthorEditPage = () => {
           const data: Author = await res.json();
           setName(data.name);
           setBio(data.bio ?? '');
+          setDisplayOrder(data.display_order ?? 0);
         }
       } finally {
         setLoading(false);
@@ -31,7 +33,7 @@ const AuthorEditPage = () => {
     const res = await fetch(`/api/author/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, bio }),
+      body: JSON.stringify({ name, bio, display_order: displayOrder }),
     });
     if (res.ok) {
       router.push('/authors');
@@ -55,7 +57,7 @@ const AuthorEditPage = () => {
   return (
     <div className="card-form">
       <div className="form-header">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">著者編集</h1>
+        <h1 className="form-title">著者編集</h1>
         <p className="form-subtitle">著者情報の編集・更新を行います</p>
       </div>
       <form onSubmit={handleUpdate} className="space-y-6">
@@ -66,6 +68,17 @@ const AuthorEditPage = () => {
             onChange={(e) => setName(e.target.value)}
             className="form-input"
             required
+          />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">表示順</label>
+          <input
+            type="number"
+            min={0}
+            step={1}
+            value={displayOrder}
+            onChange={(e) => setDisplayOrder(Number(e.target.value))}
+            className="form-input"
           />
         </div>
         <div className="space-y-4 mb-6">

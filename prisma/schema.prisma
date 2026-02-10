@@ -16,6 +16,7 @@ model PasswordManager {
   email     String?
   memo      String?
   category  String?
+  displayOrder Int   @default(0) @map("display_order")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -26,6 +27,7 @@ model Wiki {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
+  displayOrder Int   @default(0) @map("display_order")
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("wiki")
@@ -35,6 +37,7 @@ model Diary {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
+  displayOrder Int   @default(0) @map("display_order")
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("diary")
@@ -44,6 +47,7 @@ model Anime {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
+  displayOrder Int   @default(0) @map("display_order")
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("anime")
@@ -53,6 +57,7 @@ model Book {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
+  displayOrder Int   @default(0) @map("display_order")
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("book")
@@ -62,6 +67,7 @@ model Movie {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
+  displayOrder Int   @default(0) @map("display_order")
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("movie")
@@ -71,6 +77,7 @@ model Narou {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
+  displayOrder Int   @default(0) @map("display_order")
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("narou")
@@ -80,9 +87,20 @@ model Udemy {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
+  displayOrder Int   @default(0) @map("display_order")
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("udemy")
+}
+
+model Music {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  displayOrder Int   @default(0) @map("display_order")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("music")
 }
 
 model Blog {
@@ -96,23 +114,28 @@ model Blog {
   site            String
   author          String
   persona         String
+  displayOrder    Int      @default(0) @map("display_order")
   createdAt       DateTime @default(now()) @map("created_at")
 
   @@map("blog")
 }
 
 model Author {
-  id   Int    @id @default(autoincrement())
-  name String
-  bio  String?
+  id        Int      @id @default(autoincrement())
+  name      String
+  bio       String?
+  displayOrder Int   @default(0) @map("display_order")
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@map("author")
 }
 
 model Persona {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   description String?
+  displayOrder Int     @default(0) @map("display_order")
+  createdAt   DateTime @default(now()) @map("created_at")
 
   @@map("persona")
 }
@@ -124,6 +147,7 @@ model Schedule {
   end           String
   memo          String?
   googleEventId String?  @map("google_event_id")
+  displayOrder  Int      @default(0) @map("display_order")
   createdAt     DateTime @default(now()) @map("createdAt")
 
   @@map("schedules")
@@ -138,6 +162,7 @@ model Expense {
   productName String?  @map("product_name")
   remark      String?
   usedAt      String   @map("used_at")
+  displayOrder Int     @default(0) @map("display_order")
   createdAt   DateTime @default(now()) @map("created_at")
 
   @@map("expenses")

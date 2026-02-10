@@ -36,9 +36,9 @@ const UdemyListPage = () => {
       
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {udemys.map((udemy) => (
-          <li 
-            key={udemy.id} 
-            className="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] p-4 sm:p-6 space-y-3"
+          <li
+            key={udemy.id}
+            className="card-basic transition-all duration-300 hover:shadow-xl hover:scale-[1.02] space-y-3"
           >
             <Link 
               href={`/udemys/${udemy.id}`} 

@@ -36,13 +36,13 @@ const PersonaListPage = () => {
 
   return (
     <div className="space-y-4 page-wrap">
-      <h1 className="form-title  text-white">ペルソナ一覧</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-white">ペルソナ一覧</h1>
       <div className="flex justify-end my-4">
         <Link href="/personas/new" className="btn btn-primary">新規作成</Link>
       </div>
-      <ul className="space-y-2">
+      <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {personas.map((p) => (
-          <li key={p.id} className="border p-2 rounded space-y-1">
+          <li key={p.id} className="card-basic space-y-2">
             <p className="font-semibold">{p.name}</p>
             {p.description && <p className="text-sm">{p.description}</p>}
             <div className="flex justify-end space-x-2">

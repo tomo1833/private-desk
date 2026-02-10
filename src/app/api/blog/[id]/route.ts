@@ -34,6 +34,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       author,
       persona,
     } = body;
+    const displayOrder = Number.isFinite(Number(body.display_order))
+      ? Number(body.display_order)
+      : 0;
     if (
       !title ||
       !content ||
@@ -48,7 +51,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: 'required fields missing.' }, { status: 400 });
     }
     await runExecute(
-      'UPDATE blog SET title = ?, content = ?, content_markdown = ?, content_html = ?, eyecatch = ?, permalink = ?, site = ?, author = ?, persona = ? WHERE id = ?',
+      'UPDATE blog SET title = ?, content = ?, content_markdown = ?, content_html = ?, eyecatch = ?, permalink = ?, site = ?, author = ?, persona = ?, display_order = ? WHERE id = ?',
       [
         title,
         content,
@@ -59,6 +62,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         site,
         author,
         persona,
+        displayOrder,
         Number(id),
       ]
     );

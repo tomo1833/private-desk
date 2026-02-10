@@ -9,6 +9,7 @@ const NarouEditPage = () => {
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [displayOrder, setDisplayOrder] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const NarouEditPage = () => {
         const narou: Narou = await res.json();
         setTitle(narou.title);
         setContent(narou.content);
+        setDisplayOrder(narou.display_order ?? 0);
       } finally {
         setLoading(false);
       }
@@ -31,7 +33,7 @@ const NarouEditPage = () => {
     const res = await fetch(`/api/narou/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content }),
+      body: JSON.stringify({ title, content, display_order: displayOrder }),
     });
     if (res.ok) {
       router.push(`/narous/${id}`);
@@ -55,13 +57,24 @@ const NarouEditPage = () => {
   return (
     <div className="card-form">
       <div className="form-header">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">なろう小説の記録編集</h1>
+        <h1 className="form-title">なろう小説の記録編集</h1>
         <p className="form-subtitle">記録の編集・更新を行います（Markdown対応）</p>
       </div>
       <form onSubmit={handleUpdate} className="space-y-6">
         <div className="space-y-4 mb-6">
           <label className="form-label">タイトル</label>
           <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input" required />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">表示順</label>
+          <input
+            type="number"
+            min={0}
+            step={1}
+            value={displayOrder}
+            onChange={(e) => setDisplayOrder(Number(e.target.value))}
+            className="form-input"
+          />
         </div>
         <div className="space-y-4 mb-6">
           <label className="form-label">内容</label>

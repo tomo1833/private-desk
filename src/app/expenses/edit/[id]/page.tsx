@@ -14,7 +14,17 @@ const ExpenseEditPage = () => {
     product_name: string | null;
     remark: string | null;
     used_at: string;
-  }>({ category: '', amount: '', shop: '', used_by: '', product_name: '', remark: '', used_at: '' });
+    display_order: number;
+  }>({
+    category: '',
+    amount: '',
+    shop: '',
+    used_by: '',
+    product_name: '',
+    remark: '',
+    used_at: '',
+    display_order: 0,
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +40,7 @@ const ExpenseEditPage = () => {
           product_name: data.product_name ?? '',
           remark: data.remark ?? '',
           used_at: data.used_at,
+          display_order: data.display_order ?? 0,
         });
       }
       setLoading(false);
@@ -50,6 +61,7 @@ const ExpenseEditPage = () => {
         product_name: form.product_name,
         remark: form.remark,
         used_at: form.used_at,
+        display_order: form.display_order,
       }),
     });
     if (res.ok) {
@@ -73,8 +85,8 @@ const ExpenseEditPage = () => {
 
   return (
     <div className="card-form">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 text-blue-800">支出編集</h1>
+      <div className="form-header">
+        <h1 className="form-title">支出編集</h1>
         <p className="form-subtitle">支出情報の編集・更新を行います</p>
       </div>
       <form onSubmit={handleUpdate} className="space-y-6">
@@ -85,6 +97,17 @@ const ExpenseEditPage = () => {
         <div className="space-y-4 mb-6">
           <label className="form-label">金額</label>
           <input type="number" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} className="form-input" required />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">表示順</label>
+          <input
+            type="number"
+            min={0}
+            step={1}
+            value={form.display_order}
+            onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })}
+            className="form-input"
+          />
         </div>
         <div className="space-y-4 mb-6">
           <label className="form-label">お店</label>
@@ -119,8 +142,8 @@ const ExpenseEditPage = () => {
           <label className="form-label">使った日</label>
           <input type="date" value={form.used_at} onChange={(e) => setForm({ ...form, used_at: e.target.value })} className="form-input" required />
         </div>
-        <div className="btn-group-between pt-4 mt-6 border-t border-gray-200">
-          <div className="flex justify-start gap-3">
+        <div className="flex justify-between gap-3 pt-6 border-t border-gray-200">
+          <div className="btn-group-left">
             <button
               type="button"
               onClick={() => router.push('/expenses')}
@@ -129,7 +152,7 @@ const ExpenseEditPage = () => {
               キャンセル
             </button>
           </div>
-          <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
+          <div className="btn-group">
             <button type="submit" className="btn btn-primary">更新</button>
             <button type="button" onClick={handleDelete} className="btn btn-danger">削除</button>
           </div>

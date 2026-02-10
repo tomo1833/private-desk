@@ -17,6 +17,7 @@ const UpdatePasswordPage = () => {
   const [pass, setPass] = useState('');
   const [email, setEmail] = useState('');
   const [memo, setMemo] = useState('');
+  const [displayOrder, setDisplayOrder] = useState(0);
 
   const [error, setError] = useState<string | null>(null);
 
@@ -43,6 +44,7 @@ const UpdatePasswordPage = () => {
         setPass(data.password);
         setEmail(data.email || '');
         setMemo(data.memo || '');
+        setDisplayOrder(data.display_order ?? 0);
 
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -67,7 +69,7 @@ const UpdatePasswordPage = () => {
       const response = await fetch(`/api/passwords/${idState}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category, siteName, siteUrl, loginId, pass, email, memo }),
+        body: JSON.stringify({ category, siteName, siteUrl, loginId, pass, email, memo, display_order: displayOrder }),
       });
 
       if (!response.ok) throw new Error('Failed to update password');
@@ -93,15 +95,14 @@ const UpdatePasswordPage = () => {
   }
 
   return (
-    <div className="page-wrap py-6">
-      <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-6 sm:p-8">
-        <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">🔐 パスワード編集</h1>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">パスワード情報の編集・更新を行います</p>
-        </div>
+    <div className="card-form">
+      <div className="form-header">
+        <h1 className="form-title">🔐 パスワード編集</h1>
+        <p className="form-subtitle">パスワード情報の編集・更新を行います</p>
+      </div>
       <form onSubmit={handleUpdate} className="space-y-5">
         <div>
-          <label className="form-label text-sm" htmlFor="category">
+          <label className="form-label" htmlFor="category">
             カテゴリ
           </label>
           <input
@@ -115,7 +116,7 @@ const UpdatePasswordPage = () => {
           />
         </div>
         <div>
-          <label className="form-label text-sm" htmlFor="siteName">
+          <label className="form-label" htmlFor="siteName">
             サイト名
           </label>
           <input
@@ -129,7 +130,7 @@ const UpdatePasswordPage = () => {
           />
         </div>
         <div>
-          <label className="form-label text-sm" htmlFor="siteUrl">
+          <label className="form-label" htmlFor="siteUrl">
             サイトURL
           </label>
           <input
@@ -143,7 +144,7 @@ const UpdatePasswordPage = () => {
           />
         </div>
         <div>
-          <label className="form-label text-sm" htmlFor="loginId">
+          <label className="form-label" htmlFor="loginId">
             ログインID
           </label>
           <input
@@ -156,7 +157,7 @@ const UpdatePasswordPage = () => {
           />
         </div>
         <div>
-          <label className="form-label text-sm" htmlFor="password">
+          <label className="form-label" htmlFor="password">
             パスワード
           </label>
           <input
@@ -169,7 +170,21 @@ const UpdatePasswordPage = () => {
           />
         </div>
         <div>
-          <label className="form-label text-sm" htmlFor="email">
+          <label className="form-label" htmlFor="displayOrder">
+            表示順
+          </label>
+          <input
+            id="displayOrder"
+            type="number"
+            min={0}
+            step={1}
+            value={displayOrder}
+            onChange={(e) => setDisplayOrder(Number(e.target.value))}
+            className="form-input"
+          />
+        </div>
+        <div>
+          <label className="form-label" htmlFor="email">
             メールアドレス
           </label>
           <input
@@ -182,7 +197,7 @@ const UpdatePasswordPage = () => {
           />
         </div>
         <div>
-          <label className="form-label text-sm" htmlFor="memo">
+          <label className="form-label" htmlFor="memo">
             メモ
           </label>
           <textarea
@@ -194,23 +209,19 @@ const UpdatePasswordPage = () => {
             placeholder="追加情報や注意事項など"
           />
         </div>
-        <div className="flex flex-col sm:flex-row gap-3 pt-6 mt-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="btn-group-between pt-6 mt-6 border-t border-gray-200">
           <button
             type="button"
             onClick={() => router.push('/passwords')}
-            className="flex-1 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors duration-200"
+            className="btn btn-secondary"
           >
             キャンセル
           </button>
-          <button 
-            type="submit" 
-            className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
-          >
+          <button type="submit" className="btn btn-primary">
             更新
           </button>
         </div>
       </form>
-      </div>
     </div>
   );
 };

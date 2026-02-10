@@ -12,6 +12,7 @@ interface FormState {
   start: string;
   end: string;
   memo: string;
+  display_order: number;
 }
 
 const ScheduleCalendar = () => {
@@ -23,6 +24,7 @@ const ScheduleCalendar = () => {
     start: '',
     end: '',
     memo: '',
+    display_order: 0,
   });
 
   const fetchEvents = async () => {
@@ -39,7 +41,7 @@ const ScheduleCalendar = () => {
 
   const handleDateClick = (arg: DateClickArg) => {
     const dateStr = format(arg.date, "yyyy-MM-dd'T'HH:mm");
-    setForm({ title: '', start: dateStr, end: dateStr, memo: '' });
+    setForm({ title: '', start: dateStr, end: dateStr, memo: '', display_order: 0 });
     setEditId(null);
     setIsOpen(true);
   };
@@ -53,6 +55,7 @@ const ScheduleCalendar = () => {
       start: startDate ? format(startDate, "yyyy-MM-dd'T'HH:mm") : '',
       end: endDate ? format(endDate, "yyyy-MM-dd'T'HH:mm") : '',
       memo: (e.extendedProps.memo as string) || '',
+      display_order: Number(e.extendedProps.display_order ?? 0),
     });
     setEditId(Number(e.id));
     setIsOpen(true);
@@ -150,6 +153,19 @@ const ScheduleCalendar = () => {
                 <textarea
                   value={form.memo}
                   onChange={(e) => setForm({ ...form, memo: e.target.value })}
+                  className="w-full border px-2 py-1"
+                />
+              </div>
+              <div>
+                <label className="block text-sm mb-1">表示順</label>
+                <input
+                  type="number"
+                  min={0}
+                  step={1}
+                  value={form.display_order}
+                  onChange={(e) =>
+                    setForm({ ...form, display_order: Number(e.target.value) })
+                  }
                   className="w-full border px-2 py-1"
                 />
               </div>

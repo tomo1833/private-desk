@@ -29,8 +29,8 @@ const BlogDetailPage = () => {
   if (!blog) return <div>読み込み中...</div>;
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">{blog.title}</h1>
+    <div className="space-y-4 page-wrap">
+      <h1 className="text-2xl md:text-3xl font-bold text-white">{blog.title}</h1>
       <Image
         src={blog.eyecatch}
         alt="eyecatch"
@@ -40,7 +40,7 @@ const BlogDetailPage = () => {
       />
       <p className="text-sm text-blue-600 dark:text-blue-400 underline">{blog.permalink}</p>
 
-      <MarkdownRenderer className="whitespace-pre-wrap border p-4 rounded bg-white">
+      <MarkdownRenderer className="card-basic whitespace-pre-wrap">
         {blog.content_markdown}
       </MarkdownRenderer>
 

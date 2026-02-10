@@ -9,6 +9,7 @@ import type { Book } from '@/types/book';
 import type { Movie } from '@/types/movie';
 import type { Narou } from '@/types/narou';
 import type { Udemy } from '@/types/udemy';
+import type { Music } from '@/types/music';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -18,21 +19,49 @@ export async function GET(req: Request) {
   }
   const like = `%${q}%`;
   try {
-    const [passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys] = await Promise.all([
+    const [passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys, musics] = await Promise.all([
       runSelect<Password>(
-        'SELECT * FROM password_manager WHERE site_name LIKE ? OR site_url LIKE ? OR login_id LIKE ? OR email LIKE ? OR memo LIKE ?',
+        'SELECT * FROM password_manager WHERE site_name LIKE ? OR site_url LIKE ? OR login_id LIKE ? OR email LIKE ? OR memo LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
         [like, like, like, like, like]
       ),
-      runSelect<Diary>('SELECT * FROM diary WHERE title LIKE ? OR content LIKE ?', [like, like]),
-      runSelect<Wiki>('SELECT * FROM wiki WHERE title LIKE ? OR content LIKE ?', [like, like]),
-      runSelect<Blog>('SELECT * FROM blog WHERE title LIKE ? OR content LIKE ?', [like, like]),
-      runSelect<Anime>('SELECT * FROM anime WHERE title LIKE ? OR content LIKE ?', [like, like]),
-      runSelect<Book>('SELECT * FROM book WHERE title LIKE ? OR content LIKE ?', [like, like]),
-      runSelect<Movie>('SELECT * FROM movie WHERE title LIKE ? OR content LIKE ?', [like, like]),
-      runSelect<Narou>('SELECT * FROM narou WHERE title LIKE ? OR content LIKE ?', [like, like]),
-      runSelect<Udemy>('SELECT * FROM udemy WHERE title LIKE ? OR content LIKE ?', [like, like]),
+      runSelect<Diary>(
+        'SELECT * FROM diary WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like]
+      ),
+      runSelect<Wiki>(
+        'SELECT * FROM wiki WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like]
+      ),
+      runSelect<Blog>(
+        'SELECT * FROM blog WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like]
+      ),
+      runSelect<Anime>(
+        'SELECT * FROM anime WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like]
+      ),
+      runSelect<Book>(
+        'SELECT * FROM book WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like]
+      ),
+      runSelect<Movie>(
+        'SELECT * FROM movie WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like]
+      ),
+      runSelect<Narou>(
+        'SELECT * FROM narou WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like]
+      ),
+      runSelect<Udemy>(
+        'SELECT * FROM udemy WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like]
+      ),
+      runSelect<Music>(
+        'SELECT * FROM music WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like]
+      ),
     ]);
-    return NextResponse.json({ passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys });
+    return NextResponse.json({ passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys, musics });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: '検索失敗' }, { status: 500 });

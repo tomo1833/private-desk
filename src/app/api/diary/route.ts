@@ -7,8 +7,8 @@ export async function GET(request: Request) {
   const limit = searchParams.get('limit');
   try {
     const sql = limit
-      ? 'SELECT * FROM diary ORDER BY id DESC LIMIT ?'
-      : 'SELECT * FROM diary ORDER BY id DESC';
+      ? 'SELECT * FROM diary ORDER BY display_order ASC, created_at DESC, id DESC LIMIT ?'
+      : 'SELECT * FROM diary ORDER BY display_order ASC, created_at DESC, id DESC';
     const results = limit
       ? await runSelect<Diary>(sql, [Number(limit)])
       : await runSelect<Diary>(sql);
@@ -23,10 +23,17 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { title, content } = body;
+    const displayOrder = Number.isFinite(Number(body.display_order))
+      ? Number(body.display_order)
+      : 0;
     if (!title || !content) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
-    await runExecute('INSERT INTO diary (title, content) VALUES (?, ?)', [title, content]);
+    await runExecute('INSERT INTO diary (title, content, display_order) VALUES (?, ?, ?)', [
+      title,
+      content,
+      displayOrder,
+    ]);
     return NextResponse.json({ message: '登録成功' });
   } catch (error) {
     console.error(error);

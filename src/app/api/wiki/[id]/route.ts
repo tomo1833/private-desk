@@ -24,12 +24,16 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const body = await request.json();
     const { title, content } = body;
+    const displayOrder = Number.isFinite(Number(body.display_order))
+      ? Number(body.display_order)
+      : 0;
     if (!title || !content) {
       return NextResponse.json({ error: 'title and content are required.' }, { status: 400 });
     }
-    await runExecute('UPDATE wiki SET title = ?, content = ? WHERE id = ?', [
+    await runExecute('UPDATE wiki SET title = ?, content = ?, display_order = ? WHERE id = ?', [
       title,
       content,
+      displayOrder,
       Number(id),
     ]);
     return NextResponse.json({ message: 'wiki entry updated successfully.' });

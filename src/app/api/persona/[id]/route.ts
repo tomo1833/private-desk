@@ -24,12 +24,16 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const body = await request.json();
     const { name, description } = body;
+    const displayOrder = Number.isFinite(Number(body.display_order))
+      ? Number(body.display_order)
+      : 0;
     if (!name) {
       return NextResponse.json({ error: 'name is required.' }, { status: 400 });
     }
-    await runExecute('UPDATE persona SET name = ?, description = ? WHERE id = ?', [
+    await runExecute('UPDATE persona SET name = ?, description = ?, display_order = ? WHERE id = ?', [
       name,
       description ?? null,
+      displayOrder,
       Number(id),
     ]);
     return NextResponse.json({ message: 'persona updated successfully.' });

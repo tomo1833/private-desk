@@ -5,5 +5,6 @@ export type Schedule = {
   end: string;
   memo: string | null;
   google_event_id: string | null;
+  display_order: number;
   createdAt: string;
 };
