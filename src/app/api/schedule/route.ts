@@ -3,12 +3,17 @@ import { runGet, runExecute, runSelect } from '@/lib/db';
 import { createEvent } from '@/lib/google-calendar';
 import type { Schedule } from '@/types/schedule';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const results = await runSelect<Schedule>(
       'SELECT * FROM schedules ORDER BY display_order ASC, start'
     );
-    return NextResponse.json(results);
+    return NextResponse.json(results, {
+      headers: { 'Cache-Control': 'no-store' },
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'DB取得失敗' }, { status: 500 });
