@@ -229,11 +229,15 @@ body > * {
 }
 
 .markdown-body ul {
-  @apply list-disc pl-6;
+  @apply list-disc pl-6 leading-none;
+}
+
+.markdown-body li {
+  @apply leading-none;
 }
 
 .markdown-body ol {
-  @apply list-decimal pl-6;
+  @apply list-decimal pl-6 leading-none;
 }
 
 .markdown-body pre {
@@ -820,6 +824,10 @@ body > * {
 }
 
 /* FullCalendar のスタイル改善 */
+.calendar-scroll {
+  width: 100%;
+}
+
 .fc .fc-daygrid-day-number {
   color: #111827 !important;
   font-weight: 600 !important;
@@ -1535,6 +1543,45 @@ body > * {
 
   .markdown-body code {
     font-size: 12px !important;
+  }
+
+  /* FullCalendar (モバイル) */
+  .calendar-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .calendar-scroll .fc {
+    min-width: 620px;
+  }
+
+  .fc .fc-toolbar {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1rem;
+  }
+
+  .fc .fc-button {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  .fc .fc-daygrid-day-number,
+  .fc .fc-col-header-cell-cushion {
+    font-size: 0.75rem !important;
+  }
+
+  .fc .fc-event {
+    font-size: 0.65rem !important;
+  }
+
+  .fc .fc-daygrid-event {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* フォーム要素 */

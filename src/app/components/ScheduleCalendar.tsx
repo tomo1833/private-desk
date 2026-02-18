@@ -91,14 +91,16 @@ const ScheduleCalendar = () => {
 
   return (
     <div className="w-full">
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={events}
-        dateClick={handleDateClick}
-        eventClick={handleEventClick}
-        height="auto"
-      />
+      <div className="calendar-scroll">
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          events={events}
+          dateClick={handleDateClick}
+          eventClick={handleEventClick}
+          height="auto"
+        />
+      </div>
       <div className="flex justify-end py-2">
         <button
           onClick={handleSync}
