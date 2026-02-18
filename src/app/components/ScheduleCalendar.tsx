@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import { EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import listPlugin from '@fullcalendar/list';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { EventClickArg } from '@fullcalendar/core';
 import { format } from 'date-fns';
@@ -19,6 +20,8 @@ const ScheduleCalendar = () => {
   const [events, setEvents] = useState<EventInput[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const calendarRef = useRef<FullCalendar | null>(null);
   const [form, setForm] = useState<FormState>({
     title: '',
     start: '',
@@ -38,6 +41,27 @@ const ScheduleCalendar = () => {
   useEffect(() => {
     fetchEvents();
   }, []);
+
+  useEffect(() => {
+    const updateViewport = () => {
+      setIsMobile(window.matchMedia('(max-width: 640px)').matches);
+    };
+
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+    return () => window.removeEventListener('resize', updateViewport);
+  }, []);
+
+  const currentView = useMemo(
+    () => (isMobile ? 'listWeek' : 'dayGridMonth'),
+    [isMobile]
+  );
+
+  useEffect(() => {
+    const api = calendarRef.current?.getApi();
+    if (!api || api.view.type === currentView) return;
+    api.changeView(currentView);
+  }, [currentView]);
 
   const handleDateClick = (arg: DateClickArg) => {
     const dateStr = format(arg.date, "yyyy-MM-dd'T'HH:mm");
@@ -93,12 +117,18 @@ const ScheduleCalendar = () => {
     <div className="w-full">
       <div className="calendar-scroll">
         <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
+          ref={calendarRef}
+          plugins={[dayGridPlugin, listPlugin, interactionPlugin]}
+          initialView={currentView}
           events={events}
           dateClick={handleDateClick}
           eventClick={handleEventClick}
           height="auto"
+          headerToolbar={
+            isMobile
+              ? { left: 'prev,next', center: 'title', right: '' }
+              : { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listWeek' }
+          }
         />
       </div>
       <div className="flex justify-end py-2">

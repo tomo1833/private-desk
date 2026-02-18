@@ -240,6 +240,10 @@ body > * {
   @apply list-decimal pl-6 leading-none;
 }
 
+.markdown-body hr {
+  @apply my-3 border-gray-300;
+}
+
 .markdown-body pre {
   @apply bg-gray-800 text-white p-4 rounded-md overflow-x-auto;
 }
