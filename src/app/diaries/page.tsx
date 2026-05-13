@@ -46,6 +46,11 @@ const DiaryListPage = () => {
             >
               {diary.title}
             </Link>
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              {diary.date 
+                ? new Date(diary.date).toLocaleDateString('ja-JP') 
+                : new Date(diary.created_at).toLocaleDateString('ja-JP')}
+            </div>
             <MarkdownRenderer className="line-clamp-3 text-sm text-gray-700 dark:text-gray-300">
               {diary.content}
             </MarkdownRenderer>

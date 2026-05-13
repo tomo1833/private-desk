@@ -9,6 +9,7 @@ const DiaryEditPage = () => {
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [date, setDate] = useState('');
   const [displayOrder, setDisplayOrder] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -20,6 +21,9 @@ const DiaryEditPage = () => {
         const diary: Diary = await res.json();
         setTitle(diary.title);
         setContent(diary.content);
+        if (diary.date) {
+          setDate(new Date(diary.date).toISOString().split('T')[0]);
+        }
         setDisplayOrder(diary.display_order ?? 0);
       } finally {
         setLoading(false);
@@ -33,7 +37,7 @@ const DiaryEditPage = () => {
     const res = await fetch(`/api/diary/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content, display_order: displayOrder }),
+      body: JSON.stringify({ title, content, date, display_order: displayOrder }),
     });
     if (res.ok) {
       router.push(`/diaries/${id}`);
@@ -64,6 +68,15 @@ const DiaryEditPage = () => {
         <div className="space-y-4 mb-6">
           <label className="form-label">タイトル</label>
           <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input" required />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">日付</label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="form-input"
+          />
         </div>
         <div className="space-y-4 mb-6">
           <label className="form-label">表示順</label>

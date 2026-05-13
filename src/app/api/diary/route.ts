@@ -22,16 +22,17 @@ export async function GET(request: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { title, content } = body;
+    const { title, content, date } = body;
     const displayOrder = Number.isFinite(Number(body.display_order))
       ? Number(body.display_order)
       : 0;
     if (!title || !content) {
       return NextResponse.json({ error: '必須項目不足' }, { status: 400 });
     }
-    await runExecute('INSERT INTO diary (title, content, display_order) VALUES (?, ?, ?)', [
+    await runExecute('INSERT INTO diary (title, content, date, display_order) VALUES (?, ?, ?, ?)', [
       title,
       content,
+      date ? new Date(date).toISOString() : null,
       displayOrder,
     ]);
     return NextResponse.json({ message: '登録成功' });

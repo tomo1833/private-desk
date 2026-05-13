@@ -6,6 +6,7 @@ const NewDiaryPage = () => {
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [displayOrder, setDisplayOrder] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -13,7 +14,7 @@ const NewDiaryPage = () => {
     const res = await fetch('/api/diary', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content, display_order: displayOrder }),
+      body: JSON.stringify({ title, content, date, display_order: displayOrder }),
     });
     if (res.ok) {
       router.push('/diaries');
@@ -32,6 +33,16 @@ const NewDiaryPage = () => {
         <div className="space-y-4 mb-6">
           <label className="form-label">タイトル</label>
           <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input" required />
+        </div>
+        <div className="space-y-4 mb-6">
+          <label className="form-label">日付</label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="form-input"
+            required
+          />
         </div>
         <div className="space-y-4 mb-6">
           <label className="form-label">表示順</label>

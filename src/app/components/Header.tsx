@@ -180,6 +180,13 @@ const Header = () => {
           >
             🎭 ペルソナ
           </Link>
+          <Link
+            href="/wbs"
+            className="btn btn-primary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            📊 WBS
+          </Link>
         </div>
       </div>
     </>
