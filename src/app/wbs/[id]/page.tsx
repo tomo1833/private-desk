@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState, use, useCallback } from 'react';
 import Link from 'next/link';
 import type { Project } from '@/types/project';
 import GanttChart from '@/app/components/GanttChart';
@@ -11,7 +11,7 @@ const ProjectDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [error, setError] = useState<string | null>(null);
   const [isEditingProject, setIsEditingProject] = useState(false);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     try {
       const res = await fetch(`/api/projects/${id}`);
       if (!res.ok) throw new Error('プロジェクトが見つかりません');
@@ -20,11 +20,11 @@ const ProjectDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
     } catch (err) {
       setError((err as Error).message);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     load();
-  }, [id]);
+  }, [load]);
 
   const handleUpdateProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

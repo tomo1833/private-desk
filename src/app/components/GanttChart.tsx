@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import { format, addDays, differenceInDays, startOfDay, endOfDay, eachDayOfInterval, isSameDay, startOfWeek, endOfWeek, addMonths, startOfMonth, endOfMonth } from 'date-fns';
+import { useState, useMemo } from 'react';
+import { format, addDays, differenceInDays, startOfDay, endOfDay, isSameDay, startOfWeek } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import type { Task } from '@/types/project';
 
@@ -103,7 +103,7 @@ const GanttChart = ({ projectId, tasks, onUpdate }: GanttChartProps) => {
         <div className="flex items-center gap-4">
            <select 
              value={viewMode} 
-             onChange={(e) => setViewMode(e.target.value as any)}
+             onChange={(e) => setViewMode(e.target.value as 'day' | 'week' | 'month')}
              className="bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm dark:text-white"
            >
              <option value="day">日次</option>
