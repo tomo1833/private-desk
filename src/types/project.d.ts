@@ -2,26 +2,26 @@ export interface Project {
   id: number;
   name: string;
   description: string | null;
-  start_date: string | null;
-  end_date: string | null;
+  startDate: string | null;
+  endDate: string | null;
   status: string;
-  display_order: number;
-  created_at: string;
-  updated_at: string;
+  displayOrder: number;
+  createdAt: string;
+  updatedAt: string;
   tasks?: Task[];
 }
 
 export interface Task {
   id: number;
-  project_id: number;
+  projectId: number;
   title: string;
   description: string | null;
-  start_date: string | null;
-  end_date: string | null;
+  startDate: string | null;
+  endDate: string | null;
   progress: number;
-  display_order: number;
-  parent_id: number | null;
+  displayOrder: number;
+  parentId: number | null;
   subtasks?: Task[];
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -77,10 +77,10 @@ const GanttChart = ({ projectId, tasks, onUpdate }: GanttChartProps) => {
   };
 
   const getTaskBarStyles = (task: Task) => {
-    if (!task.start_date || !task.end_date) return null;
+    if (!task.startDate || !task.endDate) return null;
     
-    const taskStart = startOfDay(new Date(task.start_date));
-    const taskEnd = endOfDay(new Date(task.end_date));
+    const taskStart = startOfDay(new Date(task.startDate));
+    const taskEnd = endOfDay(new Date(task.endDate));
     
     const startDiff = differenceInDays(taskStart, startDate);
     const duration = differenceInDays(taskEnd, taskStart) + 1;
@@ -218,11 +218,11 @@ const GanttChart = ({ projectId, tasks, onUpdate }: GanttChartProps) => {
                  <div className="grid grid-cols-2 gap-4">
                     <div>
                        <label className="form-label text-sm">開始日</label>
-                       <input name="startDate" type="date" defaultValue={editingTask?.start_date ? format(new Date(editingTask.start_date), 'yyyy-MM-dd') : ''} className="form-input" />
+                       <input name="startDate" type="date" defaultValue={editingTask?.startDate ? format(new Date(editingTask.startDate), 'yyyy-MM-dd') : ''} className="form-input" />
                     </div>
                     <div>
                        <label className="form-label text-sm">終了日</label>
-                       <input name="endDate" type="date" defaultValue={editingTask?.end_date ? format(new Date(editingTask.end_date), 'yyyy-MM-dd') : ''} className="form-input" />
+                       <input name="endDate" type="date" defaultValue={editingTask?.endDate ? format(new Date(editingTask.endDate), 'yyyy-MM-dd') : ''} className="form-input" />
                     </div>
                  </div>
                  <div>

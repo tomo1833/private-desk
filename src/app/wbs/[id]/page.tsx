@@ -82,9 +82,9 @@ const ProjectDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
            <div className="flex items-center gap-2">
               <span className="text-gray-500">期間:</span>
               <span className="text-gray-700 dark:text-gray-300">
-                {project.start_date ? new Date(project.start_date).toLocaleDateString() : '未設定'} 
+                {project.startDate ? new Date(project.startDate).toLocaleDateString() : '未設定'} 
                 - 
-                {project.end_date ? new Date(project.end_date).toLocaleDateString() : '未設定'}
+                {project.endDate ? new Date(project.endDate).toLocaleDateString() : '未設定'}
               </span>
            </div>
         </div>

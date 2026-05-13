@@ -74,7 +74,7 @@ const ProjectListPage = () => {
                 
                 <div className="flex justify-between items-center text-xs text-gray-400">
                   <span>ステータス: <span className="text-success font-semibold">{project.status}</span></span>
-                  <span>作成日: {new Date(project.created_at).toLocaleDateString('ja-JP')}</span>
+                  <span>作成日: {new Date(project.createdAt).toLocaleDateString('ja-JP')}</span>
                 </div>
 
                 <div className="flex gap-2">
