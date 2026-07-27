@@ -181,6 +181,13 @@ const Header = () => {
             🎭 ペルソナ
           </Link>
           <Link
+            href="/subscriptions"
+            className="btn btn-secondary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            💻 サブスク・ソフト
+          </Link>
+          <Link
             href="/wbs"
             className="btn btn-primary text-sm"
             onClick={() => setMenuOpen(false)}

@@ -127,6 +127,9 @@ const MainPage = () => {
           <Link href="/personas" className="btn btn-secondary text-sm sm:text-base">
             🎭 ペルソナ
           </Link>
+          <Link href="/subscriptions" className="btn btn-secondary text-sm sm:text-base">
+            💻 サブスク・ソフト
+          </Link>
           <Link href="/wbs" className="btn btn-primary text-sm sm:text-base">
             📊 WBS
           </Link>

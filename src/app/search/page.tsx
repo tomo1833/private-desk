@@ -11,6 +11,7 @@ import MovieCards from '../components/MovieCards';
 import NarouCards from '../components/NarouCards';
 import UdemyCards from '../components/UdemyCards';
 import MusicCards from '../components/MusicCards';
+import SubscriptionCards from '../components/SubscriptionCards';
 import type { Password } from '@/types/password';
 import type { Diary } from '@/types/diary';
 import type { Wiki } from '@/types/wiki';
@@ -21,6 +22,7 @@ import type { Movie } from '@/types/movie';
 import type { Narou } from '@/types/narou';
 import type { Udemy } from '@/types/udemy';
 import type { Music } from '@/types/music';
+import type { Subscription } from '@/types/subscription';
 
 interface Results {
   passwords: Password[];
@@ -33,6 +35,7 @@ interface Results {
   narous: Narou[];
   udemys: Udemy[];
   musics: Music[];
+  subscriptions: Subscription[];
 }
 
 const SearchPage = () => {
@@ -62,6 +65,14 @@ const SearchPage = () => {
   return (
     <div className="page-wrap space-y-6">
       <h1 className="text-2xl sm:text-3xl font-bold text-white">検索結果: {q}</h1>
+      <section>
+        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">💻 ソフトウェア・サブスク</h2>
+        {results.subscriptions && results.subscriptions.length > 0 ? (
+          <SubscriptionCards subscriptions={results.subscriptions} />
+        ) : (
+          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+        )}
+      </section>
       <section>
         <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">パスワード</h2>
         {results.passwords.length > 0 ? (

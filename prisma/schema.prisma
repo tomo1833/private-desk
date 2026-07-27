@@ -203,3 +203,23 @@ model Task {
 
   @@map("tasks")
 }
+
+model Subscription {
+  id           Int      @id @default(autoincrement())
+  name         String
+  category     String   @default("Subscription")
+  price        Int      @default(0)
+  cycle        String   @default("monthly")
+  nextBilling  String?  @map("next_billing")
+  status       String   @default("Active")
+  url          String?
+  accountEmail String?  @map("account_email")
+  licenseKey   String?  @map("license_key")
+  memo         String?
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("subscriptions")
+}
+
