@@ -44,3 +44,6 @@ data/
 # uploaded images
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# IDE settings
+.antigravity/

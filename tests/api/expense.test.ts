@@ -1,5 +1,7 @@
 import { GET, POST } from '../../src/app/api/expense/route';
 import { GET as GET_ID, PUT, DELETE } from '../../src/app/api/expense/[id]/route';
+import { GET as GET_SUMMARY } from '../../src/app/api/expense/summary/route';
+import { GET as GET_MONTHLY } from '../../src/app/api/expense/monthly/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
 function createPostRequest(body: any) {
@@ -118,3 +120,52 @@ describe('Expense update and delete', () => {
     expect(rows.length).toBe(0);
   });
 });
+
+describe('GET /api/expense/summary & GET /api/expense/monthly', () => {
+  const cat = 'jest-monthly-test';
+  beforeAll(async () => {
+    await runExecute('INSERT INTO expenses (category, amount, shop, used_at, used_by) VALUES (?, ?, ?, ?, ?)', [
+      cat,
+      5000,
+      'shop1',
+      '2098-05-15',
+      '共有',
+    ]);
+    await runExecute('INSERT INTO expenses (category, amount, shop, used_at, used_by) VALUES (?, ?, ?, ?, ?)', [
+      cat,
+      3000,
+      'shop2',
+      '2098-05-20',
+      '共有',
+    ]);
+  });
+
+  afterAll(async () => {
+    await runExecute('DELETE FROM expenses WHERE category = ?', [cat]);
+  });
+
+  it('should calculate category summary correctly for month', async () => {
+    const req = new Request('http://localhost/api/expense/summary?month=2098-05&used_by=共有');
+    const res = await GET_SUMMARY(req as any);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    const item = data.find((d: any) => d.category === cat);
+    expect(item).toBeDefined();
+    expect(item.total).toBe(8000);
+  });
+
+  it('should calculate 12-month summary for year in monthly route', async () => {
+    const req = new Request('http://localhost/api/expense/monthly?year=2098&used_by=共有');
+    const res = await GET_MONTHLY(req as any);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(Array.isArray(data)).toBe(true);
+    expect(data.length).toBe(12);
+
+    const may = data.find((d: any) => d.month === '2098-05');
+    expect(may).toBeDefined();
+    expect(may.total).toBe(8000);
+    expect(may.count).toBe(2);
+  });
+});
+

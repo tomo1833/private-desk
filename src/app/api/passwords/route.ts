@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     }
 
     await runExecute(
-      'INSERT INTO password_manager (category, site_name, site_url, login_id, password, email, memo, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO password_manager (category, site_name, site_url, login_id, password, email, memo, display_order, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)',
       [category, site_name, site_url, login_id, password, email, memo, displayOrder]
     );
 
