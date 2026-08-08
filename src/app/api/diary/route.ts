@@ -5,12 +5,17 @@ import type { Diary } from '@/types/diary';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const limit = searchParams.get('limit');
+  const sort = searchParams.get('sort');
   try {
-    const sql = limit
-      ? 'SELECT * FROM diary ORDER BY display_order ASC, created_at DESC, id DESC LIMIT ?'
-      : 'SELECT * FROM diary ORDER BY display_order ASC, created_at DESC, id DESC';
+    let sql = 'SELECT * FROM diary';
+    if (sort === 'display_order') {
+      sql += ' ORDER BY display_order ASC, created_at DESC, id DESC';
+    } else {
+      sql += ' ORDER BY created_at DESC, display_order ASC, id DESC';
+    }
+
     const results = limit
-      ? await runSelect<Diary>(sql, [Number(limit)])
+      ? await runSelect<Diary>(`${sql} LIMIT ?`, [Number(limit)])
       : await runSelect<Diary>(sql);
     return NextResponse.json(results);
   } catch (error) {
