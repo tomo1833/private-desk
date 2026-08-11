@@ -82,7 +82,7 @@ const ScheduleCalendar = () => {
 
   const applyTimeToField = (field: 'start' | 'end', time: string) => {
     const currentVal = form[field];
-    let datePart = currentVal ? currentVal.split('T')[0] : format(new Date(), 'yyyy-MM-dd');
+    const datePart = currentVal ? currentVal.split('T')[0] : format(new Date(), 'yyyy-MM-dd');
     const newVal = `${datePart}T${time}`;
 
     setForm((prev) => {

@@ -100,7 +100,7 @@ export default function StockPortfolioPage() {
   const filteredStocks = useMemo(() => {
     if (!stocks) return [];
 
-    let list = stocks.filter((s) => {
+    const list = stocks.filter((s) => {
       const query = searchQuery.toLowerCase();
       return (
         s.code.toLowerCase().includes(query) ||
@@ -271,7 +271,7 @@ export default function StockPortfolioPage() {
           <span>並び順:</span>
           <select
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
+            onChange={(e) => setSortBy(e.target.value as 'profit' | 'evalValue' | 'code')}
             className="bg-gray-800 text-white border border-gray-700 rounded-lg px-2.5 py-1 text-xs outline-none"
           >
             <option value="evalValue">評価額が大きい順</option>
