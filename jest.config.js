@@ -10,6 +10,7 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
   testMatch: [
     '<rootDir>/tests/components/**/*.test.{ts,tsx}',
+    '<rootDir>/tests/lib/**/*.test.{ts,tsx}',
     '<rootDir>/tests/styles/**/*.test.{ts,tsx}',
     '<rootDir>/tests/accessibility/**/*.test.{ts,tsx}'
   ],
