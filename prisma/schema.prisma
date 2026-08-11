@@ -223,3 +223,21 @@ model Subscription {
   @@map("subscriptions")
 }
 
+model Stock {
+  id               Int      @id @default(autoincrement())
+  code             String
+  name             String
+  market           String   @default("プライム")
+  shares           Int      @default(0)
+  acquisitionPrice Int      @default(0) @map("acquisition_price")
+  currentPrice     Int      @default(0) @map("current_price")
+  dividendPerShare Float    @default(0) @map("dividend_per_share")
+  memo             String?
+  displayOrder     Int      @default(0) @map("display_order")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("stocks")
+}
+
+

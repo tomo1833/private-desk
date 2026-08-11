@@ -108,6 +108,9 @@ const MainPage = () => {
           <Link href="/expenses" className="btn btn-secondary text-sm sm:text-base">
             💰 家計簿
           </Link>
+          <Link href="/stocks" className="btn btn-secondary text-sm sm:text-base">
+            📈 日本株
+          </Link>
           <Link href="/files" className="btn btn-secondary text-sm sm:text-base">
             📁 ファイル
           </Link>

@@ -146,6 +146,13 @@ const Header = () => {
             💰 家計簿
           </Link>
           <Link
+            href="/stocks"
+            className="btn btn-secondary text-sm"
+            onClick={() => setMenuOpen(false)}
+          >
+            📈 日本株
+          </Link>
+          <Link
             href="/files"
             className="btn btn-secondary text-sm"
             onClick={() => setMenuOpen(false)}
