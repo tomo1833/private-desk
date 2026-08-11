@@ -54,7 +54,17 @@ const DiaryListPage = () => {
             <MarkdownRenderer className="line-clamp-3 text-sm text-gray-700 dark:text-gray-300">
               {diary.content}
             </MarkdownRenderer>
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-between items-center pt-2 border-t border-gray-100 dark:border-gray-800">
+              <Link 
+                href={`/diaries/new?copyFrom=${diary.id}`}
+                className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+                title="この日報をコピーして新規作成"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                コピー作成
+              </Link>
               <Link 
                 href={`/diaries/${diary.id}`}
                 className="text-sm text-blue-600 dark:text-blue-400 hover:underline"

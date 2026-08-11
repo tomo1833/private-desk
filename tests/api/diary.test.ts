@@ -17,6 +17,15 @@ describe('GET /api/diary', () => {
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
   });
+
+  it('should return limited number of diaries when limit query param is provided', async () => {
+    const req = new Request('http://localhost/api/diary?limit=1');
+    const res = await GET(req as any);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(Array.isArray(data)).toBe(true);
+    expect(data.length).toBeLessThanOrEqual(1);
+  });
 });
 
 describe('POST /api/diary', () => {
@@ -36,7 +45,7 @@ describe('POST /api/diary', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = await runSelect('SELECT * FROM diary WHERE title = ?', [entry.title]);
+    const rows = await runSelect<any>('SELECT * FROM diary WHERE title = ?', [entry.title]);
     expect(rows.length).toBe(1);
   });
 

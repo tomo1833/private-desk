@@ -126,31 +126,6 @@ const DiaryDetailPage = () => {
 
       <h1 className="text-2xl md:text-3xl font-bold text-white">{diary.title}</h1>
       
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg">
-        <MarkdownRenderer className="whitespace-pre-wrap">
-          {diary.content}
-        </MarkdownRenderer>
-      </div>
-
-      <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-4">
-        <button 
-          onClick={() => router.push('/diaries')} 
-          className="btn btn-secondary order-2 sm:order-1"
-        >
-          一覧に戻る
-        </button>
-        <button 
-          onClick={() => router.push(`/diaries/edit/${diary.id}`)} 
-          className="btn btn-primary order-1 sm:order-2"
-        >
-          編集
-        </button>
-      </div>
-
-      {/* スワイプヒント（モバイルのみ表示） */}
-      <div className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4 sm:hidden">
-        ← スワイプして前後の日記に移動 →
-      </div>
     </div>
   );
 };
