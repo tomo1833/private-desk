@@ -8,11 +8,11 @@ const WikiCards: React.FC<Props> = ({ wikis }) => {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-5 gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {wikis.map((wiki) => (
         <div
           key={wiki.id}
-          className="sticky-note cursor-pointer text-black"
+          className="sticky-note cursor-pointer"
           onClick={() => router.push(`/wikis/${wiki.id}`)}
         >
           <span className="sticky-note-title truncate">{wiki.title}</span>

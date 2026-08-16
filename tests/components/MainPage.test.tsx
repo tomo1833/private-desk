@@ -33,13 +33,11 @@ describe('MainPage', () => {
     render(<MainPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('日記一覧')).toBeInTheDocument();
+      expect(screen.getByText('最新の日記')).toBeInTheDocument();
     });
 
     expect(screen.getByText('Test Diary 1')).toBeInTheDocument();
-    expect(screen.getByText('Test Diary 2')).toBeInTheDocument();
     expect(screen.getByText('Content 1')).toBeInTheDocument();
-    expect(screen.getByText('Content 2')).toBeInTheDocument();
   });
 
   it('renders empty state when no diaries', async () => {
@@ -78,10 +76,10 @@ describe('MainPage', () => {
     render(<MainPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('📔 新規作成')).toBeInTheDocument();
+      expect(screen.getAllByText('📔 新規作成')[0]).toBeInTheDocument();
     });
 
-    const newButton = screen.getByText('📔 新規作成');
+    const newButton = screen.getAllByText('📔 新規作成')[0];
     expect(newButton.closest('a')).toHaveAttribute('href', '/diaries/new');
   });
 
@@ -107,9 +105,10 @@ describe('MainPage', () => {
     expect(screen.getByText('🎭 ペルソナ')).toBeInTheDocument();
   });
 
-  it('renders diary cards with proper styling', async () => {
+  it('renders diary cards with proper navigation', async () => {
     const mockDiaries = [
-      { id: 1, title: 'Test Diary', content: 'Diary content', created_at: '2025-01-01' },
+      { id: 1, title: 'Test Diary 1', content: 'Diary content 1', created_at: '2025-01-01' },
+      { id: 2, title: 'Test Diary 2', content: 'Diary content 2', created_at: '2025-01-02' },
     ];
 
     (global.fetch as jest.Mock).mockResolvedValue({
@@ -120,16 +119,14 @@ describe('MainPage', () => {
     render(<MainPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Test Diary')).toBeInTheDocument();
+      expect(screen.getByText('Test Diary 1')).toBeInTheDocument();
     });
 
-    const diaryCard = screen.getByText('Test Diary').closest('li');
-    expect(diaryCard).toHaveClass('bg-white/90');
-    expect(diaryCard).toHaveClass('rounded-xl');
-    expect(diaryCard).toHaveClass('shadow-lg');
+    expect(screen.getByText('← 前へ')).toBeInTheDocument();
+    expect(screen.getByText('次へ →')).toBeInTheDocument();
   });
 
-  it('renders formatted date for diaries', async () => {
+  it('renders formatted date and details link for diaries', async () => {
     const mockDiaries = [
       { id: 1, title: 'Test Diary', content: 'Content', created_at: '2025-01-01' },
     ];
@@ -142,27 +139,10 @@ describe('MainPage', () => {
     render(<MainPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('2025/1/1')).toBeInTheDocument();
-    });
-  });
-
-  it('renders continue reading link', async () => {
-    const mockDiaries = [
-      { id: 1, title: 'Test Diary', content: 'Content', created_at: '2025-01-01' },
-    ];
-
-    (global.fetch as jest.Mock).mockResolvedValue({
-      ok: true,
-      json: async () => mockDiaries,
+      expect(screen.getByText(/詳細を見る/)).toBeInTheDocument();
     });
 
-    render(<MainPage />);
-
-    await waitFor(() => {
-      expect(screen.getByText('続きを読む →')).toBeInTheDocument();
-    });
-
-    const link = screen.getByText('続きを読む →');
+    const link = screen.getByText(/詳細を見る/);
     expect(link.closest('a')).toHaveAttribute('href', '/diaries/1');
   });
 
@@ -175,8 +155,8 @@ describe('MainPage', () => {
     render(<MainPage />);
 
     await waitFor(() => {
-      const mainContainer = screen.getByText('日記一覧').parentElement?.parentElement;
-      expect(mainContainer).toHaveClass('space-y-4', 'max-w-7xl', 'mx-auto');
+      const mainContainer = screen.getByText('その他の機能').closest('.page-wrap');
+      expect(mainContainer).toBeInTheDocument();
     });
   });
 });

@@ -20,8 +20,13 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggle} className="bg-white/20 backdrop-blur-sm border border-white/30 text-gray-900 dark:text-white hover:bg-white/30 dark:hover:bg-gray-700/30 px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ml-2">
-      {isDark ? 'ライト' : 'ダーク'}
+    <button
+      onClick={toggle}
+      aria-label="テーマ切替"
+      className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 text-slate-200 hover:text-white transition-all text-xs font-medium cursor-pointer shadow-sm active:scale-95"
+    >
+      <span className="text-xs sm:text-sm">{isDark ? '☀️' : '🌙'}</span>
+      <span className="hidden sm:inline">{isDark ? 'ライト' : 'ダーク'}</span>
     </button>
   );
 };

@@ -36,6 +36,16 @@ jest.mock('next/image', () => {
   };
 });
 
+// Mock react-markdown
+jest.mock('react-markdown', () => {
+  return function MockReactMarkdown({ children }: { children: React.ReactNode }) {
+    return React.createElement('div', { 'data-testid': 'markdown-content' }, children);
+  };
+});
+jest.mock('remark-gfm', () => () => {});
+jest.mock('rehype-raw', () => () => {});
+jest.mock('rehype-highlight', () => () => {});
+
 // Mock fetch for tests
 global.fetch = jest.fn(() =>
   Promise.resolve({

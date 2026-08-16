@@ -22,26 +22,38 @@ const DiaryCards: React.FC<Props> = ({ diaries, onDelete }) => {
       {diaries.map((diary) => (
         <div
           key={diary.id}
-          className="card-basic transition-all duration-300 hover:shadow-xl hover:scale-[1.02] space-y-3"
+          className="card-basic group flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:border-indigo-500/40 hover:-translate-y-1 space-y-4"
         >
-          <h3 className="font-bold mb-2 text-base sm:text-lg truncate text-gray-900 dark:text-white">{diary.title}</h3>
-          <p className="line-clamp-3 text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">{diary.content}</p>
-          <div className="flex flex-col sm:flex-row justify-end gap-2">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="px-2 py-0.5 text-xs font-mono rounded-md bg-slate-800/80 text-indigo-300 border border-slate-700/60">
+                {diary.created_at ? new Date(diary.created_at).toLocaleDateString('ja-JP') : ''}
+              </span>
+            </div>
+            <h3 className="font-bold text-base sm:text-lg text-slate-100 group-hover:text-indigo-300 transition-colors line-clamp-1">
+              {diary.title}
+            </h3>
+            <p className="line-clamp-3 text-xs sm:text-sm whitespace-pre-wrap text-slate-300 leading-relaxed">
+              {diary.content}
+            </p>
+          </div>
+
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800/80">
             <button 
               onClick={() => router.push(`/diaries/${diary.id}`)} 
-              className="btn btn-primary w-full sm:w-auto text-sm sm:text-base"
+              className="btn btn-secondary text-xs px-3 py-1.5"
             >
               詳細
             </button>
             <button 
               onClick={() => router.push(`/diaries/edit/${diary.id}`)} 
-              className="btn btn-success w-full sm:w-auto text-sm sm:text-base"
+              className="btn btn-success text-xs px-3 py-1.5"
             >
               編集
             </button>
             <button 
               onClick={() => handleDelete(diary.id)} 
-              className="btn btn-danger w-full sm:w-auto text-sm sm:text-base"
+              className="btn btn-danger text-xs px-3 py-1.5"
             >
               削除
             </button>
