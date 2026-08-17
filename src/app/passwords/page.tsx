@@ -1,100 +1,109 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
+import PasswordCards from '@/app/components/PasswordCards';
+import ListControls from '@/app/components/ListControls';
 import type { Password } from '@/types/password';
 
 const PasswordListPage = () => {
   const [passwords, setPasswords] = useState<Password[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('title');
+  const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
+
+  const loadPasswords = async () => {
+    try {
+      const res = await fetch('/api/passwords');
+      if (!res.ok) throw new Error('読み込み失敗');
+      const data: Password[] = await res.json();
+      setPasswords(data);
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch('/api/passwords');
-        if (!res.ok) throw new Error('読み込み失敗');
-        const data: Password[] = await res.json();
-        setPasswords(data);
-      } catch (err) {
-        setError((err as Error).message);
-      }
-    };
-    load();
+    loadPasswords();
   }, []);
 
-  if (error) return <div className="text-red-500 text-center p-4">読み込みエラー: {error}</div>;
-  if (!passwords) return <div className="text-center p-4">読み込み中...</div>;
+  const filteredAndSortedPasswords = useMemo(() => {
+    if (!passwords) return [];
+    let list = [...passwords];
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(
+        (p) =>
+          p.site_name.toLowerCase().includes(q) ||
+          (p.login_id && p.login_id.toLowerCase().includes(q)) ||
+          (p.site_url && p.site_url.toLowerCase().includes(q)) ||
+          (p.memo && p.memo.toLowerCase().includes(q))
+      );
+    }
+
+    list.sort((a, b) => {
+      if (sortBy === 'title') {
+        return a.site_name.localeCompare(b.site_name, 'ja');
+      }
+      if (sortBy === 'newest') {
+        return b.id - a.id;
+      }
+      if (sortBy === 'oldest') {
+        return a.id - b.id;
+      }
+      return 0;
+    });
+
+    return list;
+  }, [passwords, searchQuery, sortBy]);
+
+  if (error) return <div className="text-rose-400 text-center p-6 card-basic">読み込みエラー: {error}</div>;
+  if (!passwords) return <div className="text-center text-slate-300 p-8">読み込み中...</div>;
 
   return (
-    <div className="space-y-4 page-wrap">
+    <div className="space-y-6 page-wrap">
+      {/* ページヘッダー */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">🔐 パスワード一覧</h1>
-        <Link href="/passwords/new" className="btn btn-primary text-center">
-          新規作成
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+            🔐 パスワード管理
+          </h1>
+          <p className="text-xs text-slate-300 mt-1">各種Webサービス・アカウント情報とワンタップコピー</p>
+        </div>
+        <Link href="/passwords/new" className="btn btn-primary text-center self-start sm:self-auto">
+          ➕ 新規作成
         </Link>
       </div>
-      
-      {passwords.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {passwords.map((password) => (
-            <div
-              key={password.id}
-              className="card-basic transition-all duration-300 hover:shadow-xl hover:scale-[1.02] space-y-3"
-            >
-              <h2 className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-1">
-                {password.site_name}
-              </h2>
-              
-              <div className="space-y-2 text-sm">
-                {password.login_id && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">ログインID:</span>
-                    <span className="text-gray-900 dark:text-white font-mono">
-                      {password.login_id}
-                    </span>
-                  </div>
-                )}
-                
-                {password.site_url && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">URL:</span>
-                    <a 
-                      href={password.site_url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 dark:text-blue-400 hover:underline truncate max-w-[200px]"
-                    >
-                      {password.site_url}
-                    </a>
-                  </div>
-                )}
-                
-                {password.memo && (
-                  <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
-                    <p className="text-gray-700 dark:text-gray-300 text-xs line-clamp-2">
-                      {password.memo}
-                    </p>
-                  </div>
-                )}
-              </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-gray-200 dark:border-gray-700">
-                <Link
-                  href={`/passwords/edit/${password.id}`}
-                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
-                >
-                  編集
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center text-gray-500 dark:text-gray-400 py-12">
-          <p className="text-lg mb-4">まだパスワードが登録されていません</p>
-          <Link href="/passwords/new" className="btn btn-primary inline-block">
+      {/* 検索・ソート・表示切替コントロール */}
+      <ListControls
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="サイト名、ID、URL、メモで検索..."
+        sortBy={sortBy}
+        onSortChange={setSortBy}
+        sortOptions={[
+          { value: 'title', label: 'サイト名順' },
+          { value: 'newest', label: '登録が新しい順' },
+          { value: 'oldest', label: '登録が古い順' },
+        ]}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        totalCount={passwords.length}
+        filteredCount={filteredAndSortedPasswords.length}
+      />
+
+      {/* コンテンツ表示 */}
+      {filteredAndSortedPasswords.length === 0 ? (
+        <div className="card-basic text-center py-12 text-slate-400 space-y-3">
+          <p className="text-lg font-medium">該当するパスワード情報が見つかりませんでした</p>
+          <Link href="/passwords/new" className="btn btn-primary inline-block text-sm">
             最初のパスワードを登録
           </Link>
         </div>
+      ) : (
+        <PasswordCards passwords={filteredAndSortedPasswords} viewMode={viewMode} />
       )}
     </div>
   );

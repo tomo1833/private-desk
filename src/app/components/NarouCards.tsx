@@ -1,10 +1,15 @@
 'use client';
 import type { Narou } from '@/types/narou';
 import { useRouter } from 'next/navigation';
+import MarkdownRenderer from '@/app/components/MarkdownRenderer';
 
-type Props = { narous: Narou[]; onDelete?: (id: number) => void };
+type Props = {
+  narous: Narou[];
+  viewMode?: 'card' | 'table';
+  onDelete?: (id: number) => void;
+};
 
-const NarouCards: React.FC<Props> = ({ narous, onDelete }) => {
+const NarouCards: React.FC<Props> = ({ narous, viewMode = 'card', onDelete }) => {
   const router = useRouter();
 
   const handleDelete = async (id: number) => {
@@ -17,6 +22,63 @@ const NarouCards: React.FC<Props> = ({ narous, onDelete }) => {
     }
   };
 
+  if (viewMode === 'table') {
+    return (
+      <div className="table-container">
+        <table className="table-basic">
+          <thead>
+            <tr>
+              <th className="table-header w-1/3">作品タイトル</th>
+              <th className="table-header">感想・あらすじ</th>
+              <th className="table-header w-32">登録日</th>
+              <th className="table-header text-right w-44">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {narous.map((narou) => (
+              <tr key={narou.id} className="table-row">
+                <td className="table-cell font-semibold text-slate-100">
+                  <button
+                    onClick={() => router.push(`/narous/${narou.id}`)}
+                    className="hover:underline text-left text-purple-400 hover:text-purple-300 font-medium"
+                  >
+                    📖 {narou.title}
+                  </button>
+                </td>
+                <td className="table-cell text-xs text-slate-300">
+                  <p className="line-clamp-2">{narou.content}</p>
+                </td>
+                <td className="table-cell text-xs font-mono text-slate-400">
+                  {narou.created_at ? new Date(narou.created_at).toLocaleDateString('ja-JP') : '-'}
+                </td>
+                <td className="table-cell text-right space-x-2">
+                  <button
+                    onClick={() => router.push(`/narous/${narou.id}`)}
+                    className="btn btn-secondary text-xs px-2.5 py-1"
+                  >
+                    詳細
+                  </button>
+                  <button
+                    onClick={() => router.push(`/narous/edit/${narou.id}`)}
+                    className="btn btn-success text-xs px-2.5 py-1"
+                  >
+                    編集
+                  </button>
+                  <button
+                    onClick={() => handleDelete(narou.id)}
+                    className="btn btn-danger text-xs px-2.5 py-1"
+                  >
+                    削除
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {narous.map((narou) => (
@@ -24,38 +86,46 @@ const NarouCards: React.FC<Props> = ({ narous, onDelete }) => {
           key={narou.id}
           className="card-basic group flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:border-purple-500/40 hover:-translate-y-1 space-y-4"
         >
-          <div className="space-y-2">
+          <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs">
+              <span className="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm shrink-0">
                 📖
               </span>
-              <h3 className="font-bold text-base sm:text-lg text-slate-100 group-hover:text-purple-300 transition-colors truncate flex-1">
+              <h3
+                onClick={() => router.push(`/narous/${narou.id}`)}
+                className="font-bold text-base sm:text-lg text-slate-100 group-hover:text-purple-300 transition-colors cursor-pointer truncate flex-1"
+              >
                 {narou.title}
               </h3>
             </div>
-            <p className="line-clamp-3 text-xs sm:text-sm whitespace-pre-wrap text-slate-200 leading-relaxed">
+            <MarkdownRenderer className="line-clamp-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
               {narou.content}
-            </p>
+            </MarkdownRenderer>
           </div>
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-700/80">
-            <button 
-              onClick={() => router.push(`/narous/${narou.id}`)} 
-              className="btn btn-secondary text-xs px-3 py-1.5"
-            >
-              詳細
-            </button>
-            <button 
-              onClick={() => router.push(`/narous/edit/${narou.id}`)} 
-              className="btn btn-success text-xs px-3 py-1.5"
-            >
-              編集
-            </button>
-            <button 
-              onClick={() => handleDelete(narou.id)} 
-              className="btn btn-danger text-xs px-3 py-1.5"
-            >
-              削除
-            </button>
+          <div className="flex items-center justify-between pt-3 border-t border-slate-700/80 text-xs">
+            <span className="text-slate-400 font-mono">
+              {narou.created_at ? new Date(narou.created_at).toLocaleDateString('ja-JP') : ''}
+            </span>
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={() => router.push(`/narous/${narou.id}`)} 
+                className="btn btn-secondary text-xs px-2.5 py-1"
+              >
+                詳細
+              </button>
+              <button 
+                onClick={() => router.push(`/narous/edit/${narou.id}`)} 
+                className="btn btn-success text-xs px-2.5 py-1"
+              >
+                編集
+              </button>
+              <button 
+                onClick={() => handleDelete(narou.id)} 
+                className="btn btn-danger text-xs px-2.5 py-1"
+              >
+                削除
+              </button>
+            </div>
           </div>
         </div>
       ))}
