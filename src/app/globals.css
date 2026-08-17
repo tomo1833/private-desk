@@ -155,26 +155,27 @@ body > * {
 }
 
 /* Sticky note style for wiki cards - Modern Frosted Note */
+/* Sticky note style for wiki cards - Modern Frosted Note */
 .sticky-note {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  border-radius: 16px;
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 1rem;
   padding: 1.25rem;
   position: relative;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px -3px rgba(0, 0, 0, 0.4);
   font-size: 0.875rem;
   width: 100%;
   min-height: 140px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  color: #f1f5f9;
+  color: #f8fafc;
 }
 
 .sticky-note:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 12px 30px -4px rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.4);
-  background: rgba(30, 41, 59, 0.85);
+  box-shadow: 0 14px 35px -4px rgba(99, 102, 241, 0.3);
+  border-color: rgba(129, 140, 248, 0.5);
+  background: rgba(30, 41, 59, 0.95);
 }
 
 .sticky-note::before {
@@ -187,35 +188,37 @@ body > * {
   height: 14px;
   background: linear-gradient(135deg, #f59e0b, #fbbf24);
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.6);
 }
 
 .sticky-note-title {
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 0.5rem;
   display: block;
-  color: #f8fafc;
+  color: #ffffff;
+  font-size: 1rem;
 }
 
 .sticky-note-date {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: #cbd5e1;
+  font-weight: 500;
   position: absolute;
-  bottom: 10px;
-  right: 12px;
+  bottom: 12px;
+  right: 14px;
 }
 
 /* Base form styles */
 .form-input {
-  @apply w-full px-4 py-2.5 bg-slate-800/80 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500 transition-all shadow-inner;
+  @apply w-full px-4 py-2.5 bg-slate-900/90 border border-slate-700/90 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-400 transition-all shadow-inner;
 }
 
 .form-textarea {
-  @apply w-full px-4 py-3 bg-slate-800/80 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500 transition-all resize-y shadow-inner;
+  @apply w-full px-4 py-3 bg-slate-900/90 border border-slate-700/90 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-400 transition-all resize-y shadow-inner;
 }
 
 .form-label {
-  @apply block text-slate-200 font-semibold mb-2 text-sm tracking-wide;
+  @apply block text-slate-100 font-semibold mb-2 text-sm tracking-wide;
 }
 
 .page-wrap {
@@ -223,30 +226,32 @@ body > * {
 }
 
 .card-basic {
-  background: rgba(15, 23, 42, 0.65);
+  background: rgba(30, 41, 59, 0.75);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.22);
   border-radius: 1rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4), 0 0 1px 1px rgba(255, 255, 255, 0.05);
   padding: 1.25rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-basic:hover {
-  border-color: rgba(99, 102, 241, 0.3);
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(129, 140, 248, 0.45);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(99, 102, 241, 0.2);
 }
 
 .card-form {
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(30, 41, 59, 0.85);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.25);
   border-radius: 1.25rem;
   padding: 1.75rem;
-  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.5);
 }
 
 .dark .form-help {
-  @apply text-slate-400;
+  @apply text-slate-300;
 }
 
 .dark .form-title {
@@ -255,8 +260,8 @@ body > * {
 
 /* Utility classes for buttons */
 .btn {
-  @apply inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 cursor-pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  @apply inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl font-semibold text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 cursor-pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .btn:hover {
@@ -270,43 +275,44 @@ body > * {
 .btn-primary {
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   color: #ffffff;
-  border: 1px solid rgba(167, 139, 250, 0.3);
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.45);
 }
 
 .btn-primary:hover {
   background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
-  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
 }
 
 .btn-secondary {
-  background: rgba(30, 41, 59, 0.8);
+  background: rgba(51, 65, 85, 0.85);
   backdrop-filter: blur(8px);
-  color: #e2e8f0;
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #f1f5f9;
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 .btn-secondary:hover {
-  background: rgba(51, 65, 85, 0.9);
+  background: rgba(71, 85, 105, 0.95);
   color: #ffffff;
-  border-color: rgba(148, 163, 184, 0.35);
+  border-color: rgba(203, 213, 225, 0.5);
 }
 
 .btn-success {
   background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
   color: #ffffff;
-  border: 1px solid rgba(52, 211, 153, 0.3);
-  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
 }
 
 .btn-success:hover {
   background: linear-gradient(135deg, #047857 0%, #0f766e 100%);
+  box-shadow: 0 6px 18px rgba(5, 150, 105, 0.55);
 }
 
 .btn-warning {
   background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
   color: #ffffff;
-  border: 1px solid rgba(251, 191, 36, 0.3);
+  border: 1px solid rgba(251, 191, 36, 0.4);
 }
 
 .btn-gold {
@@ -317,12 +323,13 @@ body > * {
 .btn-danger {
   background: linear-gradient(135deg, #e11d48 0%, #dc2626 100%);
   color: #ffffff;
-  border: 1px solid rgba(248, 113, 113, 0.3);
-  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4);
 }
 
 .btn-danger:hover {
   background: linear-gradient(135deg, #be123c 0%, #b91c1c 100%);
+  box-shadow: 0 6px 18px rgba(225, 29, 72, 0.55);
 }
 
 .btn-purple {
@@ -347,64 +354,85 @@ body > * {
 
 /* Special button styles */
 .btn-ghost {
-  @apply bg-transparent hover:bg-slate-800/60 text-slate-300 hover:text-white border border-transparent hover:border-slate-700;
+  @apply bg-transparent hover:bg-slate-800/80 text-slate-200 hover:text-white border border-transparent hover:border-slate-600;
 }
 
 .btn-outline {
-  @apply bg-transparent border border-slate-700 hover:bg-slate-800/70 text-slate-200 hover:text-white;
+  @apply bg-transparent border border-slate-600 hover:bg-slate-800/80 text-slate-100 hover:text-white;
 }
 
 .btn-minimal {
-  @apply bg-transparent hover:bg-slate-800/50 text-slate-300 hover:text-white border-0 shadow-none;
+  @apply bg-transparent hover:bg-slate-800/60 text-slate-200 hover:text-white border-0 shadow-none;
 }
 
 /* Legacy card styles - moved to components layer */
 
 .card-header {
-  @apply px-8 py-5 border-b border-gray-200 bg-gray-50;
+  @apply px-8 py-5 border-b border-slate-700/80 bg-slate-800/80 text-slate-100;
 }
 
 .card-body {
-  @apply px-8 py-6;
+  @apply px-8 py-6 text-slate-200;
 }
 
 .card-footer {
-  @apply px-8 py-5 border-t border-gray-200 bg-gray-50;
+  @apply px-8 py-5 border-t border-slate-700/80 bg-slate-800/80 text-slate-200;
 }
 
-/* Typography - 改善された行間と余白 */
+/* Typography - 改善された行間とコントラスト */
 .heading-1 {
-  @apply text-3xl font-bold text-gray-900 leading-relaxed mb-8 mt-4;
+  @apply text-3xl font-bold text-slate-100 leading-relaxed mb-8 mt-4;
   letter-spacing: -0.02em;
 }
 
 .heading-2 {
-  @apply text-2xl font-semibold text-gray-900 leading-relaxed mb-6 mt-3;
+  @apply text-2xl font-semibold text-slate-100 leading-relaxed mb-6 mt-3;
   letter-spacing: -0.01em;
 }
 
 .heading-3 {
-  @apply text-xl font-semibold text-gray-900 leading-relaxed mb-4 mt-2;
+  @apply text-xl font-semibold text-slate-100 leading-relaxed mb-4 mt-2;
   letter-spacing: -0.005em;
 }
 
 .text-body-large {
-  @apply text-lg text-gray-700 leading-loose mb-4;
+  @apply text-lg text-slate-200 leading-loose mb-4;
   line-height: 1.75;
 }
 
 .text-body {
-  @apply text-base text-gray-700 mb-3;
+  @apply text-base text-slate-200 mb-3;
   line-height: 1.7;
 }
 
 .text-body-small {
-  @apply text-sm text-gray-600 mb-2;
+  @apply text-sm text-slate-300 mb-2;
   line-height: 1.6;
 }
 
 .text-caption {
-  @apply text-xs text-gray-500 leading-normal;
+  @apply text-xs text-slate-400 leading-normal;
+}
+
+/* Modern High-Contrast Table Helper Classes */
+.table-container {
+  @apply w-full overflow-x-auto rounded-2xl border border-slate-700/70 shadow-2xl bg-slate-900/85 backdrop-blur-md;
+}
+
+.table-basic {
+  @apply w-full text-left border-collapse;
+}
+
+.table-header {
+  @apply bg-slate-800/90 text-slate-100 text-xs font-bold uppercase tracking-wider border-b border-slate-700/80 px-4 py-3.5;
+}
+
+.table-row {
+  @apply border-b border-slate-800/80 transition-colors hover:bg-slate-800/60 text-slate-200;
+}
+
+.table-cell {
+  @apply px-4 py-3.5 text-sm text-slate-200 align-middle;
 }
 
 /* Responsive grid system - 改善された余白 */

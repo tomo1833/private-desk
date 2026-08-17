@@ -395,43 +395,43 @@ export default function SubscriptionsListPage() {
         </div>
       ) : (
         /* テーブル一覧ビュー */
-        <div className="card-basic overflow-x-auto p-0">
-          <table className="w-full text-left border-collapse text-sm">
+        <div className="table-container">
+          <table className="table-basic">
             <thead>
-              <tr className="border-b border-gray-700 bg-gray-800/80 text-gray-300 text-xs uppercase">
-                <th className="p-3">サービス名</th>
-                <th className="p-3">ステータス</th>
-                <th className="p-3">料金 / 周期</th>
-                <th className="p-3">次回更新日</th>
-                <th className="p-3">アカウント</th>
-                <th className="p-3 text-right">操作</th>
+              <tr>
+                <th className="table-header">サービス名</th>
+                <th className="table-header">ステータス</th>
+                <th className="table-header">料金 / 周期</th>
+                <th className="table-header">次回更新日</th>
+                <th className="table-header">アカウント</th>
+                <th className="table-header text-right">操作</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-700/50 text-gray-200">
+            <tbody>
               {filteredSubscriptions.map((sub) => (
-                <tr key={sub.id} className="hover:bg-gray-800/40 transition-colors">
-                  <td className="p-3 font-medium text-white">
-                    <Link href={`/subscriptions/${sub.id}`} className="hover:underline text-blue-400">
+                <tr key={sub.id} className="table-row">
+                  <td className="table-cell font-semibold text-slate-100">
+                    <Link href={`/subscriptions/${sub.id}`} className="hover:underline text-indigo-400 hover:text-indigo-300">
                       {sub.name}
                     </Link>
                   </td>
-                  <td className="p-3">{getStatusBadge(sub.status)}</td>
-                  <td className="p-3 font-mono">
+                  <td className="table-cell">{getStatusBadge(sub.status)}</td>
+                  <td className="table-cell font-mono font-medium text-slate-100">
                     ¥{Number(sub.price).toLocaleString()}
-                    <span className="text-xs text-gray-400 ml-1">({getCycleLabel(sub.cycle)})</span>
+                    <span className="text-xs text-slate-300 ml-1">({getCycleLabel(sub.cycle)})</span>
                   </td>
-                  <td className="p-3 font-mono text-xs">{sub.next_billing || '-'}</td>
-                  <td className="p-3 text-xs font-mono text-gray-400">{sub.account_email || '-'}</td>
-                  <td className="p-3 text-right space-x-2 text-xs">
+                  <td className="table-cell font-mono text-xs text-indigo-300">{sub.next_billing || '-'}</td>
+                  <td className="table-cell text-xs font-mono text-slate-300">{sub.account_email || '-'}</td>
+                  <td className="table-cell text-right space-x-3 text-xs">
                     <Link
                       href={`/subscriptions/${sub.id}`}
-                      className="text-gray-400 hover:text-white"
+                      className="text-slate-300 hover:text-white transition-colors"
                     >
                       詳細
                     </Link>
                     <Link
                       href={`/subscriptions/edit/${sub.id}`}
-                      className="text-blue-400 hover:text-blue-300"
+                      className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
                     >
                       編集
                     </Link>

@@ -39,7 +39,7 @@ const PasswordList: React.FC<PasswordListProps> = ({ passwords }) => {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:underline"
+            className="text-indigo-400 hover:text-indigo-300 hover:underline transition-colors font-medium"
             aria-label={`Open ${url} in a new tab`}
         >
             {url}
@@ -47,20 +47,20 @@ const PasswordList: React.FC<PasswordListProps> = ({ passwords }) => {
     );
 
     const TableRow: React.FC<{ password: Password }> = ({ password }) => (
-        <tr key={password.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100">
-            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100">{password.site_name}</td>
-            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600">{renderLink(password.site_url)}</td>
-            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100">{password.login_id ?? "N/A"}</td>
+        <tr key={password.id} className="table-row">
+            <td className="table-cell font-semibold text-slate-100">{password.site_name}</td>
+            <td className="table-cell">{renderLink(password.site_url)}</td>
+            <td className="table-cell font-mono text-slate-200">{password.login_id ?? "N/A"}</td>
             <td
-                className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 cursor-pointer text-center text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400"
+                className="table-cell font-mono cursor-pointer text-center text-indigo-300 hover:text-indigo-200 transition-colors"
                 onClick={() => handlePasswordClick(password.password, password.id)}
                 aria-label={`Click to copy password for ${password.site_name}`}
                 title="クリックでコピー"
             >
-                **********
+                {visiblePasswordId === password.id ? password.password : '••••••••••••'}
             </td>
-            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100">{password.email ?? "N/A"}</td>
-            <td className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 text-center">
+            <td className="table-cell font-mono text-slate-300">{password.email ?? "N/A"}</td>
+            <td className="table-cell text-center">
                 <button
                     onClick={() => handleUpdate(password.id)}
                     className="btn btn-primary btn-sm"
@@ -73,16 +73,16 @@ const PasswordList: React.FC<PasswordListProps> = ({ passwords }) => {
     );
 
     return (
-        <div className="overflow-x-auto">
-            <table className="w-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg overflow-hidden shadow-sm">
+        <div className="table-container">
+            <table className="table-basic">
                 <thead>
-                    <tr className="bg-gray-50 dark:bg-gray-700">
-                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">サイト名</th>
-                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">サイトURL</th>
-                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">ログインID</th>
-                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">パスワード</th>
-                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-left text-gray-900 dark:text-gray-100 font-semibold">メールアドレス</th>
-                        <th className="py-4 px-3 border-b border-gray-200 dark:border-gray-600 w-1/6 text-gray-900 dark:text-gray-100 font-semibold">操作</th>
+                    <tr>
+                        <th className="table-header w-1/6 text-left">サイト名</th>
+                        <th className="table-header w-1/6 text-left">サイトURL</th>
+                        <th className="table-header w-1/6 text-left">ログインID</th>
+                        <th className="table-header w-1/6 text-center">パスワード</th>
+                        <th className="table-header w-1/6 text-left">メールアドレス</th>
+                        <th className="table-header w-1/6 text-center">操作</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -33,11 +33,11 @@ const BookCards: React.FC<Props> = ({ books, onDelete }) => {
                 {book.title}
               </h3>
             </div>
-            <p className="line-clamp-3 text-xs sm:text-sm whitespace-pre-wrap text-slate-300 leading-relaxed">
+            <p className="line-clamp-3 text-xs sm:text-sm whitespace-pre-wrap text-slate-200 leading-relaxed">
               {book.content}
             </p>
           </div>
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800/80">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-700/80">
             <button 
               onClick={() => router.push(`/books/${book.id}`)} 
               className="btn btn-secondary text-xs px-3 py-1.5"

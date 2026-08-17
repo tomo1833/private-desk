@@ -33,12 +33,12 @@ const DiaryCards: React.FC<Props> = ({ diaries, onDelete }) => {
             <h3 className="font-bold text-base sm:text-lg text-slate-100 group-hover:text-indigo-300 transition-colors line-clamp-1">
               {diary.title}
             </h3>
-            <p className="line-clamp-3 text-xs sm:text-sm whitespace-pre-wrap text-slate-300 leading-relaxed">
+            <p className="line-clamp-3 text-xs sm:text-sm whitespace-pre-wrap text-slate-200 leading-relaxed">
               {diary.content}
             </p>
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800/80">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-700/80">
             <button 
               onClick={() => router.push(`/diaries/${diary.id}`)} 
               className="btn btn-secondary text-xs px-3 py-1.5"
