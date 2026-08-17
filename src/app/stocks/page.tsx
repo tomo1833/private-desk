@@ -189,8 +189,8 @@ export default function StockPortfolioPage() {
     }
   };
 
-  if (error) return <div className="text-red-500 text-center p-4">エラー: {error}</div>;
-  if (!stocks) return <div className="text-center p-4">読み込み中...</div>;
+  if (error) return <div className="page-wrap p-8 text-center text-rose-400 card-basic">エラー: {error}</div>;
+  if (!stocks) return <div className="page-wrap p-8 text-center text-slate-300 card-basic">読み込み中...</div>;
 
   return (
     <div className="space-y-6 page-wrap">
@@ -200,79 +200,76 @@ export default function StockPortfolioPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
             📈 日本株ポートフォリオ
           </h1>
-          <p className="text-xs text-gray-200 mt-1">保有株式の評価額・損益・予想配当金を一括管理</p>
+          <p className="text-xs text-slate-300 mt-1">保有株式の評価額・損益・予想配当金を一括管理</p>
         </div>
         <button
           onClick={handleOpenNew}
           className="btn btn-primary text-center self-start sm:self-auto flex items-center gap-1.5 shadow-lg"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-          </svg>
-          銘柄を追加
+          ➕ 銘柄を追加
         </button>
       </div>
 
       {/* サマリーダッシュボード */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <div className="card-basic p-4 space-y-1 border-l-4 border-indigo-500">
-          <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">評価額合計</div>
-          <div className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="text-xs text-slate-300 font-semibold">評価額合計</div>
+          <div className="text-lg sm:text-2xl font-bold text-white font-mono">
             ¥{summary.totalEval.toLocaleString()}
           </div>
-          <div className="text-[11px] text-gray-500 dark:text-gray-400">
+          <div className="text-[11px] text-slate-400 font-mono">
             取得額: ¥{summary.totalCost.toLocaleString()}
           </div>
         </div>
 
         <div className={`card-basic p-4 space-y-1 border-l-4 ${summary.totalProfit >= 0 ? 'border-emerald-500' : 'border-rose-500'}`}>
-          <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">評価損益</div>
-          <div className={`text-lg sm:text-2xl font-bold ${summary.totalProfit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+          <div className="text-xs text-slate-300 font-semibold">評価損益</div>
+          <div className={`text-lg sm:text-2xl font-bold font-mono ${summary.totalProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
             {summary.totalProfit >= 0 ? '+' : ''}¥{summary.totalProfit.toLocaleString()}
           </div>
-          <div className={`text-[11px] font-semibold ${summary.totalProfit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+          <div className={`text-[11px] font-semibold font-mono ${summary.totalProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
             {summary.totalProfit >= 0 ? '+' : ''}{summary.profitRate.toFixed(2)}%
           </div>
         </div>
 
         <div className="card-basic p-4 space-y-1 border-l-4 border-amber-500">
-          <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">年間予想配当金</div>
-          <div className="text-lg sm:text-2xl font-bold text-amber-600 dark:text-amber-400">
+          <div className="text-xs text-slate-300 font-semibold">年間予想配当金</div>
+          <div className="text-lg sm:text-2xl font-bold text-amber-400 font-mono">
             ¥{summary.totalDividend.toLocaleString()}
           </div>
-          <div className="text-[11px] text-gray-500 dark:text-gray-400">
+          <div className="text-[11px] text-slate-400 font-mono">
             配当利回り: {summary.dividendYield.toFixed(2)}%
           </div>
         </div>
 
-        <div className="card-basic p-4 space-y-1 border-l-4 border-blue-500">
-          <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">銘柄数</div>
-          <div className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white">
-            {stocks.length} <span className="text-xs font-normal">銘柄</span>
+        <div className="card-basic p-4 space-y-1 border-l-4 border-indigo-400">
+          <div className="text-xs text-slate-300 font-semibold">銘柄数</div>
+          <div className="text-lg sm:text-2xl font-bold text-white font-mono">
+            {stocks.length} <span className="text-xs font-normal text-slate-300">銘柄</span>
           </div>
-          <div className="text-[11px] text-gray-500 dark:text-gray-400">
+          <div className="text-[11px] text-slate-400 font-mono">
             保有株合計: {stocks.reduce((acc, cur) => acc + (cur.shares || 0), 0).toLocaleString()} 株
           </div>
         </div>
       </div>
 
       {/* 検索 ＆ ソート バー */}
-      <div className="flex flex-col sm:flex-row gap-3 justify-between items-center bg-gray-900/20 backdrop-blur-md p-3 rounded-xl border border-white/10">
-        <div className="w-full sm:w-72 relative">
+      <div className="card-basic p-3 flex flex-col sm:flex-row gap-3 justify-between items-center">
+        <div className="w-full sm:w-72">
           <input
             type="text"
             placeholder="銘柄名 / コードで検索..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/10 text-white placeholder-gray-300 border border-white/20 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-400"
+            className="form-input text-xs"
           />
         </div>
-        <div className="flex items-center gap-2 text-xs text-white self-end sm:self-auto">
-          <span>並び順:</span>
+        <div className="flex items-center gap-2 text-xs text-slate-300 self-end sm:self-auto">
+          <span className="font-semibold">並び順:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'profit' | 'evalValue' | 'code')}
-            className="bg-gray-800 text-white border border-gray-700 rounded-lg px-2.5 py-1 text-xs outline-none"
+            className="px-3 py-1.5 bg-slate-900 border border-slate-700 text-white rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <option value="evalValue">評価額が大きい順</option>
             <option value="profit">評価益が大きい順</option>
@@ -281,104 +278,99 @@ export default function StockPortfolioPage() {
         </div>
       </div>
 
-      {/* 銘柄一覧テーブル / カード */}
+      {/* 銘柄一覧テーブル */}
       {filteredStocks.length > 0 ? (
-        <div className="card-basic p-0 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-gray-700 dark:text-gray-200">
-              <thead className="bg-gray-100 dark:bg-gray-800 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase border-b border-gray-200 dark:border-gray-700">
-                <tr>
-                  <th className="px-4 py-3">コード / 銘柄名</th>
-                  <th className="px-4 py-3">市場</th>
-                  <th className="px-4 py-3 text-right">保有数</th>
-                  <th className="px-4 py-3 text-right">取得単価</th>
-                  <th className="px-4 py-3 text-right">現在株価</th>
-                  <th className="px-4 py-3 text-right">評価額</th>
-                  <th className="px-4 py-3 text-right">評価損益</th>
-                  <th className="px-4 py-3 text-right">予想配当金</th>
-                  <th className="px-4 py-3 text-center">操作</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                {filteredStocks.map((stock) => {
-                  const cost = stock.shares * stock.acquisition_price;
-                  const evalVal = stock.shares * stock.current_price;
-                  const profit = evalVal - cost;
-                  const profitRate = cost > 0 ? (profit / cost) * 100 : 0;
-                  const annualDiv = stock.shares * stock.dividend_per_share;
+        <div className="table-container">
+          <table className="table-basic">
+            <thead>
+              <tr>
+                <th className="table-header">コード / 銘柄名</th>
+                <th className="table-header">市場</th>
+                <th className="table-header text-right">保有数</th>
+                <th className="table-header text-right">取得単価</th>
+                <th className="table-header text-right">現在株価</th>
+                <th className="table-header text-right">評価額</th>
+                <th className="table-header text-right">評価損益</th>
+                <th className="table-header text-right">予想配当金</th>
+                <th className="table-header text-center">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredStocks.map((stock) => {
+                const cost = stock.shares * stock.acquisition_price;
+                const evalVal = stock.shares * stock.current_price;
+                const profit = evalVal - cost;
+                const profitRate = cost > 0 ? (profit / cost) * 100 : 0;
+                const annualDiv = stock.shares * stock.dividend_per_share;
 
-                  return (
-                    <tr
-                      key={stock.id}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
-                    >
-                      <td className="px-4 py-3 font-medium">
-                        <div className="flex items-center gap-2">
-                          <span className="px-1.5 py-0.5 text-[10px] font-mono font-bold bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300 rounded border border-indigo-200 dark:border-indigo-800">
-                            {stock.code}
-                          </span>
-                          <span className="font-semibold text-gray-900 dark:text-white">{stock.name}</span>
+                return (
+                  <tr key={stock.id} className="table-row">
+                    <td className="table-cell font-medium">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 text-xs font-mono font-bold bg-indigo-500/20 text-indigo-300 rounded-lg border border-indigo-500/30">
+                          {stock.code}
+                        </span>
+                        <span className="font-bold text-white">{stock.name}</span>
+                      </div>
+                      {stock.memo && (
+                        <div className="text-xs text-slate-400 mt-1 line-clamp-1">
+                          {stock.memo}
                         </div>
-                        {stock.memo && (
-                          <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 line-clamp-1">
-                            {stock.memo}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
-                        {stock.market}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono">
-                        {stock.shares.toLocaleString()} <span className="text-[10px] text-gray-400">株</span>
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-xs">
-                        ¥{stock.acquisition_price.toLocaleString()}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-xs font-semibold">
-                        ¥{stock.current_price.toLocaleString()}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono font-semibold">
-                        ¥{evalVal.toLocaleString()}
-                      </td>
-                      <td className={`px-4 py-3 text-right font-mono text-xs font-bold ${profit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
-                        <div>{profit >= 0 ? '+' : ''}¥{profit.toLocaleString()}</div>
-                        <div className="text-[10px] font-normal">({profit >= 0 ? '+' : ''}{profitRate.toFixed(2)}%)</div>
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-xs text-amber-600 dark:text-amber-400">
-                        ¥{annualDiv.toLocaleString()}
-                        <div className="text-[10px] text-gray-400">({stock.dividend_per_share}円/株)</div>
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => handleOpenEdit(stock)}
-                            className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
-                          >
-                            編集
-                          </button>
-                          <a
-                            href={`https://finance.yahoo.co.jp/quote/${stock.code}.T`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-0.5"
-                            title="Yahoo!ファイナンスでチャート表示"
-                          >
-                            Yahoo!
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                      )}
+                    </td>
+                    <td className="table-cell text-xs text-slate-300">
+                      {stock.market}
+                    </td>
+                    <td className="table-cell text-right font-mono text-slate-200">
+                      {stock.shares.toLocaleString()} <span className="text-[10px] text-slate-400">株</span>
+                    </td>
+                    <td className="table-cell text-right font-mono text-xs text-slate-300">
+                      ¥{stock.acquisition_price.toLocaleString()}
+                    </td>
+                    <td className="table-cell text-right font-mono text-xs font-semibold text-white">
+                      ¥{stock.current_price.toLocaleString()}
+                    </td>
+                    <td className="table-cell text-right font-mono font-bold text-white">
+                      ¥{evalVal.toLocaleString()}
+                    </td>
+                    <td className={`table-cell text-right font-mono text-xs font-bold ${profit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      <div>{profit >= 0 ? '+' : ''}¥{profit.toLocaleString()}</div>
+                      <div className="text-[10px] font-normal">({profit >= 0 ? '+' : ''}{profitRate.toFixed(2)}%)</div>
+                    </td>
+                    <td className="table-cell text-right font-mono text-xs text-amber-400 font-bold">
+                      ¥{annualDiv.toLocaleString()}
+                      <div className="text-[10px] text-slate-400 font-normal">({stock.dividend_per_share}円/株)</div>
+                    </td>
+                    <td className="table-cell text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEdit(stock)}
+                          className="btn btn-sm btn-secondary"
+                        >
+                          編集
+                        </button>
+                        <a
+                          href={`https://finance.yahoo.co.jp/quote/${stock.code}.T`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 underline"
+                          title="Yahoo!ファイナンスでチャート表示"
+                        >
+                          Yahoo!
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       ) : (
-        <div className="card-basic text-center text-gray-500 dark:text-gray-400 py-12">
-          <p className="text-lg mb-4">登録されている日本株がありません</p>
-          <button onClick={handleOpenNew} className="btn btn-primary inline-block">
+        <div className="card-basic text-center text-slate-300 py-12 space-y-4">
+          <p className="text-lg font-semibold">登録されている日本株がありません</p>
+          <button onClick={handleOpenNew} className="btn btn-primary">
             最初の銘柄を追加
           </button>
         </div>
@@ -387,22 +379,22 @@ export default function StockPortfolioPage() {
       {/* 登録・編集モーダル */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn"
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-lg shadow-2xl border border-gray-200 dark:border-gray-700 space-y-4 max-h-[90vh] overflow-y-auto"
+            className="card-form w-full max-w-lg shadow-2xl border border-indigo-500/30 space-y-4 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white border-b border-gray-100 dark:border-gray-700 pb-3">
-              {editId ? '銘柄情報変更' : '新規銘柄追加'}
+            <h2 className="text-lg font-bold text-white border-b border-slate-700/80 pb-3 flex items-center gap-2">
+              <span>📈</span> {editId ? '銘柄情報変更' : '新規銘柄追加'}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="stock-code" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                    銘柄コード <span className="text-rose-500">*</span>
+                  <label htmlFor="stock-code" className="form-label text-xs">
+                    銘柄コード <span className="text-rose-400">*</span>
                   </label>
                   <input
                     id="stock-code"
@@ -411,19 +403,19 @@ export default function StockPortfolioPage() {
                     value={form.code}
                     onChange={(e) => setForm({ ...form, code: e.target.value })}
                     required
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm dark:bg-gray-700 dark:text-white"
+                    className="form-input font-mono text-xs"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="stock-market" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="stock-market" className="form-label text-xs">
                     市場区分
                   </label>
                   <select
                     id="stock-market"
                     value={form.market}
                     onChange={(e) => setForm({ ...form, market: e.target.value })}
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm dark:bg-gray-700 dark:text-white"
+                    className="form-input text-xs"
                   >
                     {MARKET_OPTIONS.map((m) => (
                       <option key={m} value={m}>
@@ -435,8 +427,8 @@ export default function StockPortfolioPage() {
               </div>
 
               <div>
-                <label htmlFor="stock-name" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                  銘柄名 <span className="text-rose-500">*</span>
+                <label htmlFor="stock-name" className="form-label text-xs">
+                  銘柄名 <span className="text-rose-400">*</span>
                 </label>
                 <input
                   id="stock-name"
@@ -445,13 +437,13 @@ export default function StockPortfolioPage() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm dark:bg-gray-700 dark:text-white"
+                  className="form-input text-xs"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="stock-shares" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="stock-shares" className="form-label text-xs">
                     保有株数 (株)
                   </label>
                   <input
@@ -462,12 +454,12 @@ export default function StockPortfolioPage() {
                     placeholder="100"
                     value={form.shares}
                     onChange={(e) => setForm({ ...form, shares: e.target.value })}
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm dark:bg-gray-700 dark:text-white"
+                    className="form-input font-mono text-xs"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="stock-acq-price" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="stock-acq-price" className="form-label text-xs">
                     平均取得単価 (円)
                   </label>
                   <input
@@ -478,14 +470,14 @@ export default function StockPortfolioPage() {
                     placeholder="2500"
                     value={form.acquisition_price}
                     onChange={(e) => setForm({ ...form, acquisition_price: e.target.value })}
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm dark:bg-gray-700 dark:text-white"
+                    className="form-input font-mono text-xs"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="stock-cur-price" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="stock-cur-price" className="form-label text-xs">
                     現在株価 (円)
                   </label>
                   <input
@@ -496,12 +488,12 @@ export default function StockPortfolioPage() {
                     placeholder="2700"
                     value={form.current_price}
                     onChange={(e) => setForm({ ...form, current_price: e.target.value })}
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm dark:bg-gray-700 dark:text-white"
+                    className="form-input font-mono text-xs"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="stock-div" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="stock-div" className="form-label text-xs">
                     予想1株配当金 (円/年)
                   </label>
                   <input
@@ -512,13 +504,13 @@ export default function StockPortfolioPage() {
                     placeholder="90"
                     value={form.dividend_per_share}
                     onChange={(e) => setForm({ ...form, dividend_per_share: e.target.value })}
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm dark:bg-gray-700 dark:text-white"
+                    className="form-input font-mono text-xs"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="stock-memo" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="stock-memo" className="form-label text-xs">
                   メモ (購入理由や戦略など)
                 </label>
                 <textarea
@@ -526,15 +518,15 @@ export default function StockPortfolioPage() {
                   rows={2}
                   value={form.memo}
                   onChange={(e) => setForm({ ...form, memo: e.target.value })}
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm dark:bg-gray-700 dark:text-white"
+                  className="form-textarea text-xs"
                 />
               </div>
 
-              <div className="flex justify-end space-x-2 pt-4 border-t border-gray-100 dark:border-gray-700">
+              <div className="flex justify-end space-x-2 pt-4 border-t border-slate-700/80">
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="px-4 py-2 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  className="btn btn-secondary text-xs px-3.5 py-1.5"
                 >
                   キャンセル
                 </button>
@@ -542,14 +534,14 @@ export default function StockPortfolioPage() {
                   <button
                     type="button"
                     onClick={handleDelete}
-                    className="px-4 py-2 text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 hover:bg-red-100 rounded-lg border border-red-200 dark:border-red-800 transition-colors"
+                    className="btn btn-danger text-xs px-3.5 py-1.5"
                   >
                     削除
                   </button>
                 )}
                 <button
                   type="submit"
-                  className="px-5 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow transition-colors"
+                  className="btn btn-primary text-xs px-4 py-1.5"
                 >
                   {editId ? '更新' : '保存'}
                 </button>

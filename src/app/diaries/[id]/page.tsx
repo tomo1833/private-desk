@@ -59,26 +59,22 @@ const DiaryDetailPage = () => {
   const handleTouchEnd = () => {
     if (!diary || allDiaries.length === 0) return;
 
-    const swipeThreshold = 50; // スワイプの閾値（ピクセル）
+    const swipeThreshold = 50;
     const swipeDistance = touchStartX.current - touchEndX.current;
-
     const currentIndex = allDiaries.findIndex(d => d.id === diary.id);
     
     if (Math.abs(swipeDistance) > swipeThreshold) {
       if (swipeDistance > 0) {
-        // 左にスワイプ → 次の日記へ
         if (currentIndex < allDiaries.length - 1) {
           router.push(`/diaries/${allDiaries[currentIndex + 1].id}`);
         }
       } else {
-        // 右にスワイプ → 前の日記へ
         if (currentIndex > 0) {
           router.push(`/diaries/${allDiaries[currentIndex - 1].id}`);
         }
       }
     }
 
-    // リセット
     touchStartX.current = 0;
     touchEndX.current = 0;
   };
@@ -109,8 +105,8 @@ const DiaryDetailPage = () => {
     downloadFile(jsonStr, `diary_${dateStr}_${safeTitle}.json`, 'application/json;charset=utf-8;');
   };
 
-  if (error) return <div className="text-red-500 text-center p-4">読み込みエラー</div>;
-  if (!diary) return <div className="text-center p-4">読み込み中...</div>;
+  if (error) return <div className="page-wrap p-8 text-center text-rose-400 card-basic">読み込みエラー</div>;
+  if (!diary) return <div className="page-wrap p-8 text-center text-slate-300 card-basic">読み込み中...</div>;
 
   const currentIndex = allDiaries.findIndex(d => d.id === diary.id);
   const hasPrev = currentIndex > 0;
@@ -129,18 +125,18 @@ const DiaryDetailPage = () => {
       onTouchEnd={handleTouchEnd}
     >
       {/* ナビゲーション表示 */}
-      <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 mb-2">
+      <div className="flex justify-between items-center text-xs font-semibold text-slate-300 mb-2">
         <div>
           {hasPrev && (
             <button 
               onClick={() => router.push(`/diaries/${allDiaries[currentIndex - 1].id}`)}
-              className="hover:text-blue-600 dark:hover:text-blue-400 flex items-center gap-1"
+              className="hover:text-indigo-400 flex items-center gap-1 cursor-pointer transition-colors"
             >
               ← 前の日記
             </button>
           )}
         </div>
-        <div className="text-center">
+        <div className="text-center font-mono">
           {allDiaries.length > 0 && (
             <span>{currentIndex + 1} / {allDiaries.length}</span>
           )}
@@ -149,7 +145,7 @@ const DiaryDetailPage = () => {
           {hasNext && (
             <button 
               onClick={() => router.push(`/diaries/${allDiaries[currentIndex + 1].id}`)}
-              className="hover:text-blue-600 dark:hover:text-blue-400 flex items-center gap-1"
+              className="hover:text-indigo-400 flex items-center gap-1 cursor-pointer transition-colors"
             >
               次の日記 →
             </button>
@@ -157,62 +153,56 @@ const DiaryDetailPage = () => {
         </div>
       </div>
 
-      <div className="card-basic space-y-6">
-        <div className="border-b border-gray-200 dark:border-gray-700 pb-4">
-          <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">{dateDisplay}</div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{diary.title}</h1>
+      <div className="card-basic space-y-6 p-6">
+        <div className="border-b border-slate-700/80 pb-4">
+          <div className="text-xs font-semibold text-indigo-400 mb-1 font-mono">{dateDisplay}</div>
+          <h1 className="text-2xl md:text-3xl font-bold text-white">{diary.title}</h1>
         </div>
 
         {/* 日報本文 */}
-        <div className="prose dark:prose-invert max-w-none">
+        <div className="prose prose-invert max-w-none text-slate-100 leading-relaxed">
           <MarkdownRenderer>{diary.content}</MarkdownRenderer>
         </div>
 
         {/* エクスポート・操作ツールバー */}
-        <div className="pt-6 border-t border-gray-200 dark:border-gray-800 space-y-4">
+        <div className="pt-6 border-t border-slate-700/80 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
                 onClick={handleCopyForAI}
-                className="px-3.5 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow transition-colors flex items-center gap-1.5"
+                className="btn btn-primary text-xs flex items-center gap-1.5"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                {copySuccess ? 'コピーしました！' : 'AI評価用プロンプト付きコピー'}
+                🤖 {copySuccess ? 'コピーしました！' : 'AI評価用プロンプト付きコピー'}
               </button>
 
               <button
                 type="button"
                 onClick={handleDownloadMarkdown}
-                className="px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 transition-colors flex items-center gap-1.5"
+                className="btn btn-secondary text-xs flex items-center gap-1.5"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Markdown保存 (.md)
+                📥 Markdown保存 (.md)
               </button>
 
               <button
                 type="button"
                 onClick={handleDownloadJSON}
-                className="px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 transition-colors flex items-center gap-1.5"
+                className="btn btn-secondary text-xs flex items-center gap-1.5"
               >
-                JSON保存 (.json)
+                💾 JSON保存 (.json)
               </button>
             </div>
 
             <div className="flex items-center gap-3 self-end sm:self-auto">
               <Link 
                 href={`/diaries/edit/${diary.id}`}
-                className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                className="btn btn-success text-xs px-3 py-1.5"
               >
                 編集
               </Link>
               <Link 
                 href="/diaries"
-                className="text-xs font-medium text-gray-600 dark:text-gray-400 hover:underline"
+                className="btn btn-secondary text-xs px-3 py-1.5"
               >
                 一覧に戻る
               </Link>
@@ -220,7 +210,7 @@ const DiaryDetailPage = () => {
           </div>
 
           {copySuccess && (
-            <div className="p-3 text-xs bg-emerald-50 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 rounded-lg border border-emerald-200 dark:border-emerald-800">
+            <div className="p-3 text-xs bg-emerald-500/20 text-emerald-300 rounded-xl border border-emerald-500/30">
               ✨ クリップボードにAI評価用プロンプトテキストをコピーしました！ChatGPT / Claude / Gemini / Ollama 等に貼り付けてご利用ください。
             </div>
           )}

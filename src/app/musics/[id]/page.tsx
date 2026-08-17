@@ -10,7 +10,7 @@ const MusicDetailPage = () => {
   const [music, setMusic] = useState<Music | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [allMusics, setAllMusics] = useState<Music[]>([]);
-
+  
   // スワイプ機能用
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
@@ -55,40 +55,35 @@ const MusicDetailPage = () => {
 
   const handleTouchEnd = () => {
     if (!music || allMusics.length === 0) return;
-
-    const swipeThreshold = 50; // スワイプの閾値（ピクセル）
+    const swipeThreshold = 50;
     const swipeDistance = touchStartX.current - touchEndX.current;
-
     const currentIndex = allMusics.findIndex(d => d.id === music.id);
-
+    
     if (Math.abs(swipeDistance) > swipeThreshold) {
       if (swipeDistance > 0) {
-        // 左にスワイプ → 次の記録へ
         if (currentIndex < allMusics.length - 1) {
           router.push(`/musics/${allMusics[currentIndex + 1].id}`);
         }
       } else {
-        // 右にスワイプ → 前の記録へ
         if (currentIndex > 0) {
           router.push(`/musics/${allMusics[currentIndex - 1].id}`);
         }
       }
     }
 
-    // リセット
     touchStartX.current = 0;
     touchEndX.current = 0;
   };
 
-  if (error) return <div className="text-red-500 text-center p-4">読み込みエラー</div>;
-  if (!music) return <div className="text-center p-4">読み込み中...</div>;
+  if (error) return <div className="page-wrap p-8 text-center text-rose-400 card-basic">読み込みエラー</div>;
+  if (!music) return <div className="page-wrap p-8 text-center text-slate-300 card-basic">読み込み中...</div>;
 
   const currentIndex = allMusics.findIndex(d => d.id === music.id);
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < allMusics.length - 1;
 
   return (
-    <div
+    <div 
       ref={containerRef}
       className="space-y-4 page-wrap"
       onTouchStart={handleTouchStart}
@@ -96,27 +91,27 @@ const MusicDetailPage = () => {
       onTouchEnd={handleTouchEnd}
     >
       {/* ナビゲーション表示 */}
-      <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 mb-4">
+      <div className="flex justify-between items-center text-xs font-semibold text-slate-300 mb-2">
         <div>
           {hasPrev && (
-            <button
+            <button 
               onClick={() => router.push(`/musics/${allMusics[currentIndex - 1].id}`)}
-              className="hover:text-blue-600 dark:hover:text-blue-400"
+              className="hover:text-indigo-400 flex items-center gap-1 cursor-pointer transition-colors"
             >
               ← 前の記録
             </button>
           )}
         </div>
-        <div className="text-center">
+        <div className="text-center font-mono">
           {allMusics.length > 0 && (
             <span>{currentIndex + 1} / {allMusics.length}</span>
           )}
         </div>
         <div>
           {hasNext && (
-            <button
+            <button 
               onClick={() => router.push(`/musics/${allMusics[currentIndex + 1].id}`)}
-              className="hover:text-blue-600 dark:hover:text-blue-400"
+              className="hover:text-indigo-400 flex items-center gap-1 cursor-pointer transition-colors"
             >
               次の記録 →
             </button>
@@ -124,31 +119,34 @@ const MusicDetailPage = () => {
         </div>
       </div>
 
-      <h1 className="text-2xl md:text-3xl font-bold text-white">{music.title}</h1>
+      <div className="card-basic space-y-4 p-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-white border-b border-slate-700/80 pb-3 flex items-center gap-2">
+          <span>🎵</span> {music.title}
+        </h1>
+        
+        <div className="prose prose-invert max-w-none text-slate-100 leading-relaxed pt-2">
+          <MarkdownRenderer className="whitespace-pre-wrap">
+            {music.content}
+          </MarkdownRenderer>
+        </div>
 
-      <div className="card-basic">
-        <MarkdownRenderer className="whitespace-pre-wrap">
-          {music.content}
-        </MarkdownRenderer>
+        <div className="flex flex-col sm:flex-row justify-between gap-3 pt-6 border-t border-slate-700/80">
+          <button 
+            onClick={() => router.push('/musics')} 
+            className="btn btn-secondary text-xs px-4 py-2 order-2 sm:order-1"
+          >
+            一覧に戻る
+          </button>
+          <button 
+            onClick={() => router.push(`/musics/edit/${music.id}`)} 
+            className="btn btn-primary text-xs px-4 py-2 order-1 sm:order-2"
+          >
+            編集
+          </button>
+        </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-4">
-        <button
-          onClick={() => router.push('/musics')}
-          className="btn btn-secondary order-2 sm:order-1"
-        >
-          一覧に戻る
-        </button>
-        <button
-          onClick={() => router.push(`/musics/edit/${music.id}`)}
-          className="btn btn-primary order-1 sm:order-2"
-        >
-          編集
-        </button>
-      </div>
-
-      {/* スワイプヒント（モバイルのみ表示） */}
-      <div className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4 sm:hidden">
+      <div className="text-center text-xs text-slate-400 mt-2 sm:hidden">
         ← スワイプして前後の記録に移動 →
       </div>
     </div>

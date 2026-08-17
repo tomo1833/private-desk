@@ -290,20 +290,20 @@ export default function SubscriptionsListPage() {
         </div>
       ) : viewMode === 'card' ? (
         /* カード一覧ビュー */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4 sm:gap-6">
           {filteredSubscriptions.map((sub) => (
             <div
               key={sub.id}
-              className="card-basic flex flex-col justify-between space-y-4 hover:border-blue-500/40 transition-all duration-200"
+              className="card-basic flex flex-col justify-between space-y-4 hover:border-indigo-500/40 transition-all duration-200"
             >
               <div className="space-y-3">
                 {/* ヘッダー: 名前とステータス */}
                 <div className="flex justify-between items-start gap-2">
                   <div>
-                    <h2 className="font-bold text-lg text-gray-900 dark:text-white line-clamp-1">
+                    <h2 className="font-bold text-lg text-white line-clamp-1">
                       {sub.name}
                     </h2>
-                    <span className="inline-block mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    <span className="inline-block mt-1 text-xs text-slate-300 font-medium">
                       {getCycleLabel(sub.cycle)}
                     </span>
                   </div>
@@ -311,13 +311,13 @@ export default function SubscriptionsListPage() {
                 </div>
 
                 {/* 価格情報 */}
-                <div className="bg-gray-100 dark:bg-gray-800/60 p-3 rounded-lg flex justify-between items-baseline">
-                  <span className="text-xs text-gray-600 dark:text-gray-400">料金</span>
+                <div className="bg-slate-900/90 border border-slate-700/80 p-3 rounded-xl flex justify-between items-baseline shadow-inner">
+                  <span className="text-xs text-slate-300 font-semibold">料金</span>
                   <div className="text-right">
-                    <span className="text-xl font-bold text-gray-900 dark:text-white">
+                    <span className="text-xl font-bold text-white font-mono">
                       ¥{Number(sub.price).toLocaleString()}
                     </span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">
+                    <span className="text-xs text-slate-300 ml-1">
                       {sub.cycle === 'monthly' ? '/月' : sub.cycle === 'yearly' ? '/年' : ''}
                     </span>
                   </div>
@@ -326,27 +326,27 @@ export default function SubscriptionsListPage() {
                 {/* 詳細属性 */}
                 <div className="space-y-2 text-xs">
                   {sub.next_billing && (
-                    <div className="flex justify-between items-center text-gray-700 dark:text-gray-300">
-                      <span>次回更新日:</span>
-                      <span className="font-mono font-medium text-amber-500 dark:text-amber-400">
+                    <div className="flex justify-between items-center text-slate-300">
+                      <span className="text-slate-400">次回更新日:</span>
+                      <span className="font-mono font-bold text-amber-400">
                         {sub.next_billing}
                       </span>
                     </div>
                   )}
 
                   {sub.account_email && (
-                    <div className="flex justify-between items-center text-gray-700 dark:text-gray-300">
-                      <span>登録アカウント:</span>
-                      <span className="font-mono truncate max-w-[180px]">{sub.account_email}</span>
+                    <div className="flex justify-between items-center text-slate-300">
+                      <span className="text-slate-400">登録アカウント:</span>
+                      <span className="font-mono text-slate-200 truncate max-w-[180px]">{sub.account_email}</span>
                     </div>
                   )}
 
                   {sub.license_key && (
-                    <div className="flex justify-between items-center text-gray-700 dark:text-gray-300">
-                      <span>ライセンスキー:</span>
+                    <div className="flex justify-between items-center text-slate-300">
+                      <span className="text-slate-400">ライセンスキー:</span>
                       <button
                         onClick={() => handleCopyKey(sub.license_key!, sub.id)}
-                        className="text-blue-500 hover:text-blue-400 font-mono text-xs flex items-center gap-1 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20"
+                        className="text-indigo-300 hover:text-white font-mono text-xs flex items-center gap-1 bg-indigo-500/20 px-2 py-0.5 rounded-lg border border-indigo-500/30 transition-colors"
                       >
                         {copiedId === sub.id ? '✓ コピー完了' : '📋 キーをコピー'}
                       </button>
@@ -355,12 +355,12 @@ export default function SubscriptionsListPage() {
 
                   {sub.url && (
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600 dark:text-gray-400">公式サイト:</span>
+                      <span className="text-slate-400">公式サイト:</span>
                       <a
                         href={sub.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline truncate max-w-[180px]"
+                        className="text-indigo-400 hover:text-indigo-300 hover:underline truncate max-w-[180px]"
                       >
                         {sub.url}
                       </a>
@@ -368,24 +368,25 @@ export default function SubscriptionsListPage() {
                   )}
 
                   {sub.memo && (
-                    <div className="pt-2 border-t border-gray-200 dark:border-gray-700/60">
-                      <p className="text-gray-600 dark:text-gray-400 line-clamp-2">{sub.memo}</p>
+                    <div className="pt-2 border-t border-slate-700/60">
+                      <p className="text-slate-300 line-clamp-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800">{sub.memo}</p>
                     </div>
                   )}
                 </div>
               </div>
 
               {/* フッターアクション */}
-              <div className="flex justify-end items-center gap-3 pt-3 border-t border-gray-200 dark:border-gray-700/60 text-xs">
+              <div className="flex justify-end items-center gap-3 pt-3 border-t border-slate-700/60 text-xs">
                 <Link
                   href={`/subscriptions/${sub.id}`}
-                  className="text-gray-600 dark:text-gray-400 hover:text-white"
+                  className="text-slate-300 hover:text-white font-medium transition-colors"
                 >
                   詳細を見る
                 </Link>
+
                 <Link
                   href={`/subscriptions/edit/${sub.id}`}
-                  className="text-blue-500 hover:text-blue-400 font-medium"
+                  className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors"
                 >
                   編集
                 </Link>
