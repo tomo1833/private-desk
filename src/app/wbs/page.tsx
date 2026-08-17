@@ -41,64 +41,65 @@ const ProjectListPage = () => {
     }
   };
 
-  if (error) return <div className="page-wrap text-white">読み込みエラー: {error}</div>;
-  if (!projects) return <div className="page-wrap text-white">読み込み中...</div>;
+  if (error) return <div className="page-wrap p-8 text-center text-rose-400 card-basic">読み込みエラー: {error}</div>;
+  if (!projects) return <div className="page-wrap p-8 text-center text-slate-300 card-basic">読み込み中...</div>;
 
   return (
     <div className="space-y-6 page-wrap pb-10">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-          <span className="text-accent-gold">WBS</span> プロジェクト管理
+        <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3">
+          <span className="text-amber-400">📊 WBS</span> プロジェクト管理
         </h1>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="btn btn-primary"
+          className="btn btn-primary text-xs sm:text-sm"
         >
-          新規プロジェクト
+          ➕ 新規プロジェクト
         </button>
       </div>
 
-      <div className="grid-responsive">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map((project) => (
-          <div key={project.id} className="card-basic hover:scale-[1.02] transition-all group relative overflow-hidden">
-             <div className="absolute top-0 left-0 w-1 h-full bg-primary-navy group-hover:bg-accent-gold transition-colors" />
+          <div key={project.id} className="card-basic hover:border-indigo-500/40 transition-all group relative overflow-hidden p-5">
              <div className="space-y-4">
                 <div>
-                  <Link href={`/wbs/${project.id}`} className="text-xl font-bold text-primary-navy dark:text-accent-gold hover:underline">
+                  <Link href={`/wbs/${project.id}`} className="text-lg font-bold text-white hover:text-indigo-300 transition-colors">
                     {project.name}
                   </Link>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
+                  <p className="text-xs text-slate-300 mt-1 line-clamp-2">
                     {project.description || '説明なし'}
                   </p>
                 </div>
                 
-                <div className="flex justify-between items-center text-xs text-gray-400">
-                  <span>ステータス: <span className="text-success font-semibold">{project.status}</span></span>
+                <div className="flex justify-between items-center text-xs text-slate-400 font-mono">
+                  <span>ステータス: <span className="text-emerald-400 font-semibold">{project.status}</span></span>
                   <span>作成日: {new Date(project.createdAt).toLocaleDateString('ja-JP')}</span>
                 </div>
 
-                <div className="flex gap-2">
-                  <Link href={`/wbs/${project.id}`} className="btn btn-sm btn-outline flex-1">
-                    チャートを表示
+                <div className="flex gap-2 pt-2 border-t border-slate-700/60">
+                  <Link href={`/wbs/${project.id}`} className="btn btn-secondary text-xs flex-1 text-center py-2">
+                    📊 ガントチャートを表示
                   </Link>
                 </div>
              </div>
           </div>
         ))}
         {projects.length === 0 && (
-          <div className="col-span-full py-20 text-center text-gray-300 border-2 border-dashed border-gray-600 rounded-xl">
+          <div className="col-span-full py-16 text-center text-slate-300 border-2 border-dashed border-slate-700 rounded-2xl bg-slate-900/40 card-basic">
              プロジェクトがありません。新しく作成してください。
           </div>
         )}
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="card-form w-full max-w-md animate-float-in">
-            <h2 className="text-2xl font-bold text-primary-navy dark:text-white mb-6">新規プロジェクト</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
+          <div className="card-form w-full max-w-md shadow-2xl border border-indigo-500/30 space-y-4">
+            <h2 className="text-xl font-bold text-white mb-4 border-b border-slate-700/80 pb-3 flex items-center gap-2">
+              <span>📌</span> 新規プロジェクト
+            </h2>
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <label className="form-label">プロジェクト名</label>
+                <label className="form-label text-xs">プロジェクト名</label>
                 <input
                   type="text"
                   value={newProjectName}
@@ -109,11 +110,11 @@ const ProjectListPage = () => {
                   autoFocus
                 />
               </div>
-              <div className="flex justify-end gap-3 pt-4">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="btn btn-secondary">
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-700/80">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="btn btn-secondary text-xs px-3.5 py-1.5">
                   キャンセル
                 </button>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary text-xs px-4 py-1.5">
                   作成する
                 </button>
               </div>
@@ -121,16 +122,6 @@ const ProjectListPage = () => {
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        @keyframes float-in {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-float-in {
-          animation: float-in 0.3s ease-out forwards;
-        }
-      `}</style>
     </div>
   );
 };

@@ -58,21 +58,21 @@ const BlogEditor: React.FC<Props> = ({ value, onChange, className }) => {
         <button
           type="button"
           onClick={toggleMode}
-          className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md transition-colors duration-200"
+          className="btn btn-secondary text-xs px-3 py-1"
         >
-          {htmlMode ? "リッチテキスト" : "HTML"}モード
+          {htmlMode ? "📝 リッチテキスト" : "💻 HTML"}モード
         </button>
       </div>
       {htmlMode ? (
         <textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="form-textarea font-mono whitespace-pre min-h-24"
+          className="form-textarea font-mono whitespace-pre min-h-24 text-xs"
         />
       ) : (
         <EditorContent
           editor={editor}
-          className="form-input min-h-[3rem] p-2"
+          className="form-input min-h-[4rem] p-3 text-slate-100"
         />
       )}
     </div>

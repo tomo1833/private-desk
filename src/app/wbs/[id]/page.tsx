@@ -49,39 +49,41 @@ const ProjectDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
     }
   };
 
-  if (error) return <div className="page-wrap text-white py-10">エラー: {error}</div>;
-  if (!project) return <div className="page-wrap text-white py-10">読み込み中...</div>;
+  if (error) return <div className="page-wrap text-rose-400 p-8 text-center card-basic">エラー: {error}</div>;
+  if (!project) return <div className="page-wrap text-slate-300 p-8 text-center card-basic">読み込み中...</div>;
 
   return (
     <div className="space-y-6 page-wrap pb-20">
       {/* Breadcrumbs */}
-      <nav className="flex text-sm text-gray-400 gap-2 mb-2">
-        <Link href="/wbs" className="hover:text-accent-gold transition-colors">WBS一覧</Link>
+      <nav className="flex text-xs font-semibold text-slate-400 gap-2 mb-2">
+        <Link href="/wbs" className="hover:text-indigo-400 transition-colors">WBS一覧</Link>
         <span>/</span>
-        <span className="text-white font-medium">{project.name}</span>
+        <span className="text-white font-bold">{project.name}</span>
       </nav>
 
       {/* Project Header */}
-      <div className="card-basic">
-        <div className="flex justify-between items-start">
+      <div className="card-basic space-y-4 p-6">
+        <div className="flex justify-between items-start flex-wrap gap-4">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-primary-navy dark:text-accent-gold">{project.name}</h1>
-            <p className="text-gray-600 dark:text-gray-400">{project.description || 'プロジェクトの説明はありません。'}</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+              <span>📊</span> {project.name}
+            </h1>
+            <p className="text-sm text-slate-300">{project.description || 'プロジェクトの説明はありません。'}</p>
           </div>
           <div className="flex gap-2">
-             <button onClick={() => setIsEditingProject(true)} className="btn btn-sm btn-outline">設定</button>
-             <Link href="/wbs" className="btn btn-sm btn-secondary">戻る</Link>
+             <button onClick={() => setIsEditingProject(true)} className="btn btn-secondary text-xs px-3.5 py-1.5">⚙️ 設定</button>
+             <Link href="/wbs" className="btn btn-secondary text-xs px-3.5 py-1.5">← 戻る</Link>
           </div>
         </div>
         
-        <div className="mt-6 flex flex-wrap gap-4 text-sm border-t border-gray-100 dark:border-gray-800 pt-4">
+        <div className="flex flex-wrap gap-4 text-xs font-mono border-t border-slate-700/80 pt-4">
            <div className="flex items-center gap-2">
-              <span className="text-gray-500">ステータス:</span>
-              <span className="bg-success/10 text-success px-2 py-0.5 rounded-full font-bold">{project.status}</span>
+              <span className="text-slate-400">ステータス:</span>
+              <span className="bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full font-bold border border-emerald-500/30">{project.status}</span>
            </div>
            <div className="flex items-center gap-2">
-              <span className="text-gray-500">期間:</span>
-              <span className="text-gray-700 dark:text-gray-300">
+              <span className="text-slate-400">期間:</span>
+              <span className="text-slate-200">
                 {project.startDate ? new Date(project.startDate).toLocaleDateString() : '未設定'} 
                 - 
                 {project.endDate ? new Date(project.endDate).toLocaleDateString() : '未設定'}
@@ -91,7 +93,7 @@ const ProjectDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
       </div>
 
       {/* Gantt Chart Section */}
-      <div className="w-full overflow-x-auto">
+      <div className="w-full">
         <GanttChart 
           projectId={project.id} 
           tasks={project.tasks || []} 
@@ -101,29 +103,31 @@ const ProjectDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
       {/* Project Settings Modal */}
       {isEditingProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-           <div className="card-form w-full max-w-md">
-              <h2 className="text-2xl font-bold mb-6 text-primary-navy">プロジェクト設定</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+           <div className="card-form w-full max-w-md shadow-2xl border border-indigo-500/30">
+              <h2 className="text-xl font-bold mb-4 text-white border-b border-slate-700/80 pb-3 flex items-center gap-2">
+                <span>⚙️</span> プロジェクト設定
+              </h2>
               <form onSubmit={handleUpdateProject} className="space-y-4">
                  <div>
-                    <label className="form-label">名前</label>
-                    <input name="name" defaultValue={project.name} className="form-input" required />
+                    <label className="form-label text-xs">名前</label>
+                    <input name="name" defaultValue={project.name} className="form-input text-xs" required />
                  </div>
                  <div>
-                    <label className="form-label">説明</label>
-                    <textarea name="description" defaultValue={project.description || ''} className="form-textarea h-24" />
+                    <label className="form-label text-xs">説明</label>
+                    <textarea name="description" defaultValue={project.description || ''} className="form-textarea text-xs h-24" />
                  </div>
                  <div>
-                    <label className="form-label">ステータス</label>
-                    <select name="status" defaultValue={project.status} className="form-input">
+                    <label className="form-label text-xs">ステータス</label>
+                    <select name="status" defaultValue={project.status} className="form-input text-xs">
                        <option value="Active">進行中</option>
                        <option value="Completed">完了</option>
                        <option value="On Hold">保留</option>
                     </select>
                  </div>
-                 <div className="flex justify-end gap-3 pt-4">
-                    <button type="button" onClick={() => setIsEditingProject(false)} className="btn btn-secondary">キャンセル</button>
-                    <button type="submit" className="btn btn-primary">更新</button>
+                 <div className="flex justify-end gap-2 pt-3 border-t border-slate-700/80">
+                    <button type="button" onClick={() => setIsEditingProject(false)} className="btn btn-secondary text-xs px-3.5 py-1.5">キャンセル</button>
+                    <button type="submit" className="btn btn-primary text-xs px-4 py-1.5">更新</button>
                  </div>
               </form>
            </div>

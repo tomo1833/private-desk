@@ -86,44 +86,44 @@ export default function EditSubscriptionPage({
     }
   };
 
-  if (loading) return <div className="text-center text-white p-4">読み込み中...</div>;
+  if (loading) return <div className="page-wrap text-center text-slate-300 p-8 card-basic">読み込み中...</div>;
 
   return (
     <div className="space-y-6 page-wrap max-w-2xl mx-auto">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">
-          ✏️ サブスク・ソフトウェア情報編集
+        <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+          <span>✏️</span> サブスク・ソフトウェア情報編集
         </h1>
-        <Link href={`/subscriptions/${id}`} className="btn btn-secondary text-sm">
+        <Link href={`/subscriptions/${id}`} className="btn btn-secondary text-xs">
           ← 詳細へ戻る
         </Link>
       </div>
 
       {error && (
-        <div className="bg-red-500/20 border border-red-500/50 text-red-300 p-4 rounded-lg text-sm">
+        <div className="bg-rose-500/20 border border-rose-500/30 text-rose-300 p-4 rounded-xl text-xs font-semibold">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="card-basic space-y-4">
+      <form onSubmit={handleSubmit} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
         {/* 名前 */}
         <div>
-          <label className="block text-sm font-medium text-gray-200 mb-1">
-            サービス名・ソフトウェア名 <span className="text-red-400">*</span>
+          <label className="form-label text-xs">
+            サービス名・ソフトウェア名 <span className="text-rose-400">*</span>
           </label>
           <input
             type="text"
             required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+            className="form-input text-xs"
           />
         </div>
 
         {/* 料金 & 周期 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-200 mb-1">
+            <label className="form-label text-xs">
               料金 (円)
             </label>
             <input
@@ -131,18 +131,18 @@ export default function EditSubscriptionPage({
               min="0"
               value={formData.price}
               onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm font-mono"
+              className="form-input text-xs font-mono"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-200 mb-1">
+            <label className="form-label text-xs">
               課金周期
             </label>
             <select
               value={formData.cycle}
               onChange={(e) => setFormData({ ...formData, cycle: e.target.value })}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+              className="form-input text-xs"
             >
               <option value="monthly">月額 (Monthly)</option>
               <option value="yearly">年額 (Yearly)</option>
@@ -155,13 +155,13 @@ export default function EditSubscriptionPage({
         {/* ステータス & 次回更新日 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-200 mb-1">
+            <label className="form-label text-xs">
               ステータス
             </label>
             <select
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+              className="form-input text-xs"
             >
               <option value="Active">🟢 契約中 (Active)</option>
               <option value="Canceling">⚠️ 解約予定 (Canceling)</option>
@@ -171,14 +171,14 @@ export default function EditSubscriptionPage({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-200 mb-1">
+            <label className="form-label text-xs">
               次回更新日・支払日
             </label>
             <input
               type="date"
               value={formData.next_billing}
               onChange={(e) => setFormData({ ...formData, next_billing: e.target.value })}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+              className="form-input text-xs font-mono"
             />
           </div>
         </div>
@@ -186,78 +186,78 @@ export default function EditSubscriptionPage({
         {/* 登録アカウント & URL */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-200 mb-1">
+            <label className="form-label text-xs">
               登録アカウント (メール等)
             </label>
             <input
               type="email"
               value={formData.account_email}
               onChange={(e) => setFormData({ ...formData, account_email: e.target.value })}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+              className="form-input text-xs font-mono"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-200 mb-1">
+            <label className="form-label text-xs">
               公式サイト / ログインURL
             </label>
             <input
               type="url"
               value={formData.url}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+              className="form-input text-xs font-mono"
             />
           </div>
         </div>
 
         {/* ライセンスキー */}
         <div>
-          <label className="block text-sm font-medium text-gray-200 mb-1">
+          <label className="form-label text-xs">
             ライセンスキー / シリアルコード
           </label>
           <input
             type="text"
             value={formData.license_key}
             onChange={(e) => setFormData({ ...formData, license_key: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm font-mono"
+            className="form-input text-xs font-mono"
           />
         </div>
 
         {/* メモ */}
         <div>
-          <label className="block text-sm font-medium text-gray-200 mb-1">
+          <label className="form-label text-xs">
             メモ・解約手順等
           </label>
           <textarea
             rows={3}
             value={formData.memo}
             onChange={(e) => setFormData({ ...formData, memo: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+            className="form-textarea text-xs"
           />
         </div>
 
         {/* 表示順 */}
         <div>
-          <label className="block text-sm font-medium text-gray-200 mb-1">
+          <label className="form-label text-xs">
             表示順 (数字が小さいほど優先)
           </label>
           <input
             type="number"
             value={formData.display_order}
             onChange={(e) => setFormData({ ...formData, display_order: Number(e.target.value) })}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-blue-500 text-sm font-mono"
+            className="form-input text-xs font-mono"
           />
         </div>
 
         {/* 送信ボタン */}
-        <div className="flex justify-end gap-3 pt-4 border-t border-gray-700">
-          <Link href={`/subscriptions/${id}`} className="btn btn-secondary text-sm">
+        <div className="flex justify-end gap-2 pt-4 border-t border-slate-700/80">
+          <Link href={`/subscriptions/${id}`} className="btn btn-secondary text-xs px-3.5 py-1.5">
             キャンセル
           </Link>
           <button
             type="submit"
             disabled={submitting}
-            className="btn btn-primary text-sm disabled:opacity-50"
+            className="btn btn-primary text-xs px-4 py-1.5 disabled:opacity-50"
           >
             {submitting ? '保存中...' : '更新を保存'}
           </button>
