@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <>
       <header className="bg-slate-900/75 backdrop-blur-md text-white py-3 sm:py-3.5 px-4 sm:px-8 fixed top-0 w-full z-10 z-50 shadow-lg border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <div className="max-w-[2360px] mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <h1 className="text-base sm:text-lg font-bold">
               <Link href="/" className="flex items-center gap-2.5 group">

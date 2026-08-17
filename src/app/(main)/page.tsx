@@ -187,7 +187,7 @@ const MainPage = () => {
           <div className="flex items-center gap-2 text-xs font-semibold text-indigo-400 uppercase tracking-wider">
             <span>📝</span> 記録 & ナレッジ (Knowledge & Notes)
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
             {KNOWLEDGE_FEATURES.map(renderCard)}
           </div>
         </div>
@@ -197,7 +197,7 @@ const MainPage = () => {
           <div className="flex items-center gap-2 text-xs font-semibold text-rose-400 uppercase tracking-wider">
             <span>🎬</span> エンタメ & 学習 (Media & Learning)
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
             {MEDIA_FEATURES.map(renderCard)}
           </div>
         </div>
@@ -207,7 +207,7 @@ const MainPage = () => {
           <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 uppercase tracking-wider">
             <span>💼</span> ツール & 管理 (Management & Tools)
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-8 gap-3">
             {MANAGEMENT_FEATURES.map(renderCard)}
           </div>
         </div>

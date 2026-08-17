@@ -47,6 +47,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --breakpoint-3xl: 120rem;
+  --breakpoint-4xl: 140rem;
 }
 
 .dark {
@@ -222,7 +224,7 @@ body > * {
 }
 
 .page-wrap {
-  @apply w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8;
+  @apply w-full max-w-[2360px] mx-auto px-4 sm:px-6 lg:px-10;
 }
 
 .card-basic {
