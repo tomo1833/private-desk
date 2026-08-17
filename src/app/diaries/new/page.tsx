@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import type { Diary } from '@/types/diary';
 
 const NewDiaryForm = () => {
@@ -78,49 +79,56 @@ const NewDiaryForm = () => {
   };
 
   return (
-    <div className="card-form">
-      <div className="form-header flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div className="space-y-6 page-wrap max-w-2xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className="form-title">日報作成</h1>
-          <p className="form-subtitle">新しい日報を作成します</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+            <span>📝</span> 日報新規作成
+          </h1>
+          <p className="text-xs text-slate-300 mt-1">本日の出来事・進捗・所感を記録します</p>
         </div>
-        <button
-          type="button"
-          onClick={handleCopyLatest}
-          disabled={isLoadingCopy}
-          className="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:text-indigo-300 dark:hover:bg-indigo-900/50 rounded-lg border border-indigo-200 dark:border-indigo-800 transition-colors flex items-center gap-2 self-start md:self-auto"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-          {isLoadingCopy ? '読み込み中...' : '前回の（昨日の）日報をコピー'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={handleCopyLatest}
+            disabled={isLoadingCopy}
+            className="btn btn-secondary text-xs px-3 py-1.5 flex items-center gap-1.5"
+          >
+            📋 {isLoadingCopy ? 'コピー中...' : '前回の（昨日の）日報をコピー'}
+          </button>
+          <Link href="/diaries" className="btn btn-secondary text-xs">
+            ← 一覧に戻る
+          </Link>
+        </div>
       </div>
 
       {copyStatusMessage && (
-        <div className="mt-3 p-3 text-sm bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200 rounded-lg border border-blue-200 dark:border-blue-800">
-          {copyStatusMessage}
+        <div className="p-3 text-xs bg-indigo-500/20 text-indigo-200 rounded-xl border border-indigo-500/40 font-medium">
+          ✓ {copyStatusMessage}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6 mt-6">
-        <div className="space-y-4 mb-6">
-          <label htmlFor="diary-title" className="form-label">タイトル</label>
-          <input id="diary-title" value={title} onChange={(e) => setTitle(e.target.value)} className="form-input" required />
+      <form onSubmit={handleSubmit} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="diary-title" className="form-label text-xs">タイトル <span className="text-rose-400">*</span></label>
+            <input id="diary-title" value={title} onChange={(e) => setTitle(e.target.value)} className="form-input text-xs" required placeholder="例: 本日の進捗とタスク完了" />
+          </div>
+          <div>
+            <label htmlFor="diary-date" className="form-label text-xs">日付 <span className="text-rose-400">*</span></label>
+            <input
+              id="diary-date"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="form-input text-xs font-mono"
+              required
+            />
+          </div>
         </div>
-        <div className="space-y-4 mb-6">
-          <label htmlFor="diary-date" className="form-label">日付</label>
-          <input
-            id="diary-date"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="form-input"
-            required
-          />
-        </div>
-        <div className="space-y-4 mb-6">
-          <label htmlFor="diary-display-order" className="form-label">表示順</label>
+
+        <div>
+          <label htmlFor="diary-display-order" className="form-label text-xs">表示順</label>
           <input
             id="diary-display-order"
             type="number"
@@ -128,23 +136,21 @@ const NewDiaryForm = () => {
             step={1}
             value={displayOrder}
             onChange={(e) => setDisplayOrder(Number(e.target.value))}
-            className="form-input"
+            className="form-input text-xs font-mono"
           />
         </div>
-        <div className="space-y-4 mb-6">
-          <label htmlFor="diary-content" className="form-label">内容</label>
-          <textarea id="diary-content" value={content} onChange={(e) => setContent(e.target.value)} className="form-textarea min-h-24" rows={6} required />
+
+        <div>
+          <label htmlFor="diary-content" className="form-label text-xs">本文内容 (Markdown対応) <span className="text-rose-400">*</span></label>
+          <textarea id="diary-content" value={content} onChange={(e) => setContent(e.target.value)} className="form-textarea text-xs min-h-36 font-mono" rows={8} required placeholder="業務内容、振り返り、翌日のタスクなど..." />
         </div>
-        <div className="btn-group-between pt-4 mt-6 border-t border-gray-200">
-          <button
-            type="button"
-            onClick={() => router.push('/diaries')}
-            className="btn btn-secondary"
-          >
+
+        <div className="flex justify-end gap-2 pt-4 border-t border-slate-700/80">
+          <Link href="/diaries" className="btn btn-secondary text-xs px-3.5 py-1.5">
             キャンセル
-          </button>
-          <button type="submit" className="btn btn-primary">
-            登録
+          </Link>
+          <button type="submit" className="btn btn-primary text-xs px-4 py-1.5">
+            登録する
           </button>
         </div>
       </form>
@@ -154,7 +160,7 @@ const NewDiaryForm = () => {
 
 const NewDiaryPage = () => {
   return (
-    <Suspense fallback={<div className="text-center p-4">読み込み中...</div>}>
+    <Suspense fallback={<div className="page-wrap text-center p-8 text-slate-300 card-basic">読み込み中...</div>}>
       <NewDiaryForm />
     </Suspense>
   );

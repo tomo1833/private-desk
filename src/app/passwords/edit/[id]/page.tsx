@@ -3,40 +3,38 @@
 import React from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import type { Password } from '@/types/password';
 
 const UpdatePasswordPage = () => {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const [idState] = useState<string>(id);
   const [siteName, setSiteName] = useState('');
   const [category, setCategory] = useState('');
   const [siteUrl, setSiteUrl] = useState('');
   const [loginId, setLoginId] = useState('');
-  const [password, setPassword] = useState<Password | null>(null);
+  const [passwordData, setPasswordData] = useState<Password | null>(null);
   const [pass, setPass] = useState('');
   const [email, setEmail] = useState('');
   const [memo, setMemo] = useState('');
   const [displayOrder, setDisplayOrder] = useState(0);
 
   const [error, setError] = useState<string | null>(null);
-
   const [loading, setLoading] = useState(true);
 
-  // IDが取得できたらパスワードデータを取得
   useEffect(() => {
-    if (!idState) return;
+    if (!id) return;
 
     const fetchPassword = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/passwords/${idState}`);
-        if (!response.ok) throw new Error('Failed to fetch password data');
+        const response = await fetch(`/api/passwords/${id}`);
+        if (!response.ok) throw new Error('データ取得に失敗しました');
 
         const data: Password = await response.json();
-        setPassword(data);
+        setPasswordData(data);
         setCategory(data.category || '');
         setSiteName(data.site_name);
         setSiteUrl(data.site_url);
@@ -49,8 +47,6 @@ const UpdatePasswordPage = () => {
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
-        } else {
-          console.error('Error fetching password:', err);
         }
       } finally {
         setLoading(false);
@@ -58,168 +54,157 @@ const UpdatePasswordPage = () => {
     };
 
     fetchPassword();
-  }, [idState]);
+  }, [id]);
 
-
-  // 更新処理
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
-      const response = await fetch(`/api/passwords/${idState}`, {
+      const response = await fetch(`/api/passwords/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ category, siteName, siteUrl, loginId, pass, email, memo, display_order: displayOrder }),
       });
 
-      if (!response.ok) throw new Error('Failed to update password');
+      if (!response.ok) throw new Error('更新に失敗しました');
 
-      alert('パスワードが更新されました！');
-
-      router.push('/'); // 更新後にメインページへ遷移
+      router.push('/passwords');
     } catch (error) {
       console.error('Error updating password:', error);
+      alert('更新に失敗しました');
     }
   };
 
-  if (loading) {
-    return <div className="text-center p-8 text-white text-lg">読み込み中...</div>;
-  }
+  const handleDelete = async () => {
+    if (!confirm('このパスワード情報を削除しますか？')) return;
+    try {
+      const res = await fetch(`/api/passwords/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('削除失敗');
+      router.push('/passwords');
+    } catch (err) {
+      alert((err as Error).message);
+    }
+  };
 
-  if (error) {
-    return <p className="text-red-400 text-center p-8 text-lg">{error}</p>;
-  }
-
-  if (!password) {
-    return <div className="text-center p-8 text-white text-lg">データが見つかりません</div>;
-  }
+  if (loading) return <div className="page-wrap p-8 text-center text-slate-300 card-basic">読み込み中...</div>;
+  if (error || !passwordData) return <div className="page-wrap p-8 text-center text-rose-400 card-basic">{error || 'データが見つかりません'}</div>;
 
   return (
-    <div className="card-form">
-      <div className="form-header">
-        <h1 className="form-title">🔐 パスワード編集</h1>
-        <p className="form-subtitle">パスワード情報の編集・更新を行います</p>
+    <div className="space-y-6 page-wrap max-w-2xl mx-auto">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+            <span>🔐</span> パスワード情報編集
+          </h1>
+          <p className="text-xs text-slate-300 mt-1">アカウント情報の変更・削除を行います</p>
+        </div>
+        <Link href="/passwords" className="btn btn-secondary text-xs">
+          ← 一覧に戻る
+        </Link>
       </div>
-      <form onSubmit={handleUpdate} className="space-y-5">
-        <div>
-          <label className="form-label" htmlFor="category">
-            カテゴリ
-          </label>
-          <input
-            id="category"
-            type="text"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="form-input"
-            placeholder="例: SNS, 銀行, ショッピング"
-            required
-          />
+
+      <form onSubmit={handleUpdate} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="form-label text-xs">サイト名 <span className="text-rose-400">*</span></label>
+            <input
+              type="text"
+              value={siteName}
+              onChange={(e) => setSiteName(e.target.value)}
+              className="form-input text-xs"
+              required
+            />
+          </div>
+          <div>
+            <label className="form-label text-xs">カテゴリ</label>
+            <input
+              type="text"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="form-input text-xs"
+              placeholder="例: SNS, 銀行, ショッピング"
+            />
+          </div>
         </div>
+
         <div>
-          <label className="form-label" htmlFor="siteName">
-            サイト名
-          </label>
+          <label className="form-label text-xs">サイトURL <span className="text-rose-400">*</span></label>
           <input
-            id="siteName"
-            type="text"
-            value={siteName}
-            onChange={(e) => setSiteName(e.target.value)}
-            className="form-input"
-            placeholder="例: Twitter, Amazon"
-            required
-          />
-        </div>
-        <div>
-          <label className="form-label" htmlFor="siteUrl">
-            サイトURL
-          </label>
-          <input
-            id="siteUrl"
             type="text"
             value={siteUrl}
             onChange={(e) => setSiteUrl(e.target.value)}
-            className="form-input"
-            placeholder="https://example.com"
+            className="form-input text-xs font-mono"
             required
           />
         </div>
-        <div>
-          <label className="form-label" htmlFor="loginId">
-            ログインID
-          </label>
-          <input
-            id="loginId"
-            type="text"
-            value={loginId}
-            onChange={(e) => setLoginId(e.target.value)}
-            className="form-input"
-            placeholder="ユーザー名またはID"
-          />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="form-label text-xs">ログインID / ユーザー名</label>
+            <input
+              type="text"
+              value={loginId}
+              onChange={(e) => setLoginId(e.target.value)}
+              className="form-input text-xs font-mono"
+            />
+          </div>
+          <div>
+            <label className="form-label text-xs">メールアドレス</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="form-input text-xs font-mono"
+            />
+          </div>
         </div>
-        <div>
-          <label className="form-label" htmlFor="password">
-            パスワード
-          </label>
-          <input
-            id="password"
-            type="text"
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
-            className="form-input font-mono"
-            placeholder="パスワードを入力"
-          />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="form-label text-xs">パスワード <span className="text-rose-400">*</span></label>
+            <input
+              type="text"
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
+              className="form-input text-xs font-mono"
+              required
+            />
+          </div>
+          <div>
+            <label className="form-label text-xs">表示順</label>
+            <input
+              type="number"
+              min={0}
+              step={1}
+              value={displayOrder}
+              onChange={(e) => setDisplayOrder(Number(e.target.value))}
+              className="form-input text-xs font-mono"
+            />
+          </div>
         </div>
+
         <div>
-          <label className="form-label" htmlFor="displayOrder">
-            表示順
-          </label>
-          <input
-            id="displayOrder"
-            type="number"
-            min={0}
-            step={1}
-            value={displayOrder}
-            onChange={(e) => setDisplayOrder(Number(e.target.value))}
-            className="form-input"
-          />
-        </div>
-        <div>
-          <label className="form-label" htmlFor="email">
-            メールアドレス
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="form-input"
-            placeholder="email@example.com"
-          />
-        </div>
-        <div>
-          <label className="form-label" htmlFor="memo">
-            メモ
-          </label>
+          <label className="form-label text-xs">メモ・注意事項</label>
           <textarea
-            id="memo"
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
-            className="form-textarea min-h-24"
-            rows={6}
-            placeholder="追加情報や注意事項など"
+            className="form-textarea text-xs min-h-24"
+            rows={4}
           />
         </div>
-        <div className="btn-group-between pt-6 mt-6 border-t border-gray-200">
-          <button
-            type="button"
-            onClick={() => router.push('/passwords')}
-            className="btn btn-secondary"
-          >
+
+        <div className="flex justify-between items-center pt-4 border-t border-slate-700/80">
+          <Link href="/passwords" className="btn btn-secondary text-xs px-3.5 py-1.5">
             キャンセル
-          </button>
-          <button type="submit" className="btn btn-primary">
-            更新
-          </button>
+          </Link>
+          <div className="flex gap-2">
+            <button type="button" onClick={handleDelete} className="btn btn-danger text-xs px-3.5 py-1.5">
+              削除
+            </button>
+            <button type="submit" className="btn btn-primary text-xs px-4 py-1.5">
+              更新する
+            </button>
+          </div>
         </div>
       </form>
     </div>

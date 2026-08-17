@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-const AddPassword: React.FC = () => {
-
+const AddPasswordPage: React.FC = () => {
     const router = useRouter();
 
     const [formData, setFormData] = useState({
@@ -37,124 +37,134 @@ const AddPassword: React.FC = () => {
             body: JSON.stringify(formData),
         });
         if (res.ok) {
-            alert("登録成功！");
-            setFormData({
-                category: "",
-                site_name: "",
-                site_url: "",
-                login_id: "",
-                password: "",
-                email: "",
-                memo: "",
-                display_order: 0,
-            });
-            router.push('/');
+            router.push('/passwords');
         } else {
-            alert("登録失敗");
+            alert("登録に失敗しました");
         }
     };
 
     return (
-        <div className="card-form">
-            <div className="form-header">
-                <h1 className="form-title">パスワード登録</h1>
-                <p className="form-subtitle">新しいサイトのパスワード情報を登録します</p>
+        <div className="space-y-6 page-wrap max-w-2xl mx-auto">
+            <div className="flex justify-between items-center">
+                <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+                        <span>🔑</span> パスワード新規登録
+                    </h1>
+                    <p className="text-xs text-slate-300 mt-1">新しいWebサービス・サイトのアカウント情報を登録します</p>
+                </div>
+                <Link href="/passwords" className="btn btn-secondary text-xs">
+                    ← 一覧に戻る
+                </Link>
             </div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-4 mb-6">
-                    <label className="form-label">カテゴリ</label>
-                    <input
-                        type="text"
-                        name="category"
-                        value={formData.category}
-                        className="form-input"
-                        onChange={handleChange}
-                    />
+
+            <form onSubmit={handleSubmit} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label className="form-label text-xs">サイト名 <span className="text-rose-400">*</span></label>
+                        <input
+                            type="text"
+                            name="site_name"
+                            value={formData.site_name}
+                            className="form-input text-xs"
+                            onChange={handleChange}
+                            placeholder="例: Amazon, GitHub, Google"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="form-label text-xs">カテゴリ</label>
+                        <input
+                            type="text"
+                            name="category"
+                            value={formData.category}
+                            className="form-input text-xs"
+                            onChange={handleChange}
+                            placeholder="例: EC, 開発ツール, 銀行"
+                        />
+                    </div>
                 </div>
-                <div className="space-y-4 mb-6">
-                    <label className="form-label">サイト名</label>
-                    <input
-                        type="text"
-                        name="site_name"
-                        value={formData.site_name}
-                        className="form-input"
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="space-y-4 mb-6">
-                    <label className="form-label">サイトURL</label>
+
+                <div>
+                    <label className="form-label text-xs">サイトURL <span className="text-rose-400">*</span></label>
                     <input
                         type="text"
                         name="site_url"
                         value={formData.site_url}
-                        className="form-input"
+                        className="form-input text-xs font-mono"
                         onChange={handleChange}
+                        placeholder="https://example.com"
                         required
                     />
                 </div>
-                <div className="space-y-4 mb-6">
-                    <label className="form-label">ログインID</label>
-                    <input
-                        type="text"
-                        name="login_id"
-                        value={formData.login_id}
-                        className="form-input"
-                        onChange={handleChange}
-                    />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label className="form-label text-xs">ログインID / ユーザー名</label>
+                        <input
+                            type="text"
+                            name="login_id"
+                            value={formData.login_id}
+                            className="form-input text-xs font-mono"
+                            onChange={handleChange}
+                            placeholder="user_id"
+                        />
+                    </div>
+                    <div>
+                        <label className="form-label text-xs">メールアドレス</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            className="form-input text-xs font-mono"
+                            onChange={handleChange}
+                            placeholder="user@example.com"
+                        />
+                    </div>
                 </div>
-                <div className="space-y-4 mb-6">
-                    <label className="form-label">パスワード</label>
-                    <input
-                        type="text"
-                        name="password"
-                        value={formData.password}
-                        className="form-input"
-                        onChange={handleChange}
-                        required
-                    />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label className="form-label text-xs">パスワード <span className="text-rose-400">*</span></label>
+                        <input
+                            type="text"
+                            name="password"
+                            value={formData.password}
+                            className="form-input text-xs font-mono"
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="form-label text-xs">表示順</label>
+                        <input
+                            type="number"
+                            min={0}
+                            step={1}
+                            name="display_order"
+                            value={formData.display_order}
+                            className="form-input text-xs font-mono"
+                            onChange={handleChange}
+                        />
+                    </div>
                 </div>
-                <div className="space-y-4 mb-6">
-                    <label className="form-label">表示順</label>
-                    <input
-                        type="number"
-                        min={0}
-                        step={1}
-                        name="display_order"
-                        value={formData.display_order}
-                        className="form-input"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="space-y-4 mb-6">
-                    <label className="form-label">メールアドレス</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        className="form-input"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="space-y-4 mb-6">
-                    <label className="form-label">メモ</label>
+
+                <div>
+                    <label className="form-label text-xs">メモ・注意事項</label>
                     <textarea
                         name="memo"
                         value={formData.memo}
-                        className="form-textarea min-h-24"
+                        className="form-textarea text-xs min-h-24"
                         onChange={handleChange}
+                        placeholder="2段階認証コードや秘密の質問など..."
                     ></textarea>
                 </div>
-                <div className="flex justify-between gap-3 pt-6 border-t border-gray-200">
-                    <button
-                        type="button"
-                        onClick={() => router.push('/')}
-                        className="btn btn-secondary"
-                    >
+
+                <div className="flex justify-end gap-2 pt-4 border-t border-slate-700/80">
+                    <Link href="/passwords" className="btn btn-secondary text-xs px-3.5 py-1.5">
                         キャンセル
-                    </button>
-                    <button type="submit" className="btn btn-primary">
-                        登録
+                    </Link>
+                    <button type="submit" className="btn btn-primary text-xs px-4 py-1.5">
+                        登録する
                     </button>
                 </div>
             </form>
@@ -162,4 +172,4 @@ const AddPassword: React.FC = () => {
     );
 };
 
-export default AddPassword;
+export default AddPasswordPage;

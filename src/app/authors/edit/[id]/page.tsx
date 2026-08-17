@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
 import type { Author } from '@/types/author';
 
 const AuthorEditPage = () => {
@@ -52,57 +53,66 @@ const AuthorEditPage = () => {
     }
   };
 
-  if (loading) return <div>読み込み中...</div>;
+  if (loading) return <div className="page-wrap p-8 text-center text-slate-300 card-basic">読み込み中...</div>;
 
   return (
-    <div className="card-form">
-      <div className="form-header">
-        <h1 className="form-title">著者編集</h1>
-        <p className="form-subtitle">著者情報の編集・更新を行います</p>
+    <div className="space-y-6 page-wrap max-w-2xl mx-auto">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+            <span>✏️</span> 著者情報編集
+          </h1>
+          <p className="text-xs text-slate-300 mt-1">著者プロフィールの変更・削除を行います</p>
+        </div>
+        <Link href="/authors" className="btn btn-secondary text-xs">
+          ← 一覧に戻る
+        </Link>
       </div>
-      <form onSubmit={handleUpdate} className="space-y-6">
-        <div className="space-y-4 mb-6">
-          <label className="form-label">名前</label>
+
+      <form onSubmit={handleUpdate} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
+        <div>
+          <label className="form-label text-xs">名前 <span className="text-rose-400">*</span></label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="form-input"
+            className="form-input text-xs"
             required
           />
         </div>
-        <div className="space-y-4 mb-6">
-          <label className="form-label">表示順</label>
+
+        <div>
+          <label className="form-label text-xs">表示順</label>
           <input
             type="number"
             min={0}
             step={1}
             value={displayOrder}
             onChange={(e) => setDisplayOrder(Number(e.target.value))}
-            className="form-input"
+            className="form-input text-xs font-mono"
           />
         </div>
-        <div className="space-y-4 mb-6">
-          <label className="form-label">Bio</label>
+
+        <div>
+          <label className="form-label text-xs">プロフィール / 経歴 (Markdown対応)</label>
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            className="form-textarea min-h-24"
+            className="form-textarea text-xs min-h-28"
             rows={4}
           />
         </div>
-        <div className="flex justify-between gap-3 pt-6 border-t border-gray-200">
-          <div className="btn-group-left">
-            <button
-              type="button"
-              onClick={() => router.push('/authors')}
-              className="btn btn-secondary"
-            >
-              キャンセル
+
+        <div className="flex justify-between items-center pt-4 border-t border-slate-700/80">
+          <Link href="/authors" className="btn btn-secondary text-xs px-3.5 py-1.5">
+            キャンセル
+          </Link>
+          <div className="flex gap-2">
+            <button type="button" onClick={handleDelete} className="btn btn-danger text-xs px-3.5 py-1.5">
+              削除
             </button>
-          </div>
-          <div className="btn-group">
-            <button type="submit" className="btn btn-primary">更新</button>
-            <button type="button" onClick={handleDelete} className="btn btn-danger">削除</button>
+            <button type="submit" className="btn btn-primary text-xs px-4 py-1.5">
+              更新する
+            </button>
           </div>
         </div>
       </form>

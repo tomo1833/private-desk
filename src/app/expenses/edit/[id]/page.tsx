@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
 import type { Expense } from '@/types/expense';
 
 const ExpenseEditPage = () => {
@@ -81,80 +82,97 @@ const ExpenseEditPage = () => {
     }
   };
 
-  if (loading) return <div>読み込み中...</div>;
+  if (loading) return <div className="page-wrap p-8 text-center text-slate-300 card-basic">読み込み中...</div>;
 
   return (
-    <div className="card-form">
-      <div className="form-header">
-        <h1 className="form-title">支出編集</h1>
-        <p className="form-subtitle">支出情報の編集・更新を行います</p>
+    <div className="space-y-6 page-wrap max-w-2xl mx-auto">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+            <span>✏️</span> 支出情報編集
+          </h1>
+          <p className="text-xs text-slate-300 mt-1">支出データの編集・削除を行います</p>
+        </div>
+        <Link href="/expenses" className="btn btn-secondary text-xs">
+          ← 一覧に戻る
+        </Link>
       </div>
-      <form onSubmit={handleUpdate} className="space-y-6">
-        <div className="space-y-4 mb-6">
-          <label className="form-label">勘定科目</label>
-          <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="form-input" required />
+
+      <form onSubmit={handleUpdate} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="form-label text-xs">勘定科目 <span className="text-rose-400">*</span></label>
+            <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="form-input text-xs" required />
+          </div>
+          <div>
+            <label className="form-label text-xs">金額 (円) <span className="text-rose-400">*</span></label>
+            <input type="number" min="0" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} className="form-input text-xs font-mono" required />
+          </div>
         </div>
-        <div className="space-y-4 mb-6">
-          <label className="form-label">金額</label>
-          <input type="number" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} className="form-input" required />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="form-label text-xs">利用店舗・場所 <span className="text-rose-400">*</span></label>
+            <input value={form.shop} onChange={(e) => setForm({ ...form, shop: e.target.value })} className="form-input text-xs" required />
+          </div>
+          <div>
+            <label className="form-label text-xs">利用日 <span className="text-rose-400">*</span></label>
+            <input type="date" value={form.used_at} onChange={(e) => setForm({ ...form, used_at: e.target.value })} className="form-input text-xs font-mono" required />
+          </div>
         </div>
-        <div className="space-y-4 mb-6">
-          <label className="form-label">表示順</label>
-          <input
-            type="number"
-            min={0}
-            step={1}
-            value={form.display_order}
-            onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })}
-            className="form-input"
-          />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="form-label text-xs">利用者</label>
+            <input
+              value={form.used_by ?? ''}
+              onChange={(e) => setForm({ ...form, used_by: e.target.value })}
+              className="form-input text-xs"
+            />
+          </div>
+          <div>
+            <label className="form-label text-xs">表示順</label>
+            <input
+              type="number"
+              min={0}
+              step={1}
+              value={form.display_order}
+              onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })}
+              className="form-input text-xs font-mono"
+            />
+          </div>
         </div>
-        <div className="space-y-4 mb-6">
-          <label className="form-label">お店</label>
-          <input value={form.shop} onChange={(e) => setForm({ ...form, shop: e.target.value })} className="form-input" required />
-        </div>
-        <div className="space-y-4 mb-6">
-          <label className="form-label">利用者</label>
-          <input
-            value={form.used_by ?? ''}
-            onChange={(e) => setForm({ ...form, used_by: e.target.value })}
-            className="form-input"
-          />
-        </div>
-        <div className="space-y-4 mb-6">
-          <label className="form-label">商品名</label>
+
+        <div>
+          <label className="form-label text-xs">商品名・サービス詳細</label>
           <input
             value={form.product_name ?? ''}
             onChange={(e) => setForm({ ...form, product_name: e.target.value })}
-            className="form-input"
+            className="form-input text-xs"
           />
         </div>
-        <div className="space-y-4 mb-6">
-          <label className="form-label">備考</label>
+
+        <div>
+          <label className="form-label text-xs">備考・メモ</label>
           <textarea
             value={form.remark ?? ''}
             onChange={(e) => setForm({ ...form, remark: e.target.value })}
-            className="form-textarea min-h-24"
+            className="form-textarea text-xs min-h-24"
             rows={3}
           />
         </div>
-        <div className="space-y-4 mb-6">
-          <label className="form-label">使った日</label>
-          <input type="date" value={form.used_at} onChange={(e) => setForm({ ...form, used_at: e.target.value })} className="form-input" required />
-        </div>
-        <div className="flex justify-between gap-3 pt-6 border-t border-gray-200">
-          <div className="btn-group-left">
-            <button
-              type="button"
-              onClick={() => router.push('/expenses')}
-              className="btn btn-secondary"
-            >
-              キャンセル
+
+        <div className="flex justify-between items-center pt-4 border-t border-slate-700/80">
+          <Link href="/expenses" className="btn btn-secondary text-xs px-3.5 py-1.5">
+            キャンセル
+          </Link>
+          <div className="flex gap-2">
+            <button type="button" onClick={handleDelete} className="btn btn-danger text-xs px-3.5 py-1.5">
+              削除
             </button>
-          </div>
-          <div className="btn-group">
-            <button type="submit" className="btn btn-primary">更新</button>
-            <button type="button" onClick={handleDelete} className="btn btn-danger">削除</button>
+            <button type="submit" className="btn btn-primary text-xs px-4 py-1.5">
+              更新する
+            </button>
           </div>
         </div>
       </form>
