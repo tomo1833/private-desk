@@ -43,6 +43,7 @@ const SearchPage = () => {
   const q = params.get('q') || '';
   const [results, setResults] = useState<Results | null>(null);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     if (!q) return;
     const load = async () => {
@@ -58,99 +59,114 @@ const SearchPage = () => {
     load();
   }, [q]);
 
-  if (!q) return <div className="p-4 text-gray-700 dark:text-gray-300">検索ワードを入力してください。</div>;
-  if (error) return <div className="p-4 text-red-600 dark:text-red-400">{error}</div>;
-  if (!results) return <div className="p-4 text-gray-700 dark:text-gray-300">検索中...</div>;
+  if (!q) return <div className="page-wrap p-8 text-center text-slate-300 card-basic">検索ワードを入力してください。</div>;
+  if (error) return <div className="page-wrap p-8 text-center text-rose-400 card-basic">{error}</div>;
+  if (!results) return <div className="page-wrap p-8 text-center text-slate-300 card-basic">検索中...</div>;
 
   return (
-    <div className="page-wrap space-y-6">
-      <h1 className="text-2xl sm:text-3xl font-bold text-white">検索結果: {q}</h1>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">💻 ソフトウェア・サブスク</h2>
+    <div className="page-wrap space-y-8">
+      <div className="card-basic p-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+          🔍 検索結果: <span className="text-indigo-400">{q}</span>
+        </h1>
+      </div>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">💻 ソフトウェア・サブスク</h2>
         {results.subscriptions && results.subscriptions.length > 0 ? (
           <SubscriptionCards subscriptions={results.subscriptions} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">パスワード</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">🔐 パスワード</h2>
         {results.passwords.length > 0 ? (
           <PasswordCards passwords={results.passwords} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">Wiki</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">📌 Wiki</h2>
         {results.wikis.length > 0 ? (
           <WikiCards wikis={results.wikis} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">日報</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">📝 日報</h2>
         {results.diaries.length > 0 ? (
           <DiaryCards diaries={results.diaries} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">ブログ</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">📰 ブログ</h2>
         {results.blogs.length > 0 ? (
           <BlogCards blogs={results.blogs} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">アニメ記録</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">🎬 アニメ記録</h2>
         {results.animes.length > 0 ? (
           <AnimeCards animes={results.animes} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">本</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">📚 本</h2>
         {results.books.length > 0 ? (
           <BookCards books={results.books} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">映画</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">🎞 映画</h2>
         {results.movies.length > 0 ? (
           <MovieCards movies={results.movies} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">なろう小説</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">📖 なろう小説</h2>
         {results.narous.length > 0 ? (
           <NarouCards narous={results.narous} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">Udemy</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">🎓 Udemy</h2>
         {results.udemys.length > 0 ? (
           <UdemyCards udemys={results.udemys} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
-      <section>
-        <h2 className="font-semibold mb-2 text-gray-900 dark:text-white">音楽</h2>
+
+      <section className="space-y-3">
+        <h2 className="font-bold text-lg text-slate-100 flex items-center gap-2">🎵 音楽</h2>
         {results.musics.length > 0 ? (
           <MusicCards musics={results.musics} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">該当なし</p>
+          <p className="text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-xl border border-slate-800">該当なし</p>
         )}
       </section>
     </div>

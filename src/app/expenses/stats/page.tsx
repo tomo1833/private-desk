@@ -88,9 +88,9 @@ const ExpenseStatsPage = () => {
       {
         label: '金額',
         data: categoryData.map(d => d.total),
-        backgroundColor: 'rgba(59, 130, 246, 0.6)',
-        borderColor: 'rgb(37, 99, 235)',
-        borderWidth: 1,
+        backgroundColor: 'rgba(99, 102, 241, 0.7)',
+        borderColor: '#818cf8',
+        borderWidth: 1.5,
       },
     ],
   };
@@ -108,9 +108,9 @@ const ExpenseStatsPage = () => {
       {
         label: '月別支出合計',
         data: monthlyData.map(d => d.total),
-        backgroundColor: 'rgba(16, 185, 129, 0.6)',
-        borderColor: 'rgb(5, 150, 105)',
-        borderWidth: 1,
+        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+        borderColor: '#34d399',
+        borderWidth: 1.5,
       },
     ],
   };
@@ -120,90 +120,97 @@ const ExpenseStatsPage = () => {
   return (
     <div className="space-y-6 page-wrap">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">家計簿 集計・分析</h1>
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+            📊 家計簿 集計・分析
+          </h1>
+          <p className="text-xs text-slate-300 mt-1">カテゴリ別月次集計および年間支出推移グラフ</p>
+        </div>
         <Link href="/expenses" className="btn btn-secondary text-sm self-start sm:self-auto">
           ← 一覧に戻る
         </Link>
       </div>
 
       {/* タブ切り替え */}
-      <div className="flex border-b border-gray-200/30">
+      <div className="flex border-b border-slate-700/80 gap-2">
         <button
           onClick={() => setActiveTab('category')}
-          className={`py-2 px-4 font-medium text-sm border-b-2 transition-colors ${
+          className={`py-2.5 px-4 font-semibold text-sm border-b-2 transition-all cursor-pointer ${
             activeTab === 'category'
-              ? 'border-blue-400 text-white font-bold'
-              : 'border-transparent text-gray-300 hover:text-white'
+              ? 'border-indigo-500 text-indigo-400 bg-indigo-500/10 rounded-t-xl'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
-          月別カテゴリ集計
+          📅 月別カテゴリ集計
         </button>
         <button
           onClick={() => setActiveTab('monthly')}
-          className={`py-2 px-4 font-medium text-sm border-b-2 transition-colors ${
+          className={`py-2.5 px-4 font-semibold text-sm border-b-2 transition-all cursor-pointer ${
             activeTab === 'monthly'
-              ? 'border-blue-400 text-white font-bold'
-              : 'border-transparent text-gray-300 hover:text-white'
+              ? 'border-emerald-500 text-emerald-400 bg-emerald-500/10 rounded-t-xl'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
-          年間・月別推移
+          📈 年間・月別推移
         </button>
       </div>
 
       {/* カテゴリ別集計タブ */}
       {activeTab === 'category' && (
         <div className="space-y-6">
-          <div className="flex flex-wrap gap-4 items-center bg-white/90 dark:bg-gray-800/90 p-4 rounded-lg shadow-sm backdrop-blur-sm">
-            <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">対象月</label>
-              <input
-                type="month"
-                value={month}
-                onChange={e => setMonth(e.target.value)}
-                className="border border-gray-300 dark:border-gray-600 p-2 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-              />
+          <div className="card-basic p-4 flex flex-wrap gap-4 items-center justify-between">
+            <div className="flex flex-wrap items-center gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">対象月</label>
+                <input
+                  type="month"
+                  value={month}
+                  onChange={e => setMonth(e.target.value)}
+                  className="px-3 py-2 bg-slate-900 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">利用者</label>
+                <select
+                  value={user}
+                  onChange={e => setUser(e.target.value)}
+                  className="px-3 py-2 bg-slate-900 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="共有">共有</option>
+                  <option value="all">全員</option>
+                  {users.map(u => (
+                    <option key={u} value={u}>
+                      {u}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">利用者</label>
-              <select
-                value={user}
-                onChange={e => setUser(e.target.value)}
-                className="border border-gray-300 dark:border-gray-600 p-2 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-              >
-                <option value="共有">共有</option>
-                <option value="all">全員</option>
-                {users.map(u => (
-                  <option key={u} value={u}>
-                    {u}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="ml-auto text-right">
-              <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">月間合計額</div>
-              <div className="text-xl font-bold text-blue-600 dark:text-blue-400">
+            <div className="text-right">
+              <div className="text-xs text-slate-400 font-medium">月間合計額</div>
+              <div className="text-2xl font-bold text-indigo-400 font-mono">
                 ¥{categoryTotalSum.toLocaleString()}
               </div>
             </div>
           </div>
 
-          <div className="bg-white/95 dark:bg-gray-800/95 p-4 rounded-lg shadow-sm backdrop-blur-sm">
+          <div className="card-basic p-4">
             <Bar data={categoryChartData} options={{ responsive: true, plugins: { legend: { display: false } } }} />
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg overflow-hidden shadow-sm">
+          <div className="table-container">
+            <table className="table-basic">
               <thead>
-                <tr className="bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
-                  <th className="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-600">勘定科目</th>
-                  <th className="py-3 px-4 text-right border-b border-gray-200 dark:border-gray-600">合計金額</th>
-                  <th className="py-3 px-4 text-right border-b border-gray-200 dark:border-gray-600">構成比</th>
+                <tr>
+                  <th className="table-header">勘定科目</th>
+                  <th className="table-header text-right">合計金額</th>
+                  <th className="table-header text-right">構成比</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+              <tbody>
                 {categoryData.length === 0 ? (
                   <tr>
-                    <td colSpan={3} className="py-6 text-center text-gray-500 dark:text-gray-400">
+                    <td colSpan={3} className="table-cell text-center text-slate-400 py-6">
                       該当するデータがありません
                     </td>
                   </tr>
@@ -211,10 +218,10 @@ const ExpenseStatsPage = () => {
                   categoryData.map(d => {
                     const percentage = categoryTotalSum > 0 ? ((d.total / categoryTotalSum) * 100).toFixed(1) : '0';
                     return (
-                      <tr key={d.category} className="hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100">
-                        <td className="py-3 px-4">{d.category}</td>
-                        <td className="py-3 px-4 text-right font-medium">¥{d.total.toLocaleString()}</td>
-                        <td className="py-3 px-4 text-right text-gray-500 dark:text-gray-400">{percentage}%</td>
+                      <tr key={d.category} className="table-row">
+                        <td className="table-cell font-medium text-slate-200">{d.category}</td>
+                        <td className="table-cell text-right font-mono font-bold text-slate-100">¥{d.total.toLocaleString()}</td>
+                        <td className="table-cell text-right font-mono text-indigo-300">{percentage}%</td>
                       </tr>
                     );
                   })
@@ -222,10 +229,10 @@ const ExpenseStatsPage = () => {
               </tbody>
               {categoryData.length > 0 && (
                 <tfoot>
-                  <tr className="bg-gray-100 dark:bg-gray-700/80 font-bold text-gray-900 dark:text-white border-t-2 border-gray-300 dark:border-gray-500">
-                    <td className="py-3 px-4">合計</td>
-                    <td className="py-3 px-4 text-right text-blue-600 dark:text-blue-400">¥{categoryTotalSum.toLocaleString()}</td>
-                    <td className="py-3 px-4 text-right">100%</td>
+                  <tr className="bg-slate-900/90 font-bold text-white border-t border-slate-700">
+                    <td className="table-cell">合計</td>
+                    <td className="table-cell text-right font-mono text-indigo-400">¥{categoryTotalSum.toLocaleString()}</td>
+                    <td className="table-cell text-right font-mono">100%</td>
                   </tr>
                 </tfoot>
               )}
@@ -237,83 +244,85 @@ const ExpenseStatsPage = () => {
       {/* 年間・月別推移タブ */}
       {activeTab === 'monthly' && (
         <div className="space-y-6">
-          <div className="flex flex-wrap gap-4 items-center bg-white/90 dark:bg-gray-800/90 p-4 rounded-lg shadow-sm backdrop-blur-sm">
-            <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">対象年</label>
-              <select
-                value={year}
-                onChange={e => setYear(e.target.value)}
-                className="border border-gray-300 dark:border-gray-600 p-2 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-              >
-                {yearOptions.map(y => (
-                  <option key={y} value={y}>
-                    {y}年
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">利用者</label>
-              <select
-                value={user}
-                onChange={e => setUser(e.target.value)}
-                className="border border-gray-300 dark:border-gray-600 p-2 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-              >
-                <option value="共有">共有</option>
-                <option value="all">全員</option>
-                {users.map(u => (
-                  <option key={u} value={u}>
-                    {u}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="ml-auto flex gap-6 text-right">
+          <div className="card-basic p-4 flex flex-wrap gap-4 items-center justify-between">
+            <div className="flex flex-wrap items-center gap-3">
               <div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">年間合計</div>
-                <div className="text-xl font-bold text-green-600 dark:text-green-400">
+                <label className="block text-xs font-semibold text-slate-300 mb-1">対象年</label>
+                <select
+                  value={year}
+                  onChange={e => setYear(e.target.value)}
+                  className="px-3 py-2 bg-slate-900 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                >
+                  {yearOptions.map(y => (
+                    <option key={y} value={y}>
+                      {y}年
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">利用者</label>
+                <select
+                  value={user}
+                  onChange={e => setUser(e.target.value)}
+                  className="px-3 py-2 bg-slate-900 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                >
+                  <option value="共有">共有</option>
+                  <option value="all">全員</option>
+                  {users.map(u => (
+                    <option key={u} value={u}>
+                      {u}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="flex gap-6 text-right">
+              <div>
+                <div className="text-xs text-slate-400 font-medium">年間合計</div>
+                <div className="text-2xl font-bold text-emerald-400 font-mono">
                   ¥{monthlyTotalSum.toLocaleString()}
                 </div>
               </div>
               <div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">月平均</div>
-                <div className="text-xl font-bold text-gray-800 dark:text-gray-200">
+                <div className="text-xs text-slate-400 font-medium">月平均</div>
+                <div className="text-2xl font-bold text-slate-200 font-mono">
                   ¥{monthlyAverage.toLocaleString()}
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white/95 dark:bg-gray-800/95 p-4 rounded-lg shadow-sm backdrop-blur-sm">
+          <div className="card-basic p-4">
             <Bar data={monthlyChartData} options={{ responsive: true, plugins: { legend: { display: false } } }} />
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg overflow-hidden shadow-sm">
+          <div className="table-container">
+            <table className="table-basic">
               <thead>
-                <tr className="bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
-                  <th className="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-600">年月</th>
-                  <th className="py-3 px-4 text-right border-b border-gray-200 dark:border-gray-600">件数</th>
-                  <th className="py-3 px-4 text-right border-b border-gray-200 dark:border-gray-600">月間合計</th>
+                <tr>
+                  <th className="table-header">年月</th>
+                  <th className="table-header text-right">件数</th>
+                  <th className="table-header text-right">月間合計</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+              <tbody>
                 {monthlyData.map(d => {
                   const [y, m] = d.month.split('-');
                   return (
-                    <tr key={d.month} className="hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100">
-                      <td className="py-3 px-4 font-medium">{y}年{m}月</td>
-                      <td className="py-3 px-4 text-right text-gray-500 dark:text-gray-400">{d.count} 件</td>
-                      <td className="py-3 px-4 text-right font-medium">¥{d.total.toLocaleString()}</td>
+                    <tr key={d.month} className="table-row">
+                      <td className="table-cell font-medium text-slate-200 font-mono">{y}年{m}月</td>
+                      <td className="table-cell text-right font-mono text-slate-300">{d.count} 件</td>
+                      <td className="table-cell text-right font-mono font-bold text-emerald-300">¥{d.total.toLocaleString()}</td>
                     </tr>
                   );
                 })}
               </tbody>
               <tfoot>
-                <tr className="bg-gray-100 dark:bg-gray-700/80 font-bold text-gray-900 dark:text-white border-t-2 border-gray-300 dark:border-gray-500">
-                  <td className="py-3 px-4">年間合計 ({monthlyTotalCount} 件)</td>
-                  <td className="py-3 px-4 text-right text-gray-500 dark:text-gray-400">{monthlyTotalCount} 件</td>
-                  <td className="py-3 px-4 text-right text-green-600 dark:text-green-400">¥{monthlyTotalSum.toLocaleString()}</td>
+                <tr className="bg-slate-900/90 font-bold text-white border-t border-slate-700">
+                  <td className="table-cell">年間合計 ({monthlyTotalCount} 件)</td>
+                  <td className="table-cell text-right font-mono text-slate-300">{monthlyTotalCount} 件</td>
+                  <td className="table-cell text-right font-mono text-emerald-400">¥{monthlyTotalSum.toLocaleString()}</td>
                 </tr>
               </tfoot>
             </table>
