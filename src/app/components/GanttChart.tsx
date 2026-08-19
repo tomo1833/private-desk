@@ -212,30 +212,30 @@ const GanttChart = ({ projectId, tasks, onUpdate }: GanttChartProps) => {
               </h3>
               <form onSubmit={handleSubmit} className="space-y-3">
                  <div>
-                    <label className="form-label text-xs">タイトル</label>
-                    <input name="title" defaultValue={editingTask?.title} className="form-input text-xs" required />
+                    <label className="form-label">タイトル</label>
+                    <input name="title" defaultValue={editingTask?.title} className="form-input" required />
                  </div>
                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                       <label className="form-label text-xs">開始日</label>
-                       <input name="startDate" type="date" defaultValue={editingTask?.startDate ? format(new Date(editingTask.startDate), 'yyyy-MM-dd') : ''} className="form-input text-xs font-mono" />
+                       <label className="form-label">開始日</label>
+                       <input name="startDate" type="date" defaultValue={editingTask?.startDate ? format(new Date(editingTask.startDate), 'yyyy-MM-dd') : ''} className="form-input font-mono" />
                     </div>
                     <div>
-                       <label className="form-label text-xs">終了日</label>
-                       <input name="endDate" type="date" defaultValue={editingTask?.endDate ? format(new Date(editingTask.endDate), 'yyyy-MM-dd') : ''} className="form-input text-xs font-mono" />
+                       <label className="form-label">終了日</label>
+                       <input name="endDate" type="date" defaultValue={editingTask?.endDate ? format(new Date(editingTask.endDate), 'yyyy-MM-dd') : ''} className="form-input font-mono" />
                     </div>
                  </div>
                  <div>
-                    <label className="form-label text-xs">進捗 (%)</label>
-                    <input name="progress" type="number" min="0" max="100" defaultValue={editingTask?.progress || 0} className="form-input text-xs font-mono" />
+                    <label className="form-label">進捗 (%)</label>
+                    <input name="progress" type="number" min="0" max="100" defaultValue={editingTask?.progress || 0} className="form-input font-mono" />
                  </div>
                  <div>
-                    <label className="form-label text-xs">メモ</label>
-                    <textarea name="description" defaultValue={editingTask?.description || ''} className="form-textarea text-xs h-20" />
+                    <label className="form-label">メモ</label>
+                    <textarea name="description" defaultValue={editingTask?.description || ''} className="form-textarea h-20" />
                  </div>
                  <div className="flex justify-end gap-2 pt-3 border-t border-slate-700/80">
-                    <button type="button" onClick={() => setIsModalOpen(false)} className="btn btn-secondary text-xs px-3.5 py-1.5">キャンセル</button>
-                    <button type="submit" className="btn btn-primary text-xs px-4 py-1.5">保存</button>
+                    <button type="button" onClick={() => setIsModalOpen(false)} className="btn btn-secondary text-sm px-3.5 py-1.5">キャンセル</button>
+                    <button type="submit" className="btn btn-primary text-sm px-4 py-1.5">保存</button>
                  </div>
               </form>
            </div>

@@ -71,25 +71,25 @@ const MusicEditPage = () => {
 
       <form onSubmit={handleUpdate} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
         <div>
-          <label className="form-label text-xs">タイトル <span className="text-rose-400">*</span></label>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input text-xs" required />
+          <label className="form-label">タイトル <span className="text-rose-400">*</span></label>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input" required />
         </div>
 
         <div>
-          <label className="form-label text-xs">表示順</label>
+          <label className="form-label">表示順</label>
           <input
             type="number"
             min={0}
             step={1}
             value={displayOrder}
             onChange={(e) => setDisplayOrder(Number(e.target.value))}
-            className="form-input text-xs font-mono"
+            className="form-input font-mono"
           />
         </div>
 
         <div>
-          <label className="form-label text-xs">感想・レビュー (Markdown対応) <span className="text-rose-400">*</span></label>
-          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="form-textarea text-xs min-h-36" rows={6} required />
+          <label className="form-label">感想・レビュー (Markdown対応) <span className="text-rose-400">*</span></label>
+          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="form-textarea min-h-36" rows={6} required />
         </div>
 
         <div className="flex justify-between items-center pt-4 border-t border-slate-700/80">

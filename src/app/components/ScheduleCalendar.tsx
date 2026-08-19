@@ -294,18 +294,18 @@ const ScheduleCalendar = () => {
               </div>
 
               <div>
-                <label className="form-label text-xs">メモ</label>
+                <label className="form-label">メモ</label>
                 <textarea
                   value={form.memo}
                   onChange={(e) => setForm({ ...form, memo: e.target.value })}
                   placeholder="メモ・補足情報..."
                   rows={3}
-                  className="form-textarea text-xs"
+                  className="form-textarea"
                 />
               </div>
 
               <div>
-                <label className="form-label text-xs">表示順</label>
+                <label className="form-label">表示順</label>
                 <input
                   type="number"
                   min={0}
@@ -314,7 +314,7 @@ const ScheduleCalendar = () => {
                   onChange={(e) =>
                     setForm({ ...form, display_order: Number(e.target.value) })
                   }
-                  className="form-input font-mono text-xs"
+                  className="form-input font-mono"
                 />
               </div>
 

@@ -110,16 +110,16 @@ const ProjectDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
               </h2>
               <form onSubmit={handleUpdateProject} className="space-y-4">
                  <div>
-                    <label className="form-label text-xs">名前</label>
-                    <input name="name" defaultValue={project.name} className="form-input text-xs" required />
+                    <label className="form-label">名前</label>
+                    <input name="name" defaultValue={project.name} className="form-input" required />
                  </div>
                  <div>
-                    <label className="form-label text-xs">説明</label>
-                    <textarea name="description" defaultValue={project.description || ''} className="form-textarea text-xs h-24" />
+                    <label className="form-label">説明</label>
+                    <textarea name="description" defaultValue={project.description || ''} className="form-textarea h-24" />
                  </div>
                  <div>
-                    <label className="form-label text-xs">ステータス</label>
-                    <select name="status" defaultValue={project.status} className="form-input text-xs">
+                    <label className="form-label">ステータス</label>
+                    <select name="status" defaultValue={project.status} className="form-input">
                        <option value="Active">進行中</option>
                        <option value="Completed">完了</option>
                        <option value="On Hold">保留</option>

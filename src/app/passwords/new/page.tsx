@@ -60,24 +60,24 @@ const AddPasswordPage: React.FC = () => {
             <form onSubmit={handleSubmit} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label className="form-label text-xs">サイト名 <span className="text-rose-400">*</span></label>
+                        <label className="form-label">サイト名 <span className="text-rose-400">*</span></label>
                         <input
                             type="text"
                             name="site_name"
                             value={formData.site_name}
-                            className="form-input text-xs"
+                            className="form-input"
                             onChange={handleChange}
                             placeholder="例: Amazon, GitHub, Google"
                             required
                         />
                     </div>
                     <div>
-                        <label className="form-label text-xs">カテゴリ</label>
+                        <label className="form-label">カテゴリ</label>
                         <input
                             type="text"
                             name="category"
                             value={formData.category}
-                            className="form-input text-xs"
+                            className="form-input"
                             onChange={handleChange}
                             placeholder="例: EC, 開発ツール, 銀行"
                         />
@@ -85,12 +85,12 @@ const AddPasswordPage: React.FC = () => {
                 </div>
 
                 <div>
-                    <label className="form-label text-xs">サイトURL <span className="text-rose-400">*</span></label>
+                    <label className="form-label">サイトURL <span className="text-rose-400">*</span></label>
                     <input
                         type="text"
                         name="site_url"
                         value={formData.site_url}
-                        className="form-input text-xs font-mono"
+                        className="form-input font-mono"
                         onChange={handleChange}
                         placeholder="https://example.com"
                         required
@@ -99,23 +99,23 @@ const AddPasswordPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label className="form-label text-xs">ログインID / ユーザー名</label>
+                        <label className="form-label">ログインID / ユーザー名</label>
                         <input
                             type="text"
                             name="login_id"
                             value={formData.login_id}
-                            className="form-input text-xs font-mono"
+                            className="form-input font-mono"
                             onChange={handleChange}
                             placeholder="user_id"
                         />
                     </div>
                     <div>
-                        <label className="form-label text-xs">メールアドレス</label>
+                        <label className="form-label">メールアドレス</label>
                         <input
                             type="email"
                             name="email"
                             value={formData.email}
-                            className="form-input text-xs font-mono"
+                            className="form-input font-mono"
                             onChange={handleChange}
                             placeholder="user@example.com"
                         />
@@ -124,36 +124,36 @@ const AddPasswordPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label className="form-label text-xs">パスワード <span className="text-rose-400">*</span></label>
+                        <label className="form-label">パスワード <span className="text-rose-400">*</span></label>
                         <input
                             type="text"
                             name="password"
                             value={formData.password}
-                            className="form-input text-xs font-mono"
+                            className="form-input font-mono"
                             onChange={handleChange}
                             required
                         />
                     </div>
                     <div>
-                        <label className="form-label text-xs">表示順</label>
+                        <label className="form-label">表示順</label>
                         <input
                             type="number"
                             min={0}
                             step={1}
                             name="display_order"
                             value={formData.display_order}
-                            className="form-input text-xs font-mono"
+                            className="form-input font-mono"
                             onChange={handleChange}
                         />
                     </div>
                 </div>
 
                 <div>
-                    <label className="form-label text-xs">メモ・注意事項</label>
+                    <label className="form-label">メモ・注意事項</label>
                     <textarea
                         name="memo"
                         value={formData.memo}
-                        className="form-textarea text-xs min-h-24"
+                        className="form-textarea min-h-24"
                         onChange={handleChange}
                         placeholder="2段階認証コードや秘密の質問など..."
                     ></textarea>

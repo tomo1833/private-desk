@@ -54,60 +54,60 @@ const NewExpensePage = () => {
       <form onSubmit={handleSubmit} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="form-label text-xs">勘定科目 <span className="text-rose-400">*</span></label>
-            <input value={category} onChange={(e) => setCategory(e.target.value)} className="form-input text-xs" required placeholder="例: 食費, 日用品, 交通費" />
+            <label className="form-label">勘定科目 <span className="text-rose-400">*</span></label>
+            <input value={category} onChange={(e) => setCategory(e.target.value)} className="form-input" required placeholder="例: 食費, 日用品, 交通費" />
           </div>
           <div>
-            <label className="form-label text-xs">金額 (円) <span className="text-rose-400">*</span></label>
-            <input type="number" min="0" value={amount} onChange={(e) => setAmount(e.target.value)} className="form-input text-xs font-mono" required placeholder="0" />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="form-label text-xs">利用店舗・場所 <span className="text-rose-400">*</span></label>
-            <input value={shop} onChange={(e) => setShop(e.target.value)} className="form-input text-xs" required placeholder="例: セブンイレブン, Amazon" />
-          </div>
-          <div>
-            <label className="form-label text-xs">利用日 <span className="text-rose-400">*</span></label>
-            <input type="date" value={usedAt} onChange={(e) => setUsedAt(e.target.value)} className="form-input text-xs font-mono" required />
+            <label className="form-label">金額 (円) <span className="text-rose-400">*</span></label>
+            <input type="number" min="0" value={amount} onChange={(e) => setAmount(e.target.value)} className="form-input font-mono" required placeholder="0" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="form-label text-xs">利用者</label>
-            <input value={usedBy} onChange={(e) => setUsedBy(e.target.value)} className="form-input text-xs" placeholder="例: 自分, 家族" />
+            <label className="form-label">利用店舗・場所 <span className="text-rose-400">*</span></label>
+            <input value={shop} onChange={(e) => setShop(e.target.value)} className="form-input" required placeholder="例: セブンイレブン, Amazon" />
           </div>
           <div>
-            <label className="form-label text-xs">表示順</label>
+            <label className="form-label">利用日 <span className="text-rose-400">*</span></label>
+            <input type="date" value={usedAt} onChange={(e) => setUsedAt(e.target.value)} className="form-input font-mono" required />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="form-label">利用者</label>
+            <input value={usedBy} onChange={(e) => setUsedBy(e.target.value)} className="form-input" placeholder="例: 自分, 家族" />
+          </div>
+          <div>
+            <label className="form-label">表示順</label>
             <input
               type="number"
               min={0}
               step={1}
               value={displayOrder}
               onChange={(e) => setDisplayOrder(Number(e.target.value))}
-              className="form-input text-xs font-mono"
+              className="form-input font-mono"
             />
           </div>
         </div>
 
         <div>
-          <label className="form-label text-xs">商品名・サービス詳細</label>
+          <label className="form-label">商品名・サービス詳細</label>
           <input
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
-            className="form-input text-xs"
+            className="form-input"
             placeholder="例: ランチ代, キーボード購入"
           />
         </div>
 
         <div>
-          <label className="form-label text-xs">備考・メモ</label>
+          <label className="form-label">備考・メモ</label>
           <textarea
             value={remark}
             onChange={(e) => setRemark(e.target.value)}
-            className="form-textarea text-xs min-h-24"
+            className="form-textarea min-h-24"
             rows={3}
             placeholder="その他のメモや経費区分の記録..."
           />

@@ -39,25 +39,25 @@ const NewUdemyPage = () => {
 
       <form onSubmit={handleSubmit} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
         <div>
-          <label className="form-label text-xs">講座名 <span className="text-rose-400">*</span></label>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input text-xs" required placeholder="Udemy講座タイトルを入力..." />
+          <label className="form-label">講座名 <span className="text-rose-400">*</span></label>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} className="form-input" required placeholder="Udemy講座タイトルを入力..." />
         </div>
 
         <div>
-          <label className="form-label text-xs">表示順</label>
+          <label className="form-label">表示順</label>
           <input
             type="number"
             min={0}
             step={1}
             value={displayOrder}
             onChange={(e) => setDisplayOrder(Number(e.target.value))}
-            className="form-input text-xs font-mono"
+            className="form-input font-mono"
           />
         </div>
 
         <div>
-          <label className="form-label text-xs">学習メモ・要点 (Markdown対応) <span className="text-rose-400">*</span></label>
-          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="form-textarea text-xs min-h-36" rows={6} required placeholder="学びや実装コード、メモを記録..." />
+          <label className="form-label">学習メモ・要点 (Markdown対応) <span className="text-rose-400">*</span></label>
+          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="form-textarea min-h-36" rows={6} required placeholder="講座で学んだメモや重要事項を記録..." />
         </div>
 
         <div className="flex justify-end gap-2 pt-4 border-t border-slate-700/80">

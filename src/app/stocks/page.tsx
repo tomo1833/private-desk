@@ -393,7 +393,7 @@ export default function StockPortfolioPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="stock-code" className="form-label text-xs">
+                  <label htmlFor="stock-code" className="form-label">
                     銘柄コード <span className="text-rose-400">*</span>
                   </label>
                   <input
@@ -403,19 +403,19 @@ export default function StockPortfolioPage() {
                     value={form.code}
                     onChange={(e) => setForm({ ...form, code: e.target.value })}
                     required
-                    className="form-input font-mono text-xs"
+                    className="form-input font-mono"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="stock-market" className="form-label text-xs">
+                  <label htmlFor="stock-market" className="form-label">
                     市場区分
                   </label>
                   <select
                     id="stock-market"
                     value={form.market}
                     onChange={(e) => setForm({ ...form, market: e.target.value })}
-                    className="form-input text-xs"
+                    className="form-input"
                   >
                     {MARKET_OPTIONS.map((m) => (
                       <option key={m} value={m}>
@@ -427,7 +427,7 @@ export default function StockPortfolioPage() {
               </div>
 
               <div>
-                <label htmlFor="stock-name" className="form-label text-xs">
+                <label htmlFor="stock-name" className="form-label">
                   銘柄名 <span className="text-rose-400">*</span>
                 </label>
                 <input
@@ -437,13 +437,13 @@ export default function StockPortfolioPage() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                  className="form-input text-xs"
+                  className="form-input"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="stock-shares" className="form-label text-xs">
+                  <label htmlFor="stock-shares" className="form-label">
                     保有株数 (株)
                   </label>
                   <input
@@ -454,12 +454,12 @@ export default function StockPortfolioPage() {
                     placeholder="100"
                     value={form.shares}
                     onChange={(e) => setForm({ ...form, shares: e.target.value })}
-                    className="form-input font-mono text-xs"
+                    className="form-input font-mono"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="stock-acq-price" className="form-label text-xs">
+                  <label htmlFor="stock-acq-price" className="form-label">
                     平均取得単価 (円)
                   </label>
                   <input
@@ -470,14 +470,14 @@ export default function StockPortfolioPage() {
                     placeholder="2500"
                     value={form.acquisition_price}
                     onChange={(e) => setForm({ ...form, acquisition_price: e.target.value })}
-                    className="form-input font-mono text-xs"
+                    className="form-input font-mono"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="stock-cur-price" className="form-label text-xs">
+                  <label htmlFor="stock-cur-price" className="form-label">
                     現在株価 (円)
                   </label>
                   <input
@@ -488,12 +488,12 @@ export default function StockPortfolioPage() {
                     placeholder="2700"
                     value={form.current_price}
                     onChange={(e) => setForm({ ...form, current_price: e.target.value })}
-                    className="form-input font-mono text-xs"
+                    className="form-input font-mono"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="stock-div" className="form-label text-xs">
+                  <label htmlFor="stock-div" className="form-label">
                     予想1株配当金 (円/年)
                   </label>
                   <input
@@ -504,13 +504,13 @@ export default function StockPortfolioPage() {
                     placeholder="90"
                     value={form.dividend_per_share}
                     onChange={(e) => setForm({ ...form, dividend_per_share: e.target.value })}
-                    className="form-input font-mono text-xs"
+                    className="form-input font-mono"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="stock-memo" className="form-label text-xs">
+                <label htmlFor="stock-memo" className="form-label">
                   メモ (購入理由や戦略など)
                 </label>
                 <textarea
@@ -518,7 +518,8 @@ export default function StockPortfolioPage() {
                   rows={2}
                   value={form.memo}
                   onChange={(e) => setForm({ ...form, memo: e.target.value })}
-                  className="form-textarea text-xs"
+                  placeholder="配当重視、長期保有..."
+                  className="form-textarea"
                 />
               </div>
 

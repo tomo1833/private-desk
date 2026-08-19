@@ -106,89 +106,89 @@ const UpdatePasswordPage = () => {
       <form onSubmit={handleUpdate} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="form-label text-xs">サイト名 <span className="text-rose-400">*</span></label>
+            <label className="form-label">サイト名 <span className="text-rose-400">*</span></label>
             <input
               type="text"
               value={siteName}
               onChange={(e) => setSiteName(e.target.value)}
-              className="form-input text-xs"
+              className="form-input"
               required
             />
           </div>
           <div>
-            <label className="form-label text-xs">カテゴリ</label>
+            <label className="form-label">カテゴリ</label>
             <input
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="form-input text-xs"
+              className="form-input"
               placeholder="例: SNS, 銀行, ショッピング"
             />
           </div>
         </div>
 
         <div>
-          <label className="form-label text-xs">サイトURL <span className="text-rose-400">*</span></label>
+          <label className="form-label">サイトURL <span className="text-rose-400">*</span></label>
           <input
             type="text"
             value={siteUrl}
             onChange={(e) => setSiteUrl(e.target.value)}
-            className="form-input text-xs font-mono"
+            className="form-input font-mono"
             required
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="form-label text-xs">ログインID / ユーザー名</label>
+            <label className="form-label">ログインID / ユーザー名</label>
             <input
               type="text"
               value={loginId}
               onChange={(e) => setLoginId(e.target.value)}
-              className="form-input text-xs font-mono"
+              className="form-input font-mono"
             />
           </div>
           <div>
-            <label className="form-label text-xs">メールアドレス</label>
+            <label className="form-label">メールアドレス</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="form-input text-xs font-mono"
+              className="form-input font-mono"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="form-label text-xs">パスワード <span className="text-rose-400">*</span></label>
+            <label className="form-label">パスワード <span className="text-rose-400">*</span></label>
             <input
               type="text"
               value={pass}
               onChange={(e) => setPass(e.target.value)}
-              className="form-input text-xs font-mono"
+              className="form-input font-mono"
               required
             />
           </div>
           <div>
-            <label className="form-label text-xs">表示順</label>
+            <label className="form-label">表示順</label>
             <input
               type="number"
               min={0}
               step={1}
               value={displayOrder}
               onChange={(e) => setDisplayOrder(Number(e.target.value))}
-              className="form-input text-xs font-mono"
+              className="form-input font-mono"
             />
           </div>
         </div>
 
         <div>
-          <label className="form-label text-xs">メモ・注意事項</label>
+          <label className="form-label">メモ・注意事項</label>
           <textarea
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
-            className="form-textarea text-xs min-h-24"
+            className="form-textarea min-h-24"
             rows={4}
           />
         </div>

@@ -101,63 +101,63 @@ const ExpenseEditPage = () => {
       <form onSubmit={handleUpdate} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="form-label text-xs">勘定科目 <span className="text-rose-400">*</span></label>
-            <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="form-input text-xs" required />
+            <label className="form-label">勘定科目 <span className="text-rose-400">*</span></label>
+            <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="form-input" required />
           </div>
           <div>
-            <label className="form-label text-xs">金額 (円) <span className="text-rose-400">*</span></label>
-            <input type="number" min="0" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} className="form-input text-xs font-mono" required />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="form-label text-xs">利用店舗・場所 <span className="text-rose-400">*</span></label>
-            <input value={form.shop} onChange={(e) => setForm({ ...form, shop: e.target.value })} className="form-input text-xs" required />
-          </div>
-          <div>
-            <label className="form-label text-xs">利用日 <span className="text-rose-400">*</span></label>
-            <input type="date" value={form.used_at} onChange={(e) => setForm({ ...form, used_at: e.target.value })} className="form-input text-xs font-mono" required />
+            <label className="form-label">金額 (円) <span className="text-rose-400">*</span></label>
+            <input type="number" min="0" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} className="form-input font-mono" required />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="form-label text-xs">利用者</label>
+            <label className="form-label">利用店舗・場所 <span className="text-rose-400">*</span></label>
+            <input value={form.shop} onChange={(e) => setForm({ ...form, shop: e.target.value })} className="form-input" required />
+          </div>
+          <div>
+            <label className="form-label">利用日 <span className="text-rose-400">*</span></label>
+            <input type="date" value={form.used_at} onChange={(e) => setForm({ ...form, used_at: e.target.value })} className="form-input font-mono" required />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="form-label">利用者</label>
             <input
               value={form.used_by ?? ''}
               onChange={(e) => setForm({ ...form, used_by: e.target.value })}
-              className="form-input text-xs"
+              className="form-input"
             />
           </div>
           <div>
-            <label className="form-label text-xs">表示順</label>
+            <label className="form-label">表示順</label>
             <input
               type="number"
               min={0}
               step={1}
               value={form.display_order}
               onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })}
-              className="form-input text-xs font-mono"
+              className="form-input font-mono"
             />
           </div>
         </div>
 
         <div>
-          <label className="form-label text-xs">商品名・サービス詳細</label>
+          <label className="form-label">商品名・サービス詳細</label>
           <input
             value={form.product_name ?? ''}
             onChange={(e) => setForm({ ...form, product_name: e.target.value })}
-            className="form-input text-xs"
+            className="form-input"
           />
         </div>
 
         <div>
-          <label className="form-label text-xs">備考・メモ</label>
+          <label className="form-label">備考・メモ</label>
           <textarea
             value={form.remark ?? ''}
             onChange={(e) => setForm({ ...form, remark: e.target.value })}
-            className="form-textarea text-xs min-h-24"
+            className="form-textarea min-h-24"
             rows={3}
           />
         </div>

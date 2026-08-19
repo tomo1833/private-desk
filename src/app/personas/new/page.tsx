@@ -39,26 +39,26 @@ const NewPersonaPage = () => {
 
       <form onSubmit={handleSubmit} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
         <div>
-          <label className="form-label text-xs">ペルソナ名 <span className="text-rose-400">*</span></label>
-          <input value={name} onChange={(e) => setName(e.target.value)} className="form-input text-xs" required placeholder="例: Web技術ライター / 読書家エンジニア" />
+          <label className="form-label">ペルソナ名 <span className="text-rose-400">*</span></label>
+          <input value={name} onChange={(e) => setName(e.target.value)} className="form-input" required placeholder="例: Web技術ライター / 読書家エンジニア" />
         </div>
 
         <div>
-          <label className="form-label text-xs">表示順</label>
+          <label className="form-label">表示順</label>
           <input
             type="number"
             min={0}
             step={1}
             value={displayOrder}
             onChange={(e) => setDisplayOrder(Number(e.target.value))}
-            className="form-input text-xs font-mono"
+            className="form-input font-mono"
           />
         </div>
 
         <div>
-          <label className="form-label text-xs">詳細・ターゲット層 / キャラクター定義</label>
+          <label className="form-label">詳細・ターゲット層 / キャラクター定義</label>
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} 
-          className="form-textarea text-xs min-h-28" rows={4} placeholder="文章トーンや読者ターゲットなど..." />
+          className="form-textarea min-h-28" rows={4} placeholder="文章トーンや読者ターゲットなど..." />
         </div>
 
         <div className="flex justify-end gap-2 pt-4 border-t border-slate-700/80">

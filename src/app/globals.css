@@ -210,17 +210,21 @@ body > * {
   right: 14px;
 }
 
-/* Base form styles - Unified High Contrast */
+/* Base form styles - Unified High Contrast & High Visibility */
 .form-input {
-  @apply w-full px-4 py-2.5 bg-slate-900/95 border border-slate-700/90 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-400 transition-all shadow-inner;
+  @apply w-full px-4 py-2.5 bg-slate-900/95 border border-slate-700/90 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-400 transition-all shadow-inner text-base;
 }
 
 .form-textarea {
-  @apply w-full px-4 py-3 bg-slate-900/95 border border-slate-700/90 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-400 transition-all resize-y shadow-inner;
+  @apply w-full px-4 py-3 bg-slate-900/95 border border-slate-700/90 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-400 transition-all resize-y shadow-inner text-base;
+}
+
+.form-select {
+  @apply w-full px-4 py-2.5 bg-slate-900/95 border border-slate-700/90 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-400 transition-all shadow-inner text-base;
 }
 
 .form-label {
-  @apply block text-slate-100 font-semibold mb-2 text-sm tracking-wide;
+  @apply block text-slate-100 font-semibold mb-2 text-base tracking-wide;
 }
 
 /* Global Form Element Contrast & Visibility Rules */
@@ -232,11 +236,14 @@ input[type="date"],
 input[type="datetime-local"],
 input[type="month"],
 input[type="search"],
+input[type="url"],
+input:not([type]),
 textarea,
 select {
   color: #ffffff !important;
   background-color: rgba(15, 23, 42, 0.95) !important;
   border-color: rgba(71, 85, 105, 0.9) !important;
+  font-size: 1rem;
 }
 
 input[type="text"]::placeholder,
@@ -252,6 +259,58 @@ textarea::placeholder {
 select option {
   background-color: #0f172a !important;
   color: #ffffff !important;
+  font-size: 1rem;
+}
+
+/* Responsive scaling for WQHD (2560x1440) and high-resolution displays */
+@media (min-width: 1920px) {
+  .form-input,
+  .form-textarea,
+  .form-select,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="month"],
+  input[type="search"],
+  input[type="url"],
+  input:not([type]),
+  textarea,
+  select {
+    font-size: 1.125rem !important; /* 18px */
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+  .form-label {
+    font-size: 1.125rem !important; /* 18px */
+  }
+}
+
+@media (min-width: 2560px) {
+  .form-input,
+  .form-textarea,
+  .form-select,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="month"],
+  input[type="search"],
+  input[type="url"],
+  input:not([type]),
+  textarea,
+  select {
+    font-size: 1.25rem !important; /* 20px */
+    padding-top: 0.875rem !important;
+    padding-bottom: 0.875rem !important;
+  }
+  .form-label {
+    font-size: 1.25rem !important; /* 20px */
+  }
 }
 
 /* FullCalendar Ultra High-Contrast Custom Theme */
