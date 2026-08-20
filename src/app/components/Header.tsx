@@ -121,6 +121,7 @@ const Header = () => {
             <div className="grid grid-cols-2 gap-2">
               <Link href="/passwords" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🔐 パスワード</Link>
               <Link href="/expenses" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>💰 家計簿</Link>
+              <Link href="/wishlists" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🎁 ほしいもの</Link>
               <Link href="/stocks" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>📈 日本株</Link>
               <Link href="/subscriptions" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>💻 サブスク</Link>
               <Link href="/files" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>📁 ファイル</Link>

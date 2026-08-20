@@ -11,6 +11,7 @@ import type { Narou } from '@/types/narou';
 import type { Udemy } from '@/types/udemy';
 import type { Music } from '@/types/music';
 import type { Subscription } from '@/types/subscription';
+import type { WishlistItem } from '@/types/wishlist';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -20,7 +21,7 @@ export async function GET(req: Request) {
   }
   const like = `%${q}%`;
   try {
-    const [passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys, musics, subscriptions] = await Promise.all([
+    const [passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys, musics, subscriptions, wishlists] = await Promise.all([
       runSelect<Password>(
         'SELECT * FROM password_manager WHERE site_name LIKE ? OR site_url LIKE ? OR login_id LIKE ? OR email LIKE ? OR memo LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
         [like, like, like, like, like]
@@ -65,10 +66,15 @@ export async function GET(req: Request) {
         'SELECT * FROM subscriptions WHERE name LIKE ? OR memo LIKE ? OR account_email LIKE ? OR license_key LIKE ? OR url LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
         [like, like, like, like, like]
       ),
+      runSelect<WishlistItem>(
+        'SELECT * FROM wishlists WHERE title LIKE ? OR category LIKE ? OR memo LIKE ? OR url LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
+        [like, like, like, like]
+      ),
     ]);
-    return NextResponse.json({ passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys, musics, subscriptions });
+    return NextResponse.json({ passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys, musics, subscriptions, wishlists });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: '検索失敗' }, { status: 500 });
   }
 }
+

@@ -34,6 +34,7 @@ const MEDIA_FEATURES: FeatureCard[] = [
 const MANAGEMENT_FEATURES: FeatureCard[] = [
   { href: '/passwords', icon: '🔐', name: 'パスワード', desc: '資格情報・ログイン管理', gradient: 'from-emerald-500/20 to-teal-500/20', borderGlow: 'hover:border-emerald-500/40' },
   { href: '/expenses', icon: '💰', name: '家計簿', desc: '支出管理・統計グラフ', gradient: 'from-teal-500/20 to-cyan-500/20', borderGlow: 'hover:border-teal-500/40' },
+  { href: '/wishlists', icon: '🎁', name: 'ほしいもの', desc: '買いたい物・優先度・見積', gradient: 'from-pink-500/20 to-rose-500/20', borderGlow: 'hover:border-pink-500/40' },
   { href: '/stocks', icon: '📈', name: '日本株', desc: '株価ポートフォリオ', gradient: 'from-sky-500/20 to-indigo-500/20', borderGlow: 'hover:border-sky-500/40' },
   { href: '/subscriptions', icon: '💻', name: 'サブスク・ソフト', desc: '月額サービス・ライセンス', gradient: 'from-indigo-500/20 to-blue-500/20', borderGlow: 'hover:border-indigo-500/40' },
   { href: '/files', icon: '📁', name: 'ファイル', desc: 'ドキュメント・添付管理', gradient: 'from-blue-500/20 to-cyan-500/20', borderGlow: 'hover:border-blue-500/40' },
@@ -179,7 +180,7 @@ const MainPage = () => {
             <span className="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
             その他の機能
           </h2>
-          <span className="text-xs text-slate-400 hidden sm:inline">全18機能</span>
+          <span className="text-xs text-slate-400 hidden sm:inline">全19機能</span>
         </div>
 
         {/* カテゴリ1: 記録 & ナレッジ */}
