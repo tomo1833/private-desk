@@ -202,7 +202,7 @@ const BlogEditPage = () => {
             />
             <div
               id="blogger-preview"
-              className="border border-slate-700/80 p-4 rounded-xl bg-slate-950 text-slate-100 text-xs min-h-[250px] overflow-auto leading-relaxed"
+              className="markdown-body border border-slate-700/80 p-4 rounded-xl bg-slate-950 text-slate-100 text-xs min-h-[250px] overflow-auto leading-relaxed"
               dangerouslySetInnerHTML={{ __html: form.content_html || '<span class="text-slate-400">プレビューがここに表示されます</span>' }}
             />
           </div>
