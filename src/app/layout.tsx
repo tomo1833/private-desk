@@ -8,9 +8,15 @@ const RootLayout = ({
   children: React.ReactNode;
 }) => {
   return (
-    <html lang="ja" className="dark">
+    <html lang="ja" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}",
+          }}
+        />
       </head>
       <body className="font-sans flex flex-col min-h-screen gradient-bg selection:bg-indigo-500 selection:text-white">
         <Header />
