@@ -77,7 +77,18 @@
   --breakpoint-4xl: 140rem;
 }
 
+:root {
+  color-scheme: light;
+  --app-bg: linear-gradient(-45deg, #e8eef5, #f3f6fa, #e9f0f7, #f1f5f9);
+  --app-ink: #1e293b;
+  --app-muted: #5f6f82;
+}
+
 .dark {
+  color-scheme: dark;
+  --app-bg: linear-gradient(-45deg, #191714, #211e1a, #1b1916, #1f1c18);
+  --app-ink: #f2eee8;
+  --app-muted: #b6aa9e;
   --background: #191714;
   --foreground: #f2eee8;
   --primary-navy: #9a5d4d;
@@ -88,9 +99,9 @@
 
 /* Soft charcoal background with a subtle warm tint */
 body {
-  background: linear-gradient(135deg, #191714 0%, #211e1a 52%, #1b1916 100%);
+  background: var(--app-bg);
   background-attachment: fixed;
-  color: #f2eee8;
+  color: var(--app-ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "BIZ UDGothic", "Meiryo", sans-serif;
   min-height: 100vh;
   position: relative;
@@ -884,10 +895,6 @@ select option {
 }
 
 /* Dark mode adjustments */
-.dark body {
-  background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
-}
-
 .dark .card {
   @apply border-gray-700;
   background: rgba(45, 55, 72, 0.8);
@@ -915,7 +922,7 @@ select option {
 
 /* Animated gradient backgrounds - 改善されたグラデーション */
 .gradient-bg {
-  background: linear-gradient(-45deg, #0b1220, #111827, #17243a, #0f172a);
+  background: var(--app-bg);
   background-size: 400% 400%;
   animation: gradientShift 32s ease infinite;
 }
@@ -2013,4 +2020,428 @@ select option {
   .wiki-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
+}
+
+/* ==========================================================================
+   Light theme (default): blue-gray surfaces, white cards, calm blue accent.
+   The slate scale is inverted so existing dark-oriented utilities
+   (bg-slate-900, text-slate-100, ...) resolve to light surfaces and dark text.
+   ========================================================================== */
+:root:not(.dark) {
+  --color-slate-50: #0f172a;
+  --color-slate-100: #1e293b;
+  --color-slate-200: #334155;
+  --color-slate-300: #4a5a6d;
+  --color-slate-400: #5f6f82;
+  --color-slate-500: #8a99ab;
+  --color-slate-600: #b7c3d0;
+  --color-slate-700: #d5dde6;
+  --color-slate-800: #eaeff5;
+  --color-slate-900: #f6f8fb;
+  --color-slate-950: #ffffff;
+
+  --color-indigo-50: #eff5fb;
+  --color-indigo-100: #dce8f5;
+  --color-indigo-200: #2c5282;
+  --color-indigo-300: #2f6aa3;
+  --color-indigo-400: #4a7fb5;
+  --color-indigo-500: #3b6ea5;
+  --color-indigo-600: #2f5b8c;
+  --color-indigo-700: #284c75;
+  --color-indigo-800: #223f62;
+  --color-indigo-900: #dbe7f5;
+  --color-indigo-950: #eaf1f9;
+
+  --color-rose-200: #9f2f43;
+  --color-rose-300: #b4374d;
+  --color-rose-400: #be3a52;
+  --color-rose-500: #c8364e;
+  --color-rose-800: #f0c9d0;
+  --color-rose-900: #f9dde2;
+  --color-rose-950: #fdf0f2;
+  --color-red-400: #be3434;
+  --color-emerald-200: #1f6b4a;
+  --color-emerald-300: #1f7a53;
+  --color-emerald-400: #23825a;
+  --color-emerald-500: #2a7f5a;
+  --color-emerald-900: #dcf0e5;
+  --color-amber-200: #7a5410;
+  --color-amber-300: #8a5f10;
+  --color-amber-400: #96650f;
+  --color-amber-500: #a86a12;
+  --color-amber-900: #fbf0d8;
+  --color-purple-200: #5b3d8f;
+  --color-purple-300: #6a45a6;
+  --color-purple-400: #7550b0;
+  --color-purple-500: #7c5cb8;
+  --color-purple-900: #ece6f6;
+  --color-violet-200: #5b3d8f;
+  --color-violet-300: #6a45a6;
+  --color-violet-400: #7550b0;
+  --color-violet-500: #7c5cb8;
+  --color-blue-200: #1d4e89;
+  --color-blue-300: #245a9c;
+  --color-blue-400: #2f6aa3;
+  --color-blue-500: #3b6ea5;
+  --color-blue-600: #2f5b8c;
+  --color-blue-900: #dbe7f5;
+  --color-cyan-200: #0f5f6b;
+  --color-cyan-300: #12707d;
+  --color-cyan-400: #137a88;
+  --color-cyan-500: #187585;
+  --color-cyan-900: #d9eef1;
+  --color-teal-200: #135e57;
+  --color-teal-300: #17706a;
+  --color-teal-500: #237a73;
+  --color-teal-900: #d9eeec;
+  --color-orange-300: #9a4f14;
+  --color-orange-400: #a95a17;
+  --color-orange-500: #b45f1a;
+  --color-gray-300: #4a5a6d;
+  --color-gray-400: #5f6f82;
+
+  --primary-navy: #3b6ea5;
+  --primary-navy-light: #4a7fb5;
+  --primary-navy-dark: #2f5b8c;
+  --primary-navy-50: #eff5fb;
+  --accent-gold: #b98f55;
+  --accent-gold-light: #d0b477;
+  --accent-gold-dark: #946f3c;
+}
+
+:root:not(.dark) body::before {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(59, 110, 165, 0.07), transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(185, 120, 97, 0.05), transparent 42%);
+}
+
+/* Utilities that hard-code white text: keep them readable on light surfaces,
+   and keep white on coloured/primary controls. */
+:root:not(.dark) .text-white,
+:root:not(.dark) .hover\:text-white:hover,
+:root:not(.dark) .group:hover .group-hover\:text-white {
+  color: var(--app-ink);
+}
+
+:root:not(.dark)
+  :is(
+    [class*="bg-indigo"],
+    [class*="bg-rose-5"],
+    [class*="bg-emerald-5"],
+    [class*="bg-amber-5"],
+    [class*="bg-purple-5"],
+    [class*="bg-blue-5"],
+    [class*="bg-blue-6"],
+    [class*="bg-cyan-5"],
+    [class*="bg-teal-5"],
+    [class*="bg-orange-5"],
+    [class*="bg-gradient"],
+    [class~="btn-primary"],
+    [class~="btn-success"],
+    [class~="btn-danger"],
+    [class~="btn-warning"],
+    [class~="btn-gold"],
+    [class~="btn-purple"],
+    [class~="btn-indigo"],
+    [class~="btn-gradient"],
+    [class~="btn-generate"],
+    [class~="btn-convert"]
+  ):is(.text-white, .hover\:text-white:hover),
+:root:not(.dark)
+  :is(
+    [class*="bg-indigo"],
+    [class*="bg-rose-5"],
+    [class*="bg-emerald-5"],
+    [class*="bg-amber-5"],
+    [class*="bg-purple-5"],
+    [class*="bg-blue-5"],
+    [class*="bg-blue-6"],
+    [class*="bg-cyan-5"],
+    [class*="bg-teal-5"],
+    [class*="bg-orange-5"],
+    [class~="btn-primary"],
+    [class~="btn-success"],
+    [class~="btn-danger"],
+    [class~="btn-warning"],
+    [class~="btn-gold"],
+    [class~="btn-purple"],
+    [class~="btn-indigo"]
+  )
+  .text-white {
+  color: #ffffff;
+}
+
+/* Surfaces */
+:root:not(.dark) .page-wrap > :first-child h1 {
+  color: var(--app-ink);
+}
+
+:root:not(.dark) .page-wrap > :first-child p {
+  color: var(--app-muted);
+}
+
+:root:not(.dark) .card-basic {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #d5dde6;
+  box-shadow:
+    0 1px 2px rgba(30, 41, 59, 0.05),
+    0 10px 24px -18px rgba(30, 41, 59, 0.22);
+}
+
+:root:not(.dark) .card-basic:hover {
+  background: #ffffff;
+  border-color: rgba(59, 110, 165, 0.42);
+  box-shadow:
+    0 1px 2px rgba(30, 41, 59, 0.06),
+    0 14px 28px -18px rgba(30, 41, 59, 0.28);
+}
+
+:root:not(.dark) .card-form {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #d5dde6;
+  box-shadow:
+    0 1px 2px rgba(30, 41, 59, 0.05),
+    0 16px 36px -26px rgba(30, 41, 59, 0.28);
+}
+
+:root:not(.dark) .sticky-note {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #d5dde6;
+  box-shadow: 0 8px 22px -12px rgba(30, 41, 59, 0.22);
+  color: var(--app-ink);
+}
+
+:root:not(.dark) .sticky-note:hover {
+  background: #ffffff;
+  border-color: rgba(59, 110, 165, 0.45);
+  box-shadow: 0 14px 30px -12px rgba(59, 110, 165, 0.28);
+}
+
+:root:not(.dark) .sticky-note-title {
+  color: var(--app-ink);
+}
+
+:root:not(.dark) .sticky-note-date {
+  color: var(--app-muted);
+}
+
+/* Buttons */
+:root:not(.dark) .btn-primary {
+  background: #3b6ea5;
+  color: #ffffff;
+  border: 1px solid rgba(47, 91, 140, 0.55);
+  box-shadow: 0 4px 12px rgba(47, 91, 140, 0.22);
+}
+
+:root:not(.dark) .btn-primary:hover {
+  background: #2f5b8c;
+  box-shadow: 0 6px 16px rgba(47, 91, 140, 0.3);
+}
+
+:root:not(.dark) .btn-secondary {
+  background: #ffffff;
+  color: var(--app-ink);
+  border: 1px solid #c5d0dc;
+}
+
+:root:not(.dark) .btn-secondary:hover {
+  background: #eaeff5;
+  color: var(--app-ink);
+  border-color: #aebbc9;
+}
+
+:root:not(.dark) .btn-indigo {
+  background: linear-gradient(135deg, #2f5b8c 0%, #3b6ea5 100%);
+}
+
+:root:not(.dark) .btn-ghost,
+:root:not(.dark) .btn-outline,
+:root:not(.dark) .btn-minimal {
+  color: var(--app-ink);
+}
+
+:root:not(.dark) .btn-ghost:hover,
+:root:not(.dark) .btn-outline:hover,
+:root:not(.dark) .btn-minimal:hover {
+  color: var(--app-ink);
+}
+
+/* Form controls */
+:root:not(.dark)
+  :is(
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="month"],
+    input[type="search"],
+    input[type="url"],
+    input:not([type]),
+    textarea,
+    select
+  ) {
+  color: var(--app-ink) !important;
+  background-color: #ffffff !important;
+  border-color: #c5d0dc !important;
+}
+
+:root:not(.dark)
+  :is(
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="search"],
+    textarea
+  )::placeholder {
+  color: #6b7a8c !important;
+}
+
+:root:not(.dark) select option {
+  background-color: #ffffff !important;
+  color: var(--app-ink) !important;
+}
+
+/* Rendered content */
+:root:not(.dark) .prose-invert {
+  --tw-prose-body: #334155;
+  --tw-prose-headings: #0f172a;
+  --tw-prose-lead: #475569;
+  --tw-prose-links: #2f6aa3;
+  --tw-prose-bold: #0f172a;
+  --tw-prose-counters: #5f6f82;
+  --tw-prose-bullets: #8a99ab;
+  --tw-prose-hr: #d5dde6;
+  --tw-prose-quotes: #1e293b;
+  --tw-prose-quote-borders: #c5d0dc;
+  --tw-prose-captions: #5f6f82;
+  --tw-prose-code: #1e293b;
+  --tw-prose-pre-code: #e2e8f0;
+  --tw-prose-pre-bg: #1e293b;
+  --tw-prose-th-borders: #c5d0dc;
+  --tw-prose-td-borders: #e2e8f0;
+}
+
+/* FullCalendar */
+:root:not(.dark) .fc {
+  --fc-neutral-text-color: var(--app-ink) !important;
+  --fc-neutral-bg-color: #f6f8fb !important;
+  --fc-border-color: #d5dde6 !important;
+  --fc-list-event-hover-bg-color: rgba(59, 110, 165, 0.1) !important;
+  --fc-today-bg-color: rgba(59, 110, 165, 0.1) !important;
+}
+
+:root:not(.dark) .fc a,
+:root:not(.dark) .fc .fc-toolbar-title,
+:root:not(.dark) .fc .fc-col-header-cell-cushion,
+:root:not(.dark) .fc .fc-daygrid-day-number,
+:root:not(.dark) .fc .fc-daygrid-day-top a,
+:root:not(.dark) .fc .fc-list-day-text,
+:root:not(.dark) .fc .fc-list-day-side-text {
+  color: var(--app-ink) !important;
+}
+
+:root:not(.dark) .fc .fc-button {
+  background: #ffffff !important;
+  border: 1px solid #c5d0dc !important;
+  color: var(--app-ink) !important;
+  box-shadow: 0 1px 2px rgba(30, 41, 59, 0.08) !important;
+}
+
+:root:not(.dark) .fc .fc-button:hover {
+  background: #eaeff5 !important;
+  border-color: #aebbc9 !important;
+  color: var(--app-ink) !important;
+}
+
+:root:not(.dark) .fc .fc-button-active,
+:root:not(.dark) .fc .fc-button-primary:not(:disabled).fc-button-active {
+  background: #3b6ea5 !important;
+  border-color: #2f5b8c !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(47, 91, 140, 0.25) !important;
+}
+
+:root:not(.dark) .fc .fc-col-header,
+:root:not(.dark) .fc .fc-col-header-cell,
+:root:not(.dark) .fc .fc-list-day-cushion {
+  background: #eaeff5 !important;
+  border-color: #d5dde6 !important;
+}
+
+:root:not(.dark) .fc .fc-day-sun .fc-col-header-cell-cushion,
+:root:not(.dark) .fc .fc-day-sun a,
+:root:not(.dark) .fc .fc-day-sun .fc-daygrid-day-number {
+  color: #b4374d !important;
+}
+
+:root:not(.dark) .fc .fc-day-sat .fc-col-header-cell-cushion,
+:root:not(.dark) .fc .fc-day-sat a,
+:root:not(.dark) .fc .fc-day-sat .fc-daygrid-day-number {
+  color: #2f6aa3 !important;
+}
+
+:root:not(.dark) .fc .fc-daygrid-day {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-color: #d5dde6 !important;
+}
+
+:root:not(.dark) .fc .fc-daygrid-day:hover {
+  background: #ffffff !important;
+}
+
+:root:not(.dark) .fc .fc-scrollgrid {
+  border-color: #d5dde6 !important;
+}
+
+:root:not(.dark) .fc .fc-daygrid-day.fc-day-other .fc-daygrid-day-number {
+  color: #8a99ab !important;
+  opacity: 0.8 !important;
+}
+
+:root:not(.dark) .fc .fc-day-today {
+  background: rgba(59, 110, 165, 0.1) !important;
+  border: 2px solid #4a7fb5 !important;
+}
+
+:root:not(.dark) .fc .fc-day-today .fc-daygrid-day-number {
+  background: #3b6ea5 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(47, 91, 140, 0.3);
+}
+
+:root:not(.dark) .fc .fc-daygrid-event,
+:root:not(.dark) .fc .fc-event {
+  background: #3b6ea5 !important;
+  border: 1px solid #2f5b8c !important;
+  box-shadow: 0 1px 3px rgba(30, 41, 59, 0.18) !important;
+}
+
+:root:not(.dark) .fc .fc-event-main,
+:root:not(.dark) .fc .fc-event-title,
+:root:not(.dark) .fc .fc-event-time,
+:root:not(.dark) .fc .fc-daygrid-event * {
+  color: #ffffff !important;
+}
+
+:root:not(.dark) .fc .fc-list-event {
+  background: #ffffff !important;
+  border-color: #d5dde6 !important;
+}
+
+:root:not(.dark) .fc .fc-list-event:hover td {
+  background: rgba(59, 110, 165, 0.1) !important;
+}
+
+:root:not(.dark) .fc .fc-list-event-title,
+:root:not(.dark) .fc .fc-list-event-time,
+:root:not(.dark) .fc .fc-list-event * {
+  color: var(--app-ink) !important;
+}
+
+/* The search icon is a plain SVG image, so it needs inverting on dark surfaces. */
+.dark img[src="/search.svg"] {
+  filter: invert(1);
 }
