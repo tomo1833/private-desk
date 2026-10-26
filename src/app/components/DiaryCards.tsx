@@ -118,30 +118,30 @@ const DiaryCards: React.FC<Props> = ({ diaries, viewMode = 'card', onDelete }) =
             </MarkdownRenderer>
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-slate-700/80 text-xs">
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-700/80 text-xs">
             <button
               onClick={() => router.push(`/diaries/new?copyFrom=${diary.id}`)}
-              className="text-xs text-indigo-400 hover:text-indigo-300 hover:underline flex items-center gap-1 font-medium"
+              className="whitespace-nowrap text-xs text-indigo-400 hover:text-indigo-300 hover:underline flex items-center gap-1 font-medium"
               title="この日報をコピーして新規作成"
             >
-              📋 コピー作成
+              📋 コピー
             </button>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 whitespace-nowrap">
               <button 
                 onClick={() => router.push(`/diaries/${diary.id}`)} 
-                className="btn btn-secondary text-xs px-2.5 py-1"
+                className="btn btn-primary text-xs px-3 py-1 whitespace-nowrap"
               >
                 詳細
               </button>
               <button 
                 onClick={() => router.push(`/diaries/edit/${diary.id}`)} 
-                className="btn btn-success text-xs px-2.5 py-1"
+                className="btn btn-secondary text-xs px-2.5 py-1 whitespace-nowrap"
               >
                 編集
               </button>
               <button 
                 onClick={() => handleDelete(diary.id)} 
-                className="btn btn-danger text-xs px-2.5 py-1"
+                className="rounded-lg px-2 py-1 text-xs font-medium text-rose-400 transition hover:bg-rose-500/10 hover:underline whitespace-nowrap"
               >
                 削除
               </button>

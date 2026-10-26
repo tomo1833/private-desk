@@ -452,6 +452,48 @@ body > * {
   color: var(--md-accent);
 }
 
+/* Card previews: flatten headings and spacing so the excerpt reads as body text */
+.markdown-body[class*="line-clamp"] {
+  line-height: 1.65;
+}
+
+.markdown-body[class*="line-clamp"] :is(h1, h2, h3, h4, h5, h6) {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: inherit;
+  font-weight: 700;
+}
+
+.markdown-body[class*="line-clamp"] :is(h1, h2, h3, h4, h5, h6)::after {
+  content: " ";
+}
+
+.markdown-body[class*="line-clamp"] :is(p, ul, ol, blockquote, pre, table, details) {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.markdown-body[class*="line-clamp"] li {
+  display: inline;
+  margin: 0;
+}
+
+.markdown-body[class*="line-clamp"] li::after {
+  content: " ";
+}
+
+.markdown-body[class*="line-clamp"] hr,
+.markdown-body[class*="line-clamp"] img {
+  display: none;
+}
+
 /* Sticky note style for wiki cards */
 .sticky-note {
   background: rgba(41, 37, 34, 0.9);
