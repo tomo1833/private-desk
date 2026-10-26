@@ -88,7 +88,7 @@ const MainPage = () => {
             <div>
               <h1
                 id="workspace-title"
-                className="text-xl font-bold tracking-tight text-white sm:text-3xl"
+                className="text-xl font-bold tracking-tight text-slate-50 sm:text-3xl"
               >
                 今日のデスク
               </h1>
