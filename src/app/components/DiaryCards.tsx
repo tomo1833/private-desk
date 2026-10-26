@@ -1,7 +1,17 @@
 'use client';
 import type { Diary } from '@/types/diary';
 import { useRouter } from 'next/navigation';
-import MarkdownRenderer from '@/app/components/MarkdownRenderer';
+
+const toExcerpt = (content: string) =>
+  content
+    .slice(0, 400)
+    .replace(/```[\s\S]*?(```|$)/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/^[#>\-*\s]+/gm, '')
+    .replace(/[*_`~|]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 
 type Props = {
   diaries: Diary[];
@@ -113,9 +123,9 @@ const DiaryCards: React.FC<Props> = ({ diaries, viewMode = 'card', onDelete }) =
             >
               {diary.title}
             </h3>
-            <MarkdownRenderer className="line-clamp-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-              {diary.content}
-            </MarkdownRenderer>
+            <p className="line-clamp-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+              {toExcerpt(diary.content)}
+            </p>
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-700/80 text-xs">
