@@ -4,6 +4,17 @@ import { GET as GET_SUMMARY } from '../../src/app/api/expense/summary/route';
 import { GET as GET_MONTHLY } from '../../src/app/api/expense/monthly/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
+type ExpenseRow = {
+  id: number;
+  category: string;
+  used_by: string | null;
+  product_name: string | null;
+  remark: string | null;
+};
+
+type CategorySummaryRow = { category: string; total: number };
+type MonthlySummaryRow = { month: string; total: number; count: number };
+
 function createPostRequest(body: any) {
   return new Request('http://localhost/api/expense', {
     method: 'POST',
@@ -59,7 +70,7 @@ describe('GET /api/expense with category filter', () => {
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
-    expect(data.every((d: any) => d.category === catA)).toBe(true);
+    expect(data.every((d: ExpenseRow) => d.category === catA)).toBe(true);
   });
 });
 
@@ -76,7 +87,7 @@ describe('POST /api/expense', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = await runSelect('SELECT * FROM expenses WHERE category = ?', [entry.category]);
+    const rows = await runSelect<ExpenseRow>('SELECT * FROM expenses WHERE category = ?', [entry.category]);
     expect(rows.length).toBe(1);
     expect(rows[0].used_by).toBe('共有');
   });
@@ -99,14 +110,14 @@ describe('Expense update and delete', () => {
     const createReq = createPostRequest(entry);
     const createRes = await POST(createReq as any);
     expect(createRes.status).toBe(200);
-    const row = (await runSelect('SELECT * FROM expenses WHERE category = ?', [entry.category]))[0];
+    const row = (await runSelect<ExpenseRow>('SELECT * FROM expenses WHERE category = ?', [entry.category]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { ...entry, category: 'up', used_by: '妻', product_name: 'updated', remark: 'updated memo' });
     const updateRes = await PUT(updateReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(updateRes.status).toBe(200);
 
-    const updatedRow = (await runSelect('SELECT * FROM expenses WHERE id = ?', [id]))[0];
+    const updatedRow = (await runSelect<ExpenseRow>('SELECT * FROM expenses WHERE id = ?', [id]))[0];
     expect(updatedRow.category).toBe('up');
     expect(updatedRow.product_name).toBe('updated');
     expect(updatedRow.remark).toBe('updated memo');
@@ -116,7 +127,7 @@ describe('Expense update and delete', () => {
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(deleteRes.status).toBe(200);
 
-    const rows = await runSelect('SELECT * FROM expenses WHERE id = ?', [id]);
+    const rows = await runSelect<ExpenseRow>('SELECT * FROM expenses WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 });
@@ -148,9 +159,10 @@ describe('GET /api/expense/summary & GET /api/expense/monthly', () => {
     const req = new Request('http://localhost/api/expense/summary?month=2098-05&used_by=共有');
     const res = await GET_SUMMARY(req as any);
     expect(res.status).toBe(200);
-    const data = await res.json();
-    const item = data.find((d: any) => d.category === cat);
+    const data: CategorySummaryRow[] = await res.json();
+    const item = data.find((d) => d.category === cat);
     expect(item).toBeDefined();
+    if (!item) throw new Error('Expected the test category summary');
     expect(item.total).toBe(8000);
   });
 
@@ -158,14 +170,14 @@ describe('GET /api/expense/summary & GET /api/expense/monthly', () => {
     const req = new Request('http://localhost/api/expense/monthly?year=2098&used_by=共有');
     const res = await GET_MONTHLY(req as any);
     expect(res.status).toBe(200);
-    const data = await res.json();
+    const data: MonthlySummaryRow[] = await res.json();
     expect(Array.isArray(data)).toBe(true);
     expect(data.length).toBe(12);
 
-    const may = data.find((d: any) => d.month === '2098-05');
+    const may = data.find((d) => d.month === '2098-05');
     expect(may).toBeDefined();
+    if (!may) throw new Error('Expected the May monthly summary');
     expect(may.total).toBe(8000);
     expect(may.count).toBe(2);
   });
 });
-

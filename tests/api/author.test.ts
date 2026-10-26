@@ -2,6 +2,8 @@ import { GET, POST } from '../../src/app/api/author/route';
 import { GET as GET_ID, PUT, DELETE } from '../../src/app/api/author/[id]/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
+type AuthorRow = { id: number };
+
 function createPostRequest(body: any) {
   return new Request('http://localhost/api/author', {
     method: 'POST',
@@ -20,8 +22,7 @@ function createPutRequest(id: number, body: any) {
 
 describe('GET /api/author', () => {
   it('should return list of authors', async () => {
-    const req = new Request('http://localhost/api/author');
-    const res = await GET(req as any);
+    const res = await GET();
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
@@ -42,7 +43,7 @@ describe('POST /api/author', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = await runSelect('SELECT * FROM author WHERE name = ?', [entry.name]);
+    const rows = await runSelect<AuthorRow>('SELECT * FROM author WHERE name = ?', [entry.name]);
     expect(rows.length).toBe(1);
   });
 
@@ -65,7 +66,7 @@ describe('Author update and delete', () => {
     const createReq = createPostRequest(entry);
     const createRes = await POST(createReq as any);
     expect(createRes.status).toBe(200);
-    const row = (await runSelect('SELECT * FROM author WHERE name = ?', [entry.name]))[0];
+    const row = (await runSelect<AuthorRow>('SELECT * FROM author WHERE name = ?', [entry.name]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { name: 'updated', bio: 'b' });
@@ -76,7 +77,7 @@ describe('Author update and delete', () => {
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(deleteRes.status).toBe(200);
 
-    const rows = await runSelect('SELECT * FROM author WHERE id = ?', [id]);
+    const rows = await runSelect<AuthorRow>('SELECT * FROM author WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 });

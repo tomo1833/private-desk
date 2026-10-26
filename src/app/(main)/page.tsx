@@ -1,330 +1,370 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { Diary } from '@/types/diary';
-import MarkdownRenderer from '@/app/components/MarkdownRenderer';
+import { APP_FEATURE_GROUPS, QUICK_ACTIONS } from '@/app/features';
 
-interface FeatureCard {
-  href: string;
-  icon: string;
-  name: string;
-  desc: string;
-  badge?: string;
-  gradient: string;
-  borderGlow: string;
-}
+const formatDiaryDate = (value: string) => {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
 
-const KNOWLEDGE_FEATURES: FeatureCard[] = [
-  { href: '/wikis', icon: '📝', name: 'Wiki', desc: 'ナレッジ・日報メモ', gradient: 'from-blue-500/20 to-indigo-500/20', borderGlow: 'hover:border-blue-500/40' },
-  { href: '/blogs', icon: '✍️', name: 'ブログ', desc: '記事作成・LLM生成', badge: 'AI', gradient: 'from-violet-500/20 to-purple-500/20', borderGlow: 'hover:border-violet-500/40' },
-  { href: '/narous', icon: '📖', name: 'なろう小説', desc: '小説閲覧・感想記録', gradient: 'from-purple-500/20 to-pink-500/20', borderGlow: 'hover:border-purple-500/40' },
-  { href: '/authors', icon: '👤', name: '著者', desc: '執筆者プロフィール', gradient: 'from-sky-500/20 to-blue-500/20', borderGlow: 'hover:border-sky-500/40' },
-  { href: '/personas', icon: '🎭', name: 'ペルソナ', desc: 'キャラクター設定管理', gradient: 'from-fuchsia-500/20 to-pink-500/20', borderGlow: 'hover:border-fuchsia-500/40' },
-];
-
-const MEDIA_FEATURES: FeatureCard[] = [
-  { href: '/animes', icon: '🎬', name: 'アニメ記録', desc: '視聴状況・評価', gradient: 'from-rose-500/20 to-red-500/20', borderGlow: 'hover:border-rose-500/40' },
-  { href: '/books', icon: '📚', name: '本', desc: '読書ログ・要約', gradient: 'from-amber-500/20 to-yellow-500/20', borderGlow: 'hover:border-amber-500/40' },
-  { href: '/movies', icon: '🎞', name: '映画', desc: '映画レビュー・記録', gradient: 'from-orange-500/20 to-amber-500/20', borderGlow: 'hover:border-orange-500/40' },
-  { href: '/musics', icon: '🎵', name: '音楽', desc: 'アルバム・トラックメモ', gradient: 'from-emerald-500/20 to-teal-500/20', borderGlow: 'hover:border-emerald-500/40' },
-  { href: '/udemys', icon: '🎓', name: 'Udemy', desc: 'オンライン講座進捗', gradient: 'from-cyan-500/20 to-teal-500/20', borderGlow: 'hover:border-cyan-500/40' },
-];
-
-const MANAGEMENT_FEATURES: FeatureCard[] = [
-  { href: '/passwords', icon: '🔐', name: 'パスワード', desc: '資格情報・ログイン管理', gradient: 'from-emerald-500/20 to-teal-500/20', borderGlow: 'hover:border-emerald-500/40' },
-  { href: '/expenses', icon: '💰', name: '家計簿', desc: '支出管理・統計グラフ', gradient: 'from-teal-500/20 to-cyan-500/20', borderGlow: 'hover:border-teal-500/40' },
-  { href: '/wishlists', icon: '🎁', name: 'ほしいもの', desc: '買いたい物・優先度・見積', gradient: 'from-pink-500/20 to-rose-500/20', borderGlow: 'hover:border-pink-500/40' },
-  { href: '/stocks', icon: '📈', name: '日本株', desc: '株価ポートフォリオ', gradient: 'from-sky-500/20 to-indigo-500/20', borderGlow: 'hover:border-sky-500/40' },
-  { href: '/subscriptions', icon: '💻', name: 'サブスク・ソフト', desc: '月額サービス・ライセンス', gradient: 'from-indigo-500/20 to-blue-500/20', borderGlow: 'hover:border-indigo-500/40' },
-  { href: '/files', icon: '📁', name: 'ファイル', desc: 'ドキュメント・添付管理', gradient: 'from-blue-500/20 to-cyan-500/20', borderGlow: 'hover:border-blue-500/40' },
-  { href: '/schedule', icon: '📅', name: 'カレンダー', desc: 'Google同期・予定表', gradient: 'from-violet-500/20 to-purple-500/20', borderGlow: 'hover:border-violet-500/40' },
-  { href: '/wbs', icon: '📊', name: 'WBS', desc: 'プロジェクト・ガントチャート', badge: 'PRO', gradient: 'from-indigo-600/30 to-violet-600/30', borderGlow: 'hover:border-indigo-500/60' },
-  { href: '/sql', icon: '🛢', name: 'SQL', desc: 'データベース直操作', gradient: 'from-slate-500/20 to-gray-500/20', borderGlow: 'hover:border-slate-500/40' },
-];
+  return new Intl.DateTimeFormat('ja-JP', {
+    dateStyle: 'long',
+    timeZone: 'Asia/Tokyo',
+  }).format(date);
+};
 
 const MainPage = () => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // スワイプ処理用のref
-  const touchStartX = useRef<number>(0);
-  const touchEndX = useRef<number>(0);
+  const [diariesLoading, setDiariesLoading] = useState(true);
+  const [diaryError, setDiaryError] = useState<string | null>(null);
+  const [featureQuery, setFeatureQuery] = useState('');
 
   useEffect(() => {
+    let isMounted = true;
+
     const loadDiaries = async () => {
       try {
-        const response = await fetch('/api/diary?limit=20');
-        if (!response.ok) throw new Error('日記の取得に失敗しました。');
+        const response = await fetch('/api/diary?limit=3');
+        if (!response.ok) {
+          throw new Error('最新の日記を読み込めませんでした。');
+        }
+
         const data: Diary[] = await response.json();
-        setDiaries(data);
-      } catch (err) {
-        console.error('Error fetching diaries:', err);
-        setError((err as Error).message);
+        if (isMounted) setDiaries(data);
+      } catch (error) {
+        console.error('Error fetching diaries:', error);
+        if (isMounted) {
+          setDiaryError(
+            error instanceof Error
+              ? error.message
+              : '最新の日記を読み込めませんでした。'
+          );
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) setDiariesLoading(false);
       }
     };
-    loadDiaries();
+
+    void loadDiaries();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  // スワイプ処理
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-  };
+  const searchTerm = featureQuery.trim().toLocaleLowerCase('ja');
+  const filteredGroups = APP_FEATURE_GROUPS.map((group) => ({
+    ...group,
+    features: group.features.filter((feature) => {
+      const searchableText = [
+        feature.name,
+        feature.description,
+        feature.keywords ?? '',
+        group.title,
+      ]
+        .join(' ')
+        .toLocaleLowerCase('ja');
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (touchStartX.current - touchEndX.current > 50) {
-      handleNext();
-    }
-    if (touchStartX.current - touchEndX.current < -50) {
-      handlePrevious();
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentIndex < diaries.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-3">
-        <div className="w-8 h-8 border-3 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-slate-400 text-sm animate-pulse">読み込み中...</p>
-      </div>
-    );
-  }
-
-  const currentDiary = diaries[currentIndex];
-
-  const renderCard = (item: FeatureCard) => (
-    <Link
-      key={item.href}
-      href={item.href}
-      className={`group relative flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 ${item.borderGlow} hover:bg-slate-800/70 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300`}
-    >
-      <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br ${item.gradient} border border-white/10 flex items-center justify-center text-xl sm:text-2xl shadow-inner group-hover:scale-110 transition-transform`}>
-        {item.icon}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <span className="font-semibold text-slate-100 text-sm sm:text-base group-hover:text-indigo-300 transition-colors truncate">
-            {item.icon} {item.name}
-          </span>
-          {item.badge && (
-            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-indigo-500/30 border border-indigo-500/50 text-indigo-300">
-              {item.badge}
-            </span>
-          )}
-        </div>
-        <p className="text-xs text-slate-400 truncate mt-0.5 font-normal">
-          {item.desc}
-        </p>
-      </div>
-      <span className="text-slate-600 group-hover:text-indigo-400 group-hover:translate-x-0.5 transition-all text-sm">
-        →
-      </span>
-    </Link>
+      return searchableText.includes(searchTerm);
+    }),
+  })).filter((group) => group.features.length > 0);
+  const featureCount = APP_FEATURE_GROUPS.reduce(
+    (count, group) => count + group.features.length,
+    0
   );
 
   return (
-    <div className="space-y-10 page-wrap">
-      {/* ヒーローセクション */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-950/80 via-slate-900/80 to-purple-950/80 backdrop-blur-xl border border-indigo-500/20 p-6 sm:p-8 shadow-2xl">
-        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-medium mb-3">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              ローカル環境で安全に稼働中
+    <div className="mx-auto w-full max-w-7xl space-y-6 sm:space-y-8">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)]">
+        <section
+          aria-labelledby="workspace-title"
+          className="rounded-3xl border border-slate-700/70 bg-slate-950/75 p-5 shadow-xl shadow-black/10 sm:p-7"
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
+            Personal workspace
+          </p>
+          <div className="mt-2 flex items-start justify-between gap-4">
+            <div>
+              <h1
+                id="workspace-title"
+                className="text-xl font-bold tracking-tight text-white sm:text-3xl"
+              >
+                今日のデスク
+              </h1>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-300">
+                記録、予定、アイデア。いつもの作業をここから始めましょう。
+              </p>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-indigo-200 tracking-tight">
-              Private Desk Workspace
-            </h1>
-            <p className="text-sm sm:text-base text-slate-400 mt-1 max-w-2xl">
-              日々の記録・ナレッジ・エンタメ・タスクをひとつの洗練された環境で一元管理。
-            </p>
+            <span className="hidden shrink-0 rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-300 sm:inline-flex">
+              {featureCount} 個の機能
+            </span>
           </div>
-          <div className="flex flex-wrap gap-2.5">
-            <Link href="/diaries/new" className="btn btn-primary text-xs sm:text-sm">
-              📔 新規日記
-            </Link>
-            <Link href="/wikis/new" className="btn btn-secondary text-xs sm:text-sm">
-              📝 新規Wiki
-            </Link>
-            <Link href="/schedule" className="btn btn-secondary text-xs sm:text-sm">
-              📅 カレンダー
-            </Link>
-          </div>
-        </div>
-      </div>
 
-      {/* その他の機能（カテゴリ別グリッド） */}
-      <div className="space-y-8">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg sm:text-xl font-bold text-slate-100 flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
-            その他の機能
-          </h2>
-          <span className="text-xs text-slate-400 hidden sm:inline">全19機能</span>
-        </div>
-
-        {/* カテゴリ1: 記録 & ナレッジ */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-xs font-semibold text-indigo-400 uppercase tracking-wider">
-            <span>📝</span> 記録 & ナレッジ (Knowledge & Notes)
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-            {KNOWLEDGE_FEATURES.map(renderCard)}
-          </div>
-        </div>
-
-        {/* カテゴリ2: エンタメ & 学習 */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-xs font-semibold text-rose-400 uppercase tracking-wider">
-            <span>🎬</span> エンタメ & 学習 (Media & Learning)
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-            {MEDIA_FEATURES.map(renderCard)}
-          </div>
-        </div>
-
-        {/* カテゴリ3: ツール & 管理 */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 uppercase tracking-wider">
-            <span>💼</span> ツール & 管理 (Management & Tools)
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-8 gap-3">
-            {MANAGEMENT_FEATURES.map(renderCard)}
-          </div>
-        </div>
-      </div>
-
-      {/* 日記セクション */}
-      <div className="pt-6 border-t border-slate-800/80 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-100 flex items-center gap-2">
-              <span className="text-2xl">📔</span> 最新の日記
-              <span className="sr-only">日記一覧</span>
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-              スワイプまたは前後のボタンで過去の日記を閲覧できます
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Link href="/diaries" className="btn btn-secondary text-xs sm:text-sm">
-              📋 一覧
-            </Link>
-            <Link href="/diaries/new" className="btn btn-primary text-xs sm:text-sm">
-              📔 新規作成
-            </Link>
-          </div>
-        </div>
-
-        {error ? (
-          <div className="text-center text-rose-400 bg-rose-950/40 border border-rose-800/50 p-4 rounded-2xl">
-            {error}
-          </div>
-        ) : diaries.length > 0 && currentDiary ? (
           <div
-            className="card-basic space-y-5 relative overflow-hidden border border-slate-700/60 bg-slate-900/70"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            role="group"
+            aria-label="クイックアクション"
+            className="mt-6 grid grid-cols-1 gap-2.5 min-[380px]:grid-cols-2 sm:gap-3"
           >
-            {/* ナビゲーションバー */}
-            <div className="flex justify-between items-center pb-4 border-b border-slate-800/80">
-              <button
-                onClick={handlePrevious}
-                disabled={currentIndex === 0}
-                className="btn btn-secondary text-xs sm:text-sm px-3.5 py-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                ← 前へ
-              </button>
-              <div className="flex items-center gap-2">
-                <span className="px-2.5 py-1 rounded-full bg-slate-800 text-xs font-mono font-medium text-indigo-300 border border-slate-700">
-                  {currentIndex + 1} / {diaries.length}
-                </span>
-              </div>
-              <button
-                onClick={handleNext}
-                disabled={currentIndex === diaries.length - 1}
-                className="btn btn-secondary text-xs sm:text-sm px-3.5 py-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                次へ →
-              </button>
-            </div>
-
-            {/* 日記コンテンツ */}
-            <div className="space-y-3">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="text-lg sm:text-2xl font-bold text-slate-100">
-                  {currentDiary.title}
-                </h3>
-                <span className="text-xs text-slate-400 font-mono px-2.5 py-1 rounded-lg bg-slate-800/60 border border-slate-700/50">
-                  {currentDiary.created_at
-                    ? new Date(currentDiary.created_at).toLocaleDateString('ja-JP', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        weekday: 'short',
-                      })
-                    : ''}
-                </span>
-              </div>
-
-              <div className="p-4 sm:p-5 rounded-xl bg-slate-950/40 border border-slate-800/60">
-                <MarkdownRenderer className="prose prose-invert max-w-none text-slate-200 text-sm sm:text-base">
-                  {currentDiary.content}
-                </MarkdownRenderer>
-              </div>
-            </div>
-
-            {/* 編集・詳細リンク */}
-            <div className="flex justify-end gap-3 pt-3 border-t border-slate-800/80">
+            {QUICK_ACTIONS.map((action) => (
               <Link
-                href={`/diaries/${currentDiary.id}`}
-                className="text-xs sm:text-sm text-indigo-400 hover:text-indigo-300 font-medium hover:underline flex items-center gap-1"
+                key={action.href}
+                href={action.href}
+                className={`group flex min-h-24 items-center gap-2.5 rounded-2xl border p-3 transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 sm:min-h-28 sm:gap-3 sm:p-4 ${
+                  action.primary
+                    ? 'border-indigo-400/40 bg-indigo-500/15 hover:border-indigo-300/70 hover:bg-indigo-500/20'
+                    : 'border-slate-700/80 bg-slate-900/70 hover:border-slate-500 hover:bg-slate-800'
+                }`}
               >
-                詳細を見る →
+                <span
+                  aria-hidden="true"
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-lg sm:h-10 sm:w-10 ${
+                    action.primary
+                      ? 'bg-indigo-400/15 text-indigo-200'
+                      : 'bg-slate-800 text-slate-200'
+                  }`}
+                >
+                  {action.icon}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-semibold text-slate-100">
+                    {action.title}
+                  </span>
+                  <span className="mt-1 block text-xs leading-relaxed text-slate-400">
+                    {action.description}
+                  </span>
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="hidden text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-indigo-300 sm:inline"
+                >
+                  →
+                </span>
               </Link>
-              <Link
-                href={`/diaries/edit/${currentDiary.id}`}
-                className="text-xs sm:text-sm text-emerald-400 hover:text-emerald-300 font-medium hover:underline flex items-center gap-1"
-              >
-                編集する ✍️
-              </Link>
-            </div>
+            ))}
+          </div>
+        </section>
 
-            {/* スワイプヒント（モバイルのみ） */}
-            <div className="sm:hidden text-center text-[11px] text-slate-500 pt-1">
-              ← スワイプで前後の日記を表示 →
+        <section
+          aria-labelledby="recent-diaries-title"
+          className="rounded-3xl border border-slate-700/70 bg-slate-900/65 p-5 shadow-lg shadow-black/10 sm:p-6"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h2
+                id="recent-diaries-title"
+                className="text-lg font-semibold text-slate-100"
+              >
+                最近の日記
+              </h2>
+              <p className="mt-1 text-xs text-slate-400">
+                直近の記録をすぐに確認できます
+              </p>
             </div>
+            <Link
+              href="/diaries"
+              className="rounded-lg px-2 py-1.5 text-sm font-medium text-indigo-300 transition hover:bg-slate-800 hover:text-indigo-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+            >
+              一覧を見る
+            </Link>
+          </div>
+
+          <div className="mt-4" aria-live="polite">
+            {diariesLoading ? (
+              <p
+                role="status"
+                className="rounded-xl border border-slate-700/70 bg-slate-950/50 px-4 py-6 text-center text-sm text-slate-400"
+              >
+                最新の日記を読み込み中...
+              </p>
+            ) : diaryError ? (
+              <p
+                role="alert"
+                className="rounded-xl border border-rose-800/60 bg-rose-950/30 px-4 py-4 text-sm text-rose-200"
+              >
+                {diaryError}
+              </p>
+            ) : diaries.length > 0 ? (
+              <ul className="divide-y divide-slate-700/70">
+                {diaries.map((diary) => {
+                  const dateLabel = formatDiaryDate(diary.created_at);
+                  const preview = diary.content.trim();
+
+                  return (
+                    <li key={diary.id}>
+                      <Link
+                        href={`/diaries/${diary.id}`}
+                        className="group block rounded-xl px-3 py-3 transition hover:bg-slate-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <span className="min-w-0 truncate text-sm font-semibold text-slate-100 group-hover:text-indigo-200">
+                            {diary.title}
+                          </span>
+                          {dateLabel && (
+                            <time
+                              dateTime={diary.created_at}
+                              className="shrink-0 text-xs text-slate-400"
+                            >
+                              {dateLabel}
+                            </time>
+                          )}
+                        </div>
+                        <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-400">
+                          {preview || '本文はありません。'}
+                        </p>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <div className="rounded-xl border border-dashed border-slate-700 bg-slate-950/40 px-4 py-6 text-center">
+                <p className="text-sm font-medium text-slate-200">
+                  まだ日記がありません
+                </p>
+                <p className="mt-1 text-xs text-slate-400">
+                  今日の出来事を最初の記録に残しましょう。
+                </p>
+                <Link
+                  href="/diaries/new"
+                  className="mt-4 inline-flex min-h-11 items-center justify-center rounded-xl bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+                >
+                  日記を書く
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
+
+      <section aria-labelledby="feature-directory-title">
+        <div className="flex flex-col gap-4 border-b border-slate-700/70 pb-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-indigo-300">
+              Your tools
+            </p>
+            <h2
+              id="feature-directory-title"
+              className="mt-1 text-xl font-bold text-slate-100 sm:text-2xl"
+            >
+              機能を探す
+            </h2>
+            <p className="mt-1 text-sm text-slate-400">
+              目的別に整理した機能一覧です。
+            </p>
+          </div>
+
+          <label className="relative block w-full sm:max-w-sm">
+            <span className="sr-only">機能名や内容で絞り込む</span>
+            <svg
+              aria-hidden="true"
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="11" cy="11" r="7" strokeWidth="1.8" />
+              <path d="m16 16 4 4" strokeLinecap="round" strokeWidth="1.8" />
+            </svg>
+            <input
+              type="search"
+              value={featureQuery}
+              onChange={(event) => setFeatureQuery(event.target.value)}
+              placeholder="機能を検索..."
+              className="min-h-11 w-full rounded-xl border border-slate-700 bg-slate-900/80 py-2 pl-10 pr-4 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/25"
+            />
+          </label>
+        </div>
+
+        <p aria-live="polite" className="mt-4 text-xs text-slate-400">
+          {searchTerm
+            ? `${filteredGroups.reduce((count, group) => count + group.features.length, 0)} 件の機能`
+            : `全 ${featureCount} 件`}
+        </p>
+
+        {filteredGroups.length > 0 ? (
+          <div className="mt-4 space-y-7">
+            {filteredGroups.map((group) => (
+              <section
+                key={group.id}
+                aria-labelledby={`feature-group-${group.id}`}
+                className="space-y-3"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span
+                    aria-hidden="true"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-700 bg-slate-900 text-base"
+                  >
+                    {group.icon}
+                  </span>
+                  <div>
+                    <h3
+                      id={`feature-group-${group.id}`}
+                      className="text-sm font-semibold text-slate-200"
+                    >
+                      {group.title}
+                    </h3>
+                    <p className="text-xs text-slate-400">{group.description}</p>
+                  </div>
+                </div>
+
+                <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
+                  {group.features.map((feature) => (
+                    <li key={feature.href}>
+                      <Link
+                        href={feature.href}
+                        className="group flex min-h-16 items-center gap-3 rounded-xl border border-slate-700/70 bg-slate-900/55 px-3.5 py-3 transition duration-200 hover:border-indigo-400/50 hover:bg-slate-800/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-lg"
+                        >
+                          {feature.icon}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm font-semibold text-slate-100">
+                            {feature.name}
+                          </span>
+                          <span className="mt-0.5 block truncate text-xs text-slate-400">
+                            {feature.description}
+                          </span>
+                        </span>
+                        {feature.badge && (
+                          <span className="rounded-md border border-indigo-400/30 bg-indigo-500/10 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-200">
+                            {feature.badge}
+                          </span>
+                        )}
+                        <span
+                          aria-hidden="true"
+                          className="text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-indigo-300"
+                        >
+                          →
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
           </div>
         ) : (
-          <div className="text-center text-slate-400 text-gray-500 py-12 card-basic border border-dashed border-slate-800">
-            <p className="text-lg font-medium mb-3 text-slate-300 text-gray-500 dark:text-gray-400">まだ日記がありません</p>
-            <Link href="/diaries/new" className="btn btn-primary inline-block">
-              最初の日記を作成
-            </Link>
+          <div className="mt-4 rounded-2xl border border-dashed border-slate-700 bg-slate-900/50 px-5 py-10 text-center">
+            <p className="font-medium text-slate-200">
+              該当する機能が見つかりません
+            </p>
+            <p className="mt-1 text-sm text-slate-400">
+              別のキーワードで検索してください。
+            </p>
+            <button
+              type="button"
+              onClick={() => setFeatureQuery('')}
+              className="mt-4 rounded-lg px-3 py-2 text-sm font-medium text-indigo-300 transition hover:bg-slate-800 hover:text-indigo-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+            >
+              検索をクリア
+            </button>
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 };

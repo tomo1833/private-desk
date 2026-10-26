@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import RootLayout from '@/app/layout';
 
 describe('RootLayout', () => {
@@ -15,7 +15,7 @@ describe('RootLayout', () => {
     // Check for header
     const header = screen.getByRole('banner');
     expect(header).toBeInTheDocument();
-    expect(header).toHaveClass('backdrop-blur-md', 'shadow-lg');
+    expect(header).toHaveClass('backdrop-blur-xl', 'shadow-lg');
     
     // Check for main content area - responsive mt and mb
     const main = screen.getByRole('main');
@@ -50,7 +50,26 @@ describe('RootLayout', () => {
     
     // Check search form has proper styling
     const searchForm = searchInput.closest('form');
-    expect(searchForm).toHaveClass('flex', 'rounded-lg', 'overflow-hidden', 'shadow-md');
+    expect(searchForm).toHaveClass('flex', 'rounded-xl', 'overflow-hidden', 'shadow-inner');
+  });
+
+  it('provides an accessible feature menu across the application', () => {
+    render(<RootLayout>{mockChildren}</RootLayout>);
+
+    const menuButton = screen.getByRole('button', { name: '機能メニューを開く' });
+    fireEvent.click(menuButton);
+
+    expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('navigation', { name: '機能メニュー' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /日記・日報/ })
+    ).toHaveAttribute('href', '/diaries');
+
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+    expect(
+      screen.queryByRole('navigation', { name: '機能メニュー' })
+    ).not.toBeInTheDocument();
   });
 
   it('renders children content', () => {
@@ -89,11 +108,11 @@ describe('RootLayout', () => {
     const header = screen.getByRole('banner');
     // Updated for responsive design with bg-white/10, dark mode support, responsive padding
     expect(header).toHaveClass(
-      'backdrop-blur-md',
+      'backdrop-blur-xl',
       'fixed',
       'top-0',
-      'w-full',
-      'z-10',
+      'inset-x-0',
+      'z-50',
       'shadow-lg',
       'border-b'
     );

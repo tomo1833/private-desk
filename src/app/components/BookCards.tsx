@@ -1,6 +1,7 @@
 'use client';
 import type { Book } from '@/types/book';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import MarkdownRenderer from '@/app/components/MarkdownRenderer';
 
 type Props = {
@@ -92,10 +93,14 @@ const BookCards: React.FC<Props> = ({ books, viewMode = 'card', onDelete }) => {
                 📚
               </span>
               <h3
-                onClick={() => router.push(`/books/${book.id}`)}
-                className="font-bold text-base sm:text-lg text-slate-100 group-hover:text-amber-300 transition-colors cursor-pointer truncate flex-1"
+                className="min-w-0 flex-1 truncate font-bold text-base text-slate-100 transition-colors group-hover:text-amber-300 sm:text-lg"
               >
-                {book.title}
+                <Link
+                  href={`/books/${book.id}`}
+                  className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                >
+                  {book.title}
+                </Link>
               </h3>
             </div>
             <MarkdownRenderer className="line-clamp-3 text-xs sm:text-sm text-slate-300 leading-relaxed">

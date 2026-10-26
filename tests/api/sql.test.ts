@@ -10,10 +10,9 @@ describe('SQL API', () => {
   });
 
   it('should list tables', async () => {
-    const req = new Request('http://localhost/api/sql/tables');
-    const res = await GET_TABLES(req as unknown as Request);
+    const res = await GET_TABLES();
     expect(res.status).toBe(200);
-    const data = await res.json();
+    const data: { rows: { name: string }[] } = await res.json();
     expect(Array.isArray(data)).toBe(true);
     expect(data).toContain('author');
   });

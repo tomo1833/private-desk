@@ -2,6 +2,7 @@
 import type { Blog } from '@/types/blog';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Props = {
   blogs: Blog[];
@@ -106,11 +107,13 @@ const BlogCards: React.FC<Props> = ({ blogs, viewMode = 'card', onDelete }) => {
               <span>{blog.author ? `👤 ${blog.author}` : ''}</span>
               <span>{blog.created_at ? new Date(blog.created_at).toLocaleDateString('ja-JP') : ''}</span>
             </div>
-            <h3
-              onClick={() => router.push(`/blogs/${blog.id}`)}
-              className="font-bold text-base sm:text-lg text-slate-100 group-hover:text-violet-300 transition-colors cursor-pointer truncate"
-            >
-              {blog.title}
+            <h3 className="truncate font-bold text-base text-slate-100 transition-colors group-hover:text-violet-300 sm:text-lg">
+              <Link
+                href={`/blogs/${blog.id}`}
+                className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+              >
+                {blog.title}
+              </Link>
             </h3>
             <p className="line-clamp-3 text-xs sm:text-sm whitespace-pre-wrap text-slate-300 leading-relaxed">
               {blog.content}
