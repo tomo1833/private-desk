@@ -818,6 +818,21 @@ select option {
   @apply mx-auto w-full;
 }
 
+/* Wider forms and detail pages: override the narrow per-page max-w utilities */
+.page-wrap.max-w-2xl,
+.page-wrap.max-w-3xl {
+  max-width: min(100%, 64rem);
+}
+
+.page-wrap.max-w-4xl {
+  max-width: min(100%, 76rem);
+}
+
+.page-wrap .form-textarea,
+.page-wrap textarea {
+  min-height: 16rem;
+}
+
 .page-wrap > :first-child h1 {
   color: #f2eee8;
   font-size: clamp(1.375rem, 2vw, 1.875rem);
