@@ -66,7 +66,7 @@ const ListControls: React.FC<Props> = ({
             placeholder={searchPlaceholder}
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="form-input min-h-11 w-full pl-10 pr-24 text-sm"
+            className="form-input min-h-11 w-full pl-10! pr-24 text-sm"
           />
           {searchQuery && (
             <button
@@ -110,7 +110,7 @@ const ListControls: React.FC<Props> = ({
               onClick={() => onViewModeChange('card')}
               className={`inline-flex min-h-11 items-center gap-1.5 rounded-lg px-3 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
                 viewMode === 'card'
-                  ? 'bg-indigo-500/20 text-indigo-100'
+                  ? 'bg-indigo-500 text-white shadow-sm'
                   : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100'
               }`}
             >
@@ -124,7 +124,7 @@ const ListControls: React.FC<Props> = ({
               onClick={() => onViewModeChange('table')}
               className={`inline-flex min-h-11 items-center gap-1.5 rounded-lg px-3 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
                 viewMode === 'table'
-                  ? 'bg-indigo-500/20 text-indigo-100'
+                  ? 'bg-indigo-500 text-white shadow-sm'
                   : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100'
               }`}
             >
