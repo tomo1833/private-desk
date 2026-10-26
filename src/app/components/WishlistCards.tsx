@@ -63,7 +63,7 @@ export const WishlistCards: React.FC<WishlistCardsProps> = ({
         return (
           <div
             key={item.id}
-            className="group relative flex flex-col justify-between rounded-2xl bg-slate-900/70 backdrop-blur-xl border border-slate-800/80 p-4 hover:border-indigo-500/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+            className="card-basic group relative flex flex-col justify-between space-y-0 transition-colors"
           >
             <div className="space-y-3">
               {/* アイテム画像 (登録があれば表示) */}
@@ -128,9 +128,10 @@ export const WishlistCards: React.FC<WishlistCardsProps> = ({
               {/* ステータスクイック変更 */}
               {onStatusChange ? (
                 <select
+                  aria-label={`「${item.title}」のステータス`}
                   value={item.status}
                   onChange={(e) => onStatusChange(item.id, e.target.value)}
-                  className="text-xs bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-2 py-1 outline-none focus:border-indigo-500"
+                  className="form-select min-h-11 w-auto min-w-0 px-2 py-1 text-xs"
                 >
                   <option value="Wanted">🎁 欲しい</option>
                   <option value="Considering">🤔 検討中</option>
@@ -147,27 +148,29 @@ export const WishlistCards: React.FC<WishlistCardsProps> = ({
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 text-xs text-indigo-400 hover:text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-lg transition-colors flex items-center gap-1"
-                    title="商品ページを開く"
+                    aria-label={`「${item.title}」の商品ページを新しいタブで開く`}
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10 text-sm text-indigo-200 transition-colors hover:bg-indigo-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                   >
                     🔗
                   </a>
                 )}
                 <Link
                   href={`/wishlists/edit/${item.id}`}
-                  className="p-1.5 text-xs text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-lg transition-colors"
-                  title="編集"
+                  aria-label={`「${item.title}」を編集`}
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-slate-700 bg-slate-800 text-sm text-slate-200 transition-colors hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                 >
                   ✏️
                 </Link>
                 {onDelete && (
                   <button
+                    type="button"
+                    aria-label={`「${item.title}」を削除`}
                     onClick={() => {
                       if (confirm(`「${item.title}」を削除してもよろしいですか？`)) {
                         onDelete(item.id);
                       }
                     }}
-                    className="p-1.5 text-xs text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-lg transition-colors"
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-rose-800/70 bg-rose-950/50 text-sm text-rose-200 transition-colors hover:bg-rose-900/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
                     title="削除"
                   >
                     🗑️

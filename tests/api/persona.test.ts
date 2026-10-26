@@ -2,6 +2,8 @@ import { GET, POST } from '../../src/app/api/persona/route';
 import { GET as GET_ID, PUT, DELETE } from '../../src/app/api/persona/[id]/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
+type PersonaRow = { id: number };
+
 function createPostRequest(body: any) {
   return new Request('http://localhost/api/persona', {
     method: 'POST',
@@ -20,8 +22,7 @@ function createPutRequest(id: number, body: any) {
 
 describe('GET /api/persona', () => {
   it('should return list of personas', async () => {
-    const req = new Request('http://localhost/api/persona');
-    const res = await GET(req as any);
+    const res = await GET();
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
@@ -42,7 +43,7 @@ describe('POST /api/persona', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = await runSelect('SELECT * FROM persona WHERE name = ?', [entry.name]);
+    const rows = await runSelect<PersonaRow>('SELECT * FROM persona WHERE name = ?', [entry.name]);
     expect(rows.length).toBe(1);
   });
 
@@ -65,7 +66,7 @@ describe('Persona update and delete', () => {
     const createReq = createPostRequest(entry);
     const createRes = await POST(createReq as any);
     expect(createRes.status).toBe(200);
-    const row = (await runSelect('SELECT * FROM persona WHERE name = ?', [entry.name]))[0];
+    const row = (await runSelect<PersonaRow>('SELECT * FROM persona WHERE name = ?', [entry.name]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { name: 'up', description: 'd2' });
@@ -76,7 +77,7 @@ describe('Persona update and delete', () => {
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(deleteRes.status).toBe(200);
 
-    const rows = await runSelect('SELECT * FROM persona WHERE id = ?', [id]);
+    const rows = await runSelect<PersonaRow>('SELECT * FROM persona WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 });

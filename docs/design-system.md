@@ -1,81 +1,49 @@
-# デザインシステム
+# UIデザインシステム
 
-## カードコンポーネント統一ルール
+## デザイン方針
 
-### 基本カード（一覧・詳細）
-```tsx
-className="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-4 sm:p-6"
-```
+- 装飾より情報の優先順位と操作の分かりやすさを優先する。
+- 背景は落ち着いたスレート系、強調色はインディゴを基本にする。
+- 1画面に主操作をひとつ置き、補助操作は視覚的に控えめにする。
+- 機能名・説明・アイコンは一度だけ表示し、重複させない。
 
-### フォームカード（編集・新規作成）
-```tsx
-className="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-xl p-8 space-y-6 border border-gray-200 dark:border-gray-700 shadow-lg"
-```
+## 色とサーフェス
 
-## テキスト色
+| 役割 | 推奨スタイル |
+| --- | --- |
+| ページ背景 | `#0b1220` 〜 `#111827` の低彩度なダークトーン |
+| パネル | `bg-slate-950/75` または `bg-slate-900/70` |
+| カード | `bg-slate-900/55`、境界線は `border-slate-700/70` |
+| 主アクセント | `indigo-300`〜`indigo-500` |
+| 本文 | `text-slate-100` |
+| 補助説明 | `text-slate-300`、注釈は `text-slate-400` |
+| エラー | `rose` 系の文字色と背景色を併用 |
 
-### 見出し
-- `text-gray-900 dark:text-white`
+過度に鮮やかな全面グラデーション、常時発光するカード、低コントラストの小さな説明文は避けます。
 
-### 本文
-- `text-gray-700 dark:text-gray-300`
+## 共通ヘッダー
 
-### サブテキスト
-- `text-gray-600 dark:text-gray-400`
+- 高さは64pxを基準にし、ホームリンク、横断検索、テーマ切替、機能メニューを提供する。
+- 機能メニューは画面幅にかかわらず利用でき、グループ別に全機能へ移動できる。
+- モバイルではロゴ・検索・操作ボタンを一行に保ち、ヘッダー内のすべての `.flex` を一括で縦並びにしない。
+- メニューは `aria-expanded` と `aria-controls` を設定し、Escapeキーと閉じる操作に対応する。
 
-### ラベル
-- `text-gray-900 dark:text-white font-semibold`
+機能の名称・カテゴリ・説明は [`src/app/features.ts`](../src/app/features.ts) を共通データとして参照します。
 
-## 入力フィールド
+## ホーム画面
 
-### テキスト入力
-```tsx
-className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-```
+- 最初に「よく使う操作」と「最近の記録」を配置する。
+- 全機能はカテゴリで整理し、キーワード検索で絞り込めるようにする。
+- 初期データの読み込み中も、ホームと主要操作を表示する。
+- 画面幅に応じてカード列数を調整し、スマートフォンでは主要操作のタッチ領域を44px以上確保する。
 
-## 背景グラデーション
+## 操作とアクセシビリティ
 
-```css
-background: linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a202c 100%);
-```
+- すべてのリンク・ボタンに明確な名前を付け、キーボードフォーカスを視認できるようにする。
+- 色だけで状態やカテゴリを伝えず、文字・ラベル・アイコンを併用する。
+- 動きを伴う表示は `prefers-reduced-motion` を尊重する。
+- 主要画面は見出し階層を整え、読み込み・エラー・空状態を個別に知らせる。
 
-## ヘッダー・フッター
+## 適用範囲
 
-- 背景: `bg-white/10 backdrop-blur-md`（ヘッダー）、`bg-gray-900/10 backdrop-blur-md`（フッター）
-- テキスト: `text-white`
-- ボーダー: `border-gray-200/20`
-
-## 修正が必要なファイル
-
-以下のファイルは旧デザイン(`bg-white/90` + `border-white/40`)を使用しているため、統一が必要：
-
-- [ ] src/app/blogs/page.tsx
-- [ ] src/app/wikis/new/page.tsx
-- [ ] src/app/wikis/edit/[id]/page.tsx
-- [ ] src/app/personas/new/page.tsx
-- [ ] src/app/personas/edit/[id]/page.tsx
-- [ ] src/app/passwords/new/page.tsx
-- [ ] src/app/html-playground/page.tsx
-- [ ] src/app/diaries/new/page.tsx
-- [ ] src/app/diaries/edit/[id]/page.tsx
-- [ ] src/app/expenses/new/page.tsx
-- [ ] src/app/expenses/edit/[id]/page.tsx
-- [ ] src/app/blogs/new/page.tsx
-- [ ] src/app/blogs/edit/[id]/page.tsx
-- [ ] src/app/authors/new/page.tsx
-- [ ] src/app/authors/edit/[id]/page.tsx
-- [ ] src/app/components/PasswordCards.tsx
-- [ ] src/app/components/BlogCards.tsx
-
-## 統一完了済み
-
-- [x] src/app/diaries/page.tsx
-- [x] src/app/(main)/page.tsx
-- [x] src/app/passwords/page.tsx
-- [x] src/app/passwords/edit/[id]/page.tsx
-- [x] src/app/components/DiaryCards.tsx
-- [x] src/app/files/page.tsx
-- [x] src/app/sql/page.tsx
-- [x] src/app/layout.tsx (header/footer)
-- [x] src/app/components/Header.tsx
-- [x] src/app/globals.css (background)
+このルールは共通ヘッダー、ホーム画面、共有フォーム・カード・一覧コントロールに適用済みです。機能固有の入力項目や操作フローを変更するときも、同じ色・余白・フォーカス規則を使って確認します。

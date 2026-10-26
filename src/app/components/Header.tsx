@@ -1,137 +1,160 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ThemeToggle from './ThemeToggle';
+import { APP_FEATURE_GROUPS } from '@/app/features';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
-      <header className="bg-slate-900/75 backdrop-blur-md text-white py-3 sm:py-3.5 px-4 sm:px-8 fixed top-0 w-full z-10 z-50 shadow-lg border-b border-slate-800/80">
-        <div className="max-w-[2360px] mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <h1 className="text-base sm:text-lg font-bold">
-              <Link href="/" className="flex items-center gap-2.5 group">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
-                  <span className="text-white text-sm font-bold">PD</span>
-                </div>
-                <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-300 tracking-tight text-lg hidden xs:inline">
-                  Private Desk
-                </span>
-                <span className="sr-only"> - このアプリの共通レイアウト</span>
-              </Link>
-            </h1>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <form
-              action="/search"
-              className="flex rounded-lg overflow-hidden shadow-md bg-slate-800/80 backdrop-blur-sm border border-slate-700/80 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/30 transition-all"
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-700/70 bg-slate-950/90 text-slate-100 shadow-lg shadow-black/10 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-screen-2xl items-center gap-3 px-3 sm:gap-5 sm:px-6">
+          <Link
+            href="/"
+            aria-label="Private Desk ホーム"
+            className="flex shrink-0 items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+          >
+            <span
+              aria-hidden="true"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500 text-sm font-bold text-white shadow-md shadow-indigo-950/40"
             >
-              <input
-                type="text"
-                name="q"
-                placeholder="検索"
-                className="px-3 py-1.5 text-xs sm:text-sm text-white placeholder-slate-400 outline-none bg-transparent w-28 sm:w-44 md:w-56 focus:w-36 sm:focus:w-60 transition-all duration-200"
-              />
-              <button
-                type="submit"
-                aria-label="検索"
-                className="px-2.5 sm:px-3 hover:bg-slate-700/60 transition-colors flex items-center justify-center"
-              >
-                <Image src="/search.svg" alt="検索" width={16} height={16} className="opacity-80 hover:opacity-100" />
-              </button>
-            </form>
+              PD
+            </span>
+            <span className="hidden text-base font-semibold tracking-tight text-slate-100 sm:inline">
+              Private Desk
+            </span>
+            <span className="sr-only"> - このアプリの共通レイアウト</span>
+          </Link>
 
-            <ThemeToggle />
-
-            {/* ハンバーガーメニューボタン（モバイルのみ） */}
+          <form
+            action="/search"
+            role="search"
+            aria-label="サイト内検索"
+            className="flex min-w-0 max-w-xl flex-1 overflow-hidden rounded-xl border border-slate-700 bg-slate-900/80 shadow-inner transition focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-500/25"
+          >
+            <label htmlFor="site-search" className="sr-only">
+              サイト内を検索
+            </label>
+            <input
+              id="site-search"
+              type="text"
+              name="q"
+              placeholder="検索"
+              className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-400 sm:px-4"
+            />
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="sm:hidden flex items-center justify-center p-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 rounded-xl border border-slate-700 shadow-sm transition-all active:scale-95"
-              aria-label="メニューを開く"
+              type="submit"
+              aria-label="検索"
+              className="flex shrink-0 items-center justify-center px-3 text-slate-300 transition hover:bg-slate-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-400"
+            >
+              <Image src="/search.svg" alt="検索" width={16} height={16} />
+            </button>
+          </form>
+
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+            <ThemeToggle />
+            <button
+              ref={menuButtonRef}
+              type="button"
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-label={menuOpen ? '機能メニューを閉じる' : '機能メニューを開く'}
+              aria-expanded={menuOpen}
+              aria-controls="feature-menu"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-2.5 text-slate-200 transition hover:border-slate-600 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 sm:px-3"
             >
               <svg
-                className="w-5 h-5"
+                aria-hidden="true"
+                className="h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 {menuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
+              <span className="hidden text-sm font-medium sm:inline">機能</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* ドロップダウンメニュー（モバイルのみ） */}
-      <div
-        className={`
-          fixed top-14 left-0 right-0 sm:hidden
-          bg-slate-900/95 backdrop-blur-2xl
-          shadow-2xl border-b border-slate-800/80
-          transition-all duration-300 ease-in-out z-40
-          ${menuOpen ? 'max-h-[85vh] opacity-100 overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'}
-        `}
-      >
-        <div className="p-4 space-y-4">
-          <div>
-            <div className="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-2">記録 & ナレッジ</div>
-            <div className="grid grid-cols-2 gap-2">
-              <Link href="/wikis" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>📝 Wiki</Link>
-              <Link href="/blogs" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>✍️ ブログ</Link>
-              <Link href="/narous" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>📖 なろう小説</Link>
-              <Link href="/diaries" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>📔 日記一覧</Link>
-              <Link href="/authors" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>👤 著者</Link>
-              <Link href="/personas" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🎭 ペルソナ</Link>
+      {menuOpen && (
+        <>
+          <button
+            type="button"
+            aria-label="機能メニューを閉じる"
+            onClick={closeMenu}
+            className="fixed inset-0 z-40 cursor-default bg-slate-950/40"
+          />
+          <nav
+            id="feature-menu"
+            aria-label="機能メニュー"
+            className="fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-slate-700/80 bg-slate-950/95 shadow-2xl shadow-black/30 backdrop-blur-xl"
+          >
+            <div className="mx-auto grid max-w-7xl gap-6 px-4 py-5 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
+              {APP_FEATURE_GROUPS.map((group) => (
+                <section key={group.id} aria-labelledby={`menu-${group.id}`}>
+                  <div className="mb-3">
+                    <h2
+                      id={`menu-${group.id}`}
+                      className="flex items-center gap-2 text-sm font-semibold text-slate-100"
+                    >
+                      <span aria-hidden="true">{group.icon}</span>
+                      {group.title}
+                    </h2>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                      {group.description}
+                    </p>
+                  </div>
+                  <ul className="grid grid-cols-2 gap-2 sm:grid-cols-1">
+                    {group.features.map((feature) => (
+                      <li key={feature.href}>
+                        <Link
+                          href={feature.href}
+                          onClick={closeMenu}
+                          className="group flex min-h-11 items-center gap-2 rounded-lg border border-transparent px-2.5 py-2 text-sm text-slate-300 transition hover:border-slate-700 hover:bg-slate-900 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                        >
+                          <span aria-hidden="true" className="text-base">
+                            {feature.icon}
+                          </span>
+                          <span className="min-w-0 flex-1 truncate">{feature.name}</span>
+                          <span aria-hidden="true" className="text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-indigo-300">
+                            →
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
             </div>
-          </div>
-
-          <div>
-            <div className="text-xs font-semibold text-purple-400 uppercase tracking-wider mb-2">エンタメ & 学習</div>
-            <div className="grid grid-cols-2 gap-2">
-              <Link href="/animes" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🎬 アニメ記録</Link>
-              <Link href="/books" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>📚 本</Link>
-              <Link href="/movies" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🎞 映画</Link>
-              <Link href="/musics" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🎵 音楽</Link>
-              <Link href="/udemys" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🎓 Udemy</Link>
-            </div>
-          </div>
-
-          <div>
-            <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-2">ツール & 管理</div>
-            <div className="grid grid-cols-2 gap-2">
-              <Link href="/passwords" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🔐 パスワード</Link>
-              <Link href="/expenses" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>💰 家計簿</Link>
-              <Link href="/wishlists" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🎁 ほしいもの</Link>
-              <Link href="/stocks" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>📈 日本株</Link>
-              <Link href="/subscriptions" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>💻 サブスク</Link>
-              <Link href="/files" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>📁 ファイル</Link>
-              <Link href="/schedule" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>📅 カレンダー</Link>
-              <Link href="/wbs" className="btn btn-primary text-xs py-2" onClick={() => setMenuOpen(false)}>📊 WBS</Link>
-              <Link href="/sql" className="btn btn-secondary text-xs py-2" onClick={() => setMenuOpen(false)}>🛢 SQL</Link>
-            </div>
-          </div>
-        </div>
-      </div>
+          </nav>
+        </>
+      )}
     </>
   );
 };

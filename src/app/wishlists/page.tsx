@@ -16,23 +16,27 @@ export default function WishlistPage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'priority' | 'price_desc' | 'price_asc' | 'created'>('priority');
 
-  const fetchItems = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch('/api/wishlist');
-      if (!res.ok) throw new Error('データ取得に失敗しました');
-      const data: WishlistItem[] = await res.json();
-      setItems(data);
-    } catch (err) {
-      console.error(err);
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchItems();
+    let isMounted = true;
+
+    const loadItems = async () => {
+      try {
+        const res = await fetch('/api/wishlist');
+        if (!res.ok) throw new Error('データ取得に失敗しました');
+        const data: WishlistItem[] = await res.json();
+        if (isMounted) setItems(data);
+      } catch (err) {
+        console.error(err);
+        if (isMounted) setError((err as Error).message);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    void loadItems();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleStatusChange = async (id: number, newStatus: string) => {
@@ -151,77 +155,79 @@ export default function WishlistPage() {
   }, [items, statusFilter, categoryFilter, searchQuery, sortBy]);
 
   return (
-    <div className="space-y-8 page-wrap">
-      {/* ページタイトル & ヘッダーアクション */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-indigo-950/60 via-slate-900/60 to-purple-950/60 p-6 rounded-3xl border border-indigo-500/20 shadow-xl backdrop-blur-xl">
+    <div className="space-y-6 page-wrap">
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-2xl">🎁</span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-indigo-200">
+          <div className="flex items-center gap-2">
+            <span aria-hidden="true" className="text-xl">🎁</span>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-100 sm:text-3xl">
               ほしいものリスト
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-400">
             買いたいもの・欲しいアイテムの優先度、見積金額、購入状態を一括管理します
           </p>
         </div>
-        <Link href="/wishlists/new" className="btn btn-primary text-xs sm:text-sm whitespace-nowrap self-start sm:self-auto">
-          ✨ 新しい欲しいものを追加
+        <Link href="/wishlists/new" className="btn btn-primary whitespace-nowrap">
+          <span aria-hidden="true">＋</span> 欲しいものを追加
         </Link>
       </div>
 
-      {/* サマリーカード（集計情報） */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 backdrop-blur-xl space-y-1">
-          <div className="flex items-center justify-between text-xs text-indigo-300 font-semibold">
-            <span>🎁 欲しい（未購入）</span>
-            <span className="px-2 py-0.5 rounded-full bg-indigo-500/20">{summary.wantedCount} 件</span>
+      <section aria-label="ほしいものの集計">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4">
+          <div className="card-basic min-w-0 space-y-1.5 p-3 sm:space-y-2 sm:p-4">
+            <div className="flex items-center justify-between gap-1 text-xs font-medium text-slate-300 sm:text-sm">
+              <span className="truncate">欲しい</span>
+              <span className="shrink-0 text-[10px] text-slate-400 sm:text-xs">{summary.wantedCount} 件</span>
+            </div>
+            <p className="truncate text-sm font-semibold tracking-tight text-slate-100 sm:text-2xl">
+              ¥{summary.wantedTotal.toLocaleString()}
+            </p>
           </div>
-          <p className="text-xl sm:text-2xl font-extrabold text-white font-mono">
-            ¥{summary.wantedTotal.toLocaleString()}
-          </p>
-        </div>
 
-        <div className="p-4 rounded-2xl bg-purple-950/40 border border-purple-500/30 backdrop-blur-xl space-y-1">
-          <div className="flex items-center justify-between text-xs text-purple-300 font-semibold">
-            <span>🤔 検討中</span>
-            <span className="px-2 py-0.5 rounded-full bg-purple-500/20">{summary.consideringCount} 件</span>
+          <div className="card-basic min-w-0 space-y-1.5 p-3 sm:space-y-2 sm:p-4">
+            <div className="flex items-center justify-between gap-1 text-xs font-medium text-slate-300 sm:text-sm">
+              <span className="truncate">検討中</span>
+              <span className="shrink-0 text-[10px] text-slate-400 sm:text-xs">{summary.consideringCount} 件</span>
+            </div>
+            <p className="truncate text-sm font-semibold tracking-tight text-slate-100 sm:text-2xl">
+              ¥{summary.consideringTotal.toLocaleString()}
+            </p>
           </div>
-          <p className="text-xl sm:text-2xl font-extrabold text-purple-200 font-mono">
-            ¥{summary.consideringTotal.toLocaleString()}
-          </p>
-        </div>
 
-        <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 backdrop-blur-xl space-y-1">
-          <div className="flex items-center justify-between text-xs text-emerald-300 font-semibold">
-            <span>✅ 購入済み</span>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/20">{summary.purchasedCount} 件</span>
+          <div className="card-basic min-w-0 space-y-1.5 p-3 sm:space-y-2 sm:p-4">
+            <div className="flex items-center justify-between gap-1 text-xs font-medium text-slate-300 sm:text-sm">
+              <span className="truncate">購入済み</span>
+              <span className="shrink-0 text-[10px] text-slate-400 sm:text-xs">{summary.purchasedCount} 件</span>
+            </div>
+            <p className="truncate text-sm font-semibold tracking-tight text-slate-100 sm:text-2xl">
+              ¥{summary.purchasedTotal.toLocaleString()}
+            </p>
           </div>
-          <p className="text-xl sm:text-2xl font-extrabold text-emerald-300 font-mono">
-            ¥{summary.purchasedTotal.toLocaleString()}
-          </p>
         </div>
-      </div>
+      </section>
 
-      {/* コントロールバー（検索・フィルタリング・ソート） */}
-      <div className="p-4 rounded-2xl bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 flex flex-col md:flex-row md:items-center justify-between gap-3">
-        {/* 検索入力 */}
-        <div className="relative flex-1">
+      <section aria-label="ほしいものの検索と絞り込み" className="card-basic space-y-4">
+        <div className="relative">
+          <label htmlFor="wishlist-search" className="sr-only">
+            商品名やメモを検索
+          </label>
           <input
-            type="text"
+            id="wishlist-search"
+            type="search"
             placeholder="商品名やメモを検索..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-100 placeholder-slate-400 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+            className="form-input"
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          {/* ステータスフィルター */}
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           <select
+            aria-label="ステータスで絞り込む"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-800 border border-slate-700 text-slate-200 rounded-xl px-3 py-2 outline-none focus:border-indigo-500"
+            className="form-select text-sm"
           >
             <option value="ALL">すべてのステータス</option>
             <option value="Wanted">🎁 欲しい</option>
@@ -230,11 +236,11 @@ export default function WishlistPage() {
             <option value="Archived">📦 見送り</option>
           </select>
 
-          {/* カテゴリフィルター */}
           <select
+            aria-label="カテゴリで絞り込む"
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="bg-slate-800 border border-slate-700 text-slate-200 rounded-xl px-3 py-2 outline-none focus:border-indigo-500"
+            className="form-select text-sm"
           >
             <option value="ALL">すべてのカテゴリ</option>
             {categories.map((cat) => (
@@ -244,11 +250,11 @@ export default function WishlistPage() {
             ))}
           </select>
 
-          {/* ソート設定 */}
           <select
+            aria-label="並び順"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'priority' | 'price_desc' | 'price_asc' | 'created')}
-            className="bg-slate-800 border border-slate-700 text-slate-200 rounded-xl px-3 py-2 outline-none focus:border-indigo-500"
+            className="form-select text-sm"
           >
             <option value="priority">優先度が高い順</option>
             <option value="price_desc">価格が高い順</option>
@@ -256,16 +262,21 @@ export default function WishlistPage() {
             <option value="created">登録日時が新しい順</option>
           </select>
         </div>
-      </div>
+        <p role="status" aria-live="polite" className="text-xs text-slate-400">
+          {filteredItems.length === items.length
+            ? `全 ${items.length} 件`
+            : `${filteredItems.length} / ${items.length} 件を表示`}
+        </p>
+      </section>
 
       {/* メインカードグリッド表示 */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-16 space-y-3">
           <div className="w-8 h-8 border-3 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-400 text-sm animate-pulse">読み込み中...</p>
+          <p role="status" className="text-slate-400 text-sm animate-pulse">読み込み中...</p>
         </div>
       ) : error ? (
-        <div className="text-center text-rose-400 bg-rose-950/40 border border-rose-800/50 p-6 rounded-2xl">
+        <div role="alert" className="rounded-2xl border border-rose-800/50 bg-rose-950/40 p-6 text-center text-rose-200">
           {error}
         </div>
       ) : (

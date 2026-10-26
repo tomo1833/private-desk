@@ -6,9 +6,11 @@ import MainPage from '@/app/(main)/page';
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
+type MockItem = { id: number; title: string };
+
 // Mock components for accessibility testing
 jest.mock('@/app/components/PasswordList', () => {
-  return function MockPasswordList({ passwords }: { passwords: any[] }) {
+  return function MockPasswordList({ passwords }: { passwords: MockItem[] }) {
     return (
       <div role="list" aria-label="パスワード一覧">
         {passwords.map(p => (
@@ -22,7 +24,7 @@ jest.mock('@/app/components/PasswordList', () => {
 });
 
 jest.mock('@/app/components/WikiCards', () => {
-  return function MockWikiCards({ wikis }: { wikis: any[] }) {
+  return function MockWikiCards({ wikis }: { wikis: MockItem[] }) {
     return (
       <div role="list" aria-label="Wiki一覧">
         {wikis.map(w => (
@@ -36,7 +38,7 @@ jest.mock('@/app/components/WikiCards', () => {
 });
 
 jest.mock('@/app/components/DiaryCards', () => {
-  return function MockDiaryCards({ diaries, onDelete }: { diaries: any[], onDelete: (id: number) => void }) {
+  return function MockDiaryCards({ diaries, onDelete }: { diaries: MockItem[], onDelete: (id: number) => void }) {
     return (
       <div role="list" aria-label="日報一覧">
         {diaries.map(d => (
@@ -56,7 +58,7 @@ jest.mock('@/app/components/DiaryCards', () => {
 });
 
 jest.mock('@/app/components/BlogCards', () => {
-  return function MockBlogCards({ blogs, onDelete }: { blogs: any[], onDelete: (id: number) => void }) {
+  return function MockBlogCards({ blogs, onDelete }: { blogs: MockItem[], onDelete: (id: number) => void }) {
     return (
       <div role="list" aria-label="ブログ一覧">
         {blogs.map(b => (
@@ -92,7 +94,7 @@ describe('Design Accessibility Tests', () => {
     jest.clearAllMocks();
     
     // Setup successful fetch responses
-    mockFetch.mockImplementation((url: string | Request | URL) => {
+    mockFetch.mockImplementation(() => {
       return Promise.resolve({
         ok: true,
         json: () => Promise.resolve([])
@@ -188,16 +190,15 @@ describe('Design Accessibility Tests', () => {
       await new Promise(resolve => setTimeout(resolve, 100));
 
       // Check that headings follow proper hierarchy (h1 -> h2 -> h3, etc.)
-      const headings = container.querySelectorAll('h1, h2, h3, h4, h5, h6');
-      
       // Should have h2 headings for main sections
       const h2Headings = container.querySelectorAll('h2');
       expect(h2Headings.length).toBeGreaterThan(0);
 
       // Updated expected headings for new simplified page structure
       const expectedHeadings = [
-        '日記一覧',
-        'その他の機能'
+        '今日のデスク',
+        '機能を探す',
+        '最近の日記'
       ];
 
       expectedHeadings.forEach(headingText => {
@@ -215,7 +216,7 @@ describe('Design Accessibility Tests', () => {
       const actionButtons = container.querySelectorAll('a[href]');
       
       const expectedButtons = [
-        { href: '/diaries/new', text: '新規作成' },
+        { href: '/diaries/new', text: '日記を書く' },
         { href: '/wikis', text: 'Wiki' },
         { href: '/blogs', text: 'ブログ' },
         { href: '/passwords', text: 'パスワード' },
@@ -264,17 +265,16 @@ describe('Design Accessibility Tests', () => {
     });
 
     it('should provide status messages for loading and error states', async () => {
-      const { container, rerender } = render(<MainPage />);
+      const { container } = render(<MainPage />);
 
       // Initially should show loading state
-      expect(container).toHaveTextContent('読み込み中...');
+      expect(container).toHaveTextContent('最新の日記を読み込み中...');
 
       // After loading completes, should show appropriate content or empty states
       await new Promise(resolve => setTimeout(resolve, 100));
       
       // Should have empty state messages that are accessible
-      const emptyStateMessages = container.querySelectorAll('[class*="text-gray-500"]');
-      expect(emptyStateMessages.length).toBeGreaterThan(0);
+      expect(container).toHaveTextContent('まだ日記がありません');
     });
 
     it('should have accessible diary cards', async () => {

@@ -82,9 +82,9 @@ export default function NewWishlistItemPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6 page-wrap">
       {/* ページヘッダー */}
-      <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+      <div className="flex flex-col items-start justify-between gap-3 border-b border-slate-800 pb-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-100 flex items-center gap-2">
+          <h1 id="wishlist-form-title" className="text-xl sm:text-2xl font-bold text-slate-100 flex items-center gap-2">
             <span>🎁</span> 欲しいものを追加
           </h1>
           <p className="text-xs text-slate-400 mt-1">
@@ -97,35 +97,37 @@ export default function NewWishlistItemPage() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-800 text-rose-300 text-sm">
+        <div role="alert" className="rounded-xl border border-rose-800 bg-rose-950/40 p-4 text-sm text-rose-200">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="card-basic space-y-5 bg-slate-900/70 backdrop-blur-xl border-slate-800">
+      <form aria-labelledby="wishlist-form-title" onSubmit={handleSubmit} className="card-form space-y-5">
         {/* 品名 */}
         <div>
-          <label className="block text-xs font-semibold text-slate-200 mb-1.5">
+          <label htmlFor="wishlist-title" className="form-label">
             品名 / アイテム名 <span className="text-rose-400">*</span>
           </label>
           <input
+            id="wishlist-title"
             type="text"
             required
             placeholder="例: Keychron Q1 Pro キーボード"
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+            className="form-input"
           />
         </div>
 
         {/* カテゴリ & 価格 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-200 mb-1.5">カテゴリ</label>
+            <label htmlFor="wishlist-category" className="form-label">カテゴリ</label>
             <select
+              id="wishlist-category"
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 outline-none focus:border-indigo-500"
+              className="form-select"
             >
               {CATEGORY_PRESETS.map((cat) => (
                 <option key={cat} value={cat}>
@@ -135,25 +137,32 @@ export default function NewWishlistItemPage() {
               <option value="CUSTOM">＋ 直接入力...</option>
             </select>
             {formData.category === 'CUSTOM' && (
-              <input
-                type="text"
-                placeholder="新しいカテゴリ名"
-                value={formData.customCategory}
-                onChange={(e) => setFormData({ ...formData, customCategory: e.target.value })}
-                className="w-full mt-2 bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 outline-none focus:border-indigo-500"
-              />
+              <div className="mt-3">
+                <label htmlFor="wishlist-custom-category" className="form-label">
+                  新しいカテゴリ名
+                </label>
+                <input
+                  id="wishlist-custom-category"
+                  type="text"
+                  placeholder="カテゴリ名を入力"
+                  value={formData.customCategory}
+                  onChange={(e) => setFormData({ ...formData, customCategory: e.target.value })}
+                  className="form-input"
+                />
+              </div>
             )}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-200 mb-1.5">予想価格 (円)</label>
+            <label htmlFor="wishlist-price" className="form-label">予想価格 (円)</label>
             <input
+              id="wishlist-price"
               type="number"
               min="0"
               placeholder="例: 32800"
               value={formData.price}
               onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500 font-mono"
+              className="form-input font-mono"
             />
           </div>
         </div>
@@ -161,11 +170,12 @@ export default function NewWishlistItemPage() {
         {/* 優先度 & ステータス */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-200 mb-1.5">優先度</label>
+            <label htmlFor="wishlist-priority" className="form-label">優先度</label>
             <select
+              id="wishlist-priority"
               value={formData.priority}
               onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 outline-none focus:border-indigo-500"
+              className="form-select"
             >
               <option value="High">高 ★★★ (今すぐ欲しい)</option>
               <option value="Medium">中 ★★☆ (そのうち欲しい)</option>
@@ -174,11 +184,12 @@ export default function NewWishlistItemPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-200 mb-1.5">ステータス</label>
+            <label htmlFor="wishlist-status" className="form-label">ステータス</label>
             <select
+              id="wishlist-status"
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 outline-none focus:border-indigo-500"
+              className="form-select"
             >
               <option value="Wanted">🎁 欲しい (未購入)</option>
               <option value="Considering">🤔 検討中</option>
@@ -190,37 +201,40 @@ export default function NewWishlistItemPage() {
 
         {/* 商品URL */}
         <div>
-          <label className="block text-xs font-semibold text-slate-200 mb-1.5">商品ページURL (任意)</label>
+          <label htmlFor="wishlist-url" className="form-label">商品ページURL (任意)</label>
           <input
+            id="wishlist-url"
             type="url"
             placeholder="https://www.amazon.co.jp/dp/..."
             value={formData.url}
             onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500"
+            className="form-input"
           />
         </div>
 
         {/* 画像URL */}
         <div>
-          <label className="block text-xs font-semibold text-slate-200 mb-1.5">画像URL (任意)</label>
+          <label htmlFor="wishlist-image-url" className="form-label">画像URL (任意)</label>
           <input
+            id="wishlist-image-url"
             type="url"
             placeholder="https://example.com/image.jpg"
             value={formData.image_url}
             onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500"
+            className="form-input"
           />
         </div>
 
         {/* メモ */}
         <div>
-          <label className="block text-xs font-semibold text-slate-200 mb-1.5">メモ・欲しい理由 (任意)</label>
+          <label htmlFor="wishlist-memo" className="form-label">メモ・欲しい理由 (任意)</label>
           <textarea
+            id="wishlist-memo"
             rows={4}
             placeholder="打鍵感が良い評判。セール時に買いたい。"
             value={formData.memo}
             onChange={(e) => setFormData({ ...formData, memo: e.target.value })}
-            className="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500"
+            className="form-textarea"
           />
         </div>
 

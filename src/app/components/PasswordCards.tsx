@@ -57,9 +57,10 @@ const PasswordCards: React.FC<Props> = ({ passwords, viewMode = 'card' }) => {
                 <td className="table-cell font-mono text-slate-200 text-xs">{p.login_id ?? '-'}</td>
                 <td className="table-cell text-center">
                   <button
+                    type="button"
+                    aria-label={`${p.site_name} のパスワードを${visiblePasswordId === p.id ? '非表示にして' : '表示して'}コピー`}
                     onClick={() => handlePasswordClick(p.password, p.id)}
-                    className="px-2.5 py-1 rounded bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/20 text-xs font-mono transition-colors"
-                    title="クリックで表示・コピー"
+                    className="min-h-11 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2.5 text-xs font-mono text-indigo-200 transition-colors hover:bg-indigo-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                   >
                     {copiedId === p.id
                       ? '✓ コピー完了'
@@ -113,8 +114,10 @@ const PasswordCards: React.FC<Props> = ({ passwords, viewMode = 'card' }) => {
                 <div className="flex items-center justify-between text-slate-300">
                   <span className="text-slate-400">パスワード:</span>
                   <button
+                    type="button"
+                    aria-label={`${p.site_name} のパスワードを${visiblePasswordId === p.id ? '非表示にして' : '表示して'}コピー`}
                     onClick={() => handlePasswordClick(p.password, p.id)}
-                    className="text-xs font-mono text-indigo-400 hover:text-indigo-300 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20 transition-colors"
+                    className="min-h-11 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2 text-xs font-mono text-indigo-200 transition-colors hover:bg-indigo-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                   >
                     {copiedId === p.id
                       ? '✓ コピー完了'

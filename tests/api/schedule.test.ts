@@ -2,6 +2,8 @@ import { GET, POST } from '../../src/app/api/schedule/route';
 import { GET as GET_ID, PUT, DELETE } from '../../src/app/api/schedule/[id]/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
+type ScheduleRow = { id: number };
+
 jest.mock('../../src/lib/google-calendar', () => ({
   createEvent: jest.fn().mockResolvedValue('mock-id'),
   listEvents: jest.fn().mockResolvedValue([]),
@@ -51,7 +53,7 @@ describe('POST /api/schedule', () => {
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = await runSelect('SELECT * FROM schedules WHERE title = ?', [entry.title]);
+    const rows = await runSelect<ScheduleRow>('SELECT * FROM schedules WHERE title = ?', [entry.title]);
     expect(rows.length).toBe(1);
   });
 
@@ -73,7 +75,7 @@ describe('Schedule update and delete', () => {
     const createReq = createPostRequest(entry);
     const createRes = await POST(createReq as any);
     expect(createRes.status).toBe(200);
-    const row = (await runSelect('SELECT * FROM schedules WHERE title = ?', [entry.title]))[0];
+    const row = (await runSelect<ScheduleRow>('SELECT * FROM schedules WHERE title = ?', [entry.title]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { ...entry, title: 'up' });
@@ -84,7 +86,7 @@ describe('Schedule update and delete', () => {
     const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
     expect(deleteRes.status).toBe(200);
 
-    const rows = await runSelect('SELECT * FROM schedules WHERE id = ?', [id]);
+    const rows = await runSelect<ScheduleRow>('SELECT * FROM schedules WHERE id = ?', [id]);
     expect(rows.length).toBe(0);
   });
 });

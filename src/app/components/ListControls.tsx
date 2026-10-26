@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useId } from 'react';
 
 export type SortOption = {
   value: string;
@@ -40,43 +40,55 @@ const ListControls: React.FC<Props> = ({
   filteredCount,
   extraControls,
 }) => {
+  const searchId = useId();
   const displayFiltered = filteredCount !== undefined && filteredCount !== totalCount;
 
   return (
-    <div className="card-basic p-4 space-y-3">
-      <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
-        {/* キーワード検索入力 */}
-        <div className="relative flex-1">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-            🔍
-          </div>
+    <div className="card-basic space-y-4 p-4 sm:p-5">
+      <div className="flex flex-col items-stretch gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div role="search" aria-label="一覧内検索" className="relative min-w-0 flex-1">
+          <label htmlFor={searchId} className="sr-only">
+            一覧を検索
+          </label>
+          <svg
+            aria-hidden="true"
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="11" cy="11" r="7" strokeWidth="1.8" />
+            <path d="m16 16 4 4" strokeLinecap="round" strokeWidth="1.8" />
+          </svg>
           <input
-            type="text"
+            id={searchId}
+            type="search"
             placeholder={searchPlaceholder}
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-9 pr-20 py-2 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-400 text-sm shadow-inner transition-all"
+            className="form-input min-h-11 w-full pl-10 pr-24 text-sm"
           />
           {searchQuery && (
             <button
+              type="button"
+              aria-label="検索条件をクリア"
               onClick={() => onSearchChange('')}
-              className="absolute right-3 top-2 text-slate-400 hover:text-slate-200 text-xs px-2 py-0.5 rounded bg-slate-800 border border-slate-700 transition-colors"
+              className="absolute right-2 top-1/2 inline-flex min-h-11 -translate-y-1/2 items-center rounded-lg px-2 text-xs font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
             >
-              ✕ クリア
+              クリア
             </button>
           )}
         </div>
 
-        {/* コントロール群 (ソート・各種フィルター・表示切替・件数) */}
         <div className="flex flex-wrap items-center gap-2">
           {extraControls}
 
-          {/* ソートドロップダウン */}
           {sortBy && onSortChange && sortOptions.length > 0 && (
             <select
+              aria-label="並び順"
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
-              className="px-3 py-2 bg-slate-900/90 border border-slate-700/80 text-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/80 cursor-pointer"
+              className="min-h-11 min-w-32 cursor-pointer rounded-xl border border-slate-700 bg-slate-900/90 px-3 py-2 text-sm text-slate-100 outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
             >
               {sortOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -86,41 +98,50 @@ const ListControls: React.FC<Props> = ({
             </select>
           )}
 
-          {/* ビューモードトグル */}
-          <div className="flex rounded-xl bg-slate-900/90 border border-slate-700/80 p-1">
+          <div
+            role="group"
+            aria-label="表示方法"
+            className="flex rounded-xl border border-slate-700 bg-slate-950/70 p-1"
+          >
             <button
+              type="button"
+              aria-label="カード表示"
+              aria-pressed={viewMode === 'card'}
               onClick={() => onViewModeChange('card')}
-              className={`px-3 py-1 text-xs rounded-lg font-medium transition-all flex items-center gap-1 ${
+              className={`inline-flex min-h-11 items-center gap-1.5 rounded-lg px-3 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
                 viewMode === 'card'
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-indigo-500/20 text-indigo-100'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100'
               }`}
-              title="カード表示"
             >
-              <span>🎴</span>
+              <span aria-hidden="true">▦</span>
               <span className="hidden sm:inline">カード</span>
             </button>
             <button
+              type="button"
+              aria-label="テーブル表示"
+              aria-pressed={viewMode === 'table'}
               onClick={() => onViewModeChange('table')}
-              className={`px-3 py-1 text-xs rounded-lg font-medium transition-all flex items-center gap-1 ${
+              className={`inline-flex min-h-11 items-center gap-1.5 rounded-lg px-3 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
                 viewMode === 'table'
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-indigo-500/20 text-indigo-100'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100'
               }`}
-              title="テーブル表示"
             >
-              <span>📋</span>
+              <span aria-hidden="true">▤</span>
               <span className="hidden sm:inline">テーブル</span>
             </button>
           </div>
 
-          {/* 件数バッジ */}
-          <div className="px-3 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-mono font-medium flex items-center gap-1">
-            <span>全</span>
-            <span className="font-bold text-white">{displayFiltered ? filteredCount : totalCount}</span>
-            {displayFiltered && <span className="text-slate-400">/ {totalCount}</span>}
-            <span>件</span>
-          </div>
+          <p
+            role="status"
+            aria-live="polite"
+            className="inline-flex min-h-11 items-center rounded-xl border border-slate-700 bg-slate-950/70 px-3 text-xs font-medium text-slate-300"
+          >
+            {displayFiltered
+              ? `${filteredCount} / ${totalCount} 件`
+              : `全 ${totalCount} 件`}
+          </p>
         </div>
       </div>
     </div>
