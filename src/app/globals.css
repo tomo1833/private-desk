@@ -1,45 +1,71 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #f7f3ed;
+  --foreground: #302a25;
 
-  /* Modern Vibrant Palette */
-  --primary-indigo: #4f46e5;
-  --primary-indigo-light: #6366f1;
-  --primary-indigo-dark: #4338ca;
-  --accent-violet: #8b5cf6;
-  --accent-cyan: #06b6d4;
-  --accent-emerald: #10b981;
-  --accent-amber: #f59e0b;
-  --accent-rose: #f43f5e;
+  /* Warm, muted palette */
+  --primary-indigo: #9a5d4d;
+  --primary-indigo-light: #ca9277;
+  --primary-indigo-dark: #7c483d;
+  --accent-violet: #a18a9a;
+  --accent-cyan: #87a8a1;
+  --accent-emerald: #91a58d;
+  --accent-amber: #c6a46a;
+  --accent-rose: #c7837a;
 
   /* Legacy variable compatibility */
-  --primary-navy: #4f46e5;
-  --primary-navy-light: #6366f1;
-  --primary-navy-dark: #4338ca;
-  --accent-gold: #f59e0b;
-  --accent-gold-light: #fbbf24;
-  --accent-gold-dark: #d97706;
+  --primary-navy: #9a5d4d;
+  --primary-navy-light: #ca9277;
+  --primary-navy-dark: #7c483d;
+  --accent-gold: #c6a46a;
+  --accent-gold-light: #d7bd8c;
+  --accent-gold-dark: #a9874f;
 
-  --secondary-purple: #8b5cf6;
-  --secondary-purple-light: #a78bfa;
-  --secondary-purple-dark: #7c3aed;
-  --secondary-green: #10b981;
-  --secondary-green-light: #34d399;
-  --secondary-green-dark: #059669;
-  --secondary-orange: #f59e0b;
-  --secondary-orange-light: #fbbf24;
-  --secondary-orange-dark: #d97706;
-  --secondary-red: #ef4444;
-  --secondary-red-light: #f87171;
-  --secondary-red-dark: #dc2626;
+  --secondary-purple: #a18a9a;
+  --secondary-purple-light: #b5a2b0;
+  --secondary-purple-dark: #887382;
+  --secondary-green: #91a58d;
+  --secondary-green-light: #a9b9a4;
+  --secondary-green-dark: #73866f;
+  --secondary-orange: #c6a46a;
+  --secondary-orange-light: #d7bd8c;
+  --secondary-orange-dark: #a9874f;
+  --secondary-red: #c7837a;
+  --secondary-red-light: #d79b91;
+  --secondary-red-dark: #a7655d;
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.25rem;
+}
+
+@theme {
+  --color-slate-50: #faf8f5;
+  --color-slate-100: #f2eee8;
+  --color-slate-200: #e7e0d7;
+  --color-slate-300: #d5cbc0;
+  --color-slate-400: #b6aa9e;
+  --color-slate-500: #978a7d;
+  --color-slate-600: #76695d;
+  --color-slate-700: #5a5048;
+  --color-slate-800: #3a342f;
+  --color-slate-900: #292522;
+  --color-slate-950: #1c1917;
+
+  --color-indigo-50: #fcf5f0;
+  --color-indigo-100: #f6e8dc;
+  --color-indigo-200: #edcfb9;
+  --color-indigo-300: #dbaf91;
+  --color-indigo-400: #ca9277;
+  --color-indigo-500: #9a5d4d;
+  --color-indigo-600: #86503f;
+  --color-indigo-700: #7c483d;
+  --color-indigo-800: #633b34;
+  --color-indigo-900: #51322e;
+  --color-indigo-950: #301d1a;
 }
 
 @theme inline {
@@ -52,19 +78,19 @@
 }
 
 .dark {
-  --background: #090d16;
-  --foreground: #f8fafc;
-  --primary-navy: #6366f1;
-  --primary-navy-light: #818cf8;
-  --primary-navy-dark: #4f46e5;
-  --accent-gold: #fbbf24;
+  --background: #191714;
+  --foreground: #f2eee8;
+  --primary-navy: #9a5d4d;
+  --primary-navy-light: #ca9277;
+  --primary-navy-dark: #7c483d;
+  --accent-gold: #d7bd8c;
 }
 
-/* Modern Gradient and Ambient Background */
+/* Soft charcoal background with a subtle warm tint */
 body {
-  background: linear-gradient(135deg, #0b0f19 0%, #111827 50%, #0d1322 100%);
+  background: linear-gradient(135deg, #191714 0%, #211e1a 52%, #1b1916 100%);
   background-attachment: fixed;
-  color: #f1f5f9;
+  color: #f2eee8;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "BIZ UDGothic", "Meiryo", sans-serif;
   min-height: 100vh;
   position: relative;
@@ -79,10 +105,8 @@ body::before {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.08), transparent 45%),
-    radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.06), transparent 40%),
-    radial-gradient(circle at 50% 85%, rgba(6, 182, 212, 0.04), transparent 45%),
-    radial-gradient(circle at 80% 80%, rgba(244, 63, 94, 0.03), transparent 40%);
+    radial-gradient(circle at 18% 12%, rgba(185, 120, 97, 0.07), transparent 45%),
+    radial-gradient(circle at 82% 82%, rgba(198, 164, 106, 0.035), transparent 42%);
   pointer-events: none;
   z-index: 0;
 }
@@ -156,28 +180,27 @@ body > * {
   @apply bg-gray-800 text-white p-4 rounded-md overflow-x-auto;
 }
 
-/* Sticky note style for wiki cards - Modern Frosted Note */
-/* Sticky note style for wiki cards - Modern Frosted Note */
+/* Sticky note style for wiki cards */
 .sticky-note {
-  background: rgba(30, 41, 59, 0.85);
+  background: rgba(41, 37, 34, 0.9);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  border: 1px solid rgba(182, 170, 158, 0.22);
   border-radius: 1rem;
   padding: 1.25rem;
   position: relative;
-  box-shadow: 0 8px 25px -3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 25px -3px rgba(0, 0, 0, 0.28);
   font-size: 0.875rem;
   width: 100%;
   min-height: 140px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  color: #f8fafc;
+  color: #f2eee8;
 }
 
 .sticky-note:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 14px 35px -4px rgba(99, 102, 241, 0.3);
-  border-color: rgba(129, 140, 248, 0.5);
-  background: rgba(30, 41, 59, 0.95);
+  box-shadow: 0 14px 35px -4px rgba(185, 120, 97, 0.18);
+  border-color: rgba(202, 146, 119, 0.42);
+  background: rgba(48, 43, 39, 0.96);
 }
 
 .sticky-note::before {
@@ -188,29 +211,29 @@ body > * {
   transform: translateX(-50%);
   width: 14px;
   height: 14px;
-  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  background: linear-gradient(135deg, #b98f55, #d0b477);
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.6);
+  box-shadow: 0 2px 8px rgba(198, 164, 106, 0.35);
 }
 
 .sticky-note-title {
   font-weight: 700;
   margin-bottom: 0.5rem;
   display: block;
-  color: #ffffff;
+  color: #faf8f5;
   font-size: 1rem;
 }
 
 .sticky-note-date {
   font-size: 0.75rem;
-  color: #cbd5e1;
+  color: #d5cbc0;
   font-weight: 500;
   position: absolute;
   bottom: 12px;
   right: 14px;
 }
 
-/* Base form styles - Unified High Contrast & High Visibility */
+/* Base form styles */
 .form-input {
   @apply min-h-11 w-full rounded-xl border border-slate-700 bg-slate-900/80 px-4 py-2.5 text-base text-slate-100 shadow-inner outline-none transition placeholder:text-slate-400 focus-visible:border-indigo-400 focus-visible:ring-2 focus-visible:ring-indigo-500/40;
 }
@@ -227,7 +250,7 @@ body > * {
   @apply mb-2 block text-base font-semibold leading-snug text-slate-100;
 }
 
-/* Global Form Element Contrast & Visibility Rules */
+/* Keep native form controls consistent with the dark surfaces. */
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -240,9 +263,9 @@ input[type="url"],
 input:not([type]),
 textarea,
 select {
-  color: #ffffff !important;
-  background-color: rgba(15, 23, 42, 0.95) !important;
-  border-color: rgba(71, 85, 105, 0.9) !important;
+  color: #f2eee8 !important;
+  background-color: rgba(41, 37, 34, 0.96) !important;
+  border-color: rgba(118, 105, 93, 0.72) !important;
   font-size: 1rem;
   min-height: 2.75rem;
   border-radius: 0.75rem;
@@ -262,13 +285,13 @@ input[type="password"]::placeholder,
 input[type="number"]::placeholder,
 input[type="search"]::placeholder,
 textarea::placeholder {
-  color: #94a3b8 !important;
+  color: #b6aa9e !important;
   opacity: 0.9 !important;
 }
 
 select option {
-  background-color: #0f172a !important;
-  color: #ffffff !important;
+  background-color: #292522 !important;
+  color: #f2eee8 !important;
   font-size: 1rem;
 }
 
@@ -323,26 +346,26 @@ select option {
   }
 }
 
-/* FullCalendar Ultra High-Contrast Custom Theme */
+/* FullCalendar warm charcoal theme */
 .fc {
-  --fc-neutral-text-color: #ffffff !important;
+  --fc-neutral-text-color: #f2eee8 !important;
   --fc-page-bg-color: transparent !important;
-  --fc-neutral-bg-color: rgba(30, 41, 59, 0.6) !important;
-  --fc-border-color: rgba(71, 85, 105, 0.5) !important;
-  --fc-list-event-hover-bg-color: rgba(79, 70, 229, 0.25) !important;
-  --fc-today-bg-color: rgba(79, 70, 229, 0.25) !important;
+  --fc-neutral-bg-color: rgba(41, 37, 34, 0.6) !important;
+  --fc-border-color: rgba(118, 105, 93, 0.5) !important;
+  --fc-list-event-hover-bg-color: rgba(185, 120, 97, 0.2) !important;
+  --fc-today-bg-color: rgba(185, 120, 97, 0.2) !important;
   font-family: inherit;
 }
 
 /* Force ALL links inside FullCalendar to inherit high-contrast text color */
 .fc a {
-  color: #ffffff !important;
+  color: #f2eee8 !important;
   text-decoration: none !important;
 }
 
 /* Header Month / Year Title */
 .fc .fc-toolbar-title {
-  color: #ffffff !important;
+  color: #f2eee8 !important;
   font-weight: 800 !important;
   font-size: 1.35rem !important;
   letter-spacing: 0.02em;
@@ -350,9 +373,9 @@ select option {
 
 /* Navigation & View Switcher Buttons */
 .fc .fc-button {
-  background: rgba(30, 41, 59, 0.95) !important;
-  border: 1px solid rgba(148, 163, 184, 0.4) !important;
-  color: #ffffff !important;
+  background: rgba(41, 37, 34, 0.95) !important;
+  border: 1px solid rgba(182, 170, 158, 0.35) !important;
+  color: #f2eee8 !important;
   font-weight: 700 !important;
   border-radius: 0.625rem !important;
   padding: 0.45rem 0.85rem !important;
@@ -362,34 +385,34 @@ select option {
 }
 
 .fc .fc-button:hover {
-  background: rgba(79, 70, 229, 0.9) !important;
-  border-color: rgba(167, 139, 250, 0.7) !important;
-  color: #ffffff !important;
+  background: rgba(154, 93, 77, 0.9) !important;
+  border-color: rgba(219, 175, 145, 0.55) !important;
+  color: #fffaf6 !important;
   transform: translateY(-1px);
 }
 
 .fc .fc-button-active {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
-  border-color: rgba(167, 139, 250, 0.8) !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.5) !important;
+  background: #9a5d4d !important;
+  border-color: rgba(219, 175, 145, 0.55) !important;
+  color: #fffaf6 !important;
+  box-shadow: 0 4px 12px rgba(154, 93, 77, 0.28) !important;
 }
 
 /* Day of Week Header Row (Sun, Mon, Tue, Wed, Thu, Fri, Sat) */
 .fc .fc-col-header {
-  background: rgba(15, 23, 42, 0.95) !important;
+  background: rgba(28, 25, 23, 0.95) !important;
 }
 
 .fc .fc-col-header-cell {
-  background: rgba(15, 23, 42, 0.95) !important;
+  background: rgba(28, 25, 23, 0.95) !important;
   padding: 10px 0 !important;
-  border-color: rgba(71, 85, 105, 0.7) !important;
+  border-color: rgba(118, 105, 93, 0.55) !important;
 }
 
 .fc .fc-col-header-cell-cushion,
 .fc .fc-col-header-cell a,
 .fc th.fc-col-header-cell {
-  color: #ffffff !important;
+  color: #f2eee8 !important;
   font-weight: 800 !important;
   font-size: 0.9rem !important;
   text-decoration: none !important;
@@ -400,29 +423,29 @@ select option {
 /* Sunday & Saturday Header Highlights */
 .fc .fc-day-sun .fc-col-header-cell-cushion,
 .fc .fc-day-sun a {
-  color: #fb7185 !important;
+  color: #d79b91 !important;
 }
 
 .fc .fc-day-sat .fc-col-header-cell-cushion,
 .fc .fc-day-sat a {
-  color: #38bdf8 !important;
+  color: #a8bdc1 !important;
 }
 
 /* Month Grid Day Cells */
 .fc .fc-daygrid-day {
-  background: rgba(30, 41, 59, 0.75) !important;
-  border-color: rgba(71, 85, 105, 0.5) !important;
+  background: rgba(41, 37, 34, 0.75) !important;
+  border-color: rgba(118, 105, 93, 0.42) !important;
 }
 
 .fc .fc-daygrid-day:hover {
-  background: rgba(30, 41, 59, 0.95) !important;
+  background: rgba(48, 43, 39, 0.95) !important;
 }
 
 /* Date Numbers (1, 2, 3...) */
 .fc .fc-daygrid-day-number,
 .fc .fc-daygrid-day-top,
 .fc .fc-daygrid-day-top a {
-  color: #ffffff !important;
+  color: #f2eee8 !important;
   font-weight: 800 !important;
   font-size: 0.875rem !important;
   text-decoration: none !important;
@@ -431,27 +454,27 @@ select option {
 }
 
 .fc .fc-day-sun .fc-daygrid-day-number {
-  color: #fca5a5 !important;
+  color: #d79b91 !important;
 }
 
 .fc .fc-day-sat .fc-daygrid-day-number {
-  color: #93c5fd !important;
+  color: #a8bdc1 !important;
 }
 
 .fc .fc-daygrid-day.fc-day-other .fc-daygrid-day-number {
-  color: #64748b !important;
+  color: #978a7d !important;
   opacity: 0.5 !important;
 }
 
 /* Today Cell Highlight */
 .fc .fc-day-today {
-  background: rgba(79, 70, 229, 0.28) !important;
-  border: 2px solid #818cf8 !important;
+  background: rgba(185, 120, 97, 0.16) !important;
+  border: 2px solid #ca9277 !important;
 }
 
 .fc .fc-day-today .fc-daygrid-day-number {
-  background: #4f46e5 !important;
-  color: #ffffff !important;
+  background: #9a5d4d !important;
+  color: #fffaf6 !important;
   border-radius: 50%;
   width: 26px;
   height: 26px;
@@ -459,13 +482,13 @@ select option {
   align-items: center;
   justify-content: center;
   font-weight: 800 !important;
-  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.5);
+  box-shadow: 0 2px 6px rgba(154, 93, 77, 0.32);
 }
 
 /* Event Badges in Month View */
 .fc .fc-daygrid-event {
-  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
-  border: 1px solid rgba(167, 139, 250, 0.6) !important;
+  background: #805447 !important;
+  border: 1px solid rgba(219, 175, 145, 0.38) !important;
   border-radius: 0.375rem !important;
   padding: 3px 6px !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
@@ -474,37 +497,37 @@ select option {
 
 .fc .fc-daygrid-event:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.6) !important;
+  box-shadow: 0 4px 12px rgba(154, 93, 77, 0.32) !important;
 }
 
 .fc .fc-event-main,
 .fc .fc-event-title,
 .fc .fc-event-time,
 .fc .fc-daygrid-event * {
-  color: #ffffff !important;
+  color: #fffaf6 !important;
   font-weight: 700 !important;
   font-size: 0.75rem !important;
 }
 
 .fc .fc-list-day-cushion {
-  background: rgba(15, 23, 42, 0.95) !important;
-  border-color: rgba(71, 85, 105, 0.6) !important;
+  background: rgba(28, 25, 23, 0.95) !important;
+  border-color: rgba(118, 105, 93, 0.5) !important;
 }
 
 .fc .fc-list-day-text,
 .fc .fc-list-day-side-text {
-  color: #ffffff !important;
+  color: #f2eee8 !important;
   font-weight: 800 !important;
   text-decoration: none !important;
 }
 
 .fc .fc-list-event {
-  background: rgba(30, 41, 59, 0.85) !important;
-  border-color: rgba(71, 85, 105, 0.5) !important;
+  background: rgba(41, 37, 34, 0.85) !important;
+  border-color: rgba(118, 105, 93, 0.4) !important;
 }
 
 .fc .fc-list-event:hover td {
-  background: rgba(79, 70, 229, 0.3) !important;
+  background: rgba(185, 120, 97, 0.18) !important;
 }
 
 .fc .fc-list-event-title,
@@ -524,7 +547,7 @@ select option {
 }
 
 .page-wrap > :first-child h1 {
-  color: #f8fafc;
+  color: #f2eee8;
   font-size: clamp(1.375rem, 2vw, 1.875rem);
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -532,33 +555,33 @@ select option {
 }
 
 .page-wrap > :first-child p {
-  color: #94a3b8;
+  color: #b6aa9e;
   line-height: 1.6;
 }
 
 .card-basic {
-  background: rgba(15, 23, 42, 0.72);
+  background: rgba(41, 37, 34, 0.72);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(100, 116, 139, 0.28);
+  border: 1px solid rgba(118, 105, 93, 0.28);
   border-radius: 1.125rem;
-  box-shadow: 0 8px 24px -18px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 8px 24px -18px rgba(0, 0, 0, 0.52);
   padding: 1.25rem;
   transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .card-basic:hover {
-  background: rgba(15, 23, 42, 0.86);
-  border-color: rgba(129, 140, 248, 0.38);
-  box-shadow: 0 12px 28px -18px rgba(0, 0, 0, 0.9);
+  background: rgba(48, 43, 39, 0.9);
+  border-color: rgba(202, 146, 119, 0.35);
+  box-shadow: 0 12px 28px -18px rgba(0, 0, 0, 0.58);
 }
 
 .card-form {
-  background: rgba(15, 23, 42, 0.84);
+  background: rgba(41, 37, 34, 0.84);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(100, 116, 139, 0.34);
+  border: 1px solid rgba(118, 105, 93, 0.32);
   border-radius: 1.25rem;
   padding: clamp(1rem, 2.5vw, 1.75rem);
-  box-shadow: 0 14px 36px -24px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 14px 36px -24px rgba(0, 0, 0, 0.58);
 }
 
 .dark .form-help {
@@ -584,72 +607,72 @@ select option {
 }
 
 .btn-primary {
-  background: #4f46e5;
-  color: #ffffff;
-  border: 1px solid rgba(165, 180, 252, 0.35);
-  box-shadow: 0 4px 12px rgba(49, 46, 129, 0.32);
+  background: #9a5d4d;
+  color: #fffaf6;
+  border: 1px solid rgba(219, 175, 145, 0.28);
+  box-shadow: 0 4px 12px rgba(80, 49, 39, 0.28);
 }
 
 .btn-primary:hover {
-  background: #4338ca;
-  box-shadow: 0 6px 16px rgba(49, 46, 129, 0.4);
+  background: #a96b58;
+  box-shadow: 0 6px 16px rgba(80, 49, 39, 0.34);
 }
 
 .btn-secondary {
-  background: rgba(30, 41, 59, 0.9);
-  color: #f1f5f9;
-  border: 1px solid rgba(100, 116, 139, 0.55);
+  background: rgba(58, 52, 47, 0.9);
+  color: #f2eee8;
+  border: 1px solid rgba(118, 105, 93, 0.55);
 }
 
 .btn-secondary:hover {
-  background: rgba(51, 65, 85, 0.95);
-  color: #ffffff;
-  border-color: rgba(148, 163, 184, 0.65);
+  background: rgba(72, 64, 57, 0.95);
+  color: #faf8f5;
+  border-color: rgba(182, 170, 158, 0.55);
 }
 
 .btn-success {
-  background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
-  color: #ffffff;
-  border: 1px solid rgba(52, 211, 153, 0.4);
-  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+  background: linear-gradient(135deg, #607b65 0%, #728a70 100%);
+  color: #fffaf6;
+  border: 1px solid rgba(169, 185, 164, 0.32);
+  box-shadow: 0 4px 14px rgba(57, 79, 61, 0.28);
 }
 
 .btn-success:hover {
-  background: linear-gradient(135deg, #047857 0%, #0f766e 100%);
-  box-shadow: 0 6px 18px rgba(5, 150, 105, 0.55);
+  background: linear-gradient(135deg, #536d58 0%, #637d62 100%);
+  box-shadow: 0 6px 18px rgba(57, 79, 61, 0.34);
 }
 
 .btn-warning {
-  background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-  color: #ffffff;
-  border: 1px solid rgba(251, 191, 36, 0.4);
+  background: linear-gradient(135deg, #947348 0%, #a9874f 100%);
+  color: #fffaf6;
+  border: 1px solid rgba(215, 189, 140, 0.36);
 }
 
 .btn-gold {
-  background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #947348 0%, #a9874f 100%);
+  color: #fffaf6;
 }
 
 .btn-danger {
-  background: linear-gradient(135deg, #e11d48 0%, #dc2626 100%);
-  color: #ffffff;
-  border: 1px solid rgba(248, 113, 113, 0.4);
-  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4);
+  background: linear-gradient(135deg, #a7655d 0%, #b87970 100%);
+  color: #fffaf6;
+  border: 1px solid rgba(215, 155, 145, 0.35);
+  box-shadow: 0 4px 14px rgba(97, 50, 45, 0.28);
 }
 
 .btn-danger:hover {
-  background: linear-gradient(135deg, #be123c 0%, #b91c1c 100%);
-  box-shadow: 0 6px 18px rgba(225, 29, 72, 0.55);
+  background: linear-gradient(135deg, #92584f 0%, #a7655d 100%);
+  box-shadow: 0 6px 18px rgba(97, 50, 45, 0.34);
 }
 
 .btn-purple {
-  background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #796476 0%, #887382 100%);
+  color: #fffaf6;
 }
 
 .btn-indigo {
-  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #98604d 0%, #b97861 100%);
+  color: #fffaf6;
 }
 
 .btn-sm {
