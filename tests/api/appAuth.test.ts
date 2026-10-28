@@ -63,6 +63,24 @@ describe('application authentication helpers', () => {
     );
   });
 
+  it('omits the Secure cookie attribute only when explicitly disabled', async () => {
+    const original = process.env.APP_AUTH_COOKIE_SECURE;
+    try {
+      process.env.APP_AUTH_COOKIE_SECURE = 'false';
+      const insecure = NextResponse.json({});
+      await setAppSessionCookie(insecure);
+      expect(insecure.cookies.get('private_desk_auth')?.secure).toBeFalsy();
+
+      process.env.APP_AUTH_COOKIE_SECURE = 'true';
+      const secure = NextResponse.json({});
+      await setAppSessionCookie(secure);
+      expect(secure.cookies.get('private_desk_auth')?.secure).toBe(true);
+    } finally {
+      if (original === undefined) delete process.env.APP_AUTH_COOKIE_SECURE;
+      else process.env.APP_AUTH_COOKIE_SECURE = original;
+    }
+  });
+
   it('rejects expired or malformed sessions', async () => {
     await expect(isAppSessionValid(undefined)).resolves.toBe(false);
     await expect(isAppSessionValid('not-a-session')).resolves.toBe(false);
