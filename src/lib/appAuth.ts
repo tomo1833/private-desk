@@ -15,6 +15,14 @@ const LOGIN_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const LOGIN_RATE_LIMIT_MAX_FAILURES = 5;
 const LOGIN_RATE_LIMIT_LOCKOUT_MS = 15 * 60 * 1000;
 
+// LAN内のHTTP運用では APP_AUTH_COOKIE_SECURE=false を明示して Secure 属性を外す。
+export function isAppCookieSecure() {
+  const override = process.env.APP_AUTH_COOKIE_SECURE?.toLowerCase();
+  if (override === 'false') return false;
+  if (override === 'true') return true;
+  return process.env.NODE_ENV === 'production';
+}
+
 type AuthConfig = { salt: string; verifier: string };
 type LoginRateLimitState = {
   windowStartedAt: number;
@@ -206,7 +214,7 @@ export async function setAppSessionCookie(response: NextResponse) {
   response.cookies.set(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: 'strict',
-    secure: process.env.NODE_ENV === 'production',
+    secure: isAppCookieSecure(),
     path: '/',
     maxAge: SESSION_MAX_AGE_SECONDS,
   });
@@ -221,7 +229,7 @@ export function clearAppSessionCookie(response: NextResponse) {
   response.cookies.set(SESSION_COOKIE, '', {
     httpOnly: true,
     sameSite: 'strict',
-    secure: process.env.NODE_ENV === 'production',
+    secure: isAppCookieSecure(),
     path: '/',
     maxAge: 0,
   });
