@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
 import { APP_FEATURE_GROUPS } from '@/app/features';
 
 const Header = () => {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -74,6 +76,24 @@ const Header = () => {
 
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <ThemeToggle />
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  const response = await fetch('/api/app-auth/logout', { method: 'POST' });
+                  if (!response.ok) throw new Error('ログアウトに失敗しました。');
+                  router.push('/login');
+                } catch (error) {
+                  console.error('Failed to log out:', error);
+                  window.alert('ログアウトに失敗しました。通信状態を確認してください。');
+                }
+              }}
+              aria-label="ログアウト"
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 px-2.5 text-xs font-medium text-slate-200 transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 sm:px-3"
+            >
+              <span aria-hidden="true" className="sm:hidden">↪</span>
+              <span className="hidden sm:inline">ログアウト</span>
+            </button>
             <button
               ref={menuButtonRef}
               type="button"

@@ -1,5 +1,5 @@
 import { GET, POST } from '../../src/app/api/expense/route';
-import { GET as GET_ID, PUT, DELETE } from '../../src/app/api/expense/[id]/route';
+import { PUT, DELETE } from '../../src/app/api/expense/[id]/route';
 import { GET as GET_SUMMARY } from '../../src/app/api/expense/summary/route';
 import { GET as GET_MONTHLY } from '../../src/app/api/expense/monthly/route';
 import { runSelect, runExecute } from '../../src/lib/db';
@@ -15,7 +15,7 @@ type ExpenseRow = {
 type CategorySummaryRow = { category: string; total: number };
 type MonthlySummaryRow = { month: string; total: number; count: number };
 
-function createPostRequest(body: any) {
+function createPostRequest(body: Record<string, unknown>) {
   return new Request('http://localhost/api/expense', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -23,7 +23,7 @@ function createPostRequest(body: any) {
   });
 }
 
-function createPutRequest(id: number, body: any) {
+function createPutRequest(id: number, body: Record<string, unknown>) {
   return new Request(`http://localhost/api/expense/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -36,7 +36,7 @@ describe('GET /api/expense', () => {
     const now = new Date();
     const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
     const req = new Request(`http://localhost/api/expense?month=${month}`);
-    const res = await GET(req as any);
+    const res = await GET(req);
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
@@ -66,7 +66,7 @@ describe('GET /api/expense with category filter', () => {
 
   it('should return only specified category', async () => {
     const req = new Request(`http://localhost/api/expense?month=2099-02&category=${catA}`);
-    const res = await GET(req as any);
+    const res = await GET(req);
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
@@ -82,7 +82,7 @@ describe('POST /api/expense', () => {
 
   it('should create an expense entry', async () => {
     const req = createPostRequest(entry);
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
@@ -94,7 +94,7 @@ describe('POST /api/expense', () => {
 
   it('should return 400 when required fields missing', async () => {
     const req = createPostRequest({});
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(400);
   });
 });
@@ -108,13 +108,13 @@ describe('Expense update and delete', () => {
 
   it('should create entry then update and delete', async () => {
     const createReq = createPostRequest(entry);
-    const createRes = await POST(createReq as any);
+    const createRes = await POST(createReq);
     expect(createRes.status).toBe(200);
     const row = (await runSelect<ExpenseRow>('SELECT * FROM expenses WHERE category = ?', [entry.category]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { ...entry, category: 'up', used_by: '妻', product_name: 'updated', remark: 'updated memo' });
-    const updateRes = await PUT(updateReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
+    const updateRes = await PUT(updateReq, { params: Promise.resolve({ id: String(id) }) });
     expect(updateRes.status).toBe(200);
 
     const updatedRow = (await runSelect<ExpenseRow>('SELECT * FROM expenses WHERE id = ?', [id]))[0];
@@ -124,7 +124,7 @@ describe('Expense update and delete', () => {
     expect(updatedRow.used_by).toBe('妻');
 
     const deleteReq = new Request(`http://localhost/api/expense/${id}`, { method: 'DELETE' });
-    const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
+    const deleteRes = await DELETE(deleteReq, { params: Promise.resolve({ id: String(id) }) });
     expect(deleteRes.status).toBe(200);
 
     const rows = await runSelect<ExpenseRow>('SELECT * FROM expenses WHERE id = ?', [id]);
@@ -157,7 +157,7 @@ describe('GET /api/expense/summary & GET /api/expense/monthly', () => {
 
   it('should calculate category summary correctly for month', async () => {
     const req = new Request('http://localhost/api/expense/summary?month=2098-05&used_by=共有');
-    const res = await GET_SUMMARY(req as any);
+    const res = await GET_SUMMARY(req);
     expect(res.status).toBe(200);
     const data: CategorySummaryRow[] = await res.json();
     const item = data.find((d) => d.category === cat);
@@ -168,7 +168,7 @@ describe('GET /api/expense/summary & GET /api/expense/monthly', () => {
 
   it('should calculate 12-month summary for year in monthly route', async () => {
     const req = new Request('http://localhost/api/expense/monthly?year=2098&used_by=共有');
-    const res = await GET_MONTHLY(req as any);
+    const res = await GET_MONTHLY(req);
     expect(res.status).toBe(200);
     const data: MonthlySummaryRow[] = await res.json();
     expect(Array.isArray(data)).toBe(true);

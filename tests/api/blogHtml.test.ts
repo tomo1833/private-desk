@@ -3,7 +3,7 @@ import { runSelect, runExecute } from '../../src/lib/db';
 
 type BlogHtmlRow = { content_html: string };
 
-function createPostRequest(body: any) {
+function createPostRequest(body: Record<string, unknown>) {
   return new Request('http://localhost/api/blog', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -31,7 +31,7 @@ describe('POST /api/blog with custom HTML', () => {
 
   it('should store HTML as provided', async () => {
     const req = createPostRequest(entry);
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(200);
     const row = (await runSelect<BlogHtmlRow>('SELECT content_html FROM blog WHERE title = ?', [entry.title]))[0];
     expect(row.content_html).toBe(html);

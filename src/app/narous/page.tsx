@@ -12,19 +12,22 @@ const NarouListPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadNarous = async () => {
-    try {
-      const res = await fetch('/api/narou');
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Narou[] = await res.json();
-      setNarous(data);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   useEffect(() => {
-    loadNarous();
+    let active = true;
+    const loadNarous = async () => {
+      try {
+        const res = await fetch('/api/narou');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Narou[] = await res.json();
+        if (active) setNarous(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadNarous();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const filteredAndSortedNarous = useMemo(() => {

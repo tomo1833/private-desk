@@ -17,21 +17,26 @@ const DiaryListPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadDiaries = async () => {
-    try {
-      const res = await fetch(`/api/diary?limit=${pageSize}&offset=0`);
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Diary[] = await res.json();
-      setDiaries(data);
-      setHasMore(data.length === pageSize);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   useEffect(() => {
-    loadDiaries();
-  }, []);
+    let active = true;
+    const loadDiaries = async () => {
+      try {
+        const res = await fetch(`/api/diary?limit=${pageSize}&offset=0`);
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Diary[] = await res.json();
+        if (active) {
+          setDiaries(data);
+          setHasMore(data.length === pageSize);
+        }
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadDiaries();
+    return () => {
+      active = false;
+    };
+  }, [pageSize]);
 
   const loadMore = async () => {
     if (!diaries || isLoadingMore || !hasMore) return;

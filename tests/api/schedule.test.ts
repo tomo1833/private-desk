@@ -1,5 +1,5 @@
 import { GET, POST } from '../../src/app/api/schedule/route';
-import { GET as GET_ID, PUT, DELETE } from '../../src/app/api/schedule/[id]/route';
+import { PUT, DELETE } from '../../src/app/api/schedule/[id]/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
 type ScheduleRow = { id: number };
@@ -9,7 +9,7 @@ jest.mock('../../src/lib/google-calendar', () => ({
   listEvents: jest.fn().mockResolvedValue([]),
 }));
 
-function createPostRequest(body: any) {
+function createPostRequest(body: Record<string, unknown>) {
   return new Request('http://localhost/api/schedule', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -17,7 +17,7 @@ function createPostRequest(body: any) {
   });
 }
 
-function createPutRequest(id: number, body: any) {
+function createPutRequest(id: number, body: Record<string, unknown>) {
   return new Request(`http://localhost/api/schedule/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -48,7 +48,7 @@ describe('POST /api/schedule', () => {
 
   it('should create a schedule', async () => {
     const req = createPostRequest(entry);
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
@@ -59,7 +59,7 @@ describe('POST /api/schedule', () => {
 
   it('should return 400 when required fields missing', async () => {
     const req = createPostRequest({});
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(400);
   });
 });
@@ -73,17 +73,17 @@ describe('Schedule update and delete', () => {
 
   it('should create then update and delete schedule', async () => {
     const createReq = createPostRequest(entry);
-    const createRes = await POST(createReq as any);
+    const createRes = await POST(createReq);
     expect(createRes.status).toBe(200);
     const row = (await runSelect<ScheduleRow>('SELECT * FROM schedules WHERE title = ?', [entry.title]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { ...entry, title: 'up' });
-    const updateRes = await PUT(updateReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
+    const updateRes = await PUT(updateReq, { params: Promise.resolve({ id: String(id) }) });
     expect(updateRes.status).toBe(200);
 
     const deleteReq = new Request(`http://localhost/api/schedule/${id}`, { method: 'DELETE' });
-    const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
+    const deleteRes = await DELETE(deleteReq, { params: Promise.resolve({ id: String(id) }) });
     expect(deleteRes.status).toBe(200);
 
     const rows = await runSelect<ScheduleRow>('SELECT * FROM schedules WHERE id = ?', [id]);

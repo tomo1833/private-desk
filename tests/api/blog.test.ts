@@ -1,10 +1,10 @@
 import { GET, POST } from '../../src/app/api/blog/route';
-import { GET as GET_ID, PUT, DELETE } from '../../src/app/api/blog/[id]/route';
+import { PUT, DELETE } from '../../src/app/api/blog/[id]/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
 type BlogRow = { id: number };
 
-function createPostRequest(body: any) {
+function createPostRequest(body: Record<string, unknown>) {
   return new Request('http://localhost/api/blog', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -12,7 +12,7 @@ function createPostRequest(body: any) {
   });
 }
 
-function createPutRequest(id: number, body: any) {
+function createPutRequest(id: number, body: Record<string, unknown>) {
   return new Request(`http://localhost/api/blog/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -23,7 +23,7 @@ function createPutRequest(id: number, body: any) {
 describe('GET /api/blog', () => {
   it('should return list of blogs', async () => {
     const req = new Request('http://localhost/api/blog');
-    const res = await GET(req as any);
+    const res = await GET(req);
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
@@ -49,7 +49,7 @@ describe('POST /api/blog', () => {
 
   it('should create a blog entry', async () => {
     const req = createPostRequest(entry);
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
@@ -60,7 +60,7 @@ describe('POST /api/blog', () => {
 
   it('should return 400 when required fields missing', async () => {
     const req = createPostRequest({});
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(400);
   });
 });
@@ -85,17 +85,17 @@ describe('Blog update and delete', () => {
 
   it('should create entry then update and delete', async () => {
     const createReq = createPostRequest(entry);
-    const createRes = await POST(createReq as any);
+    const createRes = await POST(createReq);
     expect(createRes.status).toBe(200);
     const row = (await runSelect<BlogRow>('SELECT * FROM blog WHERE title = ?', [entry.title]))[0];
     id = row.id;
 
     const updateReq = createPutRequest(id, { ...entry, title: 'updated' });
-    const updateRes = await PUT(updateReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
+    const updateRes = await PUT(updateReq, { params: Promise.resolve({ id: String(id) }) });
     expect(updateRes.status).toBe(200);
 
     const deleteReq = new Request(`http://localhost/api/blog/${id}`, { method: 'DELETE' });
-    const deleteRes = await DELETE(deleteReq as any, { params: Promise.resolve({ id: String(id) }) } as any);
+    const deleteRes = await DELETE(deleteReq, { params: Promise.resolve({ id: String(id) }) });
     expect(deleteRes.status).toBe(200);
 
     const rows = await runSelect<BlogRow>('SELECT * FROM blog WHERE id = ?', [id]);

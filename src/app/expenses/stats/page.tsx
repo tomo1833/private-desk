@@ -18,18 +18,15 @@ type MonthlySummary = { month: string; total: number; count: number };
 
 const ExpenseStatsPage = () => {
   const [activeTab, setActiveTab] = useState<'category' | 'monthly'>('category');
-  const [month, setMonth] = useState('');
+  const [month, setMonth] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  });
   const [year, setYear] = useState(() => String(new Date().getFullYear()));
   const [user, setUser] = useState('共有');
   const [users, setUsers] = useState<string[]>([]);
   const [categoryData, setCategoryData] = useState<Summary[]>([]);
   const [monthlyData, setMonthlyData] = useState<MonthlySummary[]>([]);
-
-  useEffect(() => {
-    const now = new Date();
-    const m = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-    setMonth(m);
-  }, []);
 
   useEffect(() => {
     const loadUsers = async () => {

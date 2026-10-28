@@ -12,19 +12,22 @@ const PasswordListPage = () => {
   const [sortBy, setSortBy] = useState('title');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadPasswords = async () => {
-    try {
-      const res = await fetch('/api/passwords');
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Password[] = await res.json();
-      setPasswords(data);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   useEffect(() => {
-    loadPasswords();
+    let active = true;
+    const loadPasswords = async () => {
+      try {
+        const res = await fetch('/api/passwords');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Password[] = await res.json();
+        if (active) setPasswords(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadPasswords();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const filteredAndSortedPasswords = useMemo(() => {

@@ -19,7 +19,24 @@ const FileManagerPage = () => {
   };
 
   useEffect(() => {
-    load('');
+    let active = true;
+    const loadInitialFiles = async () => {
+      try {
+        const res = await fetch('/api/files?path=');
+        if (!res.ok) throw new Error('ファイル一覧の取得に失敗しました。');
+        const data: FileEntry[] = await res.json();
+        if (active) {
+          setEntries(data);
+          setPath('');
+        }
+      } catch (cause) {
+        console.error('Failed to load files:', cause);
+      }
+    };
+    void loadInitialFiles();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const goUp = () => {

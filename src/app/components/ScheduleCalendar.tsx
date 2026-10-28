@@ -44,7 +44,21 @@ const ScheduleCalendar = () => {
   };
 
   useEffect(() => {
-    fetchEvents();
+    let active = true;
+    const loadEvents = async () => {
+      try {
+        const res = await fetch('/api/schedule');
+        if (!res.ok) return;
+        const data: EventInput[] = await res.json();
+        if (active) setEvents(data);
+      } catch (error) {
+        console.error('Failed to load schedule events:', error);
+      }
+    };
+    void loadEvents();
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {

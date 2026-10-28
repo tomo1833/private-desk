@@ -87,19 +87,18 @@ describe('CSS Animations and Styling', () => {
 
   describe('CSS Keyframes', () => {
     it('should have gradientShift animation defined', () => {
-      const computedStyle = window.getComputedStyle(document.body);
       const animations = Array.from(document.styleSheets)
         .map(sheet => {
           try {
             return Array.from(sheet.cssRules || []);
-          } catch (e) {
+          } catch {
             return [];
           }
         })
         .flat()
-        .filter(rule => rule.type === CSSRule.KEYFRAMES_RULE);
+        .filter((rule): rule is CSSKeyframesRule => rule.type === CSSRule.KEYFRAMES_RULE);
 
-      const gradientShiftRule = animations.find((rule: any) => 
+      const gradientShiftRule = animations.find((rule) =>
         rule.name === 'gradientShift'
       );
       expect(gradientShiftRule).toBeDefined();
@@ -110,14 +109,14 @@ describe('CSS Animations and Styling', () => {
         .map(sheet => {
           try {
             return Array.from(sheet.cssRules || []);
-          } catch (e) {
+          } catch {
             return [];
           }
         })
         .flat()
-        .filter(rule => rule.type === CSSRule.KEYFRAMES_RULE);
+        .filter((rule): rule is CSSKeyframesRule => rule.type === CSSRule.KEYFRAMES_RULE);
 
-      const floatRule = animations.find((rule: any) => 
+      const floatRule = animations.find((rule) =>
         rule.name === 'float'
       );
       expect(floatRule).toBeDefined();
@@ -128,14 +127,14 @@ describe('CSS Animations and Styling', () => {
         .map(sheet => {
           try {
             return Array.from(sheet.cssRules || []);
-          } catch (e) {
+          } catch {
             return [];
           }
         })
         .flat()
-        .filter(rule => rule.type === CSSRule.KEYFRAMES_RULE);
+        .filter((rule): rule is CSSKeyframesRule => rule.type === CSSRule.KEYFRAMES_RULE);
 
-      const pulseGlowRule = animations.find((rule: any) => 
+      const pulseGlowRule = animations.find((rule) =>
         rule.name === 'pulseGlow'
       );
       expect(pulseGlowRule).toBeDefined();
@@ -148,8 +147,6 @@ describe('CSS Animations and Styling', () => {
       element.className = 'glass';
       document.body.appendChild(element);
 
-      const computedStyle = window.getComputedStyle(element);
-      
       // Note: In jsdom, backdrop-filter and some CSS properties might not be fully supported
       // We test what we can
       expect(element.classList.contains('glass')).toBe(true);
@@ -312,7 +309,6 @@ describe('CSS Animations and Styling', () => {
 
   describe('Color Consistency', () => {
     it('should use consistent blue color values', () => {
-      const primaryBlue = 'rgba(59, 130, 246, 0.5)';
       const blueVariants = [
         'rgba(59, 130, 246, 0.5)',
         'rgba(59, 130, 246, 0.8)',

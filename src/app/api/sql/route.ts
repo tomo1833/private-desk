@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 import { runSelect, runExecute } from '@/lib/db';
+import { requireVaultSession } from '@/lib/passwordVault';
 
 export async function POST(req: Request) {
+  const { response } = requireVaultSession(req);
+  if (response) return response;
   try {
     const body = await req.json();
     const sql: string = body.sql;

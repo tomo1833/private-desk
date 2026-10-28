@@ -12,19 +12,22 @@ const WikiListPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadWikis = async () => {
-    try {
-      const res = await fetch('/api/wiki');
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Wiki[] = await res.json();
-      setWikis(data);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   useEffect(() => {
-    loadWikis();
+    let active = true;
+    const loadWikis = async () => {
+      try {
+        const res = await fetch('/api/wiki');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Wiki[] = await res.json();
+        if (active) setWikis(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadWikis();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const filteredAndSortedWikis = useMemo(() => {

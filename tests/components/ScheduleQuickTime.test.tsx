@@ -3,7 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 
 // FullCalendar and plugins mock
 jest.mock('@fullcalendar/react', () => {
-  return function MockFullCalendar(props: any) {
+  return function MockFullCalendar(props: {
+    dateClick: (arg: { date: Date }) => void;
+  }) {
     return (
       <div data-testid="fullcalendar-mock">
         <button
@@ -29,16 +31,17 @@ const mockCopyToClipboard = jest.fn().mockResolvedValue(true);
 
 jest.mock('@/lib/diaryExport', () => ({
   ...jest.requireActual('@/lib/diaryExport'),
-  copyToClipboard: (...args: any[]) => mockCopyToClipboard(...args),
+  copyToClipboard: (text: string) => mockCopyToClipboard(text),
 }));
 
 describe('ScheduleCalendar Quick Time Features', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    global.fetch = jest.fn().mockResolvedValue({
+    global.fetch = jest.fn();
+    (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => [],
-    } as any);
+    });
   });
 
   it('renders quick time copy buttons and handles copy', async () => {
@@ -59,7 +62,9 @@ describe('ScheduleCalendar Quick Time Features', () => {
     const dateClickBtn = screen.getByText('Simulate Date Click');
     fireEvent.click(dateClickBtn);
 
-    expect(screen.getByText('予定登録')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /新規予定の登録/ })
+    ).toBeInTheDocument();
 
     // Click 15:00 for start time
     const start15Btn = screen.getByTitle('開始時刻を15:00に変更');

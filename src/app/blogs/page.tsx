@@ -25,7 +25,21 @@ const BlogListPage = () => {
   };
 
   useEffect(() => {
-    loadBlogs();
+    let active = true;
+    const fetchBlogs = async () => {
+      try {
+        const res = await fetch('/api/blog');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Blog[] = await res.json();
+        if (active) setBlogs(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void fetchBlogs();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const handleImport = async () => {

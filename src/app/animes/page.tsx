@@ -12,19 +12,22 @@ const AnimeListPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadAnimes = async () => {
-    try {
-      const res = await fetch('/api/anime');
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Anime[] = await res.json();
-      setAnimes(data);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   useEffect(() => {
-    loadAnimes();
+    let active = true;
+    const loadAnimes = async () => {
+      try {
+        const res = await fetch('/api/anime');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Anime[] = await res.json();
+        if (active) setAnimes(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadAnimes();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const filteredAndSortedAnimes = useMemo(() => {

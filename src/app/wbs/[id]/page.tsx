@@ -23,8 +23,22 @@ const ProjectDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
   }, [id]);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    let active = true;
+    const loadProject = async () => {
+      try {
+        const res = await fetch(`/api/projects/${id}`);
+        if (!res.ok) throw new Error('プロジェクトが見つかりません');
+        const data: Project = await res.json();
+        if (active) setProject(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadProject();
+    return () => {
+      active = false;
+    };
+  }, [id]);
 
   const handleUpdateProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

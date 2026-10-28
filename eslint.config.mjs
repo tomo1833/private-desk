@@ -9,6 +9,12 @@ const eslintConfig = [
   },
   ...nextVitals,
   ...nextTypescript,
+  {
+    files: ["**/*.config.js", "tailwind.config.js"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

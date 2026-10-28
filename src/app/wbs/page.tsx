@@ -21,7 +21,21 @@ const ProjectListPage = () => {
   };
 
   useEffect(() => {
-    load();
+    let active = true;
+    const loadProjects = async () => {
+      try {
+        const res = await fetch('/api/projects');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Project[] = await res.json();
+        if (active) setProjects(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadProjects();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const handleCreate = async (e: React.FormEvent) => {
