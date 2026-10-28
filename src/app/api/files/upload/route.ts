@@ -1,25 +1,44 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-// Node 18 and later expose a File implementation via the `buffer` module.
-// Explicitly importing it ensures compatibility when the global `File`
-// class is not automatically available (e.g. on older Node versions).
 import { File } from 'buffer';
-
-const docsRoot = path.join(process.cwd(), 'public', 'docs');
+import {
+  DocsStorageError,
+  MAX_DOC_UPLOAD_BYTES,
+  saveDocsUpload,
+} from '@/lib/docsStorage';
 
 export async function POST(request: Request) {
-  const formData = await request.formData();
-  const file = formData.get('file');
-  const relPath = (formData.get('path') as string) || '';
-  if (!file || !(file instanceof File)) {
-    return NextResponse.json({ error: 'File is required' }, { status: 400 });
+  const contentLength = Number(request.headers.get('content-length'));
+  if (
+    Number.isFinite(contentLength) &&
+    contentLength > MAX_DOC_UPLOAD_BYTES + 1024 * 1024
+  ) {
+    return NextResponse.json({ error: 'File exceeds the 10 MB upload limit.' }, { status: 413 });
   }
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  await fs.mkdir(path.join(docsRoot, relPath), { recursive: true });
-  const filename = path.basename(file.name);
-  await fs.writeFile(path.join(docsRoot, relPath, filename), buffer);
-  const url = `/docs/${relPath ? relPath + '/' : ''}${filename}`;
-  return NextResponse.json({ url });
+  try {
+    const formData = await request.formData();
+    const file = formData.get('file');
+    const relPath = formData.get('path') ?? '';
+    if (!file || !(file instanceof File)) {
+      return NextResponse.json({ error: 'File is required' }, { status: 400 });
+    }
+    if (file.size > MAX_DOC_UPLOAD_BYTES) {
+      return NextResponse.json(
+        { error: 'File exceeds the 10 MB upload limit.' },
+        { status: 413 }
+      );
+    }
+
+    await saveDocsUpload(relPath, file.name, Buffer.from(await file.arrayBuffer()));
+    const urlSegments = [
+      ...(typeof relPath === 'string' && relPath ? relPath.split('/') : []),
+      file.name,
+    ];
+    return NextResponse.json({ url: `/docs/${urlSegments.map(encodeURIComponent).join('/')}` });
+  } catch (error) {
+    if (error instanceof DocsStorageError) {
+      return NextResponse.json({ error: error.message }, { status: error.status });
+    }
+    console.error('Failed to upload document:', error);
+    return NextResponse.json({ error: 'File upload failed.' }, { status: 500 });
+  }
 }

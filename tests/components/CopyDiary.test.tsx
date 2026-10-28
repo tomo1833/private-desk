@@ -19,12 +19,14 @@ describe('NewDiaryPage Copy Functionality', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockSearchParamsGet = jest.fn().mockReturnValue(null);
-    (global as any).fetch = jest.fn();
+    global.fetch = jest.fn();
   });
 
   it('renders copy button on NewDiaryPage', () => {
     render(<NewDiaryPage />);
-    expect(screen.getByText('前回の（昨日の）日報をコピー')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /前回の（昨日の）日報をコピー/ })
+    ).toBeInTheDocument();
   });
 
   it('fetches latest diary and populates form when copy button is clicked', async () => {
@@ -44,14 +46,18 @@ describe('NewDiaryPage Copy Functionality', () => {
 
     render(<NewDiaryPage />);
 
-    const copyBtn = screen.getByText('前回の（昨日の）日報をコピー');
+    const copyBtn = screen.getByRole('button', {
+      name: /前回の（昨日の）日報をコピー/,
+    });
     fireEvent.click(copyBtn);
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/diary?limit=1');
-      expect((screen.getByLabelText('タイトル') as HTMLInputElement).value).toBe('昨日の日報タイトル');
-      expect((screen.getByLabelText('内容') as HTMLTextAreaElement).value).toBe('昨日の日報本文テキスト');
-      expect(screen.getByText('直近の日報から内容をコピーしました')).toBeInTheDocument();
+      expect((screen.getByLabelText(/タイトル/) as HTMLInputElement).value).toBe('昨日の日報タイトル');
+      expect((screen.getByLabelText(/本文内容/) as HTMLTextAreaElement).value).toBe('昨日の日報本文テキスト');
+      expect(
+        screen.getByText(/直近の日報から内容をコピーしました/)
+      ).toBeInTheDocument();
     });
   });
 
@@ -74,8 +80,8 @@ describe('NewDiaryPage Copy Functionality', () => {
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/diary/42');
-      expect((screen.getByLabelText('タイトル') as HTMLInputElement).value).toBe('特定の日報タイトル');
-      expect((screen.getByLabelText('内容') as HTMLTextAreaElement).value).toBe('特定の日報本文テキスト');
+      expect((screen.getByLabelText(/タイトル/) as HTMLInputElement).value).toBe('特定の日報タイトル');
+      expect((screen.getByLabelText(/本文内容/) as HTMLTextAreaElement).value).toBe('特定の日報本文テキスト');
     });
   });
 });

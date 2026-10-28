@@ -4,7 +4,10 @@ import type { Diary } from '@/types/diary';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const limit = searchParams.get('limit');
+  const requestedLimit = Number(searchParams.get('limit'));
+  const limit = Number.isInteger(requestedLimit) && requestedLimit > 0 ? requestedLimit : null;
+  const requestedOffset = Number(searchParams.get('offset'));
+  const offset = Number.isInteger(requestedOffset) && requestedOffset >= 0 ? requestedOffset : 0;
   const sort = searchParams.get('sort');
   try {
     let sql = 'SELECT * FROM diary';
@@ -15,7 +18,7 @@ export async function GET(request: Request) {
     }
 
     const results = limit
-      ? await runSelect<Diary>(`${sql} LIMIT ?`, [Number(limit)])
+      ? await runSelect<Diary>(`${sql} LIMIT ? OFFSET ?`, [limit, offset])
       : await runSelect<Diary>(sql);
     return NextResponse.json(results);
   } catch (error) {

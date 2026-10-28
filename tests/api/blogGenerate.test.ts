@@ -9,10 +9,11 @@ describe('POST /api/blog/generate', () => {
   });
 
   it('should call ollama and return response', async () => {
-    global.fetch = jest.fn().mockResolvedValue({
+    global.fetch = jest.fn();
+    (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({ response: 'ok' }),
-    }) as any;
+    });
 
     const req = new Request('http://localhost/api/blog/generate', {
       method: 'POST',
@@ -20,7 +21,7 @@ describe('POST /api/blog/generate', () => {
       body: JSON.stringify({ prompt: 'hi' }),
     });
 
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data).toEqual({ response: 'ok' });
@@ -32,7 +33,7 @@ describe('POST /api/blog/generate', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({}),
     });
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(400);
   });
 });

@@ -126,8 +126,9 @@ const AddPasswordPage: React.FC = () => {
                     <div>
                         <label className="form-label">パスワード <span className="text-rose-400">*</span></label>
                         <input
-                            type="text"
+                            type="password"
                             name="password"
+                            autoComplete="new-password"
                             value={formData.password}
                             className="form-input font-mono"
                             onChange={handleChange}

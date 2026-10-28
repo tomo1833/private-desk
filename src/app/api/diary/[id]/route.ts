@@ -22,6 +22,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
+    const diaryId = Number(id);
+    if (!id || !Number.isInteger(diaryId) || diaryId < 1) {
+      return NextResponse.json({ error: 'Invalid diary ID.' }, { status: 400 });
+    }
     const body = await request.json();
     const { title, content, date } = body;
     const displayOrder = Number.isFinite(Number(body.display_order))
@@ -30,12 +34,16 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     if (!title || !content) {
       return NextResponse.json({ error: 'title and content are required.' }, { status: 400 });
     }
+    const parsedDate = date ? new Date(date) : null;
+    if (parsedDate && Number.isNaN(parsedDate.getTime())) {
+      return NextResponse.json({ error: 'Invalid diary date.' }, { status: 400 });
+    }
     await runExecute('UPDATE diary SET title = ?, content = ?, date = ?, display_order = ? WHERE id = ?', [
       title,
       content,
-      date ? new Date(date).toISOString() : null,
+      parsedDate ? parsedDate.toISOString() : null,
       displayOrder,
-      Number(id),
+      diaryId,
     ]);
     return NextResponse.json({ message: 'diary entry updated successfully.' });
   } catch (error) {
@@ -47,7 +55,11 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
-    await runExecute('DELETE FROM diary WHERE id = ?', [Number(id)]);
+    const diaryId = Number(id);
+    if (!id || !Number.isInteger(diaryId) || diaryId < 1) {
+      return NextResponse.json({ error: 'Invalid diary ID.' }, { status: 400 });
+    }
+    await runExecute('DELETE FROM diary WHERE id = ?', [diaryId]);
     return NextResponse.json({ message: 'diary entry deleted successfully.' });
   } catch (error) {
     console.error(error);

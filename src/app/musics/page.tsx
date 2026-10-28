@@ -12,19 +12,22 @@ const MusicListPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadMusics = async () => {
-    try {
-      const res = await fetch('/api/music');
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Music[] = await res.json();
-      setMusics(data);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   useEffect(() => {
-    loadMusics();
+    let active = true;
+    const loadMusics = async () => {
+      try {
+        const res = await fetch('/api/music');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Music[] = await res.json();
+        if (active) setMusics(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadMusics();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const filteredAndSortedMusics = useMemo(() => {

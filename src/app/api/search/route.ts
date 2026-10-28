@@ -12,8 +12,10 @@ import type { Udemy } from '@/types/udemy';
 import type { Music } from '@/types/music';
 import type { Subscription } from '@/types/subscription';
 import type { WishlistItem } from '@/types/wishlist';
+import { getVaultSession } from '@/lib/passwordVault';
 
 export async function GET(req: Request) {
+  const vaultUnlocked = Boolean(getVaultSession(req));
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q');
   if (!q) {
@@ -22,10 +24,12 @@ export async function GET(req: Request) {
   const like = `%${q}%`;
   try {
     const [passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys, musics, subscriptions, wishlists] = await Promise.all([
-      runSelect<Password>(
+      vaultUnlocked
+        ? runSelect<Password>(
         'SELECT * FROM password_manager WHERE site_name LIKE ? OR site_url LIKE ? OR login_id LIKE ? OR email LIKE ? OR memo LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
         [like, like, like, like, like]
-      ),
+          )
+        : Promise.resolve([] as Password[]),
       runSelect<Diary>(
         'SELECT * FROM diary WHERE title LIKE ? OR content LIKE ? ORDER BY display_order ASC, created_at DESC, id DESC',
         [like, like]
@@ -71,10 +75,22 @@ export async function GET(req: Request) {
         [like, like, like, like]
       ),
     ]);
-    return NextResponse.json({ passwords, diaries, wikis, blogs, animes, books, movies, narous, udemys, musics, subscriptions, wishlists });
+    return NextResponse.json({
+      passwords: passwords.map((password) => ({ ...password, password: '' })),
+      diaries,
+      wikis,
+      blogs,
+      animes,
+      books,
+      movies,
+      narous,
+      udemys,
+      musics,
+      subscriptions,
+      wishlists,
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: '検索失敗' }, { status: 500 });
   }
 }
-

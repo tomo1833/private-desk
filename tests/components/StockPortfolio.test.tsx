@@ -22,10 +22,11 @@ describe('StockPortfolioPage Component', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    global.fetch = jest.fn().mockResolvedValue({
+    global.fetch = jest.fn();
+    (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => mockStocks,
-    } as any);
+    });
   });
 
   it('renders summary values and stock items correctly', async () => {

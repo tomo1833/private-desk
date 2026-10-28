@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import DiaryListPage from '@/app/diaries/page';
 
 // Global mocks
@@ -19,8 +19,9 @@ const mockDownloadFile = jest.fn();
 
 jest.mock('@/lib/diaryExport', () => ({
   ...jest.requireActual('@/lib/diaryExport'),
-  copyToClipboard: (...args: any[]) => mockCopyToClipboard(...args),
-  downloadFile: (...args: any[]) => mockDownloadFile(...args),
+  copyToClipboard: (text: string) => mockCopyToClipboard(text),
+  downloadFile: (content: string, fileName: string, mimeType: string) =>
+    mockDownloadFile(content, fileName, mimeType),
 }));
 
 describe('DiaryListPage Bulk Export UI', () => {
@@ -45,20 +46,19 @@ describe('DiaryListPage Bulk Export UI', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    global.fetch = jest.fn().mockResolvedValue({
+    global.fetch = jest.fn();
+    (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => mockDiaries,
-    } as any);
+    });
   });
 
   it('renders bulk export buttons and triggers copy action', async () => {
     render(<DiaryListPage />);
 
-    await waitFor(() => {
-      expect(screen.getByText('全 2 件の日報が登録されています')).toBeInTheDocument();
+    const copyBtn = await screen.findByRole('button', {
+      name: /全件AI評価コピー/,
     });
-
-    const copyBtn = screen.getByText('全件AI評価コピー');
     expect(copyBtn).toBeInTheDocument();
 
     fireEvent.click(copyBtn);

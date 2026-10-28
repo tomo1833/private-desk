@@ -1,43 +1,19 @@
 import { POST } from '../../src/app/api/sql/route';
 import { GET as GET_TABLES } from '../../src/app/api/sql/tables/route';
-import { runSelect, runExecute } from '../../src/lib/db';
 
 describe('SQL API', () => {
-  const testName = 'jest-sql';
-
-  afterAll(async () => {
-    await runExecute('DELETE FROM author WHERE name = ?', [testName]);
+  it('requires an unlocked vault to list tables', async () => {
+    const res = await GET_TABLES(new Request('http://localhost/api/sql/tables'));
+    expect(res.status).toBe(401);
   });
 
-  it('should list tables', async () => {
-    const res = await GET_TABLES();
-    expect(res.status).toBe(200);
-    const data: { rows: { name: string }[] } = await res.json();
-    expect(Array.isArray(data)).toBe(true);
-    expect(data).toContain('author');
-  });
-
-  it('should execute insert and select', async () => {
-    // insert
-    let req = new Request('http://localhost/api/sql', {
+  it('rejects unauthenticated SQL execution', async () => {
+    const req = new Request('http://localhost/api/sql', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sql: `INSERT INTO author (name, bio) VALUES ('${testName}', 'bio')` }),
+      body: JSON.stringify({ sql: 'DELETE FROM author' }),
     });
-    let res = await POST(req as unknown as Request);
-    expect(res.status).toBe(200);
-    const inserted = await runSelect('SELECT * FROM author WHERE name = ?', [testName]);
-    expect(inserted.length).toBe(1);
-
-    // select
-    req = new Request('http://localhost/api/sql', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sql: `SELECT name FROM author WHERE name = '${testName}'` }),
-    });
-    res = await POST(req as unknown as Request);
-    expect(res.status).toBe(200);
-    const data = await res.json();
-    expect(data.rows[0].name).toBe(testName);
+    const res = await POST(req);
+    expect(res.status).toBe(401);
   });
 });

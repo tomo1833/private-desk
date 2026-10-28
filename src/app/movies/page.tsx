@@ -12,19 +12,22 @@ const MovieListPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadMovies = async () => {
-    try {
-      const res = await fetch('/api/movie');
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Movie[] = await res.json();
-      setMovies(data);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   useEffect(() => {
-    loadMovies();
+    let active = true;
+    const loadMovies = async () => {
+      try {
+        const res = await fetch('/api/movie');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Movie[] = await res.json();
+        if (active) setMovies(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadMovies();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const filteredAndSortedMovies = useMemo(() => {

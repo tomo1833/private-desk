@@ -12,19 +12,22 @@ const UdemyListPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadUdemys = async () => {
-    try {
-      const res = await fetch('/api/udemy');
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Udemy[] = await res.json();
-      setUdemys(data);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   useEffect(() => {
-    loadUdemys();
+    let active = true;
+    const loadUdemys = async () => {
+      try {
+        const res = await fetch('/api/udemy');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Udemy[] = await res.json();
+        if (active) setUdemys(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadUdemys();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const filteredAndSortedUdemys = useMemo(() => {

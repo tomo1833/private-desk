@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { Expense } from '@/types/expense';
 
@@ -13,25 +13,30 @@ const ExpenseListPage = () => {
   });
   const [error, setError] = useState<string | null>(null);
 
-  const load = useCallback(async () => {
-    const params = new URLSearchParams({ month });
-    if (categoryFilter) params.append('category', categoryFilter);
-    try {
-      const res = await fetch(`/api/expense?${params.toString()}`);
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Expense[] = await res.json();
-      setExpenses(data);
-      if (!categoryFilter) {
-        setCategories([...new Set(data.map((d) => d.category))]);
-      }
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  }, [categoryFilter, month]);
-
   useEffect(() => {
-    load();
-  }, [load]);
+    let active = true;
+    const loadExpenses = async () => {
+      const params = new URLSearchParams({ month });
+      if (categoryFilter) params.append('category', categoryFilter);
+      try {
+        const res = await fetch(`/api/expense?${params.toString()}`);
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Expense[] = await res.json();
+        if (active) {
+          setExpenses(data);
+          if (!categoryFilter) {
+            setCategories([...new Set(data.map((d) => d.category))]);
+          }
+        }
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadExpenses();
+    return () => {
+      active = false;
+    };
+  }, [categoryFilter, month]);
 
   const handleDelete = async (id: number) => {
     if (!confirm('削除しますか？')) return;

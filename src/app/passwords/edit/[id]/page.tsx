@@ -108,7 +108,8 @@ const UpdatePasswordPage = () => {
           <div>
             <label className="form-label">サイト名 <span className="text-rose-400">*</span></label>
             <input
-              type="text"
+              type="password"
+              autoComplete="new-password"
               value={siteName}
               onChange={(e) => setSiteName(e.target.value)}
               className="form-input"
@@ -163,7 +164,8 @@ const UpdatePasswordPage = () => {
           <div>
             <label className="form-label">パスワード <span className="text-rose-400">*</span></label>
             <input
-              type="text"
+              type="password"
+              autoComplete="new-password"
               value={pass}
               onChange={(e) => setPass(e.target.value)}
               className="form-input font-mono"

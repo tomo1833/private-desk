@@ -1,0 +1,6 @@
+CREATE TABLE "app_auth" (
+    "id" INTEGER NOT NULL PRIMARY KEY,
+    "salt" TEXT NOT NULL,
+    "verifier" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

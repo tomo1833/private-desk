@@ -13,6 +13,8 @@ const DiaryEditPage = () => {
   const [date, setDate] = useState('');
   const [displayOrder, setDisplayOrder] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -26,6 +28,9 @@ const DiaryEditPage = () => {
           setDate(new Date(diary.date).toISOString().split('T')[0]);
         }
         setDisplayOrder(diary.display_order ?? 0);
+      } catch (err) {
+        console.error('日記の読み込みに失敗しました', err);
+        setError('日記を読み込めませんでした。時間をおいて再度お試しください。');
       } finally {
         setLoading(false);
       }
@@ -35,25 +40,41 @@ const DiaryEditPage = () => {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch(`/api/diary/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content, date, display_order: displayOrder }),
-    });
-    if (res.ok) {
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/diary/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, content, date, display_order: displayOrder }),
+      });
+      if (!res.ok) {
+        throw new Error('更新失敗');
+      }
       router.push(`/diaries/${id}`);
-    } else {
-      alert('更新失敗');
+    } catch (err) {
+      console.error('日記の更新に失敗しました', err);
+      setError('日記を更新できませんでした。時間をおいて再度お試しください。');
+    } finally {
+      setSaving(false);
     }
   };
 
   const handleDelete = async () => {
     if (!confirm('削除しますか？')) return;
-    const res = await fetch(`/api/diary/${id}`, { method: 'DELETE' });
-    if (res.ok) {
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/diary/${id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        throw new Error('削除失敗');
+      }
       router.push('/diaries');
-    } else {
-      alert('削除失敗');
+    } catch (err) {
+      console.error('日記の削除に失敗しました', err);
+      setError('日記を削除できませんでした。時間をおいて再度お試しください。');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -74,6 +95,7 @@ const DiaryEditPage = () => {
       </div>
 
       <form onSubmit={handleUpdate} className="card-form space-y-4 shadow-2xl border border-indigo-500/30">
+        {error && <div className="p-3 text-xs text-rose-200 bg-rose-500/15 border border-rose-400/40 rounded-lg">{error}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="form-label text-xs">タイトル <span className="text-rose-400">*</span></label>
@@ -113,11 +135,11 @@ const DiaryEditPage = () => {
             キャンセル
           </Link>
           <div className="flex gap-2">
-            <button type="button" onClick={handleDelete} className="btn btn-danger text-xs px-3.5 py-1.5">
+            <button type="button" onClick={handleDelete} disabled={saving} className="btn btn-danger text-xs px-3.5 py-1.5 disabled:opacity-50">
               削除
             </button>
-            <button type="submit" className="btn btn-primary text-xs px-4 py-1.5">
-              更新する
+            <button type="submit" disabled={saving} className="btn btn-primary text-xs px-4 py-1.5 disabled:opacity-50">
+              {saving ? '更新中...' : '更新する'}
             </button>
           </div>
         </div>

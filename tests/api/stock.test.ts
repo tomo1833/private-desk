@@ -2,7 +2,7 @@ import { GET, POST } from '../../src/app/api/stocks/route';
 import { GET as GET_ID, PUT, DELETE } from '../../src/app/api/stocks/[id]/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
-function createPostRequest(body: any) {
+function createPostRequest(body: Record<string, unknown>) {
   return new Request('http://localhost/api/stocks', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10,7 +10,7 @@ function createPostRequest(body: any) {
   });
 }
 
-function createPutRequest(id: number, body: any) {
+function createPutRequest(id: number, body: Record<string, unknown>) {
   return new Request(`http://localhost/api/stocks/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -46,17 +46,17 @@ describe('Stock API', () => {
 
   it('should return 400 when code or name missing', async () => {
     const req = createPostRequest({ code: '' });
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(400);
   });
 
   it('should create, update and delete a stock', async () => {
     // 1. Create
     const createReq = createPostRequest(testStock);
-    const createRes = await POST(createReq as any);
+    const createRes = await POST(createReq);
     expect(createRes.status).toBe(200);
 
-    const rows = await runSelect<any>('SELECT * FROM stocks WHERE code = ?', ['7203']);
+    const rows = await runSelect<{ id: number }>('SELECT * FROM stocks WHERE code = ?', ['7203']);
     expect(rows.length).toBeGreaterThan(0);
     createdId = rows[0].id;
 
@@ -73,22 +73,22 @@ describe('Stock API', () => {
       ...testStock,
       current_price: 2800,
     });
-    const updateRes = await PUT(updateReq as any, {
+    const updateRes = await PUT(updateReq, {
       params: Promise.resolve({ id: String(createdId) }),
     });
     expect(updateRes.status).toBe(200);
 
-    const updatedRows = await runSelect<any>('SELECT * FROM stocks WHERE id = ?', [createdId]);
+    const updatedRows = await runSelect<{ current_price: number }>('SELECT * FROM stocks WHERE id = ?', [createdId]);
     expect(updatedRows[0].current_price).toBe(2800);
 
     // 4. Delete
     const deleteReq = new Request(`http://localhost/api/stocks/${createdId}`, { method: 'DELETE' });
-    const deleteRes = await DELETE(deleteReq as any, {
+    const deleteRes = await DELETE(deleteReq, {
       params: Promise.resolve({ id: String(createdId) }),
     });
     expect(deleteRes.status).toBe(200);
 
-    const afterDeleteRows = await runSelect<any>('SELECT * FROM stocks WHERE id = ?', [createdId]);
+    const afterDeleteRows = await runSelect<{ id: number }>('SELECT * FROM stocks WHERE id = ?', [createdId]);
     expect(afterDeleteRows.length).toBe(0);
   });
 });

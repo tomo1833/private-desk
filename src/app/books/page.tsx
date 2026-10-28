@@ -12,19 +12,22 @@ const BookListPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadBooks = async () => {
-    try {
-      const res = await fetch('/api/book');
-      if (!res.ok) throw new Error('読み込み失敗');
-      const data: Book[] = await res.json();
-      setBooks(data);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   useEffect(() => {
-    loadBooks();
+    let active = true;
+    const loadBooks = async () => {
+      try {
+        const res = await fetch('/api/book');
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Book[] = await res.json();
+        if (active) setBooks(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadBooks();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const filteredAndSortedBooks = useMemo(() => {

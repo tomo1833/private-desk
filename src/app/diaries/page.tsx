@@ -7,27 +7,52 @@ import type { Diary } from '@/types/diary';
 import { formatMultipleDiariesForAIEvaluation, downloadFile, copyToClipboard } from '@/lib/diaryExport';
 
 const DiaryListPage = () => {
+  const pageSize = 50;
   const [diaries, setDiaries] = useState<Diary[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState<'card' | 'table'>('card');
 
-  const loadDiaries = async () => {
+  useEffect(() => {
+    let active = true;
+    const loadDiaries = async () => {
+      try {
+        const res = await fetch(`/api/diary?limit=${pageSize}&offset=0`);
+        if (!res.ok) throw new Error('読み込み失敗');
+        const data: Diary[] = await res.json();
+        if (active) {
+          setDiaries(data);
+          setHasMore(data.length === pageSize);
+        }
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadDiaries();
+    return () => {
+      active = false;
+    };
+  }, [pageSize]);
+
+  const loadMore = async () => {
+    if (!diaries || isLoadingMore || !hasMore) return;
+    setIsLoadingMore(true);
     try {
-      const res = await fetch('/api/diary');
-      if (!res.ok) throw new Error('読み込み失敗');
+      const res = await fetch(`/api/diary?limit=${pageSize}&offset=${diaries.length}`);
+      if (!res.ok) throw new Error('追加読み込み失敗');
       const data: Diary[] = await res.json();
-      setDiaries(data);
+      setDiaries((prev) => (prev ? [...prev, ...data] : data));
+      setHasMore(data.length === pageSize);
     } catch (err) {
       setError((err as Error).message);
+    } finally {
+      setIsLoadingMore(false);
     }
   };
-
-  useEffect(() => {
-    loadDiaries();
-  }, []);
 
   const filteredAndSortedDiaries = useMemo(() => {
     if (!diaries) return [];
@@ -154,9 +179,35 @@ const DiaryListPage = () => {
           <Link href="/diaries/new" className="btn btn-primary inline-block text-sm">
             最初の日記を作成
           </Link>
+            {hasMore && (
+              <div>
+                <button
+                  type="button"
+                  onClick={loadMore}
+                  disabled={isLoadingMore}
+                  className="btn btn-secondary text-sm disabled:opacity-50"
+                >
+                  {isLoadingMore ? '読み込み中...' : 'さらに読み込んで検索'}
+                </button>
+              </div>
+            )}
         </div>
       ) : (
-        <DiaryCards diaries={filteredAndSortedDiaries} viewMode={viewMode} onDelete={handleDelete} />
+        <>
+          <DiaryCards diaries={filteredAndSortedDiaries} viewMode={viewMode} onDelete={handleDelete} />
+          {hasMore && (
+            <div className="flex justify-center pt-2">
+              <button
+                type="button"
+                onClick={loadMore}
+                disabled={isLoadingMore}
+                className="btn btn-secondary text-sm disabled:opacity-50"
+              >
+                {isLoadingMore ? '読み込み中...' : `さらに読み込む（現在 ${diaries.length} 件）`}
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

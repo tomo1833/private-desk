@@ -12,13 +12,27 @@ const PasswordCards: React.FC<Props> = ({ passwords, viewMode = 'card' }) => {
   const router = useRouter();
   const [visiblePasswordId, setVisiblePasswordId] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [visiblePassword, setVisiblePassword] = useState('');
 
-  const handlePasswordClick = (password: string, id: number) => {
-    setVisiblePasswordId(visiblePasswordId === id ? null : id);
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(password);
+  const handlePasswordClick = async (id: number) => {
+    if (visiblePasswordId === id) {
+      setVisiblePasswordId(null);
+      setVisiblePassword('');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/passwords/${id}`);
+      if (!response.ok) throw new Error('パスワードを取得できませんでした。');
+      const entry: Password = await response.json();
+      await navigator.clipboard.writeText(entry.password);
+      setVisiblePasswordId(id);
+      setVisiblePassword(entry.password);
       setCopiedId(id);
-      setTimeout(() => setCopiedId(null), 2000);
+      window.setTimeout(() => setCopiedId(null), 2000);
+    } catch (error) {
+      console.error('パスワードのコピーに失敗しました', error);
+      alert('パスワードをコピーできませんでした。');
     }
   };
 
@@ -59,13 +73,13 @@ const PasswordCards: React.FC<Props> = ({ passwords, viewMode = 'card' }) => {
                   <button
                     type="button"
                     aria-label={`${p.site_name} のパスワードを${visiblePasswordId === p.id ? '非表示にして' : '表示して'}コピー`}
-                    onClick={() => handlePasswordClick(p.password, p.id)}
+                    onClick={() => void handlePasswordClick(p.id)}
                     className="min-h-11 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2.5 text-xs font-mono text-indigo-200 transition-colors hover:bg-indigo-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                   >
                     {copiedId === p.id
                       ? '✓ コピー完了'
                       : visiblePasswordId === p.id
-                      ? p.password
+                      ? visiblePassword
                       : '••••••••••••'}
                   </button>
                 </td>
@@ -110,23 +124,21 @@ const PasswordCards: React.FC<Props> = ({ passwords, viewMode = 'card' }) => {
                   <span className="font-mono text-slate-200 font-medium">{p.login_id}</span>
                 </div>
               )}
-              {p.password && (
-                <div className="flex items-center justify-between text-slate-300">
-                  <span className="text-slate-400">パスワード:</span>
-                  <button
-                    type="button"
-                    aria-label={`${p.site_name} のパスワードを${visiblePasswordId === p.id ? '非表示にして' : '表示して'}コピー`}
-                    onClick={() => handlePasswordClick(p.password, p.id)}
-                    className="min-h-11 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2 text-xs font-mono text-indigo-200 transition-colors hover:bg-indigo-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
-                  >
-                    {copiedId === p.id
-                      ? '✓ コピー完了'
-                      : visiblePasswordId === p.id
-                      ? p.password
-                      : '•••••••••••• (コピー)'}
-                  </button>
-                </div>
-              )}
+              <div className="flex items-center justify-between text-slate-300">
+                <span className="text-slate-400">パスワード:</span>
+                <button
+                  type="button"
+                  aria-label={`${p.site_name} のパスワードを${visiblePasswordId === p.id ? '非表示にして' : '表示して'}コピー`}
+                  onClick={() => void handlePasswordClick(p.id)}
+                  className="min-h-11 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2 text-xs font-mono text-indigo-200 transition-colors hover:bg-indigo-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                >
+                  {copiedId === p.id
+                    ? '✓ コピー完了'
+                    : visiblePasswordId === p.id
+                    ? visiblePassword
+                    : '•••••••••••• (コピー)'}
+                </button>
+              </div>
               {p.site_url && (
                 <div className="flex items-center justify-between text-slate-300 truncate">
                   <span className="text-slate-400">URL:</span>

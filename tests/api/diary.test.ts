@@ -1,7 +1,7 @@
 import { GET, POST } from '../../src/app/api/diary/route';
 import { runSelect, runExecute } from '../../src/lib/db';
 
-function createPostRequest(body: any) {
+function createPostRequest(body: Record<string, unknown>) {
   return new Request('http://localhost/api/diary', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -12,7 +12,7 @@ function createPostRequest(body: any) {
 describe('GET /api/diary', () => {
   it('should return list of diaries', async () => {
     const req = new Request('http://localhost/api/diary');
-    const res = await GET(req as any);
+    const res = await GET(req);
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
@@ -20,7 +20,7 @@ describe('GET /api/diary', () => {
 
   it('should return limited number of diaries when limit query param is provided', async () => {
     const req = new Request('http://localhost/api/diary?limit=1');
-    const res = await GET(req as any);
+    const res = await GET(req);
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
@@ -40,18 +40,18 @@ describe('POST /api/diary', () => {
 
   it('should create a diary entry', async () => {
     const req = createPostRequest(entry);
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
 
-    const rows = await runSelect<any>('SELECT * FROM diary WHERE title = ?', [entry.title]);
+    const rows = await runSelect<{ id: number }>('SELECT * FROM diary WHERE title = ?', [entry.title]);
     expect(rows.length).toBe(1);
   });
 
   it('should return 400 when required fields missing', async () => {
     const req = createPostRequest({});
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(400);
   });
 });

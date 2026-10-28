@@ -52,7 +52,21 @@ export default function StockPortfolioPage() {
   };
 
   useEffect(() => {
-    fetchStocks();
+    let active = true;
+    const loadStocks = async () => {
+      try {
+        const res = await fetch('/api/stocks');
+        if (!res.ok) throw new Error('銘柄一覧の取得に失敗しました');
+        const data: Stock[] = await res.json();
+        if (active) setStocks(data);
+      } catch (err) {
+        if (active) setError((err as Error).message);
+      }
+    };
+    void loadStocks();
+    return () => {
+      active = false;
+    };
   }, []);
 
   // 資産計算サマリー

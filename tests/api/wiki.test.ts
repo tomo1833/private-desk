@@ -4,7 +4,7 @@ import { runSelect, runExecute } from '../../src/lib/db';
 
 type WikiRow = { id: number; title: string };
 
-function createPostRequest(body: any) {
+function createPostRequest(body: Record<string, unknown>) {
   return new Request('http://localhost/api/wiki', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -12,7 +12,7 @@ function createPostRequest(body: any) {
   });
 }
 
-function createPutRequest(id: number, body: any) {
+function createPutRequest(id: number, body: Record<string, unknown>) {
   return new Request(`http://localhost/api/wiki/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -23,7 +23,7 @@ function createPutRequest(id: number, body: any) {
 describe('GET /api/wiki', () => {
   it('should return list of wikis', async () => {
     const req = new Request('http://localhost/api/wiki');
-    const res = await GET_ROOT(req as any);
+    const res = await GET_ROOT(req);
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
@@ -40,7 +40,7 @@ describe('Wiki CRUD', () => {
 
   it('should create a wiki entry', async () => {
     const req = createPostRequest(entry);
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json).toEqual({ message: '登録成功' });
@@ -52,7 +52,7 @@ describe('Wiki CRUD', () => {
 
   it('should get the wiki entry', async () => {
     const req = new Request(`http://localhost/api/wiki/${id}`);
-    const res = await GET_ID(req as any, { params: Promise.resolve({ id: String(id) }) } as any);
+    const res = await GET_ID(req, { params: Promise.resolve({ id: String(id) }) });
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.title).toBe(entry.title);
@@ -60,7 +60,7 @@ describe('Wiki CRUD', () => {
 
   it('should update the wiki entry', async () => {
     const req = createPutRequest(id, { title: `${entry.title}2`, content: 'new' });
-    const res = await PUT(req as any, { params: Promise.resolve({ id: String(id) }) } as any);
+    const res = await PUT(req, { params: Promise.resolve({ id: String(id) }) });
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json).toEqual({ message: 'wiki entry updated successfully.' });
@@ -71,7 +71,7 @@ describe('Wiki CRUD', () => {
 
   it('should delete the wiki entry', async () => {
     const req = new Request(`http://localhost/api/wiki/${id}`, { method: 'DELETE' });
-    const res = await DELETE(req as any, { params: Promise.resolve({ id: String(id) }) } as any);
+    const res = await DELETE(req, { params: Promise.resolve({ id: String(id) }) });
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json).toEqual({ message: 'wiki entry deleted successfully.' });
@@ -82,7 +82,7 @@ describe('Wiki CRUD', () => {
 
   it('should return 400 when required fields missing', async () => {
     const req = createPostRequest({});
-    const res = await POST(req as any);
+    const res = await POST(req);
     expect(res.status).toBe(400);
   });
 });
